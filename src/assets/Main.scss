@@ -1,0 +1,35 @@
+@import "css/theme1/variables";
+@import "../../node_modules/bootstrap/scss/bootstrap.scss";
+@import "css/theme1/_bootswatch.scss";
+
+html {
+    background-color: $dark;
+}
+
+
+h1,h2 {
+    color: white;
+    font-weight: bolder;
+    text-transform: capitalize;
+}
+
+td, th, .btn-lg {
+    padding: 15px !important;
+}
+td:hover {
+    background-color: $primary;
+    color: white !important;
+}
+
+.diff-td {
+    &:hover {
+        filter: brightness(3);
+        color: black !important;
+    }
+}
+
+.login-screen {
+    max-width: 500px;
+}
+
+
