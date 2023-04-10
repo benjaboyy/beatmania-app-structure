@@ -68,6 +68,15 @@ export default {
                 anotherScore: payload.scoreAnother,
                 anotherClear: payload.anotherClear,
                 anotherFC: payload.anotherFC,
+                scoreDoubleNormal: payload.scoreDoubleNormal,
+                normalDoubleFC: payload.normalDoubleFC,
+                normalDoubleClear: payload.normalDoubleClear,
+                scoreDoubleHard: payload.scoreDoubleHard,
+                hardDoubleFC: payload.hardDoubleFC,
+                hardDoubleClear: payload.hardDoubleClear,
+                scoreDoubleAnother: payload.scoreDoubleAnother,
+                anotherDoubleFC: payload.anotherDoubleFC,
+                anotherDoubleClear: payload.anotherDoubleClear,
                 favorite: payload.favorite,
             }
 
@@ -168,6 +177,15 @@ export default {
                     anotherScore: responseData[key].anotherScore,
                     anotherClear: responseData[key].anotherClear,
                     anotherFC: responseData[key].anotherFC,
+                    scoreDoubleNormal: responseData[key].scoreDoubleNormal,
+                    normalDoubleFC: responseData[key].normalDoubleFC,
+                    normalDoubleClear: responseData[key].normalDoubleClear,
+                    scoreDoubleHard: responseData[key].scoreDoubleHard,
+                    hardDoubleFC: responseData[key].hardDoubleFC,
+                    hardDoubleClear: responseData[key].hardDoubleClear,
+                    scoreDoubleAnother: responseData[key].scoreDoubleAnother,
+                    anotherDoubleFC: responseData[key].anotherDoubleFC,
+                    anotherDoubleClear: responseData[key].anotherDoubleClear,
                     favorite: responseData[key].favorite,
                 }
                 userSongs.push(song)

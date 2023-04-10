@@ -33,7 +33,7 @@ export default {
                                 difficultyNormal: gameData[songKey].difficultyNormal,
                                 difficultyHard: gameData[songKey].difficultyHard,
                                 difficultyAnother: gameData[songKey].difficultyAnother,
-                                difficultyDouble: gameData[songKey].difficultyDoubleNormal,
+                                difficultyDoubleNormal: gameData[songKey].difficultyDoubleNormal,
                                 difficultyDoubleHard: gameData[songKey].difficultyDoubleHard,
                                 difficultyDoubleAnother: gameData[songKey].difficultyDoubleAnother,
                             };
@@ -64,7 +64,7 @@ export default {
                         difficultyNormal: gameData[key].difficultyNormal,
                         difficultyHard: gameData[key].difficultyHard,
                         difficultyAnother: gameData[key].difficultyAnother,
-                        difficultyDouble: gameData[key].difficultyDoubleNormal,
+                        difficultyDoubleNormal: gameData[key].difficultyDoubleNormal,
                         difficultyDoubleHard: gameData[key].difficultyDoubleHard,
                         difficultyDoubleAnother: gameData[key].difficultyDoubleAnother,
                     });

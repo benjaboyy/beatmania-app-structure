@@ -26,20 +26,25 @@
             </div>
             <div v-for="(courseSong, index) in songIDs" :key="index">
               <label for="songName">Song {{ index + 1 }}</label>
-              <div class="input-group mb-2">
+              <div class="input-group mb-0">
                 <select class="form-select " v-model="songIDs[index]">
                   <option class="dropdown-item " v-for="song in songList" :key="song.id" :value="song.id">
                     {{ song.name }}
                   </option>
                 </select>
-                <a class="btn btn-light text-danger" @click="deleteSong(index)"><i class="fa fa-trash-alt"></i></a>
+              </div>
+              <div class="mb-2">
+                <a class="btn btn-theme-1 w-25" @click="setDiffeculty(index, 'normal')">1</a>
+                <a class="btn btn-light w-25" @click="setDiffeculty(index, 'hard')">3</a>
+                <a class="btn btn-light w-25" @click="setDiffeculty(index, 'another')">6</a>
+                <a class="btn btn-light text-danger w-25" @click="deleteSong(index)"><i class="fa fa-trash-alt"></i></a>
               </div>
             </div>
             <a class="btn btn-primary" @click="addSong('songIDs')">Add Song</a>
             <p v-if="invalidInput">One or more input fields are invalid. Please check your provided data.</p>
             <p v-if="error">{{ error }}</p>
-            <hr>
-            <div class="form-group">
+            <div class="form-group" v-if="enteredName.trim().length > 0">
+              <hr>
               <button class="btn btn-primary"><i class="fa fa-paper-plane"></i> Submit</button>
               <router-link to="/" class="btn btn-outline-primary ms-3" href="#" type="button" role="button"><i class="fa fa-home"></i> Back</router-link>
             </div>
@@ -68,6 +73,7 @@ export default {
       lastSubmittedID: '',
       songList: [],
       courseUpdate: false,
+      type: 'singles'
     }
   },
   methods: {
@@ -82,6 +88,8 @@ export default {
         name: this.enteredName,
         songIDs: this.songIDs,
         gameID: this.gameID,
+        rating: this.enteredRating,
+        type: this.type,
       };
       const token = this.$store.getters.token;
       let CourseID = '';

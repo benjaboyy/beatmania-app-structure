@@ -22,6 +22,24 @@
         <a class="btn" type="button" :class="anotherClear ? 'bg-primary text-white' : 'bg-light text-primary'" @click="toggleAnotherClear">Clear</a>
         <a class="btn" type="button" :class="anotherFC ? 'bg-primary text-white flash' : 'bg-light text-primary'" @click="toggleAnotherFC">FC</a>
       </div>
+      <div class="input-group mb-3  input-group-lg" v-if="infoSong.difficultyDoubleNormal > 0">
+        <span class="input-group-text text-white bg-theme-1 border-0">{{ infoSong.difficultyDoubleNormal }}</span>
+        <input placeholder="Score" type="text" class="form-control" id="scoreDoubleNormal" v-model="scoreDoubleNormal" />
+        <a class="btn" type="button" :class="normalDoubleClear ? 'bg-primary text-white' : 'bg-light text-primary'" @click="toggleNormalDoubleClear">Clear</a>
+        <a class="btn" type="button" :class="normalDoubleFC ? 'bg-primary text-white flash' : 'bg-light text-primary'" @click="toggleNormalDoubleFC">FC</a>
+      </div>
+      <div class="input-group mb-3  input-group-lg" v-if="infoSong.difficultyDoubleHard > 0">
+        <span class="input-group-text text-white bg-theme-2 border-0">{{ infoSong.difficultyDoubleHard }}</span>
+        <input placeholder="Score" type="text" class="form-control" id="scoreDoubleHard" v-model="scoreDoubleHard" />
+        <a class="btn" type="button" :class="hardDoubleClear ? 'bg-primary text-white' : 'bg-light text-primary'" @click="toggleHardDoubleClear">Clear</a>
+        <a class="btn" type="button" :class="hardDoubleFC ? 'bg-primary text-white flash' : 'bg-light text-primary'" @click="toggleHardDoubleFC">FC</a>
+      </div>
+      <div class="input-group mb-3  input-group-lg" v-if="infoSong.difficultyDoubleAnother > 0">
+        <span class="input-group-text text-white bg-theme-3 border-0">{{ infoSong.difficultyDoubleAnother }}</span>
+        <input placeholder="Score" type="text" class="form-control" id="scoreDoubleAnother" v-model="scoreDoubleAnother" />
+        <a class="btn" type="button" :class="anotherDoubleClear ? 'bg-primary text-white' : 'bg-light text-primary'" @click="toggleAnotherDoubleClear">Clear</a>
+        <a class="btn" type="button" :class="anotherDoubleFC ? 'bg-primary text-white flash' : 'bg-light text-primary'" @click="toggleAnotherDoubleFC">FC</a>
+      </div>
       <div class="d-grid gap-2">
         <button class="btn" @click="toggleFavorite" :class="favorite ? 'btn-primary' : 'bg-outline-primary'"><i class="fa fa-heart" :class="favorite ? 'text-white' : 'text-primary'"></i> Favorite</button>
         <button class="btn btn-dark" @click="hideDialog"><i class="fa fa-save text-white"></i> Save song</button>
@@ -55,6 +73,15 @@ export default {
       scoreAnother: '',
       anotherFC: false,
       anotherClear: false,
+      scoreDoubleNormal: '',
+      normalDoubleFC: false,
+      normalDoubleClear: false,
+      scoreDoubleHard: '',
+      hardDoubleFC: false,
+      hardDoubleClear: false,
+      scoreDoubleAnother: '',
+      anotherDoubleFC: false,
+      anotherDoubleClear: false,
       favorite: false
     }
   },
@@ -73,6 +100,15 @@ export default {
         scoreAnother: this.scoreAnother,
         anotherFC: this.anotherFC,
         anotherClear: this.anotherClear,
+        scoreDoubleNormal: this.scoreDoubleNormal,
+        normalDoubleFC: this.normalDoubleFC,
+        normalDoubleClear: this.normalDoubleClear,
+        scoreDoubleHard: this.scoreDoubleHard,
+        hardDoubleFC: this.hardDoubleFC,
+        hardDoubleClear: this.hardDoubleClear,
+        scoreDoubleAnother: this.scoreDoubleAnother,
+        anotherDoubleFC: this.anotherDoubleFC,
+        anotherDoubleClear: this.anotherDoubleClear,
         favorite: this.favorite
       });
 
@@ -95,6 +131,24 @@ export default {
     toggleAnotherClear() {
       this.anotherClear = !this.anotherClear;
     },
+    toggleNormalDoubleFC() {
+      this.normalDoubleFC = !this.normalDoubleFC;
+    },
+    toggleNormalDoubleClear() {
+      this.normalDoubleClear = !this.normalDoubleClear;
+    },
+    toggleHardDoubleFC() {
+      this.hardDoubleFC = !this.hardDoubleFC;
+    },
+    toggleHardDoubleClear() {
+      this.hardDoubleClear = !this.hardDoubleClear;
+    },
+    toggleAnotherDoubleFC() {
+      this.anotherDoubleFC = !this.anotherDoubleFC;
+    },
+    toggleAnotherDoubleClear() {
+      this.anotherDoubleClear = !this.anotherDoubleClear;
+    },
     toggleFavorite() {
       this.favorite = !this.favorite;
     }
@@ -111,6 +165,15 @@ export default {
         this.scoreAnother = this.infoSong.anotherScore;
         this.anotherFC = this.infoSong.anotherFC;
         this.anotherClear = this.infoSong.anotherClear;
+        this.scoreDoubleNormal = this.infoSong.scoreDoubleNormal;
+        this.normalDoubleFC = this.infoSong.normalDoubleFC;
+        this.normalDoubleClear = this.infoSong.normalDoubleClear;
+        this.scoreDoubleHard = this.infoSong.scoreDoubleHard;
+        this.hardDoubleFC = this.infoSong.hardDoubleFC;
+        this.hardDoubleClear = this.infoSong.hardDoubleClear;
+        this.scoreDoubleAnother = this.infoSong.scoreDoubleAnother;
+        this.anotherDoubleFC = this.infoSong.anotherDoubleFC;
+        this.anotherDoubleClear = this.infoSong.anotherDoubleClear;
         this.favorite = this.infoSong.favorite;
       }
     }

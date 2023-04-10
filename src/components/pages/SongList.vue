@@ -16,10 +16,24 @@
             <span v-if="!noFilter && searchWord !== '' && searchWord !== undefined" class="badge rounded-pill bg-light text-dark me-2">Name/ artist</span>
             <span v-if="!noFilter && filters.filterLevel !== 0 && filters.filterLevel !== undefined" class="badge pill bg-light text-dark me-2">Level {{ filters.filterLevel }}</span>
             <span v-if="!noFilter && filters.filteredClear !== '' && filters.filteredClear !== undefined" class="badge rounded-pill bg-light text-dark me-2">On {{ filters.filteredClear }}</span>
-            <span v-if="!noFilter && filters.favorite !== false && filters.favorite !== undefined" class="badge rounded-pill bg-light text-dark me-2">Favorite</span>
+            <span v-if="!noFilter && filters.filterFavorite !== false && filters.filterFavorite !== undefined" class="badge rounded-pill bg-light text-dark me-2">Favorite</span>
           </div>
         </div>
         <table class="table table-borderless bg-light table-striped table-songs">
+          <thead>
+          <tr class="d-none d-sm-table-row text-white bg-dark">
+            <th class="indicator"></th>
+            <th class="text-start">Song</th>
+            <th class="text-start d-none d-md-block">Artist/ Alias</th>
+            <th class="text-center text-theme-1">SN</th>
+            <th class="text-center text-theme-2">SH</th>
+            <th class="text-center text-theme-3">SA</th>
+            <th class="text-center text-theme-1">DN</th>
+            <th class="text-center text-theme-2">DH</th>
+            <th class="text-center text-theme-3">DA</th>
+            <th class="text-center">Favorite</th>
+          </tr>
+          </thead>
           <tbody v-if="!loading">
             <tr @click="showDialog(song)" v-for="song in setSongs" v-bind:key="song.id">
               <th class="indicator"
@@ -28,25 +42,43 @@
               <th class="text-start">
                 {{ song.name }}
               </th>
-              <td class="d-none d-md-block">{{ song.artist }}</td>
+              <td class="text-start d-none d-md-table-cell">{{ song.artist }}</td>
               <td v-if="song.difficultyNormal > 0"
                   class="text-black diff-td"
                   :class="{ 'bg-light': !song.normalClear, 'bg-theme-1': song.normalClear, 'flash': song.normalFC }">
                 {{ song.difficultyNormal }}
               </td>
-              <td v-else class="text-white diff-td bg-dark">-</td>
+              <td v-else class="text-white diff-td bg-light">-</td>
               <td v-if="song.difficultyHard > 0"
                   class="text-black diff-td"
                   :class="{ 'bg-light': !song.hardClear, 'bg-theme-2': song.hardClear, 'flash': song.hardFC }">
                 {{ song.difficultyHard }}
               </td>
-              <td v-else class="text-white diff-td bg-dark">-</td>
+              <td v-else class="text-white diff-td bg-light">-</td>
               <td v-if="song.difficultyAnother > 0"
                   class="text-black diff-td"
                   :class="{ 'bg-light': !song.anotherClear, 'bg-theme-3': song.anotherClear, 'flash': song.anotherFC }">
                 {{ song.difficultyAnother }}
               </td>
-              <td v-else class="text-white diff-td bg-dark">-</td>
+              <td v-else class="text-white diff-td bg-light">-</td>
+              <td v-if="song.difficultyDoubleNormal > 0"
+                  class="text-black diff-td d-none d-sm-table-cell"
+                  :class="{ 'bg-light': !song.normalDoubleClear, 'bg-theme-1': song.normalDoubleClear, 'flash': song.normalDoubleFC }">
+                {{ song.difficultyDoubleNormal }}
+              </td>
+              <td v-else class="text-white diff-td bg-light d-none d-sm-table-cell">-</td>
+              <td v-if="song.difficultyDoubleHard > 0"
+                  class="text-black diff-td d-none d-sm-table-cell"
+                  :class="{ 'bg-light': !song.hardDoubleClear, 'bg-theme-2': song.hardDoubleClear, 'flash': song.hardDoubleFC }">
+                {{ song.difficultyDoubleHard }}
+              </td>
+              <td v-else class="text-white diff-td bg-light d-none d-sm-table-cell">-</td>
+              <td v-if="song.difficultyDoubleAnother > 0"
+                  class="text-black diff-td d-none d-sm-table-cell"
+                  :class="{ 'bg-light': !song.anotherDoubleClear, 'bg-theme-3': song.anotherDoubleClear, 'flash': song.anotherDoubleFC }">
+                {{ song.difficultyDoubleAnother }}
+              </td>
+              <td v-else class="text-white diff-td bg-light d-none d-sm-table-cell">-</td>
               <td class=" diff-td pb-0" :class="{ 'bg-light text-dark': !song.favorite, 'bg-primary text-white': song.favorite }"><i class="fa favo fa-heart"></i></td>
             </tr>
           </tbody>
@@ -110,7 +142,7 @@ export default {
           return 'bg-primary';
         }
       } else {
-        return 'bg-dark';
+        return 'bg-light';
       }
     },
     async loadPage(selectedGame, theSongs) {
@@ -123,8 +155,12 @@ export default {
           userSong.difficultyNormal = song.difficultyNormal;
           userSong.difficultyHard = song.difficultyHard;
           userSong.difficultyAnother = song.difficultyAnother;
+          userSong.difficultyDoubleNormal = song.difficultyDoubleNormal;
+          userSong.difficultyDoubleHard = song.difficultyDoubleHard;
+          userSong.difficultyDoubleAnother = song.difficultyDoubleAnother;
           userSong.name = song.name;
           userSong.artist = song.artist;
+          userSong.composer = song.composer;
           mergedUserSongs.push(userSong);
         } else {
           mergedUserSongs.push(song);
@@ -179,6 +215,7 @@ export default {
             if (
                 !song.name.toLowerCase().includes(searchWord) &&
                 !song.artist.toLowerCase().includes(searchWord)
+                // TODO: add composer
             ) {
               matchesFilter = false;
             }
@@ -284,6 +321,11 @@ export default {
   .table-songs {
     font-size: 0.8rem;
   }
+  td:hover, diff-td:hover {
+    cursor: pointer;
+    background-color: #f5f5f5 !important;
+    color: black !important;
+   }
   .indicator {
     width: 10px;
     padding: 0 !important;

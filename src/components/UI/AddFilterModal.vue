@@ -12,14 +12,16 @@
       <a class="btn btn-sm" :class="filteredClear === 'failed' ? 'btn-primary' : 'btn-light'" @click="clearFil('failed')">Failed</a>
       <a class="btn btn-sm" :class="filteredClear === 'clear' ? 'btn-primary' : 'btn-light'" @click="clearFil('clear')">Clear</a>
       <a class="btn btn-sm" :class="filteredClear === 'fullcombo' ? 'btn-primary' : 'btn-light'" @click="clearFil('fullcombo')">Full-combo</a>
-      <h6>Other filters</h6>
-      <div class="mb-2">
-        <a class="btn btn-sm btn-primary">Single</a>
-        <a class="btn btn-sm btn-light disabled me-2" >Double</a> Not yet supported
+      <h6>Play style</h6>
+      <div>
+        <a class="btn btn-sm btn-primary">NONE</a>
+        <a class="btn btn-sm btn-light disabled"><i class="fa fa-compact-disc"></i> Single</a>
+        <a class="btn btn-sm btn-light disabled me-2" ><i class="fa fa-compact-disc"></i> <i class="fa fa-compact-disc"></i> Double</a> Not yet supported
       </div>
-      <a class="btn btn-sm btn-primary" :class="filterFavorite ? 'btn-primary' : 'btn-light'" @click="favoriteFil">Favorites</a>
+      <h6>Other filters</h6>
+      <a class="btn btn-sm btn-primary" :class="filterFavorite ? 'btn-primary' : 'btn-light'" @click="favoriteFil"><i class="fa fa-heart" :class="filterFavorite ? 'text-white' : 'text-primary'"></i> Favorite</a>
       <hr>
-      <a class="btn-primary btn" @click="hideDialog">Close</a>
+      <a class="btn-primary btn" @click="hideDialog">Apply filter</a>
     </dialog>
   </transition>
 </template>

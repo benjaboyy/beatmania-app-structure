@@ -3,24 +3,28 @@
     <div class="row text-center mx-md-3">
       <div class="col-12 p-0 text pt-4">
         <h1 class="text-center mb-3">{{ game.name }} <i :class="'icon ' + game.icon + ' text-primary'"></i></h1>
+        <a class="btn btn-primary me-2 mb-3" href="#"><i class="fa fa-compact-disc"></i> Single Courses</a>
+        <a class="btn btn-primary mb-3" href="#"><i class="fa fa-compact-disc"></i> <i class="fa fa-compact-disc"></i> Double Courses</a>
         <div class="container-fluid">
           <div class="row">
 
-            <div class="col-12 col-md-6 col-lg-4">
-              <div class="card">
-                <div class="card-body">
+            <div v-for="n in 5" :key="n" class="col-12 col-md-6 col-lg-4 col-xxl-3 mb-3">
+              <div class="card border-primary">
+                <div class="card-header bg-primary">
                   <div class="row">
-                    <div class="col-2">
-                      <h4 class="text-primary fw-bolder">A</h4>
+                    <div class="col-2 text-start">
+                      <span class="text-white fw-bolder header-text">A</span>
                     </div>
                     <div class="col-8">
-                      <span v-for="n in 5" :key="n"><i class="fa fa-star" :class="n <= 3 ? 'text-primary' : 'text-dark'"></i></span>
-                      <h2 class="text-dark mb-0">Course name</h2>
                     </div>
                     <div class="col-2 text-end">
-                      <h4><i class="fa fa-heart text-light"></i></h4>
+                      <span class=" header-text"><i class="fa fa-heart text-dark"></i></span>
                     </div>
                   </div>
+                </div>
+                <div class="card-body">
+                  <span v-for="n in 5" :key="n"><i class="fa fa-star" :class="n <= 3 ? 'text-primary' : 'text-dark'"></i></span>
+                  <h2 class="text-dark mb-0">Course name</h2>
                   <hr>
                   <table class="w-100 text-start table table-borderless table-sm mb-0">
                     <tr>
@@ -30,6 +34,21 @@
                     </tr>
                     <tr>
                       <td style="width: 10px">#2</td>
+                      <th class="w-50">Quick Step</th>
+                      <th class="text-primary">3</th>
+                    </tr>
+                    <tr>
+                      <td style="width: 10px">#3</td>
+                      <th class="w-50">Quick Step</th>
+                      <th class="text-primary">3</th>
+                    </tr>
+                    <tr>
+                      <td style="width: 10px">#4</td>
+                      <th class="w-50">Quick Step</th>
+                      <th class="text-primary">3</th>
+                    </tr>
+                    <tr>
+                      <td style="width: 10px">#5</td>
                       <th class="w-50">Quick Step</th>
                       <th class="text-primary">3</th>
                     </tr>
@@ -268,6 +287,9 @@ export default {
 <style scoped>
   tr, th, td {
     padding: 5px !important;
+  }
+  .header-text {
+    font-size: 1.5rem;
   }
   @keyframes flash {
     0% {

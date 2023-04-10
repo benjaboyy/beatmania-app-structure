@@ -15,10 +15,12 @@
         <div class="card">
           <div class="card-body">
             <h3>{{ game.name }} <i class="icon icon-5k text-primary"></i></h3>
-            <router-link :to="'/games/' + game.id" class="btn btn-primary me-2" href="#"><i class="fa fa-compact-disc"></i> Songlist</router-link>
-            <router-link :to="'/g/course/' + game.id" class="btn btn-primary" href="#"><i class="fa fa-layer-group"></i> Courses</router-link>
+            <div class="mb-2">
+              <router-link :to="'/games/' + game.id" class="btn btn-primary me-2" href="#"><i class="fa fa-compact-disc"></i> Songlist</router-link>
+              <router-link :to="'/g/course/' + game.id" class="btn btn-primary" href="#"><i class="fa fa-layer-group"></i> Courses</router-link>
+            </div>
             <p class="mb-1">Singles: <span class="text-primary">Total: </span>{{ gamestats[game.id].singles.clear }}/{{ gamestats[game.id].singles.total }}</p>
-            <progress-bar-stats :clear="gamestats[game.id].singles.clear" :total="gamestats[game.id].singles.total" :name="'beginner'"></progress-bar-stats>
+            <progress-bar-stats :clear="gamestats[game.id].singles.clear" :total="gamestats[game.id].singles.total" :name="'primary'"></progress-bar-stats>
     <!--            <span>Doubles</span>-->
     <!--            <progress-bar-stats v-for="mode in game.doubleMode" v-bind:key="mode.id" :clear="mode.clear" :total="mode.total" :name="mode.name"></progress-bar-stats>-->
             <p class="mb-1">Cources: <span class="text-primary">Total: </span>{{ gamestats[game.id].courses.clear }}/{{ gamestats[game.id].courses.total }}</p>
@@ -65,7 +67,7 @@ export default {
             total: 10
           },
           courses: {
-            clear: 10,
+            clear: 1,
             total: 10
           }
         }
