@@ -21,6 +21,10 @@
             <input class="form-control" type="text" id="gameName" v-model="enteredName" />
           </div>
           <div class="form-group">
+            <label for="gameName">Logo Url</label>
+            <input class="form-control" type="text" id="gameName" v-model="enteredUrl" />
+          </div>
+          <div class="form-group">
             <label for="gameType">Game Type</label>
             <div class="dropdown">
               <select class="form-select " v-model="enteredPlayStyle">
@@ -63,6 +67,7 @@ export default {
     return {
       gameID: "",
       enteredName: "",
+      enteredUrl: "",
       songIDsEnteredCourses: [],
       iconChoice: "",
       invalidInput: false,
@@ -92,6 +97,7 @@ export default {
         body: JSON.stringify({
           id: gameID,
           name: this.enteredName,
+          url: this.enteredUrl,
           playStyle: this.enteredPlayStyle,
           courseSongs: this.songIDsEnteredCourses,
         })
@@ -99,6 +105,7 @@ export default {
         if (res.ok) {
           this.submitted = true;
           this.enteredName = "";
+          this.enteredUrl = "";
           this.enteredArtist = "";
           this.songIDsEnteredCourses = [];
           this.iconChoice = "";
@@ -127,6 +134,7 @@ export default {
       this.gameChoises.forEach(game => {
         if (game.id === val) {
           this.enteredName = game.name;
+          this.enteredUrl = game.url;
           this.enteredArtist = game.artist;
           this.enteredPlayStyle = game.playStyle;
           this.songIDsEnteredCourses = game.courseSongs;

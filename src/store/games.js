@@ -30,6 +30,7 @@ export default {
                 const game = {
                     id: responseData[key].id,
                     name: responseData[key].name,
+                    url: responseData[key].url,
                     icon: responseData[key].icon,
                     playStyle: responseData[key].playStyle,
                     courseSongs: responseData[key].courseSongs,

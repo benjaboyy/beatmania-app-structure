@@ -9,6 +9,23 @@ export default {
             token: '',
             name: '',
             didLogout: false,
+            accountSettings: {
+                trackedGames: {
+                    thefinal: {
+                        singles: false,
+                        doubles: false,
+                        singleCourse: false,
+                        doubleCourse: false
+                    },
+                    sixthmix: {
+                        singles: false,
+                        doubles: false,
+                        singleCourse: false,
+                        doubleCourse: false
+                    },
+                },
+                favoriteGame: '',
+            }
         }
     },
     mutations: {
@@ -246,6 +263,12 @@ export default {
         },
         userName(state) {
             return state.name;
+        },
+        favoriteGame(state) {
+            return state.favoriteGame;
+        },
+        getTrackGames(state) {
+            return state.accountSettings.trackedGames;
         },
         didAutoLogout(state) {
             return state.didLogout;

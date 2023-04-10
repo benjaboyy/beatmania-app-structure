@@ -2,7 +2,7 @@
   <nav class="navbar navbar-light bg-primary ">
     <div class="container-fluid">
       <router-link to="/" class="navbar-brand" href="#">
-        <img src="./../assets/svg/logo.svg" width="60" height="30" class="d-inline-block align-top" alt="">
+        <img src="../../assets/svg/logo.svg" width="60" height="30" class="d-inline-block align-top" alt="">
       </router-link>
       <div class="d-flex">
         <router-link to="/" class="btn btn-light border-primary" href="#" type="button" role="button"><i class="fa fa-home"></i></router-link>

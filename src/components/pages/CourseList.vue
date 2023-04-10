@@ -2,55 +2,44 @@
   <div class="container-fluid bg-dark">
     <div class="row text-center mx-md-3">
       <div class="col-12 p-0 text pt-4">
-        <h1 class="text-center">{{ game.name }} <i :class="'icon ' + game.icon + ' text-primary'"></i></h1>
-        <div class="px-2 px-md-0">
-          <div class="input-group mt-4">
-            <input type="text" class="form-control" placeholder="Song name" aria-label="Recipient's username" aria-describedby="button-addon2"
-                   v-model="searchWord"
-                   v-on:keyup.enter="search">
-            <button class="btn btn-primary" type="button" id="button-search" @click="search"><i class="fa fa-search"></i></button>
-            <button @click="showFilter" class="btn btn-primary ms-3" type="button"><i class="fa fa-sliders-h"></i> Filter</button>
-          </div>
-          <div class="my-2 my-md-4 text-start">
-            <span v-if="!noFilter" class="text-white me-2">Filter:</span>
-            <span v-if="!noFilter && searchWord !== '' && searchWord !== undefined" class="badge rounded-pill bg-light text-dark me-2">Name/ artist</span>
-            <span v-if="!noFilter && filters.filterLevel !== 0 && filters.filterLevel !== undefined" class="badge pill bg-light text-dark me-2">Level {{ filters.filterLevel }}</span>
-            <span v-if="!noFilter && filters.filteredClear !== '' && filters.filteredClear !== undefined" class="badge rounded-pill bg-light text-dark me-2">On {{ filters.filteredClear }}</span>
-            <span v-if="!noFilter && filters.favorite !== false && filters.favorite !== undefined" class="badge rounded-pill bg-light text-dark me-2">Favorite</span>
+        <h1 class="text-center mb-3">{{ game.name }} <i :class="'icon ' + game.icon + ' text-primary'"></i></h1>
+        <div class="container-fluid">
+          <div class="row">
+
+            <div class="col-12 col-md-6 col-lg-4">
+              <div class="card">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-2">
+                      <h4 class="text-primary fw-bolder">A</h4>
+                    </div>
+                    <div class="col-8">
+                      <span v-for="n in 5" :key="n"><i class="fa fa-star" :class="n <= 3 ? 'text-primary' : 'text-dark'"></i></span>
+                      <h2 class="text-dark mb-0">Course name</h2>
+                    </div>
+                    <div class="col-2 text-end">
+                      <h4><i class="fa fa-heart text-light"></i></h4>
+                    </div>
+                  </div>
+                  <hr>
+                  <table class="w-100 text-start table table-borderless table-sm mb-0">
+                    <tr>
+                      <td style="width: 10px">#1</td>
+                      <th class="w-50">Kiss Kiss Kiss</th>
+                      <th class="text-primary">1</th>
+                    </tr>
+                    <tr>
+                      <td style="width: 10px">#2</td>
+                      <th class="w-50">Quick Step</th>
+                      <th class="text-primary">3</th>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
-        <table class="table table-borderless bg-light table-striped table-songs">
-          <tbody v-if="!loading">
-            <tr @click="showDialog(song)" v-for="song in setSongs" v-bind:key="song.id">
-              <th class="indicator"
-                  :class="checkSongStatus(song)">
-              </th>
-              <th class="text-start">
-                {{ song.name }}
-              </th>
-              <td class="d-none d-md-block">{{ song.artist }}</td>
-              <td v-if="song.difficultyNormal > 0"
-                  class="text-black diff-td"
-                  :class="{ 'bg-light': !song.normalClear, 'bg-theme-1': song.normalClear, 'flash': song.normalFC }">
-                {{ song.difficultyNormal }}
-              </td>
-              <td v-else class="text-white diff-td bg-dark">-</td>
-              <td v-if="song.difficultyHard > 0"
-                  class="text-black diff-td"
-                  :class="{ 'bg-light': !song.hardClear, 'bg-theme-2': song.hardClear, 'flash': song.hardFC }">
-                {{ song.difficultyHard }}
-              </td>
-              <td v-else class="text-white diff-td bg-dark">-</td>
-              <td v-if="song.difficultyAnother > 0"
-                  class="text-black diff-td"
-                  :class="{ 'bg-light': !song.anotherClear, 'bg-theme-3': song.anotherClear, 'flash': song.anotherFC }">
-                {{ song.difficultyAnother }}
-              </td>
-              <td v-else class="text-white diff-td bg-dark">-</td>
-              <td class=" diff-td pb-0" :class="{ 'bg-light text-dark': !song.favorite, 'bg-primary text-white': song.favorite }"><i class="fa favo fa-heart"></i></td>
-            </tr>
-          </tbody>
-        </table>
       </div>
     </div>
   </div>
@@ -277,19 +266,8 @@ export default {
 </script>
 
 <style scoped>
-  .diff-td {
-    width: 50px;
-    text-align: center;
-  }
-  .table-songs {
-    font-size: 0.8rem;
-  }
-  .indicator {
-    width: 10px;
-    padding: 0 !important;
-  }
-  .flash {
-    animation: flash 0.6s infinite;
+  tr, th, td {
+    padding: 5px !important;
   }
   @keyframes flash {
     0% {
@@ -301,8 +279,5 @@ export default {
     100% {
       opacity: 1;
     }
-  }
-  .favo {
-    font-size: 1.rem;
   }
 </style>

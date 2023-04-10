@@ -25,8 +25,7 @@
                 <input class="form-control" type="text" id="songName" v-model="enteredName" />
               </div>
             </div>
-            <div v-else class="mt-3">
-              <div class="form-group">
+              <div v-else class="form-group">
                 <label for="songName">Choose song</label>
                 <div class="input-group mb-3">
                   <select class="form-select " v-model="songID">
@@ -38,10 +37,13 @@
                   <a v-else class="btn btn-light text-dark disabled" @click="deleteSong"><i class="fa fa-trash-alt"></i></a>
                 </div>
               </div>
+            <div class="form-group">
+              <label for="songArtist">Artist/ Alias</label>
+              <input class="form-control" type="text" id="songArtist" v-model="enteredArtist" />
             </div>
             <div class="form-group">
-              <label for="songArtist">Song Artist</label>
-              <input class="form-control" type="text" id="songArtist" v-model="enteredArtist" />
+              <label for="songArtist">Composer</label>
+              <input class="form-control" type="text" id="songArtist" v-model="enteredComposer" />
             </div>
             <h5 class="mt-4">Difficulty Single</h5>
             <div class="form-group">
@@ -94,6 +96,7 @@ export default {
       songUpdate: false,
       enteredName: "",
       enteredArtist: "",
+      enteredComposer: "",
       enteredDifficultyNormal: 1,
       enteredDifficultyHard: 1,
       enteredDifficultyAnother: 1,
@@ -110,7 +113,7 @@ export default {
     }
   },
   async created() {
-    const getGames = await this.$store.getters['games/getGames'];
+    const getGames = this.getGames;
     this.gameChoises = getGames;
     const songID = this.$route.query.songID;
     const gameID = this.$route.query.gameID;
@@ -196,6 +199,7 @@ export default {
           id: SongID,
           name: this.enteredName,
           artist: this.enteredArtist,
+          composer: this.enteredComposer,
           difficultyNormal: this.enteredDifficultyNormal,
           difficultyHard: this.enteredDifficultyHard,
           difficultyAnother: this.enteredDifficultyAnother,
@@ -209,12 +213,18 @@ export default {
           this.submitted = true;
           this.enteredName = "";
           this.enteredArtist = "";
+          this.enteredComposer = "";
           this.enteredDifficultyNormal = 1;
           this.enteredDifficultyHard = 1;
           this.enteredDifficultyAnother = 1;
           this.enteredDifficultyDoubleNormal = 1;
           this.enteredDifficultyDoubleHard = 1;
           this.enteredDifficultyDoubleAnother = 1;
+          this.songID = "";
+          this.songUpdate = false;
+          this.invalidInput = false;
+          this.error = null;
+          window.scrollTo(0,0);
           return response.json();
         } else {
           throw new Error('Something went wrong!');
@@ -238,6 +248,7 @@ export default {
           id: responseData[key].id,
           name: responseData[key].name,
           artist: responseData[key].artist,
+          composer: responseData[key].composer,
           difficultyNormal: responseData[key].difficultyNormal,
           difficultyHard: responseData[key].difficultyHard,
           difficultyAnother: responseData[key].difficultyAnother,

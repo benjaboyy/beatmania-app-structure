@@ -12,7 +12,7 @@ export default {
   name: "ProgressBarStats",
   methods: {
     setClass(set) {
-      return set === 'beginner' ? 'bg-theme-1' : set === 'normal' ? 'bg-theme-2' : set === 'hyper' ? 'bg-theme-3' : 'bg-theme-4';
+      return set === 'beginner' ? 'bg-theme-1' : set === 'normal' ? 'bg-theme-2' : set === 'hyper' ? 'bg-theme-3' : set === 'primary' ? 'bg-primary' : 'bg-secondary';
     },
     calcProcent(clear, total) {
       return (clear / total) * 100 + '%';

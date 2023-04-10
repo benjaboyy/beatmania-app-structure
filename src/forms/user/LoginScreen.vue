@@ -50,11 +50,6 @@ export default {
         email: this.email,
         password: this.password,
       };
-      // if (this.password) {
-      //   this.formIsValid = false;
-      //   this.passwordInvalid = true;
-      //   return;
-      // }
       if (this.email.trim().length < 1 || !this.email.includes('@')) {
         this.formIsValid = false;
         this.emailInvalid = true;
@@ -65,6 +60,10 @@ export default {
           await this.$store.dispatch('login', formData);
         }
         this.$emit('data', true);
+        await this.$store.dispatch('games/fetchGameSongs');
+        await this.$store.dispatch('loadUser');
+        await this.$store.dispatch('songs/loadSongs');
+        await this.$store.dispatch('loadUserSongs');
         this.$router.replace('/welcome');
       } catch (error) {
         this.error = error.message || 'Something went wrong'

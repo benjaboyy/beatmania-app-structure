@@ -1,7 +1,7 @@
 import { createApp } from 'vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import App from './App.vue'
-import HeaderApp from "@/components/HeaderApp";
+import HeaderApp from "@/components/UI/HeaderApp";
 
 import WelcomeScreen from './components/pages/Welcome.vue'
 import LoginScreen from "@/forms/user/LoginScreen.vue";
@@ -12,6 +12,7 @@ import submitGame from "@/forms/submitGame";
 import AddSongModal from "@/components/UI/AddSongModal";
 import RegisterUser from "@/forms/user/RegisterUser";
 import submitCourse from "@/forms/submitCourse";
+import CourseList from "@/components/pages/CourseList";
 
 import './assets/main.css'
 import './assets/css/all.css'
@@ -26,6 +27,7 @@ const router = createRouter({
         { path: '/login', component: LoginScreen, meta: { requiresUnauth: false } },
         { path: '/settings', component: Settings, meta: { requiresAuth: true } },
         { path: '/games/:gameID', component: SongList, props: true, meta: { requiresAuth: true } },
+        { path: '/g/course/:gameID', component: CourseList, props: true, meta: { requiresAuth: true } },
         { path: '/submitSong', component: submitSong, meta: { requiresAuth: true } },
         { path: '/submitGame', component: submitGame, meta: { requiresAuth: true } },
         { path: '/submitCourse', component: submitCourse, meta: { requiresAuth: true } },

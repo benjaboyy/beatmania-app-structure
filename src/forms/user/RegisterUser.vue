@@ -16,7 +16,7 @@
             <input class="form-control" type="text" id="email" v-model="email" />
           </div>
           <div :class="!formIsValid && nameInvalid ? 'red' : ''" class="form-group">
-            <label for="name">Name</label>
+            <label for="name">Game tag / name</label>
             <input class="form-control" type="text" id="name" v-model="name" />
           </div>
           <div :class="!formIsValid && passwordInvalid ? 'red' : ''" class="form-group">

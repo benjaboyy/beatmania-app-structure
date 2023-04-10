@@ -2,18 +2,11 @@
   <div v-if="open" class="backdrop" @click="$emit('close')"></div>
   <transition name="modal">
     <dialog open v-if="open">
-      <h2 class="text-primary"><i class="fa fa-sliders-h"></i> Song filters</h2>
-     <h6>Level</h6>
-      <a class="btn btn-sm" :class="levelNone ? 'btn-primary' : 'btn-light'" @click="resetLevelsFil">None</a>
-      <a class="btn btn-sm" :class="filterLevel1 ? 'btn-primary' : 'btn-light'" @click="levelsFil1">1</a>
-      <a class="btn btn-sm" :class="filterLevel2 ? 'btn-primary' : 'btn-light'" @click="levelsFil2">2</a>
-      <a class="btn btn-sm" :class="filterLevel3 ? 'btn-primary' : 'btn-light'" @click="levelsFil3">3</a>
-      <a class="btn btn-sm" :class="filterLevel4 ? 'btn-primary' : 'btn-light'" @click="levelsFil4">4</a>
-      <a class="btn btn-sm" :class="filterLevel5 ? 'btn-primary' : 'btn-light'" @click="levelsFil5">5</a>
-      <a class="btn btn-sm" :class="filterLevel6 ? 'btn-primary' : 'btn-light'" @click="levelsFil6">6</a>
-      <a class="btn btn-sm" :class="filterLevel7 ? 'btn-primary' : 'btn-light'" @click="levelsFil7">7</a>
-      <a class="btn btn-sm" :class="filterLevel8 ? 'btn-primary' : 'btn-light'" @click="levelsFil8">8</a>
-      <a class="btn btn-sm" :class="filterLevel9 ? 'btn-primary' : 'btn-light'" @click="levelsFil9">9</a>
+      <h2 class="text-primary mb-3"><i class="fa fa-sliders-h"></i> Song filters</h2>
+     <h6>Level <span class="bold">{{ filteredLevel }}</span></h6>
+      <div class="form-range">
+        <input data- type="range" max="9" min="0" class="form-range col-12" id="formControlRangeN" v-model="filterLevel" />
+      </div>
       <h6>Filter on clear</h6>
       <a class="btn btn-sm" :class="filteredClear === '' ? 'btn-primary' : 'btn-light'" @click="clearFil('')">None</a>
       <a class="btn btn-sm" :class="filteredClear === 'failed' ? 'btn-primary' : 'btn-light'" @click="clearFil('failed')">Failed</a>
@@ -47,16 +40,7 @@ export default {
   emits: ['close', 'addSongUser'],
   data() {
     return {
-      levelNone: true,
-      filterLevel1: false,
-      filterLevel2: false,
-      filterLevel3: false,
-      filterLevel4: false,
-      filterLevel5: false,
-      filterLevel6: false,
-      filterLevel7: false,
-      filterLevel8: false,
-      filterLevel9: false,
+      filterLevel: 0,
       filteredClear: '',
       filterFavorite: false,
     }
@@ -65,59 +49,10 @@ export default {
     hideDialog() {
       this.$emit('close');
       this.$emit('addFilter', {
-        levelNone: this.levelNone,
-        levels: this.levelFilters,
+        filterLevel: this.filterLevel,
         filteredClear: this.filteredClear,
         filterFavorite: this.filterFavorite,
       });
-    },
-    levelsFil1() {
-      this.filterLevel1 = !this.filterLevel1;
-      this.levelNone = false;
-    },
-    levelsFil2() {
-      this.filterLevel2 = !this.filterLevel2;
-      this.levelNone = false;
-    },
-    levelsFil3() {
-      this.filterLevel3 = !this.filterLevel3;
-      this.levelNone = false;
-    },
-    levelsFil4() {
-      this.filterLevel4 = !this.filterLevel4;
-      this.levelNone = false;
-    },
-    levelsFil5() {
-      this.filterLevel5 = !this.filterLevel5;
-      this.levelNone = false;
-    },
-    levelsFil6() {
-      this.filterLevel6 = !this.filterLevel6;
-      this.levelNone = false;
-    },
-    levelsFil7() {
-      this.filterLevel7 = !this.filterLevel7;
-      this.levelNone = false;
-    },
-    levelsFil8() {
-      this.filterLevel8 = !this.filterLevel8;
-      this.levelNone = false;
-    },
-    levelsFil9() {
-      this.filterLevel9 = !this.filterLevel9;
-      this.levelNone = false;
-    },
-    resetLevelsFil() {
-      this.filterLevel1 = false;
-      this.filterLevel2 = false;
-      this.filterLevel3 = false;
-      this.filterLevel4 = false;
-      this.filterLevel5 = false;
-      this.filterLevel6 = false;
-      this.filterLevel7 = false;
-      this.filterLevel8 = false;
-      this.filterLevel9 = false;
-      this.levelNone = true;
     },
     clearFil(item) {
       this.filteredClear = item;
@@ -127,36 +62,11 @@ export default {
     },
   },
   computed: {
-    levelFilters() {
-      let levels = [];
-      if (this.filterLevel1) {
-        levels.push(1);
+    filteredLevel() {
+      if (this.filterLevel === 0) {
+        return 'None';
       }
-      if (this.filterLevel2) {
-        levels.push(2);
-      }
-      if (this.filterLevel3) {
-        levels.push(3);
-      }
-      if (this.filterLevel4) {
-        levels.push(4);
-      }
-      if (this.filterLevel5) {
-        levels.push(5);
-      }
-      if (this.filterLevel6) {
-        levels.push(6);
-      }
-      if (this.filterLevel7) {
-        levels.push(7);
-      }
-      if (this.filterLevel8) {
-        levels.push(8);
-      }
-      if (this.filterLevel9) {
-        levels.push(9);
-      }
-      return levels;
+      return this.filterLevel;
     }
   },
   watch: {
