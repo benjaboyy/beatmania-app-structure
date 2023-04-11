@@ -26,12 +26,13 @@
             <p class="mb-1">Cources: <span class="text-primary">Total: </span>{{ gamestats[game.id].courses.clear }}/{{ gamestats[game.id].courses.total }}</p>
             <progress-bar-stats :clear="gamestats[game.id].courses.clear" :total="gamestats[game.id].courses.total" :name="'primary'"></progress-bar-stats>
           </div>
-          <div class="col-12 my-2 text-center">
-    <!--            <router-link to="/settings" class="btn btn-lg btn-block btn-light" href="#" type="button" role="button">Select games in account settings</router-link>-->
-            <div id="emailHelp" class="form-text">Find more games to track in your account settings.</div>
-          </div>
         </div>
       </div>
+      <div class="col-12 my-4 text-center">
+        <router-link to="/settings" class="btn btn-block btn-secondary" href="#" type="button" role="button">Select games</router-link>
+        <div id="emailHelp" class="form-text">Find more games to track in your account settings.</div>
+      </div>
+
     </div>
   </div>
 </template>
@@ -45,12 +46,14 @@ export default {
   },
   data() {
     return {
-      gamesToTrack: [],
       userPassedSongs: [],
       gamestats: {}
     }
   },
   computed: {
+    trackGames() {
+      return this.$store.getters['getTrackGames'];
+    },
     games() {
       return this.$store.getters['games/getGames'];
     },
@@ -121,6 +124,8 @@ export default {
   created() {
     this.setBaseStats();
     this.calculateStats();
+    console.log(this.trackGames);
+    console.log(this.games);
   },
   props: {
     msg: String,

@@ -8,23 +8,23 @@
           <a class="btn btn-primary" @click="tab = 'details'" :class="tab === 'details' ? 'btn-primary' : 'btn-light'">Account Details</a>
           <a class="btn btn-primary" @click="tab = 'games'" :class="tab === 'games' ? 'btn-primary' : 'btn-light'">Game select</a>
         </div>
-        <div v-if="tab === 'games'">
+        <div v-if="tab === 'games' && games">
           <div id="emailHelp" class="form-text">Choose the games you want to track.</div>
           <div v-for="game in games" v-bind:key="game" class="card mb-2">
             <div class="card-body card-mix--choices">
               <h5 class=" text-dark">{{ game.name }}<i class="icon icon-5k text-primary"></i></h5>
               <a class="btn btn-sm me-1 mb-1" type="button"
-                 :class="{'bg-light text-primary': !trackGames[game.id].singles, 'bg-primary text-white': trackGames[game.id].singles}"
-                 @click="trackGames[game.id].singles = !trackGames[game.id].singles">Single Play</a>
+                 :class="{'bg-light text-primary': !enteredTrackGames[game.id].singles, 'bg-primary text-white': enteredTrackGames[game.id].singles}"
+                 @click="updateTrackGames(game.id, 'singles', !enteredTrackGames[game.id].singles)">Single Play</a>
               <a class="btn btn-sm me-1 mb-1" type="button"
-                 :class="{'bg-light text-primary': !trackGames[game.id].doubles, 'bg-primary text-white': trackGames[game.id].doubles}"
-                 @click="trackGames[game.id].doubles = !trackGames[game.id].doubles">Double Play</a>
+                 :class="{'bg-light text-primary': !enteredTrackGames[game.id].doubles, 'bg-primary text-white': enteredTrackGames[game.id].doubles}"
+                 @click="updateTrackGames(game.id, 'doubles', !enteredTrackGames[game.id].doubles)">Double Play</a>
+              <a class="btn btn-sm me-1 mb-1"
+                 :class="{'bg-light text-primary': !enteredTrackGames[game.id].singleCourse, 'bg-primary text-white': enteredTrackGames[game.id].singleCourse}"
+                 @click="updateTrackGames(game.id, 'singleCourse', !enteredTrackGames[game.id].singleCourse)">Single Courses</a>
               <a class="btn btn-sm me-1 mb-1" type="button"
-                 :class="{'bg-light text-primary': !trackGames[game.id].singleCourse, 'bg-primary text-white': trackGames[game.id].singleCourse}"
-                 @click="trackGames[game.id].singleCourse = !trackGames[game.id].singleCourse">Single Courses</a>
-              <a class="btn btn-sm me-1 mb-1" type="button"
-                 :class="{'bg-light text-primary': !trackGames[game.id].doubleCourse, 'bg-primary text-white': trackGames[game.id].doubleCourse}"
-                 @click="trackGames[game.id].doubleCourse = !trackGames[game.id].doubleCourse">Double Courses</a>
+                 :class="{'bg-light text-primary': !enteredTrackGames[game.id].doubleCourse, 'bg-primary text-white': enteredTrackGames[game.id].doubleCourse}"
+                  @click="updateTrackGames(game.id, 'doubleCourse', !enteredTrackGames[game.id].doubleCourse)">Double Courses</a>
             </div>
           </div>
         </div>
@@ -59,13 +59,41 @@ export default {
       tab: 'details',
       enteredFavoriteGame: '',
       enteredName: '',
-
+      enteredTrackGames: {},
     }
   },
   created() {
-    console.log('created');
-    console.log(this.games);
-    console.log(this.trackGames);
+    this.enteredFavoriteGame = this.favoriteGame;
+    this.enteredName = this.name;
+    this.$store.dispatch('loadTrackedGames');
+    this.games.forEach(game => {
+      this.enteredTrackGames[game.id] = {
+        singles: false,
+        doubles: false,
+        singleCourse: false,
+        doubleCourse: false
+      };
+    });
+    const trackedGames = this.trackGames;
+    for (let gameId in trackedGames) {
+      if (gameId in this.enteredTrackGames) {
+        this.enteredTrackGames[gameId] = trackedGames[gameId];
+      }
+    }
+  },
+  methods: {
+    updateTrackGames(gameId, option, value) {
+      if (option === 'singles') {
+        this.enteredTrackGames[gameId].singles = value;
+      } else if (option === 'doubles') {
+        this.enteredTrackGames[gameId].doubles = value;
+      } else if (option === 'singleCourse') {
+        this.enteredTrackGames[gameId].singleCourse = value;
+      } else if (option === 'doubleCourse') {
+        this.enteredTrackGames[gameId].doubleCourse = value;
+      }
+      this.$store.dispatch('updateTrackGames', this.enteredTrackGames);
+    },
   },
   computed: {
     games() {

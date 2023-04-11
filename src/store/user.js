@@ -13,7 +13,7 @@ export default {
                 trackedGames: {
                     thefinal: {
                         singles: false,
-                        doubles: false,
+                        doubles: true,
                         singleCourse: false,
                         doubleCourse: false
                     },
@@ -50,9 +50,26 @@ export default {
         },
         didLogout(state) {
             state.didLogout = true;
+        },
+        setAccountSettings(state, payload) {
+            state.accountSettings.trackedGames = payload;
         }
     },
     actions: {
+        async updateTrackGames({ commit, getters }, payload) {
+            const userId = getters.userId;
+            const token = getters.token;
+            const response = await fetch(`https://beatmania-pro-default-rtdb.europe-west1.firebasedatabase.app/users/${userId}/accountSettings/trackedGames.json?auth=` + token, {
+                method: 'put',
+                body: JSON.stringify(payload)
+            });
+            if (!response.ok) {
+                alert('Error while updating tracked games');
+            } else {
+                const updatedAccountSettings = { ...getters.accountSettings, trackedGames: payload };
+                commit('setAccountSettings', updatedAccountSettings);
+            }
+        },
         async addSongToUser (context, payload) {
             const userId = context.getters.userId;
             const songID = payload.id;
@@ -129,6 +146,18 @@ export default {
             if (!response2.ok) {
                 alert(responseData2.message + 'Error while registering user');
             }
+        },
+        async loadTrackedGames(context) {
+            const userId = context.getters.userId;
+            const token = context.getters.token;
+            const response = await fetch(`https://beatmania-pro-default-rtdb.europe-west1.firebasedatabase.app/users/${userId}/accountSettings/trackedGames.json?auth=` + token);
+            const responseData = await response.json();
+
+            if (!response.ok) {
+                alert('Error while loading tracked games');
+            }
+
+            context.commit('setAccountSettings', responseData);
         },
         async login(context, payload) {
             return context.dispatch('auth', {
