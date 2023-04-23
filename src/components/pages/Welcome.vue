@@ -46,6 +46,7 @@ export default {
   },
   data() {
     return {
+      gamesToShow: [],
       userPassedSongs: [],
       gamestats: {}
     }
@@ -119,7 +120,7 @@ export default {
         this.gamestats[item.id].singles.total = totalSongs;
         this.gamestats[item.id].singles.clear = clearedSongs;
       }
-    }
+    },
   },
   created() {
     this.setBaseStats();
