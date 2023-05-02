@@ -52,6 +52,10 @@ export default {
     }
   },
   computed: {
+    // TODO: Filter songs by game
+    // filteredGames() {
+    //   return this.games.filter(game => this.trackGames.includes(game.id));
+    // },
     trackGames() {
       return this.$store.getters['getTrackGames'];
     },

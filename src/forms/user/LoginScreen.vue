@@ -59,11 +59,11 @@ export default {
         if (this.formIsValid) {
           await this.$store.dispatch('login', formData);
         }
-        this.$emit('data', true);
         await this.$store.dispatch('games/fetchGameSongs');
         await this.$store.dispatch('loadUser');
         await this.$store.dispatch('songs/loadSongs');
         await this.$store.dispatch('loadUserSongs');
+        this.$emit('data', true);
         this.$router.replace('/welcome');
       } catch (error) {
         this.error = error.message || 'Something went wrong'

@@ -167,7 +167,7 @@ export default {
         },
         async loadUser(context) {
             const userId = context.getters.userId;
-            const token = context.rootGetters.token;
+            const token = context.getters.token;
             //
             const response = await fetch(`https://beatmania-pro-default-rtdb.europe-west1.firebasedatabase.app/users/${userId}.json?auth=` + token);
             const responseData = await response.json();
@@ -246,9 +246,9 @@ export default {
             localStorage.setItem('userId', responseData.localId);
             localStorage.setItem('tokenExpiration', expirationDate);
 
-            timer = setTimeout(function() {
-                context.dispatch('autoLogout');
-            }, expirationDate);
+            // timer = setTimeout(function() {
+            //     context.dispatch('autoLogout');
+            // }, expirationDate);
 
             context.commit('setUser', {
                 token: responseData.idToken,

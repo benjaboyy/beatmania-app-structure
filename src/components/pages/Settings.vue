@@ -62,11 +62,11 @@ export default {
       enteredTrackGames: {},
     }
   },
-  created() {
+  async created() {
     this.enteredFavoriteGame = this.favoriteGame;
     this.enteredName = this.name;
-    this.$store.dispatch('loadTrackedGames');
-    this.games.forEach(game => {
+    await this.$store.dispatch('loadTrackedGames');
+    await this.games.forEach(game => {
       this.enteredTrackGames[game.id] = {
         singles: false,
         doubles: false,
