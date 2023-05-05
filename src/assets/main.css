@@ -11465,11 +11465,6 @@ td:hover {
   color: white !important;
 }
 
-.diff-td:hover {
-  filter: brightness(3);
-  color: black !important;
-}
-
 .login-screen {
   max-width: 500px;
 }

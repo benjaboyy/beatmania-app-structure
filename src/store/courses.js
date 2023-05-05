@@ -11,7 +11,7 @@ export default {
         }
     },
     actions: {
-        async loadCourse(context) {
+        async loadCourses(context) {
             const token = context.rootGetters.token;
             await fetch('https://beatmania-pro-default-rtdb.europe-west1.firebasedatabase.app/cources.json?auth=' + token)
                 .then((response) => {

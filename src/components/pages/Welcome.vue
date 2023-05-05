@@ -11,20 +11,30 @@
       </div>
     </div>
     <div class="row">
-      <div v-for="game in games" v-bind:key="game" class="col-md-6 mt-4">
+      <div v-for="game in filteredGames" v-bind:key="game" class="col-md-6 mt-4">
         <div class="card">
           <div class="card-body">
             <h3>{{ game.name }} <i class="icon icon-5k text-primary"></i></h3>
+            <p>
+              <span class="text-primary">Songs: </span>{{ gamestats[game.id].songs }}<br>
+
+            </p>
             <div class="mb-2">
               <router-link :to="'/games/' + game.id" class="btn btn-primary me-2" href="#"><i class="fa fa-compact-disc"></i> Songlist</router-link>
               <router-link :to="'/g/course/' + game.id" class="btn btn-primary" href="#"><i class="fa fa-layer-group"></i> Courses</router-link>
             </div>
-            <p class="mb-1">Singles: <span class="text-primary">Total: </span>{{ gamestats[game.id].singles.clear }}/{{ gamestats[game.id].singles.total }}</p>
-            <progress-bar-stats :clear="gamestats[game.id].singles.clear" :total="gamestats[game.id].singles.total" :name="'primary'"></progress-bar-stats>
-    <!--            <span>Doubles</span>-->
-    <!--            <progress-bar-stats v-for="mode in game.doubleMode" v-bind:key="mode.id" :clear="mode.clear" :total="mode.total" :name="mode.name"></progress-bar-stats>-->
-            <p class="mb-1">Cources: <span class="text-primary">Total: </span>{{ gamestats[game.id].courses.clear }}/{{ gamestats[game.id].courses.total }}</p>
-            <progress-bar-stats :clear="gamestats[game.id].courses.clear" :total="gamestats[game.id].courses.total" :name="'primary'"></progress-bar-stats>
+            <div v-if="game.trackedGame.singles">
+              <p class="mb-1">Singles <span class="text-primary">Cleared: </span>{{ gamestats[game.id].singles.clear }}/{{ gamestats[game.id].singles.total }}</p>
+              <progress-bar-stats :clear="gamestats[game.id].singles.clear" :total="gamestats[game.id].singles.total" :name="'primary'"></progress-bar-stats>
+            </div>
+            <div v-if="game.trackedGame.doubles">
+              <p class="mb-1">Doubles <span class="text-primary">Cleared: </span>{{ gamestats[game.id].doubles.clear }}/{{ gamestats[game.id].doubles.total }}</p>
+              <progress-bar-stats :clear="gamestats[game.id].doubles.clear" :total="gamestats[game.id].doubles.total" :name="'primary'"></progress-bar-stats>
+            </div>
+            <div v-if="game.trackedGame.singleCourse || game.trackedGame.doubleCourse">
+              <p class="mb-1">Cources: <span class="text-primary">Cleared: </span>{{ gamestats[game.id].courses.clear }}/{{ gamestats[game.id].courses.total }}</p>
+              <progress-bar-stats :clear="gamestats[game.id].courses.clear" :total="gamestats[game.id].courses.total" :name="'primary'"></progress-bar-stats>
+            </div>
           </div>
         </div>
       </div>
@@ -52,11 +62,19 @@ export default {
     }
   },
   computed: {
-    // TODO: Filter songs by game
-    // filteredGames() {
-    //   return this.games.filter(game => this.trackGames.includes(game.id));
-    // },
-    trackGames() {
+    filteredGames() {
+      const trackedGames = this.trackedGames;
+      return this.games
+          .filter(game => {
+            const gameTrackInfo = trackedGames[game.id];
+            return gameTrackInfo && Object.values(gameTrackInfo).includes(true);
+          })
+          .map(game => ({
+            ...game,
+            trackedGame: trackedGames[game.id],
+          }));
+    },
+    trackedGames() {
       return this.$store.getters['getTrackGames'];
     },
     games() {
@@ -70,11 +88,21 @@ export default {
     setBaseStats() {
       for (const game of this.games) {
         this.gamestats[game.id] = {
+          songs: 0,
+          courses: 0,
           singles: {
-            clear: 10,
+            clear: 0,
+            total: 0,
+          },
+          doubles: {
+            clear: 0,
+            total: 0,
+          },
+          singleCourses: {
+            clear: 1,
             total: 10
           },
-          courses: {
+          doubleCourses: {
             clear: 1,
             total: 10
           }
@@ -85,52 +113,84 @@ export default {
       await this.$store.dispatch('games/fetchGameSongs');
       await this.$store.dispatch('loadUser');
       await this.$store.dispatch('songs/loadSongs');
+      await this.$store.dispatch('courses/loadCourses');
       await this.$store.dispatch('loadUserSongs');
       await this.calculateStats();
     },
     async calculateStats() {
       const userSongs = await this.$store.getters['getUserSongs'];
-      for (const item of this.games) {
-        let clearedSongs = 0;
+      for (const item of this.filteredGames) {
+        let singleCleared = 0;
+        let doublesCleared = 0;
+        let totalSingleCleared = 0;
+        let totalDoublesCleared = 0;
         let totalSongs = 0;
         const songsToLoad = await this.$store.getters['songs/getSongsByGame'](item.id)
         for (const song of songsToLoad) {
+          totalSongs++;
           const userSong = userSongs.find(userSong => userSong.id === song.id);
           if (userSong && song.difficultyNormal > 0) {
             if (userSong.normalClear) {
-              clearedSongs++;
+              singleCleared++;
             }
-            totalSongs++;
+            totalSingleCleared++;
           } else if (song.difficultyNormal > 0) {
-            totalSongs++;
+            totalSingleCleared++;
           }
           if (userSong && song.difficultyHard > 0) {
             if (userSong.hardClear) {
-              clearedSongs++;
+              singleCleared++;
             }
-            totalSongs++;
+            totalSingleCleared++;
           } else if (song.difficultyHard > 0) {
-            totalSongs++;
+            totalSingleCleared++;
           }
           if (userSong && song.difficultyAnother > 0) {
             if (userSong.anotherClear) {
-              clearedSongs++;
+              singleCleared++;
             }
-            totalSongs++;
+            totalSingleCleared++;
           } else if (song.difficultyAnother > 0) {
-            totalSongs++;
+            totalSingleCleared++;
+          }
+          if (userSong && song.difficultyDoubleNormal > 0) {
+            if (userSong.normalDoubleClear) {
+              doublesCleared++;
+            }
+            totalDoublesCleared++;
+          } else if (song.difficultyDoubleNormal > 0) {
+            totalDoublesCleared++;
+          }
+          if (userSong && song.difficultyDoubleHard > 0) {
+            if (userSong.hardDoubleClear) {
+              doublesCleared++;
+            }
+            totalDoublesCleared++;
+          } else if (song.difficultyDoubleHard > 0) {
+            totalDoublesCleared++;
+          }
+          if (userSong && song.difficultyDoubleAnother > 0) {
+            if (userSong.anotherDoubleClear) {
+              doublesCleared++;
+            }
+            totalDoublesCleared++;
+          } else if (song.difficultyDoubleAnother > 0) {
+            totalDoublesCleared++;
           }
         }
-        this.gamestats[item.id].singles.total = totalSongs;
-        this.gamestats[item.id].singles.clear = clearedSongs;
+        this.gamestats[item.id].singles.total = totalSingleCleared;
+        this.gamestats[item.id].singles.clear = singleCleared;
+        this.gamestats[item.id].doubles.total = totalDoublesCleared;
+        this.gamestats[item.id].doubles.clear = doublesCleared;
+        this.gamestats[item.id].songs = totalSongs;
       }
     },
   },
   created() {
     this.setBaseStats();
     this.calculateStats();
-    console.log(this.trackGames);
-    console.log(this.games);
+    console.log(this.gamestats);
+    console.log(this.filteredGames);
   },
   props: {
     msg: String,

@@ -1,6 +1,9 @@
 <template>
   <div class="login-screen px-2 mx-auto">
-    <h1 class="text-center my-4">// LOGO //</h1>
+    <div class="text-center my-5">
+      <img src="../../assets/svg/logo.svg" width="120" height="60" class="d-inline-block align-middle" alt="">
+      <h1 class="mb-0">BMPT</h1>
+    </div>
     <div class="card">
       <div class="card-body">
         <h1 class="text-primary">Login</h1>
@@ -11,7 +14,6 @@
             <label for="exampleInputEmail1" class="form-label">Email address</label>
             <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" v-model="email">
             <div v-if="emailInvalid" class="text-warning" role="alert">Email address is not valid</div>
-            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
           </div>
           <div class="mb-4">
             <label for="exampleInputPassword1" class="form-label">Password</label>
@@ -24,7 +26,7 @@
         </form>
       </div>
       <div class="card-footer text-end text-muted">
-        Version 0.1
+        Version 0.5
       </div>
     </div>
   </div>

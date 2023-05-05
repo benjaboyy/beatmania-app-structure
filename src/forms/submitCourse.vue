@@ -14,39 +14,49 @@
             </option>
           </select>
           <div v-if="gameID !== ''">
-            <div class="form-group">
-              <label for="songName">Course Name</label>
-              <input class="form-control" type="text" id="songName" v-model="enteredName" />
+            <div class="mt-3">
+              <a class="btn btn-primary" @click="courseUpdateSwitch" :class="courseUpdate === false ? 'btn-primary' : 'btn-light'">New</a>
+              <a class="btn btn-primary" @click="courseUpdateSwitch" :class="courseUpdate === true ? 'btn-primary' : 'btn-light'">Update</a>
+              <a v-if="isSongName" class="btn btn-outline-primary ms-3" @click="reset"><i class="fa fa-sync-alt"></i> Reset</a>
             </div>
-            <div class="form-group">
-              <label for="formControlRangeN">Course rating
-                <span v-for="n in 5" :key="n"><i class="fa fa-star" :class="n <= enteredRating ? 'text-primary' : 'text-dark'"></i></span>
-              </label>
-              <input data- type="range" max="5" min="1" class="form-range col-12" id="formControlRangeN" v-model="enteredRating" />
-            </div>
-            <div v-for="(courseSong, index) in songIDs" :key="index">
-              <label for="songName">Song {{ index + 1 }}</label>
-              <div class="input-group mb-0">
-                <select class="form-select " v-model="songIDs[index]">
-                  <option class="dropdown-item " v-for="song in songList" :key="song.id" :value="song.id">
-                    {{ song.name }}
-                  </option>
-                </select>
+            <div v-if="!courseUpdate">
+              <div class="form-group">
+                <label for="songName">Course Name</label>
+                <input class="form-control" type="text" id="songName" v-model="enteredName" />
               </div>
-              <div class="mb-2">
-                <a class="btn btn-theme-1 w-25" @click="setDiffeculty(index, 'normal')">1</a>
-                <a class="btn btn-light w-25" @click="setDiffeculty(index, 'hard')">3</a>
-                <a class="btn btn-light w-25" @click="setDiffeculty(index, 'another')">6</a>
-                <a class="btn btn-light text-danger w-25" @click="deleteSong(index)"><i class="fa fa-trash-alt"></i></a>
+              <div class="form-group">
+                <label for="formControlRangeN">Course rating <h3>
+                  <span v-for="n in 5" :key="n"><i class="fa fa-star" :class="n <= enteredRating ? 'text-primary' : 'text-light'"></i></span></h3>
+                </label>
+                <input data- type="range" max="5" min="1" class="form-range col-12" id="formControlRangeN" v-model="enteredRating" />
               </div>
-            </div>
-            <a class="btn btn-primary" @click="addSong('songIDs')">Add Song</a>
-            <p v-if="invalidInput">One or more input fields are invalid. Please check your provided data.</p>
-            <p v-if="error">{{ error }}</p>
-            <div class="form-group" v-if="enteredName.trim().length > 0">
-              <hr>
-              <button class="btn btn-primary"><i class="fa fa-paper-plane"></i> Submit</button>
-              <router-link to="/" class="btn btn-outline-primary ms-3" href="#" type="button" role="button"><i class="fa fa-home"></i> Back</router-link>
+              <div v-for="(courseSong, index) in songIDs" :key="index">
+                <label for="songName">Song {{ index + 1 }}</label>
+                <div class="input-group mb-0">
+                  <select class="form-select " v-model="songIDs[index]">
+                    <option class="dropdown-item " v-for="song in songList" :key="song.id" :value="song">
+                      {{ song }}
+                    </option>
+                  </select>
+                </div>
+                <div class="mb-2">
+                  <a class="btn btn-light w-25" :class="{ 'btn-primary':songIDs[index].diff === 'difficultyNormal' }" @click="setDifficulty(index, 'difficultyNormal')">S{{ songIDs[index].difficultyNormal }}</a>
+                  <a class="btn btn-light w-25" :class="{ 'btn-primary':songIDs[index].diff === 'difficultyHard' }"  @click="setDifficulty(index, 'difficultyHard')">S{{ songIDs[index].difficultyHard }}</a>
+                  <a class="btn btn-light w-25" :class="{ 'btn-primary':songIDs[index].diff === 'difficultyAnother' }" @click="setDifficulty(index, 'difficultyAnother')">S{{ songIDs[index].difficultyAnother }}</a>
+                  <a class="btn btn-light w-25" :class="{ 'btn-primary':songIDs[index].diff === 'difficultyDoubleNormal' }" @click="setDifficulty(index, 'difficultyDoubleNormal')">D{{ songIDs[index].difficultyDoubleNormal }}</a>
+                  <a class="btn btn-light w-25" :class="{ 'btn-primary':songIDs[index].diff === 'difficultyDoubleHard' }" @click="setDifficulty(index, 'difficultyDoubleHard')">D{{ songIDs[index].difficultyDoubleHard }}</a>
+                  <a class="btn btn-light w-25" :class="{ 'btn-primary':songIDs[index].diff === 'difficultyDoubleAnother' }" @click="setDifficulty(index, 'difficultyDoubleAnother')">D{{ songIDs[index].difficultyDoubleAnother }}</a>
+                  <a class="btn btn-light text-danger w-25" @click="deleteSong(index)"><i class="fa fa-trash-alt"></i></a>
+                </div>
+              </div>
+              <a class="btn btn-primary" @click="addSong('songIDs')">Add Song</a>
+              <p v-if="invalidInput">One or more input fields are invalid. Please check your provided data.</p>
+              <p v-if="error">{{ error }}</p>
+              <div class="form-group" v-if="enteredName.trim().length > 0">
+                <hr>
+                <button class="btn btn-primary"><i class="fa fa-paper-plane"></i> Submit</button>
+                <router-link to="/" class="btn btn-outline-primary ms-3" href="#" type="button" role="button"><i class="fa fa-home"></i> Back</router-link>
+              </div>
             </div>
           </div>
         </form>
@@ -77,6 +87,12 @@ export default {
     }
   },
   methods: {
+    courseUpdateSwitch() {
+      this.courseUpdate = !this.courseUpdate;
+      if (this.courseUpdate === false) {
+        this.reset();
+      }
+    },
     submitCourse() {
       this.invalidInput = false;
       this.error = null;
@@ -115,7 +131,16 @@ export default {
         });
     },
     addSong(toUpdate) {
-      this[toUpdate].push('');
+      this[toUpdate].push({
+        id: '',
+        diff: '',
+        difficultyNormal: '-',
+        difficultyHard: '-',
+        difficultyAnother: '-',
+        difficultyDoubleNormal: '-',
+        difficultyDoubleHard: '-',
+        difficultyDoubleAnother: '-',
+      });
     },
     deleteSong(index) {
       this.songIDs.splice(index, 1);
@@ -126,6 +151,9 @@ export default {
       } else {
         return num;
       }
+    },
+    setDifficulty(index, difficulty) {
+      this.songIDs[index].diff = difficulty;
     },
     async getGameSongs() {
       const token = this.$store.getters.token;
@@ -141,6 +169,12 @@ export default {
         const song = {
           id: responseData[key].id,
           name: responseData[key].name,
+          difficultyNormal: responseData[key].difficultyNormal,
+          difficultyHard: responseData[key].difficultyHard,
+          difficultyAnother: responseData[key].difficultyAnother,
+          difficultyDoubleNormal: responseData[key].difficultyDoubleNormal,
+          difficultyDoubleHard: responseData[key].difficultyDoubleHard,
+          difficultyDoubleAnother: responseData[key].difficultyDoubleAnother,
         };
         songs.push(song);
       }
@@ -153,6 +187,13 @@ export default {
     },
     displayEnteredRating() {
       return this.setNumber(this.enteredRating);
+    },
+    isSongName() {
+      if (this.enteredName === "") {
+        return false;
+      } else {
+        return true;
+      }
     },
   },
   watch: {
