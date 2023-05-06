@@ -24,6 +24,11 @@
                 <label for="songName">Course Name</label>
                 <input class="form-control" type="text" id="songName" v-model="enteredName" />
               </div>
+              <div class="mt-3">
+                <label class="w-100" for="songName">Play style</label>
+                <a class="btn btn-primary" @click="courseDoubleSwitch" :class="courseDouble === false ? 'btn-primary' : 'btn-light'"><i class="fa fa-compact-disc"></i> Single Courses</a>
+                <a class="btn btn-primary" @click="courseDoubleSwitch" :class="courseDouble === true ? 'btn-primary' : 'btn-light'"><i class="fa fa-compact-disc"></i> <i class="fa fa-compact-disc"></i> Double Courses</a>
+              </div>
               <div class="form-group">
                 <label for="formControlRangeN">Course rating <h3>
                   <span v-for="n in 5" :key="n"><i class="fa fa-star" :class="n <= enteredRating ? 'text-primary' : 'text-light'"></i></span></h3>
@@ -34,18 +39,18 @@
                 <label for="songName">Song {{ index + 1 }}</label>
                 <div class="input-group mb-0">
                   <select class="form-select " v-model="songIDs[index]">
-                    <option class="dropdown-item " v-for="song in songList" :key="song.id" :value="song">
-                      {{ song }}
+                    <option class="dropdown-item text-theme-1" v-for="song in songList" :key="song.id" :value="song">
+                      {{ song.name }}
                     </option>
                   </select>
                 </div>
                 <div class="mb-2">
-                  <a class="btn btn-light w-25" :class="{ 'btn-primary':songIDs[index].diff === 'difficultyNormal' }" @click="setDifficulty(index, 'difficultyNormal')">S{{ songIDs[index].difficultyNormal }}</a>
-                  <a class="btn btn-light w-25" :class="{ 'btn-primary':songIDs[index].diff === 'difficultyHard' }"  @click="setDifficulty(index, 'difficultyHard')">S{{ songIDs[index].difficultyHard }}</a>
-                  <a class="btn btn-light w-25" :class="{ 'btn-primary':songIDs[index].diff === 'difficultyAnother' }" @click="setDifficulty(index, 'difficultyAnother')">S{{ songIDs[index].difficultyAnother }}</a>
-                  <a class="btn btn-light w-25" :class="{ 'btn-primary':songIDs[index].diff === 'difficultyDoubleNormal' }" @click="setDifficulty(index, 'difficultyDoubleNormal')">D{{ songIDs[index].difficultyDoubleNormal }}</a>
-                  <a class="btn btn-light w-25" :class="{ 'btn-primary':songIDs[index].diff === 'difficultyDoubleHard' }" @click="setDifficulty(index, 'difficultyDoubleHard')">D{{ songIDs[index].difficultyDoubleHard }}</a>
-                  <a class="btn btn-light w-25" :class="{ 'btn-primary':songIDs[index].diff === 'difficultyDoubleAnother' }" @click="setDifficulty(index, 'difficultyDoubleAnother')">D{{ songIDs[index].difficultyDoubleAnother }}</a>
+                  <a v-if="courseDouble === false" class="btn  w-25" :class="songIDs[index].diff === 'difficultyNormal'? 'btn-primary' : 'btn-light'" @click="setDifficulty(index, 'difficultyNormal', songIDs[index].difficultyNormal)">S{{ songIDs[index].difficultyNormal }}</a>
+                  <a v-if="courseDouble === false" class="btn w-25" :class="songIDs[index].diff === 'difficultyHard' ? 'btn-primary' : 'btn-light'"  @click="setDifficulty(index, 'difficultyHard', songIDs[index].difficultyHard)">S{{ songIDs[index].difficultyHard }}</a>
+                  <a v-if="courseDouble === false" class="btn w-25" :class="songIDs[index].diff === 'difficultyAnother' ? 'btn-primary' : 'btn-light'" @click="setDifficulty(index, 'difficultyAnother', songIDs[index].difficultyAnother)">S{{ songIDs[index].difficultyAnother }}</a>
+                  <a v-if="courseDouble === true" class="btn w-25" :class="songIDs[index].diff === 'difficultyDoubleNormal'? 'btn-primary' : 'btn-light'" @click="setDifficulty(index, 'difficultyDoubleNormal', songIDs[index].difficultyDoubleNormal)">D{{ songIDs[index].difficultyDoubleNormal }}</a>
+                  <a v-if="courseDouble === true" class="btn w-25" :class="songIDs[index].diff === 'difficultyDoubleHard' ? 'btn-primary' : 'btn-light'" @click="setDifficulty(index, 'difficultyDoubleHard', songIDs[index].difficultyDoubleHard)">D{{ songIDs[index].difficultyDoubleHard }}</a>
+                  <a v-if="courseDouble === true" class="btn w-25" :class="songIDs[index].diff === 'difficultyDoubleAnother' ? 'btn-primary' : 'btn-light'" @click="setDifficulty(index, 'difficultyDoubleAnother', songIDs[index].difficultyDoubleAnother)">D{{ songIDs[index].difficultyDoubleAnother }}</a>
                   <a class="btn btn-light text-danger w-25" @click="deleteSong(index)"><i class="fa fa-trash-alt"></i></a>
                 </div>
               </div>
@@ -82,16 +87,33 @@ export default {
       gameChoises: [],
       lastSubmittedID: '',
       songList: [],
+      courseDouble: false,
       courseUpdate: false,
       type: 'singles'
     }
   },
   methods: {
+    reset() {
+      this.songIDs = [];
+      this.CourseID = "";
+      this.enteredName = "";
+      this.enteredRating = 1;
+      this.invalidInput = false;
+      this.error = null;
+      this.submitted = false;
+      this.lastSubmittedID = "";
+      this.courseDouble = false;
+      this.courseUpdate = false;
+      this.invalidInput = false;
+    },
     courseUpdateSwitch() {
       this.courseUpdate = !this.courseUpdate;
       if (this.courseUpdate === false) {
         this.reset();
       }
+    },
+    courseDoubleSwitch() {
+      this.courseDouble = !this.courseDouble;
     },
     submitCourse() {
       this.invalidInput = false;
@@ -100,9 +122,23 @@ export default {
         this.invalidInput = true;
         return;
       }
+      if (this.songIDs.length <= 0) {
+        this.invalidInput = true;
+        return;
+      }
+      if (this.courseDouble === false) {
+        this.type = 'singles';
+      } else {
+        this.type = 'doubles';
+      }
+
+      // Remove the unwanted properties from each songID
+      // eslint-disable-next-line no-unused-vars
+      const sanitizedSongIDs = this.songIDs.map(({ difficultyAnother, difficultyDoubleAnother, difficultyDoubleHard, difficultyDoubleNormal, difficultyHard, difficultyNormal, ...rest }) => rest);
+
       const course = {
         name: this.enteredName,
-        songIDs: this.songIDs,
+        songIDs: sanitizedSongIDs,
         gameID: this.gameID,
         rating: this.enteredRating,
         type: this.type,
@@ -152,8 +188,9 @@ export default {
         return num;
       }
     },
-    setDifficulty(index, difficulty) {
+    setDifficulty(index, difficulty, value) {
       this.songIDs[index].diff = difficulty;
+      this.songIDs[index].value = value;
     },
     async getGameSongs() {
       const token = this.$store.getters.token;

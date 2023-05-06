@@ -8,6 +8,7 @@
         <div class="container-fluid">
           <div class="row">
 
+            <!--TODO: Courses Cards-->
             <div v-for="n in 5" :key="n" class="col-12 col-md-6 col-lg-4 col-xxl-3 mb-3">
               <div class="card border-primary">
                 <div class="card-header bg-primary">
@@ -62,22 +63,11 @@
       </div>
     </div>
   </div>
-  <add-song-modal
-      @close="hideDialog"
-      @addSongUser="addSongToUser"
-      :open="dialogIsVisible"
-      :infoSong="loadInfoSong"
-  ></add-song-modal>
-  <add-filter-modal
-      @close="hideFilter"
-      @addFilter="addFilter"
-      :open="filterVisible"
-  ></add-filter-modal>
+<!--TODO: Courses update modal-->
 </template>
 <script>
-import AddFilterModal from "@/components/UI/AddFilterModal";
 export default {
-  components: {AddFilterModal},
+  components: {},
   emits: ['loaded'],
   name: 'SettingsScreen',
   data() {
@@ -121,31 +111,26 @@ export default {
         return 'bg-dark';
       }
     },
-    async loadPage(selectedGame, theSongs) {
+    async loadPage(selectedGame, theCourses) {
       this.loading = true;
-      const userSongsAddition = await this.getUserSongs();
-      const mergedUserSongs = [];
-      for (const song of theSongs) {
+      const userSongsAddition = await this.getUserCourses();
+      const mergedUserCourses = [];
+      for (const song of theCourses) {
         const userSong = userSongsAddition.find((sung) => sung.id == song.id);
         if (userSong) {
-          userSong.difficultyNormal = song.difficultyNormal;
-          userSong.difficultyHard = song.difficultyHard;
-          userSong.difficultyAnother = song.difficultyAnother;
           userSong.name = song.name;
-          userSong.artist = song.artist;
-          mergedUserSongs.push(userSong);
+          mergedUserCourses.push(userSong);
         } else {
-          mergedUserSongs.push(song);
+          mergedUserCourses.push(song);
         }
       }
 
-      const filteredSongs = this.addFilters(mergedUserSongs);
       this.game = selectedGame;
-      this.setSongs = filteredSongs;
+      this.setSongs = mergedUserCourses;
       this.loading = false;
     },
-    async getUserSongs() {
-      return await this.$store.getters['getUserSongs'];
+    async getUserCourses() {
+      return await this.$store.getters['getUserCourses'];
     },
     loadSongs() {
       this.$store.dispatch('songs/loadSongs');
@@ -250,7 +235,7 @@ export default {
     },
     async reset() {
       this.isLoaded = true;
-      const songsToLoad = await this.$store.getters['songs/getSongsByGame'](this.gameID);
+      const songsToLoad = await this.$store.getters['courses/getCourseByGame'](this.gameID);
       const selectedGame = await this.$store.getters['games/getGames'].find((game) => game.id == this.gameID);
       await this.loadPage(selectedGame, songsToLoad);
       this.$emit('loaded', true);
