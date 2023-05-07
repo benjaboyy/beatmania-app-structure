@@ -217,7 +217,6 @@ export default {
                 }
               }
             }
-            console.log(song);
             if (this.filters.filterFavorite) {
               if (!song.favorite) {
                 matchesFilter = false;
@@ -239,9 +238,6 @@ export default {
       this.isLoaded = true;
       const songsToLoad = await this.$store.getters['courses/getCourseByGame'](this.gameID);
       const selectedGame = await this.$store.getters['games/getGames'].find((game) => game.id == this.gameID);
-      console.log('list courses');
-      console.log(songsToLoad);
-      console.log(this.gameID);
       await this.loadPage(selectedGame, songsToLoad);
       this.$emit('loaded', true);
       this.isLoaded = false;

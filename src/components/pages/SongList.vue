@@ -259,7 +259,6 @@ export default {
                 }
               }
             }
-            console.log(song);
             if (this.filters.filterFavorite) {
               if (!song.favorite) {
                 matchesFilter = false;

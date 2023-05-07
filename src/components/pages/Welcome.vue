@@ -193,8 +193,6 @@ export default {
   created() {
     this.setBaseStats();
     this.calculateStats();
-    console.log(this.gamestats);
-    console.log(this.filteredGames);
   },
   props: {
     msg: String,

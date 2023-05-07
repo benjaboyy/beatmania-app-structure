@@ -16,7 +16,6 @@ export default {
             await fetch('https://beatmania-pro-default-rtdb.europe-west1.firebasedatabase.app/courses.json?auth=' + token)
                 .then((response) => {
                     if (response.ok) {
-                        console.log(response);
                         return response.json();
                     }
                 })
