@@ -3,18 +3,21 @@
     <h1 class="text-center my-4">Welcome DJ {{ userName }}</h1>
     <div class="card">
       <div class="card-body">
-        <h3>Admin</h3>
-        <router-link to="/submitSong" class="btn btn-light me-2 mb-2" href="#" type="button" role="button">Update Song</router-link>
-        <router-link to="/submitGame" class="btn btn-light me-2 mb-2" href="#" type="button" role="button">Update Game</router-link>
-        <router-link to="/submitCourse" class="btn btn-light me-2 mb-2" href="#" type="button" role="button">Update Course</router-link>
-        <a class="btn-primary btn me-2 mb-2" @click="testToken" href="#" type="button" role="button">Update stats</a>
+        <h3>Admin Panel</h3>
+        <router-link to="/submitSong" class="btn btn-sm btn-light me-2 mb-2" href="#" type="button" role="button">Update Song</router-link>
+        <router-link to="/submitGame" class="btn btn-sm btn-light me-2 mb-2" href="#" type="button" role="button">Update Game</router-link>
+        <router-link to="/submitCourse" class="btn btn-sm btn-light me-2 mb-2" href="#" type="button" role="button">Update Course</router-link>
+        <router-link to="/import" class="btn btn-sm btn-theme-1 me-2 mb-2" href="#" type="button" role="button">Song to JSON</router-link>
+        <a class="btn btn-sm btn-primary me-2 mb-2" @click="testToken" href="#" type="button" role="button">Update stats</a>
       </div>
     </div>
     <div class="row">
       <div v-for="game in filteredGames" v-bind:key="game" class="col-md-6 mt-4">
         <div class="card">
           <div class="card-body">
-            <h3>{{ game.name }} <i class="icon icon-5k text-primary"></i></h3>
+            <span class="p-2 bg-dark text-white float-end"><strong>5K</strong></span>
+            <h3><strong>{{ game.name }}</strong></h3>
+
             <p>
               <span class="text-primary">Songs: </span>{{ gamestats[game.id].songs }}<br>
 

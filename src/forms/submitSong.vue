@@ -270,7 +270,7 @@ export default {
   },
   computed: {
     songIDRandom() {
-      return this.enteredArtist.trim().replace(/\s/g, '') + Math.floor(Math.random() * 9999);
+      return this.enteredArtist.trim().replace(/[^\w\s]/g, '') + Math.floor(Math.random() * 9999);
     },
     getGames() {
       return this.$store.getters["games/getGames"];

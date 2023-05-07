@@ -18,6 +18,7 @@ import './assets/main.css'
 import './assets/css/all.css'
 
 import store from './store/index.js'
+import importSongs from "@/components/pages/ImportSongs";
 
 const router = createRouter({
     history: createWebHistory(),
@@ -31,6 +32,7 @@ const router = createRouter({
         { path: '/submitSong', component: submitSong, meta: { requiresAuth: true } },
         { path: '/submitGame', component: submitGame, meta: { requiresAuth: true } },
         { path: '/submitCourse', component: submitCourse, meta: { requiresAuth: true } },
+        { path: '/import', component: importSongs, meta: { requiresAuth: true } },
         { path: '/register', component: RegisterUser },
         { path: '/:notFound(.*)', redirect: '/welcome'},
     ],
