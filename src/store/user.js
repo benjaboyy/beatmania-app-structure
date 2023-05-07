@@ -4,6 +4,7 @@ export default {
     state() {
         return {
             userSongs: [],
+            userCourses: [],
             user: {},
             userId: '',
             token: '',
@@ -39,6 +40,9 @@ export default {
         },
         setUserSongs(state, payload) {
             state.userSongs = payload;
+        },
+        setUserCourses(state, payload) {
+            state.userCourses = payload;
         },
         addSong(state, payload) {
             const index = state.userSongs.findIndex(s => s.id === payload.id);
@@ -222,6 +226,31 @@ export default {
 
             context.commit('setUserSongs', userSongs);
         },
+        async loadUserCourses(context) {
+            const userId = context.getters.userId;
+            const token = context.getters.token;
+            const response = await fetch(`https://beatmania-pro-default-rtdb.europe-west1.firebasedatabase.app/users/${userId}/courses.json?auth=` + token);
+            const responseData = await response.json();
+
+            if (!response.ok) {
+                alert('Error while logging in');
+            }
+            const userCourses = [];
+
+            for (const key in responseData) {
+                const course = {
+                    id: responseData[key].id,
+                    name: responseData[key].name,
+                    score: responseData[key].score,
+                    clear: responseData[key].clear,
+                    fc: responseData[key].fc,
+                    favorite: responseData[key].favorite,
+                }
+                userCourses.push(course)
+            }
+
+            context.commit('setUserCourses', userCourses);
+        },
         async auth(context, payload) {
             let url = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyA-o_3wteXq2TeoHwnVC5fCSyr_dzVd_j0';
             const response = await fetch(url, {
@@ -298,6 +327,9 @@ export default {
     getters: {
         getUserSongs(state) {
             return state.userSongs;
+        },
+        getUserCourses(state) {
+            return state.userCourses;
         },
         userId(state) {
             return state.userId;

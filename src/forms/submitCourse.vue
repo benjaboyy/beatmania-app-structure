@@ -139,7 +139,7 @@ export default {
       const course = {
         name: this.enteredName,
         songIDs: sanitizedSongIDs,
-        gameID: this.gameID,
+        id: this.enteredName.trim().replace(/\s/g, ''),
         rating: this.enteredRating,
         type: this.type,
       };

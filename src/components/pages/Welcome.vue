@@ -118,6 +118,7 @@ export default {
       await this.$store.dispatch('songs/loadSongs');
       await this.$store.dispatch('courses/loadCourses');
       await this.$store.dispatch('loadUserSongs');
+      await this.$store.dispatch('loadUserCourses');
       await this.calculateStats();
     },
     async calculateStats() {

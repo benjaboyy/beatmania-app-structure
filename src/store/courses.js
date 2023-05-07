@@ -13,9 +13,10 @@ export default {
     actions: {
         async loadCourses(context) {
             const token = context.rootGetters.token;
-            await fetch('https://beatmania-pro-default-rtdb.europe-west1.firebasedatabase.app/cources.json?auth=' + token)
+            await fetch('https://beatmania-pro-default-rtdb.europe-west1.firebasedatabase.app/courses.json?auth=' + token)
                 .then((response) => {
                     if (response.ok) {
+                        console.log(response);
                         return response.json();
                     }
                 })
@@ -47,11 +48,11 @@ export default {
             return state.courseByGame;
         },
         getCourseByGame: (state) => (game) => {
-            const cources = [];
+            const courses = [];
             const gameData = state.courseByGame[game];
             if (gameData) {
                 for (const key in gameData) {
-                    cources.push({
+                    courses.push({
                         id: gameData[key].id,
                         name: gameData[key].name,
                         rating: gameData[key].rating,
@@ -60,7 +61,7 @@ export default {
                     });
                 }
             }
-            return cources;
+            return courses;
         }
     }
 }
