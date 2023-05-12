@@ -6,8 +6,13 @@
         <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" v-model="excelData"></textarea>
         <button class="btn btn-primary mt-2" @click="convertToJSON">Convert</button>
         <button v-if="convertedJSON" class="btn btn-success mt-2 ms-2" @click="copyToClipboard">Copy JSON to Clipboard</button>
-        <div class="bg-ligh p-3">
-          <pre v-if="convertedJSON" class="mt-4">{{ convertedJSON }}</pre>
+        <div class="bg-light p-3 mt-3">
+          <pre v-if="convertedJSON" class="m-0">{{ convertedJSON }}</pre>
+          <pre v-else class="m-0">Press convert to make JSON <br>
+Format copied from excel:
+2	-	-	-	-	-	2 gorgeous 4U	prophet-31
+-	-	-	1	-	-	greed eater	The Dust Fathers
+4	5	6	4	6	8	20,november	DJ nagureo</pre>
         </div>
       </div>
     </div>
@@ -38,21 +43,27 @@ export default {
         const songname = cells[6];
         const id = cells[7].trim().replace(/[^\w\s]/g, '') + Math.floor(Math.random() * 9999);
 
-        json[`${id}`] = {
+        const difficulty = {
+          difficultyNormal: cells[0] === '' || cells[0] === '-' ? '0' : cells[0].toString(),
+          difficultyHard: cells[1] === '' || cells[1] === '-' ? '0' : cells[1].toString(),
+          difficultyAnother: cells[2] === '' || cells[2] === '-' ? '0' : cells[2].toString(),
+          difficultyDoubleNormal: cells[3] === '' || cells[3] === '-' ? '0' : cells[3].toString(),
+          difficultyDoubleHard: cells[4] === '' || cells[4] === '-' ? '0' : cells[4].toString(),
+          difficultyDoubleAnother: cells[5] === '' || cells[5] === '-' ? '0' : cells[5].toString(),
+        };
+
+        const songData = {
           artist: artistname,
-          difficultyAnother: cells[0].toString(),
-          difficultyDoubleAnother: cells[1].toString(),
-          difficultyDoubleHard: cells[2].toString(),
-          difficultyDoubleNormal: cells[3].toString(),
-          difficultyHard: cells[4].toString(),
-          difficultyNormal: cells[5].toString(),
           id: `${id}`,
           name: songname,
+          ...(Object.values(difficulty).some((value) => value !== undefined) && { ...difficulty }),
         };
+        json[`${id}`] = songData;
       });
 
       this.convertedJSON = JSON.stringify(json, null, 2);
     },
+
     copyToClipboard() {
       const textarea = document.createElement('textarea');
       textarea.value = this.convertedJSON;
