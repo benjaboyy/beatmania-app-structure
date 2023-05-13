@@ -103,7 +103,7 @@ import AddFilterModal from "@/components/UI/AddFilterModal";
 export default {
   components: {AddFilterModal},
   emits: ['loaded'],
-  name: 'SettingsScreen',
+  name: 'SongList',
   data() {
     return {
       game: '',

@@ -56,12 +56,18 @@
     </div>
   </div>
 <!--TODO: Courses update modal-->
+  <add-course-modal
+      @close="hideDialog"
+      @addSongUser="addSongToUser"
+      :open="dialogIsVisible"
+      :infoSong="loadInfoSong"
+  ></add-course-modal>
 </template>
 <script>
 export default {
   components: {},
   emits: ['loaded'],
-  name: 'SettingsScreen',
+  name: 'CourseList',
   data() {
     return {
       game: '',
@@ -160,7 +166,7 @@ export default {
       }
     },
     async addSongToUser(data) {
-      await this.$store.dispatch('addSongToUser', data);
+      await this.$store.dispatch('addCourseToUser', data);
       await this.reset();
     },
     addFilters(songs) {

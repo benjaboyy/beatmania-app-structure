@@ -10,6 +10,7 @@ import SongList from "@/components/pages/SongList.vue";
 import submitSong from "@/forms/submitSong";
 import submitGame from "@/forms/submitGame";
 import AddSongModal from "@/components/UI/AddSongModal";
+import AddCourseModal from "@/components/UI/AddCourseModal";
 import RegisterUser from "@/forms/user/RegisterUser";
 import submitCourse from "@/forms/submitCourse";
 import CourseList from "@/components/pages/CourseList";
