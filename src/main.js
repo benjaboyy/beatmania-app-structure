@@ -53,6 +53,7 @@ router.beforeEach(function(to, from, next) {
 const app = createApp(App)
 app.component('header-app', HeaderApp);
 app.component('add-song-modal', AddSongModal);
+app.component('add-course-modal', AddCourseModal);
 
 app.use(store);
 

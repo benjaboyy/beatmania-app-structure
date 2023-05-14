@@ -2,7 +2,21 @@
   <div v-if="open" class="backdrop" @click="$emit('close')"></div>
   <transition name="modal">
     <dialog open v-if="open">
-      TEST
+      <h3>{{ infoSong.name }}</h3>
+      <span v-for="n in 5" :key="n"><i class="fa fa-star h3" :class="n <= infoSong.rating ? 'text-primary' : 'text-dark'"></i></span>
+      <br>
+      <span>{{ infoSong.type }}</span>
+      <hr>
+      <div class="input-group mb-3  input-group-lg">
+        <input placeholder="Score" type="text" class="form-control" id="scoreNormal" v-model="score" />
+        <input placeholder="Rating" type="text" class="form-control" id="scoreNormal" v-model="rating" />
+        <a class="btn" :class="clear ? 'bg-primary text-white' : 'bg-light text-primary'" @click="toggleClear">Clear</a>
+        <a class="btn" :class="FC ? 'bg-primary text-white flash' : 'bg-light text-primary'" @click="toggleFC">FC</a>
+      </div>
+      <div class="d-grid gap-2">
+        <button class="btn" @click="toggleFavorite" :class="favorite ? 'btn-primary' : 'bg-outline-primary'"><i class="fa fa-heart" :class="favorite ? 'text-white' : 'text-primary'"></i> Favorite</button>
+        <button class="btn btn-dark" @click="hideDialog"><i class="fa fa-save text-white"></i> Save song</button>
+      </div>
     </dialog>
   </transition>
 </template>
@@ -23,24 +37,10 @@ export default {
   emits: ['close', 'addSongUser'],
   data() {
     return {
-      scoreNormal: '',
-      normalFC: false,
-      normalClear: false,
-      scoreHard: '',
-      hardFC: false,
-      hardClear: false,
-      scoreAnother: '',
-      anotherFC: false,
-      anotherClear: false,
-      scoreDoubleNormal: '',
-      normalDoubleFC: false,
-      normalDoubleClear: false,
-      scoreDoubleHard: '',
-      hardDoubleFC: false,
-      hardDoubleClear: false,
-      scoreDoubleAnother: '',
-      anotherDoubleFC: false,
-      anotherDoubleClear: false,
+      FC: false,
+      clear: false,
+      score: '',
+      rating: '',
       favorite: false
     }
   },
@@ -49,64 +49,18 @@ export default {
       this.$emit('close');
       this.$emit('addSongUser', {
         id: this.infoSong.id,
-        artist: this.infoSong.artist,
-        scoreNormal: this.scoreNormal,
-        normalFC: this.normalFC,
-        normalClear: this.normalClear,
-        scoreHard: this.scoreHard,
-        hardFC: this.hardFC,
-        hardClear: this.hardClear,
-        scoreAnother: this.scoreAnother,
-        anotherFC: this.anotherFC,
-        anotherClear: this.anotherClear,
-        scoreDoubleNormal: this.scoreDoubleNormal,
-        normalDoubleFC: this.normalDoubleFC,
-        normalDoubleClear: this.normalDoubleClear,
-        scoreDoubleHard: this.scoreDoubleHard,
-        hardDoubleFC: this.hardDoubleFC,
-        hardDoubleClear: this.hardDoubleClear,
-        scoreDoubleAnother: this.scoreDoubleAnother,
-        anotherDoubleFC: this.anotherDoubleFC,
-        anotherDoubleClear: this.anotherDoubleClear,
+        score: this.score,
+        FC: this.FC,
+        clear: this.clear,
         favorite: this.favorite
       });
 
     },
-    toggleNormalFC() {
-      this.normalFC = !this.normalFC;
+    toggleFC() {
+      this.FC = !this.FC;
     },
-    toggleNormalClear() {
-      this.normalClear = !this.normalClear;
-    },
-    toggleHardFC() {
-      this.hardFC = !this.hardFC;
-    },
-    toggleHardClear() {
-      this.hardClear = !this.hardClear;
-    },
-    toggleAnotherFC() {
-      this.anotherFC = !this.anotherFC;
-    },
-    toggleAnotherClear() {
-      this.anotherClear = !this.anotherClear;
-    },
-    toggleNormalDoubleFC() {
-      this.normalDoubleFC = !this.normalDoubleFC;
-    },
-    toggleNormalDoubleClear() {
-      this.normalDoubleClear = !this.normalDoubleClear;
-    },
-    toggleHardDoubleFC() {
-      this.hardDoubleFC = !this.hardDoubleFC;
-    },
-    toggleHardDoubleClear() {
-      this.hardDoubleClear = !this.hardDoubleClear;
-    },
-    toggleAnotherDoubleFC() {
-      this.anotherDoubleFC = !this.anotherDoubleFC;
-    },
-    toggleAnotherDoubleClear() {
-      this.anotherDoubleClear = !this.anotherDoubleClear;
+    toggleClear() {
+      this.clear = !this.clear;
     },
     toggleFavorite() {
       this.favorite = !this.favorite;
@@ -115,24 +69,9 @@ export default {
   watch: {
     open() {
       if (this.open) {
-        this.scoreNormal = this.infoSong.normalScore
-        this.normalFC = this.infoSong.normalFC;
-        this.normalClear = this.infoSong.normalClear;
-        this.scoreHard = this.infoSong.hardScore;
-        this.hardFC = this.infoSong.hardFC;
-        this.hardClear = this.infoSong.hardClear;
-        this.scoreAnother = this.infoSong.anotherScore;
-        this.anotherFC = this.infoSong.anotherFC;
-        this.anotherClear = this.infoSong.anotherClear;
-        this.scoreDoubleNormal = this.infoSong.scoreDoubleNormal;
-        this.normalDoubleFC = this.infoSong.normalDoubleFC;
-        this.normalDoubleClear = this.infoSong.normalDoubleClear;
-        this.scoreDoubleHard = this.infoSong.scoreDoubleHard;
-        this.hardDoubleFC = this.infoSong.hardDoubleFC;
-        this.hardDoubleClear = this.infoSong.hardDoubleClear;
-        this.scoreDoubleAnother = this.infoSong.scoreDoubleAnother;
-        this.anotherDoubleFC = this.infoSong.anotherDoubleFC;
-        this.anotherDoubleClear = this.infoSong.anotherDoubleClear;
+        this.score = this.infoSong.normal;
+        this.FC = this.infoSong.FC;
+        this.clear = this.infoSong.clear;
         this.favorite = this.infoSong.favorite;
       }
     }

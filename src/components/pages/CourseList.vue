@@ -11,40 +11,39 @@
           <div class="row">
 
             <!--TODO: Courses Cards-->
-            <div v-for="course in setCourses" :key="course.id" class="col-12 col-md-6 col-lg-4 col-xxl-3 mb-3">
-              <div class="card border-primary">
-                <div class="card-header bg-primary">
-                </div>
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col-9 text-start">
-                      <h2 class="text-dark mb-0">{{ course.name }}</h2>
-                      <span v-for="n in 5" :key="n">
-                        <i class="fa fa-star" :class="n <= course.rating ? 'text-primary' : 'text-dark'"></i>
-                      </span>
-                    </div>
-<!--                    <div class="col-3 d-flex">-->
-<!--                      <span class="header-text m-auto"><i class="fa fa-heart text-dark"></i></span>-->
-<!--                    </div>-->
-                    <div class="col-3">
-                      <div class="bg-primary w-100 h-100 d-flex">
-                        <span class="text-white fw-bolder header-text m-auto">A</span>
+            <div v-for="course in setCourses" :key="course.id">
+              <div v-if="course.type === getType" class="col-12 col-md-6 col-lg-4 col-xxl-3 mb-3">
+                <div class="card border-primary">
+                  <div class="card-header bg-primary">
+                  </div>
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-9 text-start">
+                        <h2 class="text-dark mb-2">{{ course.name }}</h2>
+                        <span v-for="n in 5" :key="n">
+                          <i class="fa fa-star h4" :class="n <= course.rating ? 'text-primary' : 'text-light'"></i>
+                        </span>
+                      </div>
+                      <div class="col-3">
+                        <div class="bg-primary w-100 h-100 d-flex">
+                          <span class="text-white fw-bolder header-text m-auto">A</span>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <hr>
-                  <table class="w-100 text-start table table-borderless table-sm mb-0">
-                    <tr v-for="(song, index) in course.songIDs" :key="song.id">
-                      <td style="width: 10px">#{{ index + 1 }}</td>
-                      <th class="w-50">{{ song.name }}</th>
-                      <th class="text-end">
-                        <span class="text-white p-2 px-3" :class="setBG(song.diff)">{{ song.value }}</span>
-                      </th>
-                    </tr>
-                  </table>
-<!--                  update button-->
-                  <div class="text-start mt-2">
-                    <button class="btn btn-primary btn-sm" @click="showDialog(course)">Update</button>
+                    <hr>
+                    <table class="w-100 text-start table table-borderless table-sm mb-0">
+                      <tr v-for="(song, index) in course.songIDs" :key="song.id">
+                        <td style="width: 10px">#{{ index + 1 }}</td>
+                        <th class="w-50">{{ song.name }}</th>
+                        <th class="text-end">
+                          <span class="text-white p-2 px-3" :class="setBG(song.diff)">{{ song.value }}</span>
+                        </th>
+                      </tr>
+                    </table>
+                    <!--                  update button-->
+                    <div class="text-start mt-2">
+                      <button class="btn btn-primary btn-sm" @click="showDialog(course)">Update</button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -252,6 +251,13 @@ export default {
   computed: {
     loadInfoSong() {
       return this.infoSong;
+    },
+    getType() {
+      if (this.courseDouble) {
+        return 'doubles';
+      } else {
+        return 'singles';
+      }
     },
   },
   created() {
