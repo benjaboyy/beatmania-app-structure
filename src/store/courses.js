@@ -24,15 +24,15 @@ export default {
                     for (const gameKey in data) {
                         const gameData = data[gameKey];
                         courseByGame[gameKey] = [];
-                        for (const courceKey in gameData) {
-                            const song = {
-                                id: gameData[courceKey].id,
-                                name: gameData[courceKey].name,
-                                rating: gameData[courceKey].rating,
-                                songIDs: gameData[courceKey].songIDs,
-                                type: gameData[courceKey].type,
+                        for (const courseKey in gameData) {
+                            const course = {
+                                id: gameData[courseKey].id,
+                                name: gameData[courseKey].name,
+                                rating: gameData[courseKey].rating,
+                                songIDs: gameData[courseKey].songIDs,
+                                type: gameData[courseKey].type,
                             };
-                            courseByGame[gameKey].push(song);
+                            courseByGame[gameKey].push(course);
                         }
                     }
                     context.commit('setCourseByGame', courseByGame);

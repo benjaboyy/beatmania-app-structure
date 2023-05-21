@@ -188,6 +188,9 @@ export default {
         return 'singles';
       }
     },
+    loadInfoSong() {
+      return this.infoSong;
+    },
   },
   created() {
     this.reset();

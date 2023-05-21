@@ -64,6 +64,7 @@ export default {
         await this.$store.dispatch('games/fetchGameSongs');
         await this.$store.dispatch('loadUser');
         await this.$store.dispatch('songs/loadSongs');
+        await this.$store.dispatch('courses/loadCourses');
         await this.$store.dispatch('loadUserSongs');
         await this.$store.dispatch('loadUserCourses');
         this.$emit('data', true);
