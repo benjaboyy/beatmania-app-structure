@@ -9,7 +9,7 @@
       <hr>
       <div class="input-group mb-3  input-group-lg">
         <input placeholder="Score" type="text" class="form-control" id="scoreNormal" v-model="score" />
-        <input placeholder="Rating" type="text" class="form-control" id="scoreNormal" v-model="rating" />
+        <input placeholder="Grade" type="text" class="form-control" id="scoreNormal" v-model="grade" />
         <a class="btn" :class="clear ? 'bg-primary text-white' : 'bg-light text-primary'" @click="toggleClear">Clear</a>
         <a class="btn" :class="FC ? 'bg-primary text-white flash' : 'bg-light text-primary'" @click="toggleFC">FC</a>
       </div>
@@ -34,24 +34,25 @@ export default {
       required: true
     }
   },
-  emits: ['close', 'addSongUser'],
+  emits: ['close', 'addCourseToUser'],
   data() {
     return {
       FC: false,
       clear: false,
       score: '',
-      rating: '',
+      grade: '',
       favorite: false
     }
   },
   methods: {
     hideDialog() {
       this.$emit('close');
-      this.$emit('addSongUser', {
+      this.$emit('addCourseToUser', {
         id: this.infoSong.id,
         score: this.score,
         FC: this.FC,
         clear: this.clear,
+        grade: this.grade,
         favorite: this.favorite
       });
 
@@ -73,6 +74,7 @@ export default {
         this.FC = this.infoSong.FC;
         this.clear = this.infoSong.clear;
         this.favorite = this.infoSong.favorite;
+        this.grade = this.infoSong.grade;
       }
     }
   }

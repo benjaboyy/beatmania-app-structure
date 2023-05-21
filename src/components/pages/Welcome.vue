@@ -68,14 +68,14 @@ export default {
     filteredGames() {
       const trackedGames = this.trackedGames;
       return this.games
-          .filter(game => {
-            const gameTrackInfo = trackedGames[game.id];
-            return gameTrackInfo && Object.values(gameTrackInfo).includes(true);
-          })
-          .map(game => ({
-            ...game,
-            trackedGame: trackedGames[game.id],
-          }));
+        .filter(game => {
+          const gameTrackInfo = trackedGames[game.id];
+          return gameTrackInfo && Object.values(gameTrackInfo).includes(true);
+        })
+        .map(game => ({
+          ...game,
+          trackedGame: trackedGames[game.id],
+        }));
     },
     trackedGames() {
       return this.$store.getters['getTrackGames'];

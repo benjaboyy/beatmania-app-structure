@@ -52,6 +52,14 @@ export default {
                 state.userSongs.push(payload);
             }
         },
+        addCourse(state, payload) {
+            const index = state.userCourses.findIndex(s => s.id === payload.id);
+            if (index !== -1) {
+                Object.assign(state.userCourses[index], payload);
+            } else {
+                state.userCourses.push(payload);
+            }
+        },
         didLogout(state) {
             state.didLogout = true;
         },
@@ -110,6 +118,31 @@ export default {
                 alert('Error while adding song');
             }
             context.commit('addSong', {
+                ...songData,
+            });
+        },
+        async addCourseToUser (context, payload) {
+            const userId = context.getters.userId;
+            const songID = payload.id;
+            const songData = {
+                id: payload.id,
+                name: payload.name,
+                normal: payload.score,
+                clear: payload.clear,
+                FC: payload.FC,
+                grade: payload.grade,
+                favorite: payload.favorite,
+            }
+
+            const token = context.getters.token;
+            const response = await fetch(`https://beatmania-pro-default-rtdb.europe-west1.firebasedatabase.app/users/${userId}/courses/${songID}.json?auth=` + token, {
+                method: 'put',
+                body: JSON.stringify(songData)
+            });
+            if (!response.ok) {
+                alert('Error while adding song');
+            }
+            context.commit('addCourse', {
                 ...songData,
             });
         },
@@ -245,6 +278,7 @@ export default {
                     clear: responseData[key].clear,
                     fc: responseData[key].fc,
                     favorite: responseData[key].favorite,
+                    grade: responseData[key].grade,
                 }
                 userCourses.push(course)
             }

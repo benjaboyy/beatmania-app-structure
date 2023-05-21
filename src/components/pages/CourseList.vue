@@ -17,7 +17,7 @@
                   <div class="card-header bg-primary">
                   </div>
                   <div class="card-body">
-                    <div class="row">
+                    <div class="row g-0">
                       <div class="col-9 text-start">
                         <h2 class="text-dark mb-2">{{ course.name }}</h2>
                         <span v-for="n in 5" :key="n">
@@ -25,8 +25,17 @@
                         </span>
                       </div>
                       <div class="col-3">
-                        <div class="bg-primary w-100 h-100 d-flex">
-                          <span class="text-white fw-bolder header-text m-auto">A</span>
+                        <div class="border-primary w-100 h-100 d-flex grade-border">
+                          <span class="text-primary fw-bolder header-text m-auto">
+                              <span v-if="course.clear || course.grade">
+                                <h6 v-if="course.FC" class="m-0">FULL-COMBO</h6>
+                                <h6 v-if="course.clear && !course.FC" class="m-0">CLEAR</h6>
+                                <div v-if="course.grade">
+                                  <span v-if="course.grade">{{ course.grade }}</span>
+                                </div>
+                              </span>
+                              <span v-else>-</span>
+                          </span>
                         </div>
                       </div>
                     </div>
@@ -57,7 +66,7 @@
 <!--TODO: Courses update modal-->
   <add-course-modal
       @close="hideDialog"
-      @addSongUser="addSongToUser"
+      @addCourseToUser="addCourseToUser"
       :open="dialogIsVisible"
       :infoSong="loadInfoSong"
   ></add-course-modal>
@@ -129,6 +138,9 @@ export default {
         const userSong = userCourseAddition.find((sung) => sung.id == song.id);
         if (userSong) {
           userSong.name = song.name;
+          userSong.type = song.type;
+          userSong.rating = song.rating;
+          userSong.songIDs = song.songIDs;
           mergedUserCourses.push(userSong);
         } else {
           mergedUserCourses.push(song);
@@ -146,112 +158,29 @@ export default {
       this.infoSong = content;
       this.dialogIsVisible = true;
     },
-    showFilter() {
-      this.filterVisible = true;
-    },
     hideDialog() {
       this.dialogIsVisible = false;
     },
-    hideFilter() {
-      this.filterVisible = false;
-    },
-    addFilter(data) {
-      if (data.filterLevel === 0 && data.filteredClear === '' && data.filterFavorite === false && this.searchWord === '') {
-        this.noFilter = true;
-        this.filters = {};
-      } else {
-        this.noFilter = false;
-        this.filters = data;
-      }
-    },
-    async addSongToUser(data) {
+    async addCourseToUser(data) {
       await this.$store.dispatch('addCourseToUser', data);
       await this.reset();
     },
-    addFilters(songs) {
-      if (this.noFilter === false) {
-        const filteredSongs = [];
-        const searchWord = this.searchWord.toLowerCase().trim();
-        for (const song of songs) {
-          let matchesFilter = true;
-          // Check if the song matches the search word
-          if (searchWord !== '') {
-            if (
-                !song.name.toLowerCase().includes(searchWord) &&
-                !song.artist.toLowerCase().includes(searchWord)
-            ) {
-              matchesFilter = false;
-            }
-          }
-          if (Object.keys(this.filters).length > 0) {
-            // filter songs based on the filters
-            if (this.filters.filterLevel > 0) {
-              if (
-                  song.difficultyNormal !== this.filters.filterLevel &&
-                  song.difficultyHard !== this.filters.filterLevel &&
-                  song.difficultyAnother !== this.filters.filterLevel
-              ) {
-                matchesFilter = false;
-              }
-            }
-
-            if (this.filters.filteredClear) {
-              if (this.filters.filteredClear === 'clear') {
-                if (
-                    (song.difficultyNormal > 0 && !song.normalClear) ||
-                    (song.difficultyHard > 0 && !song.hardClear) ||
-                    (song.difficultyAnother > 0 && !song.anotherClear)
-                ) {
-                  matchesFilter = false;
-                }
-              } else if (this.filters.filteredClear === 'fullcombo') {
-                if (
-                    !song.normalFC &&
-                    !song.hardFC &&
-                    !song.anotherFC
-                ) {
-                  matchesFilter = false;
-                }
-              } else if (this.filters.filteredClear === 'failed') {
-                if (
-                    (song.difficultyNormal < 1 || song.normalClear) &&
-                    (song.difficultyHard < 1 || song.hardClear) &&
-                    (song.difficultyAnother < 1 || song.anotherClear)
-                ) {
-                  matchesFilter = false;
-                }
-              }
-            }
-            if (this.filters.filterFavorite) {
-              if (!song.favorite) {
-                matchesFilter = false;
-              }
-            }
-          }
-
-          if (matchesFilter) {
-            filteredSongs.push(song);
-          }
-        }
-
-        return filteredSongs;
-      } else {
-        return songs;
-      }
-    },
     async reset() {
       this.isLoaded = true;
-      const songsToLoad = await this.$store.getters['courses/getCourseByGame'](this.gameID);
+      const coursesToLoad = await this.$store.getters['courses/getCourseByGame'](this.gameID);
       const selectedGame = await this.$store.getters['games/getGames'].find((game) => game.id == this.gameID);
-      await this.loadPage(selectedGame, songsToLoad);
+      await this.loadPage(selectedGame, coursesToLoad);
       this.$emit('loaded', true);
       this.isLoaded = false;
     },
+    loadSongs() {
+      this.$store.dispatch('songs/loadSongs');
+    },
+    loadCourse() {
+      this.$store.dispatch('courses/loadCourses');
+    },
   },
   computed: {
-    loadInfoSong() {
-      return this.infoSong;
-    },
     getType() {
       if (this.courseDouble) {
         return 'doubles';
@@ -264,6 +193,9 @@ export default {
     this.reset();
   },
   watch: {
+    gameID: function(newVal) {
+      this.loadCourse(newVal);
+    },
     filters: function() {
       this.reset();
     }
@@ -305,5 +237,8 @@ export default {
   }
   .bg-difficultyAnother {
     background-color: #0000ff;
+  }
+  .grade-border {
+    border: 3px solid;
   }
 </style>
