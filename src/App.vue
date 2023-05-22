@@ -1,20 +1,12 @@
 <template>
   <header-app v-if="isAuthenticated"></header-app>
-  <div v-if="!isLoaded" class="login-screen mt-5 px-2 mx-auto text-center">
-      <h2>Loading...</h2>
+  <div v-if="!isLoaded" class="login-screen mt-5 pt-5 px-2 mx-auto text-center">
+    <h1 class="display-2"><i class="fa fa-compact-disc fa-spin"></i></h1>
+    <h2>Loading...</h2>
   </div>
-  <router-view v-if="isLoaded" @loaded="loaded" @data="dataGetter"></router-view>
-  <ul class="nav nav-pills nav-justified position-fixed bottom-0 w-100 bg-light p-3">
-    <li class="nav-item">
-      <router-link to="/" class="nav-link active" href="#" type="button" role="button"><i class="fa fa-home"></i> Overview</router-link>
-    </li>
-    <li class="nav-item mx-3">
-      <router-link to="/settings" class="nav-link active" href="#" type="button" role="button"><i class="fa fa-cog"></i> Settings</router-link>
-    </li>
-    <li class="nav-item">
-      <a @click="logout" class="nav-link active"><i class="fa fa-sign-out-alt"></i> Logout</a>
-    </li>
-  </ul>
+  <div class="mt-5 pt-3">
+    <router-view v-if="isLoaded" @loaded="loaded" @data="dataGetter"></router-view>
+  </div>
 </template>
 
 <script>

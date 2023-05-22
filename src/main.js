@@ -20,6 +20,8 @@ import './assets/css/all.css'
 
 import store from './store/index.js'
 import importSongs from "@/components/pages/ImportSongs";
+import AboutUs from "@/components/pages/AboutUs";
+import AdminPanel from "@/components/pages/AdminPanel";
 
 const router = createRouter({
     history: createWebHistory(),
@@ -34,6 +36,8 @@ const router = createRouter({
         { path: '/submitGame', component: submitGame, meta: { requiresAuth: true } },
         { path: '/submitCourse', component: submitCourse, meta: { requiresAuth: true } },
         { path: '/import', component: importSongs, meta: { requiresAuth: true } },
+        { path: '/Admin', component: AdminPanel, meta: { requiresAuth: true } },
+        { path: '/about', component: AboutUs, meta: { requiresAuth: false } },
         { path: '/register', component: RegisterUser },
         { path: '/:notFound(.*)', redirect: '/welcome'},
     ],

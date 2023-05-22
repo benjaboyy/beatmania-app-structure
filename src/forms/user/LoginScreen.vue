@@ -22,11 +22,12 @@
 
           </div>
           <button class="btn btn-primary">Login</button>
-          <router-link to="/register" type="submit" class="btn btn-block btn-outline-primary ms-2"><i class="fa fa-sign-in-alt"></i> Register</router-link>
+          <router-link to="/register" type="submit" class="btn btn-block btn-outline-primary ms-2">Register</router-link>
+          <router-link to="/about" type="submit" class="btn btn-block btn-link">About app</router-link>
         </form>
       </div>
       <div class="card-footer text-end text-muted">
-        Version 0.5
+        Version 1.0.0
       </div>
     </div>
   </div>

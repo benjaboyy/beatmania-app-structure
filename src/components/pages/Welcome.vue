@@ -1,41 +1,28 @@
 <template>
   <div class="stats-screen px-2 px-md-5 m-auto">
     <h1 class="text-center my-4">Welcome DJ {{ userName }}</h1>
-    <div class="card">
-      <div class="card-body">
-        <h3>Admin Panel</h3>
-        <router-link to="/submitSong" class="btn btn-sm btn-light me-2 mb-2" href="#" type="button" role="button">Update Song</router-link>
-        <router-link to="/submitGame" class="btn btn-sm btn-light me-2 mb-2" href="#" type="button" role="button">Update Game</router-link>
-        <router-link to="/submitCourse" class="btn btn-sm btn-light me-2 mb-2" href="#" type="button" role="button">Update Course</router-link>
-        <router-link to="/import" class="btn btn-sm btn-theme-1 me-2 mb-2" href="#" type="button" role="button">Song to JSON</router-link>
-        <a class="btn btn-sm btn-primary me-2 mb-2" @click="testToken" href="#" type="button" role="button">Update stats</a>
-      </div>
-    </div>
     <div class="row">
       <div v-for="game in filteredGames" v-bind:key="game" class="col-md-6 mt-4">
         <div class="card">
           <div class="card-body">
             <span class="p-2 bg-dark text-white float-end"><strong>5K</strong></span>
             <h3><strong>{{ game.name }}</strong></h3>
-
-            <p>
-              <span class="text-primary">Songs: </span>{{ gamestats[game.id].songs }}<br>
-
-            </p>
             <div class="mb-2">
               <router-link :to="'/games/' + game.id" class="btn btn-primary me-2" href="#"><i class="fa fa-compact-disc"></i> Songlist</router-link>
               <router-link :to="'/g/course/' + game.id" class="btn btn-primary" href="#"><i class="fa fa-layer-group"></i> Courses</router-link>
             </div>
+            <span class="text-primary">Songs: </span>{{ gamestats[game.id].songs }}<br>
+            <span class="text-primary">System: </span>Arcade<br>
             <div v-if="game.trackedGame.singles">
-              <p class="mb-1">Singles <span class="text-primary">Cleared: </span>{{ gamestats[game.id].singles.clear }}/{{ gamestats[game.id].singles.total }}</p>
+              <p class="mb-1"><span class="text-primary">Singles: </span>{{ gamestats[game.id].singles.clear }}/{{ gamestats[game.id].singles.total }}</p>
               <progress-bar-stats :clear="gamestats[game.id].singles.clear" :total="gamestats[game.id].singles.total" :name="'primary'"></progress-bar-stats>
             </div>
             <div v-if="game.trackedGame.doubles">
-              <p class="mb-1">Doubles <span class="text-primary">Cleared: </span>{{ gamestats[game.id].doubles.clear }}/{{ gamestats[game.id].doubles.total }}</p>
+              <p class="mb-1"><span class="text-primary">Doubles: </span>{{ gamestats[game.id].doubles.clear }}/{{ gamestats[game.id].doubles.total }}</p>
               <progress-bar-stats :clear="gamestats[game.id].doubles.clear" :total="gamestats[game.id].doubles.total" :name="'primary'"></progress-bar-stats>
             </div>
             <div v-if="game.trackedGame.singleCourse || game.trackedGame.doubleCourse">
-              <p class="mb-1">Cources: <span class="text-primary">Cleared: </span>{{ gamestats[game.id].courses.clear }}/{{ gamestats[game.id].courses.total }}</p>
+              <p class="mb-1"><span class="text-primary">Cources:: </span>{{ gamestats[game.id].courses.clear }}/{{ gamestats[game.id].courses.total }}</p>
               <progress-bar-stats :clear="gamestats[game.id].courses.clear" :total="gamestats[game.id].courses.total" :name="'primary'"></progress-bar-stats>
             </div>
           </div>
@@ -43,7 +30,7 @@
       </div>
       <div class="col-12 my-4 text-center">
         <router-link to="/settings" class="btn btn-block btn-secondary" href="#" type="button" role="button">Select games</router-link>
-        <div id="emailHelp" class="form-text">Find more games to track in your account settings.</div>
+        <div id="emailHelp" class="form-text mt-3">Find more games to track in your account settings.</div>
       </div>
 
     </div>
