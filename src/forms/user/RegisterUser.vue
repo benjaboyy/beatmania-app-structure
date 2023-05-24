@@ -1,6 +1,6 @@
 <template>
   <div class="login-screen px-2 mx-auto">
-    <div class="text-center my-5">
+    <div class="text-center mb-5">
       <img src="../../assets/svg/logo.svg" width="120" height="60" class="d-inline-block align-middle" alt="">
       <h1 class="mb-0">BMPT</h1>
     </div>

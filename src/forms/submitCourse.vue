@@ -55,9 +55,9 @@
                 </div>
               </div>
               <a class="btn btn-primary" @click="addSong('songIDs')">Add Song</a>
-              <p v-if="invalidInput">One or more input fields are invalid. Please check your provided data.</p>
+              <p v-if="invalidInput" class="my-2">One or more input fields are invalid. Please check your provided data.</p>
               <p v-if="error">{{ error }}</p>
-              <div class="form-group" v-if="enteredName.trim().length > 0">
+              <div class="form-group" v-if="canSubmit">
                 <hr>
                 <button class="btn btn-primary"><i class="fa fa-paper-plane"></i> Submit</button>
                 <router-link to="/" class="btn btn-outline-primary ms-3" href="#" type="button" role="button"><i class="fa fa-home"></i> Back</router-link>
@@ -126,6 +126,13 @@ export default {
         this.invalidInput = true;
         return;
       }
+      for (let i = 0; i < this.songIDs.length; i++) {
+        if (this.songIDs[i].diff === undefined) {
+          this.invalidInput = true;
+          return;
+        }
+      }
+
       if (this.courseDouble === false) {
         this.type = 'singles';
       } else {
@@ -229,6 +236,20 @@ export default {
       if (this.enteredName === "") {
         return false;
       } else {
+        return true;
+      }
+    },
+    canSubmit() {
+      if (this.songIDs.length <= 0) {
+        return false;
+      } else {
+        for (let i = 0; i < this.songIDs.length; i++) {
+          if (this.songIDs[i].diff === undefined) {
+
+            return false;
+          }
+        }
+        // if all good return true
         return true;
       }
     },

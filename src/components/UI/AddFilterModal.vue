@@ -14,9 +14,8 @@
       <a class="btn btn-sm" :class="filteredClear === 'fullcombo' ? 'btn-primary' : 'btn-light'" @click="clearFil('fullcombo')">Full-combo</a>
       <h6>Play style</h6>
       <div>
-        <a class="btn btn-sm btn-primary">NONE</a>
-        <a class="btn btn-sm btn-light disabled"><i class="fa fa-compact-disc"></i> Single</a>
-        <a class="btn btn-sm btn-light disabled me-2" ><i class="fa fa-compact-disc"></i> <i class="fa fa-compact-disc"></i> Double</a> Not yet supported
+        <a class="btn btn-sm" :class="filterType === 'single' ? 'btn-primary' : 'btn-light'" @click="filterType = 'single'"><i class="fa fa-compact-disc"></i> Single</a>
+        <a class="btn btn-sm" :class="filterType === 'double' ? 'btn-primary' : 'btn-light'" @click="filterType = 'double'"><i class="fa fa-compact-disc"></i> <i class="fa fa-compact-disc"></i> Double</a>
       </div>
       <h6>Other filters</h6>
       <a class="btn btn-sm btn-primary" :class="filterFavorite ? 'btn-primary' : 'btn-light'" @click="favoriteFil"><i class="fa fa-heart" :class="filterFavorite ? 'text-white' : 'text-primary'"></i> Favorite</a>
@@ -45,6 +44,7 @@ export default {
       filterLevel: 0,
       filteredClear: '',
       filterFavorite: false,
+      filterType: 'single',
     }
   },
   methods: {
@@ -54,6 +54,7 @@ export default {
         filterLevel: this.filterLevel,
         filteredClear: this.filteredClear,
         filterFavorite: this.filterFavorite,
+        filterType: this.filterType,
       });
     },
     clearFil(item) {
