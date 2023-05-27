@@ -309,13 +309,57 @@ export default {
             localStorage.setItem('userId', responseData.localId);
             localStorage.setItem('tokenExpiration', expirationDate);
 
-            // timer = setTimeout(function() {
-            //     context.dispatch('autoLogout');
-            // }, expirationDate);
+            // Calculate the remaining time before token expiration
+            const expiresIn = +responseData.expiresIn * 1000;
+            const refreshTokenInterval = expiresIn - 60000; // Refresh token 1 minute before it expires
+
+            timer = setTimeout(function() {
+                context.dispatch('refreshToken');
+            }, refreshTokenInterval);
 
             context.commit('setUser', {
                 token: responseData.idToken,
                 userId: responseData.localId,
+                expirationDate: responseData.expirationDate,
+            });
+        },
+
+        async refreshToken(context) {
+            const token = localStorage.getItem('token');
+            const refreshTokenUrl = 'https://securetoken.googleapis.com/v1/token?key=AIzaSyA-o_3wteXq2TeoHwnVC5fCSyr_dzVd_j0';
+            const response = await fetch(refreshTokenUrl, {
+                method: 'POST',
+                body: JSON.stringify({
+                    grant_type: 'refresh_token',
+                    refresh_token: token
+                })
+            });
+
+            const responseData = await response.json();
+
+            if (!response.ok) {
+                // Handle token refresh failure
+                // For example, logout the user or show an error message
+                context.dispatch('logout');
+                return;
+            }
+
+            const expirationDate = new Date().getTime() + +responseData.expires_in * 1000;
+
+            localStorage.setItem('token', responseData.id_token);
+            localStorage.setItem('tokenExpiration', expirationDate);
+
+            const expiresIn = +responseData.expires_in * 1000;
+            const refreshTokenInterval = expiresIn - 60000;
+
+            timer = setTimeout(function() {
+                context.dispatch('refreshToken');
+            }, refreshTokenInterval);
+
+            context.commit('setUser', {
+                token: responseData.id_token,
+                userId: responseData.user_id,
+                expirationDate: responseData.expires_in,
             });
         },
         tryLogin(context) {

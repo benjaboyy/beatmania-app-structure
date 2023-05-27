@@ -10,13 +10,12 @@
 </template>
 
 <script>
-
 export default {
   name: 'App',
   data() {
     return {
       isLoaded: false,
-    }
+    };
   },
   async created() {
     this.isLoaded = false;
@@ -25,6 +24,20 @@ export default {
       await this.dataGetter();
     }
     this.isLoaded = true;
+
+    // Prevent the screen from going dark
+    document.addEventListener('DOMContentLoaded', () => {
+      if (document.visibilityState === 'visible') {
+        this.keepScreenOn(true);
+      }
+    });
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') {
+        this.keepScreenOn(true);
+      } else {
+        this.keepScreenOn(false);
+      }
+    });
   },
   methods: {
     loaded() {
@@ -38,7 +51,16 @@ export default {
       await this.$store.dispatch('loadUserSongs');
       await this.$store.dispatch('loadTrackedGames');
       await this.$store.dispatch('loadUserCourses');
-    }
+    },
+    keepScreenOn(shouldKeepOn) {
+      if (shouldKeepOn) {
+        // Prevent the screen from going dark
+        document.defaultView?.wakeLock?.request('screen');
+      } else {
+        // Allow the screen to go dark
+        document.defaultView?.wakeLock?.release();
+      }
+    },
   },
   computed: {
     isAuthenticated() {
@@ -46,14 +68,14 @@ export default {
     },
     didAutoLogout() {
       return this.$store.getters['didAutoLogout'];
-    }
+    },
   },
   watch: {
     didAutoLogout(curValue, oldValue) {
       if (curValue && curValue !== oldValue) {
         this.$router.replace('/login');
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>

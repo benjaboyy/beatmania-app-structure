@@ -1,5 +1,5 @@
 <template>
-  <div v-if="open" class="backdrop" @click="$emit('close')"></div>
+  <div v-if="open" class="backdrop" @click="hideDialog"></div>
   <transition name="modal">
     <dialog open v-if="open">
       <h3>{{ infoSong.name }}</h3>

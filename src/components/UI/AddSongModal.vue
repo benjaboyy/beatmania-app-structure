@@ -1,44 +1,52 @@
 <template>
-  <div v-if="open" class="backdrop" @click="$emit('close')"></div>
+  <div v-if="open" class="backdrop" @click="hideDialog"></div>
   <transition name="modal">
-    <dialog open v-if="open">
+    <dialog class="window" open v-if="open">
       <h3>{{ infoSong.name }}</h3>
       <p>{{ infoSong.artist }}</p>
-      <div class="input-group mb-3  input-group-lg" v-if="infoSong.difficultyNormal > 0">
-        <span class="input-group-text text-white bg-theme-1 border-0">{{ infoSong.difficultyNormal }}</span>
-        <input placeholder="Score" type="text" class="form-control" id="scoreNormal" v-model="scoreNormal" />
-        <a class="btn" :class="normalClear ? 'bg-primary text-white' : 'bg-light text-primary'" @click="toggleNormalClear">Clear</a>
-        <a class="btn" :class="normalFC ? 'bg-primary text-white flash' : 'bg-light text-primary'" @click="toggleNormalFC">FC</a>
-      </div>
-      <div class="input-group mb-3  input-group-lg" v-if="infoSong.difficultyHard > 0">
-        <span class="input-group-text text-white bg-theme-2 border-0">{{ infoSong.difficultyHard }}</span>
-        <input placeholder="Score" type="text" class="form-control" id="scoreHard" v-model="scoreHard" />
-        <a class="btn" type="button" :class="hardClear ? 'bg-primary text-white' : 'bg-light text-primary'" @click="toggleHardClear">Clear</a>
-        <a class="btn" type="button" :class="hardFC ? 'bg-primary text-white flash' : 'bg-light text-primary'" @click="toggleHardFC">FC</a>
-      </div>
-      <div class="input-group mb-3  input-group-lg" v-if="infoSong.difficultyAnother > 0">
-        <span class="input-group-text text-white bg-theme-3 border-0">{{ infoSong.difficultyAnother }}</span>
-        <input placeholder="Score" type="text" class="form-control" id="scoreAnother" v-model="scoreAnother" />
-        <a class="btn" type="button" :class="anotherClear ? 'bg-primary text-white' : 'bg-light text-primary'" @click="toggleAnotherClear">Clear</a>
-        <a class="btn" type="button" :class="anotherFC ? 'bg-primary text-white flash' : 'bg-light text-primary'" @click="toggleAnotherFC">FC</a>
-      </div>
-      <div class="input-group mb-3  input-group-lg" v-if="infoSong.difficultyDoubleNormal > 0">
-        <span class="input-group-text text-white bg-theme-1 border-0">{{ infoSong.difficultyDoubleNormal }}</span>
-        <input placeholder="Score" type="text" class="form-control" id="scoreDoubleNormal" v-model="scoreDoubleNormal" />
-        <a class="btn" type="button" :class="normalDoubleClear ? 'bg-primary text-white' : 'bg-light text-primary'" @click="toggleNormalDoubleClear">Clear</a>
-        <a class="btn" type="button" :class="normalDoubleFC ? 'bg-primary text-white flash' : 'bg-light text-primary'" @click="toggleNormalDoubleFC">FC</a>
-      </div>
-      <div class="input-group mb-3  input-group-lg" v-if="infoSong.difficultyDoubleHard > 0">
-        <span class="input-group-text text-white bg-theme-2 border-0">{{ infoSong.difficultyDoubleHard }}</span>
-        <input placeholder="Score" type="text" class="form-control" id="scoreDoubleHard" v-model="scoreDoubleHard" />
-        <a class="btn" type="button" :class="hardDoubleClear ? 'bg-primary text-white' : 'bg-light text-primary'" @click="toggleHardDoubleClear">Clear</a>
-        <a class="btn" type="button" :class="hardDoubleFC ? 'bg-primary text-white flash' : 'bg-light text-primary'" @click="toggleHardDoubleFC">FC</a>
-      </div>
-      <div class="input-group mb-3  input-group-lg" v-if="infoSong.difficultyDoubleAnother > 0">
-        <span class="input-group-text text-white bg-theme-3 border-0">{{ infoSong.difficultyDoubleAnother }}</span>
-        <input placeholder="Score" type="text" class="form-control" id="scoreDoubleAnother" v-model="scoreDoubleAnother" />
-        <a class="btn" type="button" :class="anotherDoubleClear ? 'bg-primary text-white' : 'bg-light text-primary'" @click="toggleAnotherDoubleClear">Clear</a>
-        <a class="btn" type="button" :class="anotherDoubleFC ? 'bg-primary text-white flash' : 'bg-light text-primary'" @click="toggleAnotherDoubleFC">FC</a>
+      <div class="row">
+        <div class="col-12 col-lg-6">
+          <p>Singles</p>
+          <div class="input-group mb-3  input-group-lg" v-if="infoSong.difficultyNormal > 0">
+            <span class="input-group-text text-white bg-theme-1 border-0">{{ infoSong.difficultyNormal }}</span>
+            <input placeholder="Score" type="text" class="form-control" id="scoreNormal" v-model="scoreNormal" />
+            <a class="btn" :class="normalClear ? 'bg-primary text-white' : 'bg-light text-primary'" @click="toggleNormalClear">Clear</a>
+            <a class="btn" :class="normalFC ? 'bg-primary text-white flash' : 'bg-light text-primary'" @click="toggleNormalFC">FC</a>
+          </div>
+          <div class="input-group mb-3  input-group-lg" v-if="infoSong.difficultyHard > 0">
+            <span class="input-group-text text-white bg-theme-2 border-0">{{ infoSong.difficultyHard }}</span>
+            <input placeholder="Score" type="text" class="form-control" id="scoreHard" v-model="scoreHard" />
+            <a class="btn" type="button" :class="hardClear ? 'bg-primary text-white' : 'bg-light text-primary'" @click="toggleHardClear">Clear</a>
+            <a class="btn" type="button" :class="hardFC ? 'bg-primary text-white flash' : 'bg-light text-primary'" @click="toggleHardFC">FC</a>
+          </div>
+          <div class="input-group mb-3  input-group-lg" v-if="infoSong.difficultyAnother > 0">
+            <span class="input-group-text text-white bg-theme-3 border-0">{{ infoSong.difficultyAnother }}</span>
+            <input placeholder="Score" type="text" class="form-control" id="scoreAnother" v-model="scoreAnother" />
+            <a class="btn" type="button" :class="anotherClear ? 'bg-primary text-white' : 'bg-light text-primary'" @click="toggleAnotherClear">Clear</a>
+            <a class="btn" type="button" :class="anotherFC ? 'bg-primary text-white flash' : 'bg-light text-primary'" @click="toggleAnotherFC">FC</a>
+          </div>
+        </div>
+        <div class="col-12 col-lg-6">
+          <p>Doubles</p>
+          <div class="input-group mb-3  input-group-lg" v-if="infoSong.difficultyDoubleNormal > 0">
+            <span class="input-group-text text-white bg-theme-1 border-0">{{ infoSong.difficultyDoubleNormal }}</span>
+            <input placeholder="Score" type="text" class="form-control" id="scoreDoubleNormal" v-model="scoreDoubleNormal" />
+            <a class="btn" type="button" :class="normalDoubleClear ? 'bg-primary text-white' : 'bg-light text-primary'" @click="toggleNormalDoubleClear">Clear</a>
+            <a class="btn" type="button" :class="normalDoubleFC ? 'bg-primary text-white flash' : 'bg-light text-primary'" @click="toggleNormalDoubleFC">FC</a>
+          </div>
+          <div class="input-group mb-3  input-group-lg" v-if="infoSong.difficultyDoubleHard > 0">
+            <span class="input-group-text text-white bg-theme-2 border-0">{{ infoSong.difficultyDoubleHard }}</span>
+            <input placeholder="Score" type="text" class="form-control" id="scoreDoubleHard" v-model="scoreDoubleHard" />
+            <a class="btn" type="button" :class="hardDoubleClear ? 'bg-primary text-white' : 'bg-light text-primary'" @click="toggleHardDoubleClear">Clear</a>
+            <a class="btn" type="button" :class="hardDoubleFC ? 'bg-primary text-white flash' : 'bg-light text-primary'" @click="toggleHardDoubleFC">FC</a>
+          </div>
+          <div class="input-group mb-3  input-group-lg" v-if="infoSong.difficultyDoubleAnother > 0">
+            <span class="input-group-text text-white bg-theme-3 border-0">{{ infoSong.difficultyDoubleAnother }}</span>
+            <input placeholder="Score" type="text" class="form-control" id="scoreDoubleAnother" v-model="scoreDoubleAnother" />
+            <a class="btn" type="button" :class="anotherDoubleClear ? 'bg-primary text-white' : 'bg-light text-primary'" @click="toggleAnotherDoubleClear">Clear</a>
+            <a class="btn" type="button" :class="anotherDoubleFC ? 'bg-primary text-white flash' : 'bg-light text-primary'" @click="toggleAnotherDoubleFC">FC</a>
+          </div>
+        </div>
       </div>
       <div class="d-grid gap-2">
         <button class="btn" @click="toggleFavorite" :class="favorite ? 'btn-primary' : 'bg-outline-primary'"><i class="fa fa-heart" :class="favorite ? 'text-white' : 'text-primary'"></i> Favorite</button>
@@ -190,6 +198,10 @@ export default {
   height: 100vh;
   z-index: 10;
   background-color: rgba(0, 0, 0, 0.75);
+}
+
+.window {
+  top: 10vh !important;
 }
 
 dialog {
