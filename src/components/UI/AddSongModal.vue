@@ -50,7 +50,7 @@
       </div>
       <div class="d-grid mt-2 gap-2">
         <button class="btn" @click="toggleFavorite" :class="favorite ? 'btn-primary' : 'bg-light'"><i class="fa fa-heart" :class="favorite ? 'text-white' : 'text-primary'"></i> Favorite</button>
-        <button class="btn btn-dark" @click="hideDialog"><i class="fa fa-save text-white"></i> Save song</button>
+        <p class="text-center text-dark m-0">Close window to save</p>
       </div>
     </dialog>
   </transition>
