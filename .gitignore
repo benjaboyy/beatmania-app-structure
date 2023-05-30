@@ -23,3 +23,6 @@ pnpm-debug.log*
 *.sw?
 .firebase
 *.cache
+public/Config.xml
+public/manifest.json
+public/service-worker.js

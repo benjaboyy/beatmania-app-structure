@@ -24,6 +24,19 @@
                 <label for="songName">Course Name</label>
                 <input class="form-control" type="text" id="songName" v-model="enteredName" />
               </div>
+            </div>
+            <div v-else class="form-group">
+              <label for="songName">Choose Course</label>
+              <div class="input-group mb-3">
+                <select class="form-select " v-model="CourseID">
+                  <option class="dropdown-item " v-for="course in courseChoises" :key="course.id" :value="course.id">
+                    {{ course.name }}
+                  </option>
+                </select>
+                <a v-if="CourseID" class="btn btn-light text-danger" @click="deleteSong"><i class="fa fa-trash-alt"></i></a>
+                <a v-else class="btn btn-light text-dark disabled" @click="deleteSong"><i class="fa fa-trash-alt"></i></a>
+              </div>
+            </div>
               <div class="mt-3">
                 <label class="w-100" for="songName">Play style</label>
                 <a class="btn btn-primary" @click="courseDoubleSwitch" :class="courseDouble === false ? 'btn-primary' : 'btn-light'"><i class="fa fa-compact-disc"></i> Single Courses</a>
@@ -57,11 +70,10 @@
               <a class="btn btn-primary" @click="addSong('songIDs')">Add Song</a>
               <p v-if="invalidInput" class="my-2">One or more input fields are invalid. Please check your provided data.</p>
               <p v-if="error">{{ error }}</p>
-              <div class="form-group" v-if="canSubmit">
-                <hr>
-                <button class="btn btn-primary"><i class="fa fa-paper-plane"></i> Submit</button>
-                <router-link to="/" class="btn btn-outline-primary ms-3" href="#" type="button" role="button"><i class="fa fa-home"></i> Back</router-link>
-              </div>
+            <div class="form-group" v-if="canSubmit">
+              <hr>
+              <button class="btn btn-primary"><i class="fa fa-paper-plane"></i> Submit</button>
+              <router-link to="/" class="btn btn-outline-primary ms-3" href="#" type="button" role="button"><i class="fa fa-home"></i> Back</router-link>
             </div>
           </div>
         </form>
@@ -71,6 +83,7 @@
 </template>
 
 <script>
+
 export default {
 
   name: "submitSong",
@@ -85,6 +98,7 @@ export default {
       error: null,
       submitted: false,
       gameChoises: [],
+      courseChoises: [],
       lastSubmittedID: '',
       songList: [],
       courseDouble: false,
@@ -213,6 +227,8 @@ export default {
         const song = {
           id: responseData[key].id,
           name: responseData[key].name,
+          artist: responseData[key].artist,
+          composer: responseData[key].composer,
           difficultyNormal: responseData[key].difficultyNormal,
           difficultyHard: responseData[key].difficultyHard,
           difficultyAnother: responseData[key].difficultyAnother,
@@ -223,6 +239,28 @@ export default {
         songs.push(song);
       }
       this.songList = songs;
+    },
+    async getGameCourses() {
+      const token = this.$store.getters.token;
+      const gameID = this.gameID;
+      const response = await fetch(`https://beatmania-pro-default-rtdb.europe-west1.firebasedatabase.app/courses/${gameID}.json?auth=${token}`);
+      const responseData = await response.json();
+      if (!response.ok) {
+        const error = new Error(responseData.message || 'Failed to fetch!');
+        throw error;
+      }
+      const item = [];
+      for (const key in responseData) {
+        const song = {
+          id: responseData[key].id,
+          name: responseData[key].name,
+          rating: responseData[key].rating,
+          songIDs: responseData[key].songIDs,
+          type: responseData[key].type,
+        };
+        item.push(song);
+      }
+      this.courseChoises = item;
     },
   },
   computed: {
@@ -256,7 +294,23 @@ export default {
   },
   watch: {
     gameID() {
+      this.getGameCourses();
       this.getGameSongs();
+    },
+    CourseID: function (val) {
+      this.courseChoises.forEach(game => {
+        if (game.id === val) {
+          this.enteredName = game.name;
+          this.enteredRating = game.rating;
+          this.songIDs = game.songIDs;
+          this.type = game.type;
+          if (this.type === 'singles') {
+            this.courseDouble = false;
+          } else {
+            this.courseDouble = true;
+          }
+        }
+      });
     }
   }
 }

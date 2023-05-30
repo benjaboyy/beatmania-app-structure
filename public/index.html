@@ -1,12 +1,42 @@
 <!DOCTYPE html>
 <html lang="">
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-    <title>BMapp</title>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
+      <link rel="icon" sizes="192x192" href="img/icon-192.png" />
+      <meta name="description" content="Beatmania Progress app" />
+      <link rel="manifest" href="manifest.json" />
+        <title>BMapp</title>
       <link href="https://file.myfontastic.com/onofm6dEsrzAwwsPhbyTvi/icons.css" rel="stylesheet">
+      <script>
+          if ("serviceWorker" in navigator) {
+              navigator.serviceWorker
+                  .register("./sw.js")
+                  .then(function (registration) {
+                      // Registration was successful
+                      console.log(
+                          "ServiceWorker registration successful with scope: ",
+                          registration.scope
+                      );
+                  })
+                  .catch(function (err) {
+                      // registration failed :(
+                      console.log("ServiceWorker registration failed: ", err);
+                  });
+          }
+          window.addEventListener("beforeinstallprompt", function (e) {
+              e.userChoice.then(function (choiceResult) {
+                  console.log(choiceResult.outcome);
+                  if (choiceResult.outcome == "dismissed") {
+                      console.log("User cancelled home screen install");
+                  } else {
+                      // 如果用户将网页添加到主屏幕
+                      console.log("User added to home screen");
+                  }
+              });
+          });
+      </script>
   </head>
   <body class="bg-dark">
     <div id="app"></div>
