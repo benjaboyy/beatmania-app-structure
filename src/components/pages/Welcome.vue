@@ -72,7 +72,7 @@ export default {
     },
     userName() {
       return this.$store.getters['userName'];
-    }
+    },
   },
   methods: {
     setBaseStats() {
@@ -110,6 +110,7 @@ export default {
     },
     async calculateStats() {
       const userSongs = await this.$store.getters['getUserSongs'];
+      const userCourses = await this.$store.getters['getUserCourses'];
       for (const item of this.filteredGames) {
         let singleCleared = 0;
         let doublesCleared = 0;
@@ -174,6 +175,23 @@ export default {
         this.gamestats[item.id].doubles.total = totalDoublesCleared;
         this.gamestats[item.id].doubles.clear = doublesCleared;
         this.gamestats[item.id].songs = totalSongs;
+      }
+      for (const item of this.filteredGames) {
+        let coursesCleared = 0;
+        let totalCleared = 0;
+        const coursesToLoad // get course by game
+        for (course of coursesToLoad) {
+          totalCleared++
+          for (const song of songsToLoad) {
+            totalSongs++;
+            // fix this
+            const userSong = userSongs.find(userSong => userSong.id === song.id);
+            if (userSong && song.difficultyNormal > 0) {
+              coursesCleared++;
+            }
+          }
+        }
+        console.log(userCourses + item)
       }
     },
   },
