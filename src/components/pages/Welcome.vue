@@ -22,7 +22,7 @@
               <progress-bar-stats :clear="gamestats[game.id].doubles.clear" :total="gamestats[game.id].doubles.total" :name="'primary'"></progress-bar-stats>
             </div>
             <div v-if="game.trackedGame.singleCourse || game.trackedGame.doubleCourse">
-              <p class="mb-1"><span class="text-primary">Cources:: </span>{{ gamestats[game.id].courses.clear }}/{{ gamestats[game.id].courses.total }}</p>
+              <p class="mb-1"><span class="text-primary">Courses:: </span>{{ gamestats[game.id].courses.clear }}/{{ gamestats[game.id].courses.total }}</p>
               <progress-bar-stats :clear="gamestats[game.id].courses.clear" :total="gamestats[game.id].courses.total" :name="'primary'"></progress-bar-stats>
             </div>
           </div>
@@ -80,7 +80,6 @@ export default {
       for (const game of this.games) {
         this.gamestats[game.id] = {
           songs: 0,
-          courses: 0,
           singles: {
             clear: 0,
             total: 0,
@@ -89,11 +88,7 @@ export default {
             clear: 0,
             total: 0,
           },
-          singleCourses: {
-            clear: 1,
-            total: 10
-          },
-          doubleCourses: {
+          courses: {
             clear: 1,
             total: 10
           }
@@ -171,28 +166,27 @@ export default {
             totalDoublesCleared++;
           }
         }
+
+        let totalCoursesCleared = 0;
+        let totalCourses = 0;
+        const coursesToLoad = await this.$store.getters['courses/getCourseByGame'](item.id)
+        for (const course of coursesToLoad) {
+          totalCourses++
+          const userCourse = userCourses.find(userCourse => userCourse.id === course.id);
+          if (userCourse) {
+            if (userCourse.clear) {
+              totalCoursesCleared++;
+            }
+          }
+        }
+
         this.gamestats[item.id].singles.total = totalSingleCleared;
         this.gamestats[item.id].singles.clear = singleCleared;
         this.gamestats[item.id].doubles.total = totalDoublesCleared;
         this.gamestats[item.id].doubles.clear = doublesCleared;
+        this.gamestats[item.id].courses.clear = totalCoursesCleared;
+        this.gamestats[item.id].courses.total = totalCourses;
         this.gamestats[item.id].songs = totalSongs;
-      }
-      for (const item of this.filteredGames) {
-        let coursesCleared = 0;
-        let totalCleared = 0;
-        const coursesToLoad // get course by game
-        for (course of coursesToLoad) {
-          totalCleared++
-          for (const song of songsToLoad) {
-            totalSongs++;
-            // fix this
-            const userSong = userSongs.find(userSong => userSong.id === song.id);
-            if (userSong && song.difficultyNormal > 0) {
-              coursesCleared++;
-            }
-          }
-        }
-        console.log(userCourses + item)
       }
     },
   },

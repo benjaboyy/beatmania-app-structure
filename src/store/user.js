@@ -107,6 +107,7 @@ export default {
                 anotherDoubleFC: payload.anotherDoubleFC,
                 anotherDoubleClear: payload.anotherDoubleClear,
                 favorite: payload.favorite,
+                target: payload.target,
             }
 
             const token = context.getters.token;

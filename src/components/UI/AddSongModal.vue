@@ -49,6 +49,7 @@
         </div>
       </div>
       <div class="d-grid mt-2 gap-2">
+        <button class="btn" @click="toggleTarget" :class="target ? 'btn-danger' : 'bg-light'"><i class="fas fa-bullseye" :class="target ? 'text-white' : 'text-primary'"></i> Target</button>
         <button class="btn" @click="toggleFavorite" :class="favorite ? 'btn-primary' : 'bg-light'"><i class="fa fa-heart" :class="favorite ? 'text-white' : 'text-primary'"></i> Favorite</button>
         <p class="text-center text-dark m-0">Close window to save</p>
       </div>
@@ -90,7 +91,8 @@ export default {
       scoreDoubleAnother: '',
       anotherDoubleFC: false,
       anotherDoubleClear: false,
-      favorite: false
+      favorite: false,
+      target: false
     }
   },
   methods: {
@@ -117,7 +119,8 @@ export default {
         scoreDoubleAnother: this.scoreDoubleAnother,
         anotherDoubleFC: this.anotherDoubleFC,
         anotherDoubleClear: this.anotherDoubleClear,
-        favorite: this.favorite
+        favorite: this.favorite,
+        target: this.target
       });
 
     },
@@ -159,6 +162,9 @@ export default {
     },
     toggleFavorite() {
       this.favorite = !this.favorite;
+    },
+    toggleTarget() {
+      this.target = !this.target;
     }
   },
   watch: {
@@ -183,6 +189,7 @@ export default {
         this.anotherDoubleFC = this.infoSong.anotherDoubleFC;
         this.anotherDoubleClear = this.infoSong.anotherDoubleClear;
         this.favorite = this.infoSong.favorite;
+        this.target = this.infoSong.target;
       }
     }
   }

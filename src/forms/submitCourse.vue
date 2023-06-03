@@ -51,8 +51,12 @@
               <div v-for="(courseSong, index) in songIDs" :key="index">
                 <label for="songName">Song {{ index + 1 }}</label>
                 <div class="input-group mb-0">
-                  <select class="form-select " v-model="songIDs[index]">
-                    <option class="dropdown-item text-theme-1" v-for="song in songList" :key="song.id" :value="song">
+                  <select class="form-select" v-model="songIDs[index]">
+                    <option class="dropdown-item text-theme-1"
+                            v-for="song in songList"
+                            :key="song.id"
+                            :value="song"
+                            :selected="songIDs[index].id === song.id">
                       {{ song.name }}
                     </option>
                   </select>
@@ -300,6 +304,7 @@ export default {
     CourseID: function (val) {
       this.courseChoises.forEach(game => {
         if (game.id === val) {
+          // console.log(game)
           this.enteredName = game.name;
           this.enteredRating = game.rating;
           this.songIDs = game.songIDs;

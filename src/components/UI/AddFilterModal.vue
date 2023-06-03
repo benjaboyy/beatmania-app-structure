@@ -12,13 +12,16 @@
       <a class="btn btn-sm" :class="filteredClear === 'failed' ? 'btn-primary' : 'btn-light'" @click="clearFil('failed')">Failed</a>
       <a class="btn btn-sm" :class="filteredClear === 'clear' ? 'btn-primary' : 'btn-light'" @click="clearFil('clear')">Clear</a>
       <a class="btn btn-sm" :class="filteredClear === 'fullcombo' ? 'btn-primary' : 'btn-light'" @click="clearFil('fullcombo')">Full-combo</a>
-      <h6>Play style</h6>
-      <div>
-        <a class="btn btn-sm" :class="filterType === 'single' ? 'btn-primary' : 'btn-light'" @click="filterType = 'single'"><i class="fa fa-compact-disc"></i> Single</a>
-        <a class="btn btn-sm" :class="filterType === 'double' ? 'btn-primary' : 'btn-light'" @click="filterType = 'double'"><i class="fa fa-compact-disc"></i> <i class="fa fa-compact-disc"></i> Double</a>
+      <div class="d-md-none">
+        <h6>Play style</h6>
+        <div>
+          <a class="btn btn-sm" :class="filterType === 'single' ? 'btn-primary' : 'btn-light'" @click="filterType = 'single'"><i class="fa fa-compact-disc"></i> Single</a>
+          <a class="btn btn-sm" :class="filterType === 'double' ? 'btn-primary' : 'btn-light'" @click="filterType = 'double'"><i class="fa fa-compact-disc"></i> <i class="fa fa-compact-disc"></i> Double</a>
+        </div>
       </div>
       <h6>Other filters</h6>
-      <a class="btn btn-sm btn-primary" :class="filterFavorite ? 'btn-primary' : 'btn-light'" @click="favoriteFil"><i class="fa fa-heart" :class="filterFavorite ? 'text-white' : 'text-primary'"></i> Favorite</a>
+      <a class="btn btn-sm btn-primary me-2" :class="filterFavorite ? 'btn-primary' : 'btn-light'" @click="favoriteFil"><i class="fa fa-heart" :class="filterFavorite ? 'text-white' : 'text-primary'"></i> Favorite</a>
+      <a class="btn btn-sm btn-primary" :class="filterTarget ? 'btn-primary' : 'btn-light'" @click="targetFil"><i class="fa fa-bullseye" :class="filterTarget ? 'text-white' : 'text-danger'"></i> Target</a>
       <hr>
       <a class="btn-primary btn" @click="hideDialog">Apply filter</a>
     </dialog>
@@ -44,6 +47,7 @@ export default {
       filterLevel: 0,
       filteredClear: '',
       filterFavorite: false,
+      filterTarget: false,
       filterType: 'single',
     }
   },
@@ -55,6 +59,7 @@ export default {
         filteredClear: this.filteredClear,
         filterFavorite: this.filterFavorite,
         filterType: this.filterType,
+        filterTarget: this.filterTarget,
       });
     },
     clearFil(item) {
@@ -62,6 +67,9 @@ export default {
     },
     favoriteFil() {
       this.filterFavorite = !this.filterFavorite;
+    },
+    targetFil() {
+      this.filterTarget = !this.filterTarget;
     },
   },
   computed: {

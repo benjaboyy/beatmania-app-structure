@@ -8,8 +8,8 @@
             <input type="text" class="form-control" placeholder="Song name" aria-label="Recipient's username" aria-describedby="button-addon2"
                    v-model="searchWord"
                    v-on:keyup.enter="search">
-            <button class="btn btn-primary" type="button" id="button-search" @click="search"><i class="fa fa-search"></i></button>
-            <button @click="showFilter" class="btn btn-primary ms-3" type="button"><i class="fa fa-sliders-h"></i></button>
+            <button class="btn btn-primary" type="button" id="button-search" @click="search"><i class="fa fa-search me-md-1"></i>  <span class="d-none d-md-inline">Search</span></button>
+            <button @click="showFilter" class="btn btn-primary ms-3" type="button"><i class="fa fa-sliders-h me-md-1"></i> <span class="d-none d-md-inline">Filters</span></button>
           </div>
           <div class="my-2 my-md-4 text-start">
             <span v-if="!noFilter" class="text-white me-2">Filter:</span>
@@ -24,75 +24,79 @@
           <tr class=" text-white bg-dark">
             <th class="indicator"></th>
             <th class="text-start">Song name</th>
-            <th class="text-start d-none d-md-block">Artist/ Alias</th>
+            <th class="text-start d-none d-md-table-cell">Artist/ Alias</th>
             <th class="text-center text-theme-1"
-                :class="{ 'd-none': this.type !== 'single' }">SN</th>
+                :class="{ 'd-none d-md-table-cell': this.type !== 'single' }">SN</th>
             <th class="text-center text-theme-2"
-                :class="{ 'd-none': this.type !== 'single' }">SH</th>
+                :class="{ 'd-none d-md-table-cell': this.type !== 'single' }">SH</th>
             <th class="text-center text-theme-3"
-                :class="{ 'd-none': this.type !== 'single' }">SA</th>
+                :class="{ 'd-none d-md-table-cell': this.type !== 'single' }">SA</th>
             <th class="text-center text-theme-1"
-                :class="{ 'd-none': this.type !== 'double' }">DN</th>
+                :class="{ 'd-none d-md-table-cell': this.type !== 'double' }">DN</th>
             <th class="text-center text-theme-2"
-                :class="{ 'd-none': this.type !== 'double' }">DH</th>
+                :class="{ 'd-none d-md-table-cell': this.type !== 'double' }">DH</th>
             <th class="text-center text-theme-3"
-                :class="{ 'd-none': this.type !== 'double' }">DA</th>
+                :class="{ 'd-none d-md-table-cell': this.type !== 'double' }">DA</th>
             <th class="text-center">Fav</th>
+            <th class="text-center">Tar</th>
           </tr>
           </thead>
           <tbody v-if="!loading">
-            <tr @click="showDialog(song)" v-for="song in setSongs" v-bind:key="song.id">
+            <tr @click="showDialog(song)"
+                v-for="song in setSongs" v-bind:key="song.id"
+                :class="checkSongBg(song)">
               <th class="indicator"
                   :class="checkSongStatus(song)">
               </th>
               <th class="text-start">
                 {{ song.name }}
               </th>
-              <td class="text-start d-none d-md-table-cell">{{ song.artist }}</td>
+              <th class="text-start d-none d-md-table-cell">{{ song.artist }}</th>
               <td v-if="song.difficultyNormal > 0"
                   class="text-black diff-td"
-                  :class="{ 'bg-light': !song.normalClear, 'bg-theme-1': song.normalClear, 'flash': song.normalFC, 'd-none': this.type !== 'single' }">
+                  :class="{ 'bg-light': !song.normalClear, 'bg-theme-1': song.normalClear, 'flash': song.normalFC, 'd-none d-md-table-cell': this.type !== 'single' }">
                 {{ song.difficultyNormal }}
               </td>
-              <td v-else class="text-white diff-td bg-light"
-                  :class="{'d-none': this.type !== 'single'}">-</td>
+              <td v-else class="text-white diff-td"
+                  :class="{'d-none d-md-table-cell': this.type !== 'single'}">-</td>
               <td v-if="song.difficultyHard > 0"
                   class="text-black diff-td"
-                  :class="{ 'bg-light': !song.hardClear, 'bg-theme-2': song.hardClear, 'flash': song.hardFC, 'd-none': this.type !== 'single' }">
+                  :class="{ 'bg-light': !song.hardClear, 'bg-theme-2': song.hardClear, 'flash': song.hardFC, 'd-none d-md-table-cell': this.type !== 'single' }">
                 {{ song.difficultyHard }}
               </td>
-              <td v-else class="text-white diff-td bg-light"
-                  :class="{'d-none': this.type !== 'single'}">-</td>
+              <td v-else class="text-white diff-td"
+                  :class="{'d-none d-md-table-cell': this.type !== 'single'}">-</td>
               <td v-if="song.difficultyAnother > 0"
                   class="text-black diff-td"
-                  :class="{ 'bg-light': !song.anotherClear, 'bg-theme-3': song.anotherClear, 'flash': song.anotherFC, 'd-none': this.type !== 'single' }">
+                  :class="{ 'bg-light': !song.anotherClear, 'bg-theme-3': song.anotherClear, 'flash': song.anotherFC, 'd-none d-md-table-cell': this.type !== 'single' }">
                 {{ song.difficultyAnother }}
               </td>
-              <td v-else class="text-white diff-td bg-light"
-                  :class="{'d-none': this.type !== 'single'}">-</td>
+              <td v-else class="text-white diff-td"
+                  :class="{'d-none d-md-table-cell': this.type !== 'single'}">-</td>
               <td v-if="song.difficultyDoubleNormal > 0"
                   class="text-black diff-td"
-                  :class="{ 'bg-light': !song.normalDoubleClear, 'bg-theme-1': song.normalDoubleClear, 'flash': song.normalDoubleFC, 'd-none': this.type !== 'double' }">
+                  :class="{ 'bg-light': !song.normalDoubleClear, 'bg-theme-1': song.normalDoubleClear, 'flash': song.normalDoubleFC, 'd-none d-md-table-cell': this.type !== 'double' }">
                 {{ song.difficultyDoubleNormal }}
               </td>
               <td v-else
-                  class="text-white diff-td bg-light"
-                  :class="{'d-none': this.type !== 'double'}">-</td>
+                  class="text-white diff-td"
+                  :class="{'d-none d-md-table-cell': this.type !== 'double'}">-</td>
               <td v-if="song.difficultyDoubleHard > 0"
                   class="text-black diff-td"
-                  :class="{ 'bg-light': !song.hardDoubleClear, 'bg-theme-2': song.hardDoubleClear, 'flash': song.hardDoubleFC, 'd-none': this.type !== 'double' }">
+                  :class="{ 'bg-light': !song.hardDoubleClear, 'bg-theme-2': song.hardDoubleClear, 'flash': song.hardDoubleFC, 'd-none d-md-table-cell': this.type !== 'double' }">
                 {{ song.difficultyDoubleHard }}
               </td>
-              <td v-else class="text-white diff-td bg-light"
-                  :class="{'d-none': this.type !== 'double'}">-</td>
+              <td v-else class="text-white diff-td"
+                  :class="{'d-none d-md-table-cell': this.type !== 'double'}">-</td>
               <td v-if="song.difficultyDoubleAnother > 0"
                   class="text-black diff-td"
-                  :class="{ 'bg-light': !song.anotherDoubleClear, 'bg-theme-3': song.anotherDoubleClear, 'flash': song.anotherDoubleFC, 'd-none': this.type !== 'double' }">
+                  :class="{ 'bg-light': !song.anotherDoubleClear, 'bg-theme-3': song.anotherDoubleClear, 'flash': song.anotherDoubleFC, 'd-none d-md-table-cell': this.type !== 'double' }">
                 {{ song.difficultyDoubleAnother }}
               </td>
-              <td v-else class="text-white diff-td bg-light"
-                  :class="{'d-none': this.type !== 'double'}">-</td>
-              <td class=" diff-td pb-0" :class="{ 'bg-light text-dark': !song.favorite, 'bg-primary text-white': song.favorite }"><i class="fa favo fa-heart"></i></td>
+              <td v-else class="text-white diff-td"
+                  :class="{'d-none d-md-table-cell': this.type !== 'double'}">-</td>
+              <td class=" diff-td pb-0" :class="{ ' text-dark': !song.favorite, 'bg-primary text-white': song.favorite }"><i class="fa favo fa-heart"></i></td>
+              <td class=" diff-td pb-0" :class="{ ' text-dark': !song.target, 'bg-danger text-white': song.target }"><i class="fa favo fa-bullseye"></i></td>
             </tr>
           </tbody>
         </table>
@@ -145,15 +149,50 @@ export default {
       this.searchWord = '';
     },
     checkSongStatus(song) {
-        if ((song.normalClear || song.difficultyNormal < 1) &&
-            (song.hardClear || song.difficultyHard < 1) &&
-            (song.anotherClear || song.difficultyAnother < 1)) {
+      if ((song.normalClear || song.difficultyNormal < 1) &&
+          (song.hardClear || song.difficultyHard < 1) &&
+          (song.anotherClear || song.difficultyAnother < 1)
+          // &&
+          // (song.normalDoubleClear || song.difficultyDoubleNormal < 1) &&
+          // (song.hardDoubleClear || song.difficultyDoubleHard < 1) &&
+          // (song.anotherDoubleClear || song.difficultyDoubleAnother < 1)
+      ) {
         if ((song.normalFC || song.difficultyNormal < 1) &&
             (song.hardFC || song.difficultyHard < 1) &&
-            (song.anotherFC || song.difficultyAnother < 1)) {
+            (song.anotherFC || song.difficultyAnother < 1)
+            // &&
+            // (song.normalDoubleFC || song.difficultyDoubleNormal < 1) &&
+            // (song.hardDoubleFC || song.difficultyDoubleHard < 1) &&
+            // (song.anotherDoubleFC || song.difficultyDoubleAnother < 1)
+        ) {
           return 'bg-primary flash';
         } else {
           return 'bg-primary';
+        }
+      } else {
+        return '';
+      }
+    },
+    checkSongBg(song) {
+      if ((song.normalClear || song.difficultyNormal < 1) &&
+          (song.hardClear || song.difficultyHard < 1) &&
+          (song.anotherClear || song.difficultyAnother < 1)
+          &&
+          (song.normalDoubleClear || song.difficultyDoubleNormal < 1) &&
+          (song.hardDoubleClear || song.difficultyDoubleHard < 1) &&
+          (song.anotherDoubleClear || song.difficultyDoubleAnother < 1)
+      ) {
+        if ((song.normalFC || song.difficultyNormal < 1) &&
+            (song.hardFC || song.difficultyHard < 1) &&
+            (song.anotherFC || song.difficultyAnother < 1)
+            &&
+            (song.normalDoubleFC || song.difficultyDoubleNormal < 1) &&
+            (song.hardDoubleFC || song.difficultyDoubleHard < 1) &&
+            (song.anotherDoubleFC || song.difficultyDoubleAnother < 1)
+            ) {
+          return 'bg-info flash';
+        } else {
+          return 'bg-info';
         }
       } else {
         return 'bg-light';
@@ -206,7 +245,7 @@ export default {
       this.filterVisible = false;
     },
     addFilter(data) {
-      if (data.filterLevel === 0 && data.filteredClear === '' && data.filterFavorite === false && this.searchWord === '') {
+      if (data.filterLevel === 0 && data.filteredClear === '' && data.filterFavorite === false && data.filterTarget === false && this.searchWord === '') {
         this.noFilter = true;
         this.filters = {};
       } else {
@@ -229,8 +268,8 @@ export default {
           if (searchWord !== '') {
             if (
                 !song.name.toLowerCase().includes(searchWord) &&
-                !song.artist.toLowerCase().includes(searchWord)
-                // TODO: add composer
+                !song.artist.toLowerCase().includes(searchWord) &&
+                !song.composer.toLowerCase().includes(searchWord)
             ) {
               matchesFilter = false;
             }
@@ -276,6 +315,11 @@ export default {
             }
             if (this.filters.filterFavorite) {
               if (!song.favorite) {
+                matchesFilter = false;
+              }
+            }
+            if (this.filters.filterTarget) {
+              if (!song.target) {
                 matchesFilter = false;
               }
             }
@@ -341,7 +385,7 @@ export default {
     color: black !important;
    }
   .indicator {
-    width: 10px;
+    width: 12px;
     padding: 0 !important;
   }
   .flash {
