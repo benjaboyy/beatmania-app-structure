@@ -22,7 +22,7 @@
         <table class="table table-borderless bg-light table-striped table-songs">
           <thead>
           <tr class=" text-white bg-dark">
-            <th class="indicator"></th>
+            <th class="indicator d-none d-md-table-cell"></th>
             <th class="text-start">Song name</th>
             <th class="text-start d-none d-md-table-cell">Artist/ Alias</th>
             <th class="text-center text-theme-1"
@@ -45,7 +45,7 @@
             <tr @click="showDialog(song)"
                 v-for="song in setSongs" v-bind:key="song.id"
                 :class="checkSongBg(song)">
-              <th class="indicator"
+              <th class="indicator d-none d-md-table-cell"
                   :class="checkSongStatus(song)">
               </th>
               <th class="text-start">

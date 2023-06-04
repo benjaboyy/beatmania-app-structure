@@ -10,6 +10,10 @@
 </template>
 
 <script>
+// eslint-disable-next-line no-unused-vars
+import icon192 from '@/assets/img/icon-192.png';
+// eslint-disable-next-line no-unused-vars
+import icon512 from '@/assets/img/icon-512.png';
 export default {
   name: 'App',
   data() {
