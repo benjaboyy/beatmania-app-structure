@@ -49,9 +49,9 @@
         </div>
       </div>
       <div class="d-grid mt-2 gap-2">
-        <button class="btn" @click="toggleTarget" :class="target ? 'btn-danger' : 'bg-light'"><i class="fas fa-bullseye" :class="target ? 'text-white' : 'text-primary'"></i> Target</button>
+        <button class="btn" @click="toggleTarget" :class="target ? 'btn-danger' : 'bg-light'"><i class="fas fa-bullseye me-1" :class="target ? 'text-white' : 'text-primary'"></i> Target</button>
         <button class="btn" @click="toggleFavorite" :class="favorite ? 'btn-primary' : 'bg-light'"><i class="fa fa-heart" :class="favorite ? 'text-white' : 'text-primary'"></i> Favorite</button>
-        <p class="text-center text-dark m-0">Close window to save</p>
+        <button class="btn btn-dark" @click="hideDialog"><i class="fas fa-save text-white me-1"></i> Save</button>
       </div>
     </dialog>
   </transition>

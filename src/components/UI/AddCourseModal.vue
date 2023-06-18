@@ -15,7 +15,7 @@
       </div>
       <div class="d-grid gap-2">
         <button class="btn" @click="toggleFavorite" :class="favorite ? 'btn-primary' : 'bg-outline-primary'"><i class="fa fa-heart" :class="favorite ? 'text-white' : 'text-primary'"></i> Favorite</button>
-        <button class="btn btn-dark" @click="hideDialog"><i class="fa fa-save text-white"></i> Save song</button>
+        <button class="btn btn-dark" @click="hideDialog"><i class="fa fa-save text-white me-1"></i> Save</button>
       </div>
     </dialog>
   </transition>

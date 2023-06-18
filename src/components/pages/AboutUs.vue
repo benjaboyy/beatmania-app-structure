@@ -26,7 +26,7 @@
         <p>
           The app is not affiliated with Konami or any other company.
         </p>
-        <router-link to="/" class="btn btn-primary mb-2" href="#" type="button" role="button" exact><i class="fa fa-home me-2"></i> Back</router-link>
+        <router-link to="/about" class="btn btn-primary mb-2" href="#" type="button" role="button" exact><i class="fa fa-home me-2"></i> Back</router-link>
       </div>
     </div>
   </div>

@@ -26,14 +26,14 @@
                       </div>
                       <div class="col-3">
                         <div class=" w-100 h-100 d-flex grade-border"
-                        :class="course.clear ? 'border-primary' : 'border-secondary'">
+                        :class="course.FC ? 'border-primary flash' : course.clear ? 'border-primary' : 'border-secondary'">
                           <span class="text-primary fw-bolder header-text m-auto">
                               <span v-if="course.clear || course.grade">
                                 <h6 v-if="course.FC" class="m-0">FULL-COMBO</h6>
                                 <h6 v-if="course.clear && !course.FC" class="m-0">CLEAR</h6>
-                                <div v-if="course.grade">
+                                <span v-if="course.grade">
                                   <span v-if="course.grade">{{ course.grade }}</span>
-                                </div>
+                                </span>
                               </span>
                               <span v-else class="text-secondary">-</span>
                           </span>
@@ -243,6 +243,9 @@ export default {
   }
   .header-text {
     font-size: 1.5rem;
+  }
+  .flash {
+    animation: flash 0.6s infinite;
   }
   @keyframes flash {
     0% {
