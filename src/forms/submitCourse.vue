@@ -33,8 +33,8 @@
                     {{ course.name }}
                   </option>
                 </select>
-                <a v-if="CourseID" class="btn btn-light text-danger" @click="deleteSong"><i class="fa fa-trash-alt"></i></a>
-                <a v-else class="btn btn-light text-dark disabled" @click="deleteSong"><i class="fa fa-trash-alt"></i></a>
+                <a v-if="CourseID" class="btn btn-light text-danger" @click="deleteCourse"><i class="fa fa-trash-alt"></i></a>
+                <a v-else class="btn btn-light text-dark disabled"><i class="fa fa-trash-alt"></i></a>
               </div>
             </div>
               <div class="mt-3">
@@ -51,23 +51,22 @@
               <div v-for="(courseSong, index) in songIDs" :key="index">
                 <label for="songName">Song {{ index + 1 }}</label>
                 <div class="input-group mb-0">
-                  <select class="form-select" v-model="songIDs[index]">
+                  <select class="form-select" v-model="songIDs[index].id">
                     <option class="dropdown-item text-theme-1"
                             v-for="song in songList"
                             :key="song.id"
-                            :value="song"
-                            :selected="songIDs[index].id === song.id">
+                            :value="song.id">
                       {{ song.name }}
                     </option>
                   </select>
                 </div>
                 <div class="mb-2">
-                  <a v-if="courseDouble === false" class="btn  w-25" :class="songIDs[index].diff === 'difficultyNormal'? 'btn-primary' : 'btn-light'" @click="setDifficulty(index, 'difficultyNormal', songIDs[index].difficultyNormal)">S{{ songIDs[index].difficultyNormal }}</a>
-                  <a v-if="courseDouble === false" class="btn w-25" :class="songIDs[index].diff === 'difficultyHard' ? 'btn-primary' : 'btn-light'"  @click="setDifficulty(index, 'difficultyHard', songIDs[index].difficultyHard)">S{{ songIDs[index].difficultyHard }}</a>
-                  <a v-if="courseDouble === false" class="btn w-25" :class="songIDs[index].diff === 'difficultyAnother' ? 'btn-primary' : 'btn-light'" @click="setDifficulty(index, 'difficultyAnother', songIDs[index].difficultyAnother)">S{{ songIDs[index].difficultyAnother }}</a>
-                  <a v-if="courseDouble === true" class="btn w-25" :class="songIDs[index].diff === 'difficultyDoubleNormal'? 'btn-primary' : 'btn-light'" @click="setDifficulty(index, 'difficultyDoubleNormal', songIDs[index].difficultyDoubleNormal)">D{{ songIDs[index].difficultyDoubleNormal }}</a>
-                  <a v-if="courseDouble === true" class="btn w-25" :class="songIDs[index].diff === 'difficultyDoubleHard' ? 'btn-primary' : 'btn-light'" @click="setDifficulty(index, 'difficultyDoubleHard', songIDs[index].difficultyDoubleHard)">D{{ songIDs[index].difficultyDoubleHard }}</a>
-                  <a v-if="courseDouble === true" class="btn w-25" :class="songIDs[index].diff === 'difficultyDoubleAnother' ? 'btn-primary' : 'btn-light'" @click="setDifficulty(index, 'difficultyDoubleAnother', songIDs[index].difficultyDoubleAnother)">D{{ songIDs[index].difficultyDoubleAnother }}</a>
+                  <a v-if="courseDouble === false" class="btn  w-25" :class="songToUpdate[index].diff === 'difficultyNormal'? 'btn-primary' : 'btn-light'" @click="setDifficulty(index, 'difficultyNormal', songToUpdate[index].difficultyNormal)">S{{ songToUpdate[index].difficultyNormal }}</a>
+                  <a v-if="courseDouble === false" class="btn w-25" :class="songToUpdate[index].diff === 'difficultyHard' ? 'btn-primary' : 'btn-light'"  @click="setDifficulty(index, 'difficultyHard', songToUpdate[index].difficultyHard)">S{{ songToUpdate[index].difficultyHard }}</a>
+                  <a v-if="courseDouble === false" class="btn w-25" :class="songToUpdate[index].diff === 'difficultyAnother' ? 'btn-primary' : 'btn-light'" @click="setDifficulty(index, 'difficultyAnother', songToUpdate[index].difficultyAnother)">S{{ songToUpdate[index].difficultyAnother }}</a>
+                  <a v-if="courseDouble === true" class="btn w-25" :class="songToUpdate[index].diff === 'difficultyDoubleNormal'? 'btn-primary' : 'btn-light'" @click="setDifficulty(index, 'difficultyDoubleNormal', songToUpdate[index].difficultyDoubleNormal)">D{{ songToUpdate[index].difficultyDoubleNormal }}</a>
+                  <a v-if="courseDouble === true" class="btn w-25" :class="songToUpdate[index].diff === 'difficultyDoubleHard' ? 'btn-primary' : 'btn-light'" @click="setDifficulty(index, 'difficultyDoubleHard', songToUpdate[index].difficultyDoubleHard)">D{{ songToUpdate[index].difficultyDoubleHard }}</a>
+                  <a v-if="courseDouble === true" class="btn w-25" :class="songToUpdate[index].diff === 'difficultyDoubleAnother' ? 'btn-primary' : 'btn-light'" @click="setDifficulty(index, 'difficultyDoubleAnother', songToUpdate[index].difficultyDoubleAnother)">D{{ songToUpdate[index].difficultyDoubleAnother }}</a>
                   <a class="btn btn-light text-danger w-25" @click="deleteSong(index)"><i class="fa fa-trash-alt"></i></a>
                 </div>
               </div>
@@ -94,6 +93,7 @@ export default {
   data() {
     return {
       songIDs: [],
+      songToUpdate: [],
       gameID: "",
       CourseID: "",
       enteredName: "",
@@ -113,6 +113,7 @@ export default {
   methods: {
     reset() {
       this.songIDs = [];
+      this.songToUpdate = [];
       this.CourseID = "";
       this.enteredName = "";
       this.enteredRating = 1;
@@ -140,12 +141,12 @@ export default {
         this.invalidInput = true;
         return;
       }
-      if (this.songIDs.length <= 0) {
+      if (this.songToUpdate.length <= 0) {
         this.invalidInput = true;
         return;
       }
-      for (let i = 0; i < this.songIDs.length; i++) {
-        if (this.songIDs[i].diff === undefined) {
+      for (let i = 0; i < this.songToUpdate.length; i++) {
+        if (this.songToUpdate[i].diff === undefined) {
           this.invalidInput = true;
           return;
         }
@@ -159,11 +160,12 @@ export default {
 
       // Remove the unwanted properties from each songID
       // eslint-disable-next-line no-unused-vars
-      const sanitizedSongIDs = this.songIDs.map(({ difficultyAnother, difficultyDoubleAnother, difficultyDoubleHard, difficultyDoubleNormal, difficultyHard, difficultyNormal, ...rest }) => rest);
+      // const sanitizedSongIDs = this.songIDs.map(({ difficultyAnother, difficultyDoubleAnother, difficultyDoubleHard, difficultyDoubleNormal, difficultyHard, difficultyNormal, ...rest }) => rest);
 
       const course = {
         name: this.enteredName,
-        songIDs: sanitizedSongIDs,
+        //merge the songIDs and the songToUpdate arrays
+        songIDs: this.songToUpdate.map((item, index) => Object.assign({}, item, this.songToUpdate[index])),
         id: this.enteredName.trim().replace(/\s/g, ''),
         rating: this.enteredRating,
         type: this.type,
@@ -186,6 +188,7 @@ export default {
           this.enteredName = '';
           this.enteredRating = 1;
           this.songIDs = [];
+          this.reset();
         })
         .catch(err => {
           this.error = err.message;
@@ -193,6 +196,9 @@ export default {
     },
     addSong(toUpdate) {
       this[toUpdate].push({
+        id: '',
+      });
+      this.songToUpdate.push({
         id: '',
         diff: '',
         difficultyNormal: '-',
@@ -205,6 +211,23 @@ export default {
     },
     deleteSong(index) {
       this.songIDs.splice(index, 1);
+      this.songToUpdate.splice(index, 1);
+    },
+    deleteCourse() {
+      const token = this.$store.getters.token;
+      const gameID = this.gameID;
+      const CourseID = this.CourseID;
+      fetch(`https://beatmania-pro-default-rtdb.europe-west1.firebasedatabase.app/courses/${gameID}/${CourseID}.json?auth=${token}`, {
+        method: 'DELETE',
+      })
+        .then(res => {
+          this.submitted = true;
+          this.lastSubmittedID = res.name;
+          this.reset();
+        })
+        .catch(err => {
+          this.error = err.message;
+        });
     },
     setNumber(num) {
       if (num < 1) {
@@ -214,8 +237,8 @@ export default {
       }
     },
     setDifficulty(index, difficulty, value) {
-      this.songIDs[index].diff = difficulty;
-      this.songIDs[index].value = value;
+      this.songToUpdate[index].diff = difficulty;
+      this.songToUpdate[index].value = value;
     },
     async getGameSongs() {
       const token = this.$store.getters.token;
@@ -260,6 +283,7 @@ export default {
           name: responseData[key].name,
           rating: responseData[key].rating,
           songIDs: responseData[key].songIDs,
+          songToUpdate: responseData[key].songIDs,
           type: responseData[key].type,
         };
         item.push(song);
@@ -285,8 +309,8 @@ export default {
       if (this.songIDs.length <= 0) {
         return false;
       } else {
-        for (let i = 0; i < this.songIDs.length; i++) {
-          if (this.songIDs[i].diff === undefined) {
+        for (let i = 0; i < this.songToUpdate.length; i++) {
+          if (this.songToUpdate[i].diff === undefined) {
 
             return false;
           }
@@ -302,12 +326,15 @@ export default {
       this.getGameSongs();
     },
     CourseID: function (val) {
+      //update courseSong with data from songIDs
+
       this.courseChoises.forEach(game => {
         if (game.id === val) {
           // console.log(game)
           this.enteredName = game.name;
           this.enteredRating = game.rating;
           this.songIDs = game.songIDs;
+          this.songToUpdate = game.songIDs;
           this.type = game.type;
           if (this.type === 'singles') {
             this.courseDouble = false;
@@ -316,7 +343,31 @@ export default {
           }
         }
       });
-    }
+    },
+    songIDs: {
+      handler(newSongIDs) {
+        // Update song info in songToUpdate for selected songs
+        this.songToUpdate = newSongIDs.map((songID) => {
+          const songInfo = this.songList.find((song) => song.id === songID.id);
+          if (songInfo) {
+            return {
+              id: songID.id,
+              diff: this.songToUpdate.find((song) => song.id === songID.id)?.diff || {},
+              difficultyNormal: songInfo.difficultyNormal,
+              difficultyHard: songInfo.difficultyHard,
+              difficultyAnother: songInfo.difficultyAnother,
+              difficultyDoubleNormal: songInfo.difficultyDoubleNormal,
+              difficultyDoubleHard: songInfo.difficultyDoubleHard,
+              difficultyDoubleAnother: songInfo.difficultyDoubleAnother,
+            };
+          }
+          return {
+            id: songID.id,
+          };
+        });
+      },
+      deep: true,
+    },
   }
 }
 </script>

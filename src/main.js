@@ -14,6 +14,7 @@ import AddCourseModal from "@/components/UI/AddCourseModal";
 import RegisterUser from "@/forms/user/RegisterUser";
 import submitCourse from "@/forms/submitCourse";
 import CourseList from "@/components/pages/CourseList";
+import TipsScreen from "@/components/pages/TipsScreen";
 
 import './assets/main.css'
 import './assets/css/all.css'
@@ -38,6 +39,7 @@ const router = createRouter({
         { path: '/import', component: importSongs, meta: { requiresAuth: true } },
         { path: '/Admin', component: AdminPanel, meta: { requiresAuth: true } },
         { path: '/about', component: AboutUs, meta: { requiresAuth: false } },
+        { path: '/tips', component: TipsScreen, meta: { requiresAuth: false } },
         { path: '/register', component: RegisterUser },
         { path: '/:notFound(.*)', redirect: '/welcome'},
     ],

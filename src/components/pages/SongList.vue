@@ -14,7 +14,7 @@
           <div class="my-2 my-md-4 text-start">
             <span v-if="!noFilter" class="text-white me-2">Filter:</span>
             <span v-if="!noFilter && searchWord !== '' && searchWord !== undefined" class="badge rounded-pill bg-light text-dark me-2">Name/ artist</span>
-            <span v-if="!noFilter && filters.filterLevel !== 0 && filters.filterLevel !== undefined" class="badge rounded-pill pill bg-light text-dark me-2">Level {{ filters.filterLevel }}</span>
+            <span v-if="!noFilter && filters.filterLevel > 0 && filters.filterLevel !== undefined" class="badge rounded-pill pill bg-light text-dark me-2">Level {{ filters.filterLevel }}</span>
             <span v-if="!noFilter && filters.filteredClear !== '' && filters.filteredClear !== undefined" class="badge rounded-pill bg-light text-dark me-2">On {{ filters.filteredClear }}</span>
             <span v-if="!noFilter && filters.filterFavorite !== false && filters.filterFavorite !== undefined" class="badge rounded-pill bg-light text-dark me-2">Favorite</span>
           </div>
@@ -268,8 +268,7 @@ export default {
           if (searchWord !== '') {
             if (
                 !song.name.toLowerCase().includes(searchWord) &&
-                !song.artist.toLowerCase().includes(searchWord) &&
-                !song.composer.toLowerCase().includes(searchWord)
+                !((song.artist || '').toLowerCase() + (song.composer || '').toLowerCase()).includes(searchWord)
             ) {
               matchesFilter = false;
             }

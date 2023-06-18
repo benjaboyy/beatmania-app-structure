@@ -30,7 +30,7 @@
       </div>
       <div class="col-12 my-4 text-center">
         <router-link to="/settings" class="btn btn-block btn-secondary" href="#" type="button" role="button"><i class="fas fa-check-square"></i> Select games</router-link>
-        <router-link to="/about" class="btn btn-block btn-secondary ms-3" href="#" type="button" role="button"><i class="far fa-lightbulb"></i> See tips</router-link>
+        <router-link to="/tips" class="btn btn-block btn-secondary ms-3" href="#" type="button" role="button"><i class="far fa-lightbulb"></i> See tips</router-link>
         <div id="emailHelp" class="form-text mt-3">Find more games to track in your account settings.</div>
       </div>
 

@@ -254,6 +254,7 @@ export default {
                     anotherDoubleFC: responseData[key].anotherDoubleFC,
                     anotherDoubleClear: responseData[key].anotherDoubleClear,
                     favorite: responseData[key].favorite,
+                    target: responseData[key].target,
                 }
                 userSongs.push(song)
             }

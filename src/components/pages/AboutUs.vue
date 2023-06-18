@@ -23,6 +23,9 @@
           <br>We value your input and are continuously working to improve the app for the community. <br><br>
             Brought you by <a href="https://deschuurr.nl/?lang=en">deschuurr.nl</a>
           </p>
+        <p>
+          The app is not affiliated with Konami or any other company.
+        </p>
         <router-link to="/" class="btn btn-primary mb-2" href="#" type="button" role="button" exact><i class="fa fa-home me-2"></i> Back</router-link>
       </div>
     </div>

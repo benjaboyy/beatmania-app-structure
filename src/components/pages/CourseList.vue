@@ -25,7 +25,8 @@
                         </span>
                       </div>
                       <div class="col-3">
-                        <div class="border-primary w-100 h-100 d-flex grade-border">
+                        <div class=" w-100 h-100 d-flex grade-border"
+                        :class="course.clear ? 'border-primary' : 'border-secondary'">
                           <span class="text-primary fw-bolder header-text m-auto">
                               <span v-if="course.clear || course.grade">
                                 <h6 v-if="course.FC" class="m-0">FULL-COMBO</h6>
@@ -34,24 +35,44 @@
                                   <span v-if="course.grade">{{ course.grade }}</span>
                                 </div>
                               </span>
-                              <span v-else>-</span>
+                              <span v-else class="text-secondary">-</span>
                           </span>
                         </div>
                       </div>
                     </div>
-                    <hr>
-                    <table class="w-100 text-start table table-borderless table-sm mb-0">
-                      <tr v-for="(song, index) in course.songIDs" :key="song.id">
-                        <td style="width: 10px">#{{ index + 1 }}</td>
-                        <th class="w-50">{{ song.name }}</th>
-                        <th class="text-end">
-                          <span class="text-white p-2 px-3" :class="setBG(song.diff)">{{ song.value }}</span>
-                        </th>
-                      </tr>
-                    </table>
-                    <!--                  update button-->
-                    <div class="text-start mt-2">
-                      <button class="btn btn-primary btn-sm" @click="showDialog(course)">Update</button>
+                    <div class="collapse" :id="'collapseSongs-' + course.id">
+                      <hr>
+                      <table class="w-100 text-start table table-borderless table-sm mb-0">
+                        <tr v-for="(song, index) in course.songIDs" :key="song.id">
+                          <td style="width: 10px">#{{ index + 1 }}</td>
+                          <th class="w-75 p-2">{{ song.name }}</th>
+                          <td class="text-end">
+                            <span class="text-white p-2 px-3" :class="setBG(song.diff)">{{ song.value }}</span>
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
+                    <!-- update button-->
+                    <div class="row g-3 mt-2">
+                      <div class="col-6">
+                        <div class="d-grid gap-2">
+                          <button class="btn btn-secondary btn-sm btn-block" @click="showDialog(course)"><i class="fa fa-edit me-1"></i> Update</button>
+                        </div>
+                      </div>
+                      <div class="col-6">
+                        <div class="d-grid gap-2">
+                          <button
+                              class="btn btn-sm btn-block"
+                              @click="course.show = !course.show"
+                              :class="course.show === true ? 'btn-primary' : 'btn-secondary'"
+                              data-bs-toggle="collapse"
+                              :data-bs-target="'#collapseSongs-' + course.id"
+                              aria-expanded="false"
+                              :aria-controls="'collapseSongs-' + course.id"
+                              ><i :class="course.show === true ? 'fa fa-eye-slash' : 'fa fa-eye'"></i>
+                              Show</button>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -215,8 +236,10 @@ export default {
 </script>
 
 <style scoped>
-  tr, th, td {
-    padding: 5px !important;
+  tr,  td {
+    padding: 0 !important;
+    padding-top: 5px !important;
+    padding-bottom: 5px !important;
   }
   .header-text {
     font-size: 1.5rem;
