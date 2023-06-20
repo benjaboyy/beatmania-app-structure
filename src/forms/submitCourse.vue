@@ -287,6 +287,7 @@ export default {
           songIDs: responseData[key].songIDs,
           songToUpdate: responseData[key].songIDs,
           type: responseData[key].type,
+          value: responseData[key].value,
         };
         item.push(song);
       }
