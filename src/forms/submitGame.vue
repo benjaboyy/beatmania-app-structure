@@ -1,6 +1,8 @@
 <template>
   <div class="login-screen px-2 mx-auto">
-    <h1 class="text-center my-4">Submit or update  Game</h1>
+    <h1 class="text-center my-4">Update  Games
+      <router-link to="/admin" class="btn btn-secondary ms-3" href="#" type="button" role="button"><i class="fa fa-arrow-left"></i> Back</router-link>
+    </h1>
     <div class="card">
       <div class="card-body">
         <div v-if="submitted" class="alert alert-success" role="alert">

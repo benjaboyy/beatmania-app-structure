@@ -26,6 +26,7 @@ export default {
                     },
                 },
                 favoriteGame: '',
+                arcadeCode: '',
             }
         }
     },
@@ -64,7 +65,7 @@ export default {
             state.didLogout = true;
         },
         setAccountSettings(state, payload) {
-            state.accountSettings.trackedGames = payload;
+            state.accountSettings = payload;
         }
     },
     actions: {
@@ -80,6 +81,33 @@ export default {
             } else {
                 const updatedAccountSettings = { ...getters.accountSettings, trackedGames: payload };
                 commit('setAccountSettings', updatedAccountSettings);
+            }
+        },
+        async updateSettings({ commit, getters }, payload) {
+            const userId = getters.userId;
+            const token = getters.token;
+            const response = await fetch(`https://beatmania-pro-default-rtdb.europe-west1.firebasedatabase.app/users/${userId}/accountSettings.json?auth=` + token, {
+                method: 'PATCH',
+                body: JSON.stringify(payload)
+            });
+            if (!response.ok) {
+                alert('Error while updating settings');
+            } else {
+                const updatedAccountSettings = { ...getters.accountSettings, ...payload };
+                commit('setAccountSettings', updatedAccountSettings);
+            }
+        },
+        async updateUsername({ commit, getters }, payload) {
+            const userId = getters.userId;
+            const token = getters.token;
+            const response = await fetch(`https://beatmania-pro-default-rtdb.europe-west1.firebasedatabase.app/users/${userId}.json?auth=` + token, {
+                method: 'PATCH',
+                body: JSON.stringify(payload)
+            });
+            if (!response.ok) {
+                alert('Error while updating username');
+            } else {
+                commit('setUserInfo', payload.name);
             }
         },
         async addSongToUser (context, payload) {
@@ -133,6 +161,7 @@ export default {
                 FC: payload.FC,
                 grade: payload.grade,
                 favorite: payload.favorite,
+                score: payload.score,
             }
 
             const token = context.getters.token;
@@ -188,7 +217,7 @@ export default {
         async loadTrackedGames(context) {
             const userId = context.getters.userId;
             const token = context.getters.token;
-            const response = await fetch(`https://beatmania-pro-default-rtdb.europe-west1.firebasedatabase.app/users/${userId}/accountSettings/trackedGames.json?auth=` + token);
+            const response = await fetch(`https://beatmania-pro-default-rtdb.europe-west1.firebasedatabase.app/users/${userId}/accountSettings.json?auth=` + token);
             const responseData = await response.json();
 
             if (!response.ok) {
@@ -287,6 +316,7 @@ export default {
 
             context.commit('setUserCourses', userCourses);
         },
+
         async auth(context, payload) {
             let url = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyA-o_3wteXq2TeoHwnVC5fCSyr_dzVd_j0';
             const response = await fetch(url, {
@@ -325,7 +355,6 @@ export default {
                 expirationDate: responseData.expirationDate,
             });
         },
-
         async refreshToken(context) {
             const token = localStorage.getItem('token');
             const refreshTokenUrl = 'https://securetoken.googleapis.com/v1/token?key=AIzaSyA-o_3wteXq2TeoHwnVC5fCSyr_dzVd_j0';
@@ -364,6 +393,7 @@ export default {
                 expirationDate: responseData.expires_in,
             });
         },
+
         tryLogin(context) {
             const token = localStorage.getItem('token');
             const userId = localStorage.getItem('userId');
@@ -424,7 +454,10 @@ export default {
             return state.name;
         },
         favoriteGame(state) {
-            return state.favoriteGame;
+            return state.accountSettings.favoriteGame;
+        },
+        getArcadeCode(state) {
+            return state.accountSettings.arcadeCode;
         },
         getTrackGames(state) {
             return state.accountSettings.trackedGames;

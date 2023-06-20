@@ -19,6 +19,10 @@
           Go to menu and select "Add to homescreen". <br>
           than you can use the app as a normal app. <br>
         </p>
+        <h5>Arcade Code</h5>
+        <p class="text-secondary">
+          <i>Coming soon. . .</i> <br>
+        </p>
 
         <router-link to="/" class="btn btn-primary mb-2 me-2" href="#" type="button" role="button" exact><i class="fa fa-home me-2"></i> Back</router-link>
         <router-link to="/" class="btn btn-primary mb-2" href="#" type="button" role="button" exact><i class="fa fa-question me-2"></i> About & Info</router-link>

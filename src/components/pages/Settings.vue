@@ -30,13 +30,18 @@
         <div v-if="tab === 'details'">
           <div id="emailHelp" class="form-text my-3">Set your account information.</div>
           <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Game tag/ name</label>
-            <input type="email" class="form-control" v-model="enteredName" id="exampleInputEmail1" aria-describedby="emailHelp">
+            <label for="Name" class="form-label">Game tag/ name</label>
+            <input type="username" class="form-control" v-model="enteredName" id="exampleInputEmail1" aria-describedby="emailHelp">
+          </div>
+          <div class="mb-3">
+            <label for="Select" class="form-label">
+              Arcade code <router-link to="/tips" class="text-primary"><i class="fa fa-question-circle ms-2"></i> info</router-link>
+            </label>
+            <input type="arcadecode" class="form-control" v-model="enteredAracdeCode" id="exampleInputEmail1" aria-describedby="emailHelp">
           </div>
           <div class="mb-3">
             <label for="Select" class="form-label">Favorite Game</label>
-            <select id="Select" class="form-select" disabled>
-              <option selected>Choose...</option>
+            <select id="Select" class="form-select" placeholder="Choose" v-model="enteredFavoriteGame">
               <option v-for="game in games" v-bind:key="game">{{ game.name }}</option>
             </select>
           </div>
@@ -46,7 +51,7 @@
               <option selected>Choose...</option>
             </select>
           </div>
-          <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Save</button>
+          <button type="submit" @click="updateSettings" class="btn btn-primary"><i class="fa fa-save"></i> Save</button>
         </div>
 
       </div>
@@ -65,12 +70,14 @@ export default {
       tab: 'details',
       enteredFavoriteGame: '',
       enteredName: '',
+      enteredAracdeCode: '',
       enteredTrackGames: {},
     }
   },
   async created() {
     this.enteredFavoriteGame = this.favoriteGame;
     this.enteredName = this.userName;
+    this.enteredAracdeCode = this.arcadeCode;
     await this.$store.dispatch('loadTrackedGames');
     await this.games.forEach(game => {
       this.enteredTrackGames[game.id] = {
@@ -86,6 +93,12 @@ export default {
         this.enteredTrackGames[gameId] = trackedGames[gameId];
       }
     }
+    const urlParams = new URLSearchParams(window.location.search);
+    const gameId = urlParams.get('ID');
+    if (gameId === 'game') {
+      this.tab = 'games';
+    }
+    window.history.replaceState({}, document.title, "/" + "settings");
   },
   methods: {
     updateTrackGames(gameId, option, value) {
@@ -100,6 +113,13 @@ export default {
       }
       this.$store.dispatch('updateTrackGames', this.enteredTrackGames);
     },
+    updateSettings() {
+      this.$store.dispatch('updateSettings', {
+        arcadeCode: this.enteredAracdeCode,
+        favoriteGame: this.enteredFavoriteGame
+      });
+      this.$store.dispatch('updateUsername', this.enteredName);
+    }
   },
   computed: {
     games() {
@@ -110,6 +130,9 @@ export default {
     },
     favoriteGame() {
       return this.$store.getters['favoriteGame'];
+    },
+    arcadeCode() {
+      return this.$store.getters['getArcadeCode'];
     },
     userName() {
       return this.$store.getters['userName'];

@@ -7,14 +7,23 @@
       <br>
       <span>{{ infoSong.type }}</span>
       <hr>
-      <div class="input-group mb-3  input-group-lg">
-        <input placeholder="Score" type="text" class="form-control" id="scoreNormal" v-model="score" />
-        <input placeholder="Grade" type="text" class="form-control" id="scoreNormal" v-model="grade" />
-        <a class="btn" :class="clear ? 'bg-primary text-white' : 'bg-light text-primary'" @click="toggleClear">Clear</a>
-        <a class="btn" :class="FC ? 'bg-primary text-white flash' : 'bg-light text-primary'" @click="toggleFC">FC</a>
+      <div class="row">
+        <div class="col-6 mb-3">
+            <input placeholder="Score" type="text" class="form-control form-control-lg" id="scoreNormal" v-model="score" />
+        </div>
+        <div class="col-6 mb-3">
+            <input placeholder="Grade" type="text" class="form-control form-control-lg" id="scoreNormal" v-model="grade" />
+        </div>
+        <div class="col-6 mb-3">
+            <a class="btn btn-block w-100" :class="clear ? 'bg-primary text-white' : 'bg-light text-primary'" @click="toggleClear">Cleared</a>
+        </div>
+        <div class="col-6 mb-3">
+            <a class="btn btn-block w-100" :class="FC ? 'bg-primary text-white flash' : 'bg-light text-primary'" @click="toggleFC">FULL-COMBO</a>
+        </div>
       </div>
       <div class="d-grid gap-2">
-        <button class="btn" @click="toggleFavorite" :class="favorite ? 'btn-primary' : 'bg-outline-primary'"><i class="fa fa-heart" :class="favorite ? 'text-white' : 'text-primary'"></i> Favorite</button>
+        <button class="btn" @click="toggleFavorite" :class="favorite ? 'btn-primary' : 'bg-light text-primary'"><i class="fa fa-heart" :class="favorite ? 'text-white' : 'text-primary'"></i> Set favorite</button>
+        <hr>
         <button class="btn btn-dark" @click="hideDialog"><i class="fa fa-save text-white me-1"></i> Save</button>
       </div>
     </dialog>
@@ -70,11 +79,11 @@ export default {
   watch: {
     open() {
       if (this.open) {
-        this.score = this.infoSong.normal;
         this.FC = this.infoSong.FC;
         this.clear = this.infoSong.clear;
         this.favorite = this.infoSong.favorite;
         this.grade = this.infoSong.grade;
+        this.score = this.infoSong.score;
       }
     }
   }
@@ -96,10 +105,12 @@ dialog {
   position: fixed;
   top: 20vh;
   width: 100%;
-  margin: 0;
+  max-width: 40rem;
+  margin: auto;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
   border-radius: 0;
   padding: 1rem;
+  overflow: auto;
   background-color: white;
   z-index: 100;
   border: none;
