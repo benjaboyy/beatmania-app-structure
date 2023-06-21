@@ -203,6 +203,7 @@ export default {
       this.songToUpdate.push({
         id: '',
         diff: '',
+        value: '',
         difficultyNormal: '-',
         difficultyHard: '-',
         difficultyAnother: '-',
@@ -363,6 +364,7 @@ export default {
               difficultyDoubleNormal: songInfo.difficultyDoubleNormal,
               difficultyDoubleHard: songInfo.difficultyDoubleHard,
               difficultyDoubleAnother: songInfo.difficultyDoubleAnother,
+              value: this.songToUpdate.find((song) => song.id === songID.id)?.value || {},
             };
           }
           return {
