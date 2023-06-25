@@ -1,6 +1,6 @@
 <template>
   <div class="login-screen px-2 mx-auto">
-    <h1 class="text-center my-4">Update Songs
+    <h1 class="text-center my-4">Update Arcade
       <router-link to="/admin" class="btn btn-secondary ms-3" href="#" type="button" role="button"><i class="fa fa-arrow-left"></i> Back</router-link>
     </h1>
     <div class="card">
@@ -9,70 +9,46 @@
           Submitted! {{ this.lastSubmittedID }}
         </div>
         <form @submit.prevent="submitSong">
-          <label for="gameID">Choose game</label>
-          <select class="form-select " v-model="gameID">
-            <option class="dropdown-item" v-for="game in gameChoises" :key="game.id" :value="game.id">
-              {{ game.name }}
-            </option>
-          </select>
-          <div v-if="isGameSelected">
+          <div>
             <div class="mt-3">
-              <a class="btn btn-primary" @click="songUpdateSwitch" :class="songUpdate === false ? 'btn-primary' : 'btn-light'">New</a>
-              <a class="btn btn-primary" @click="songUpdateSwitch" :class="songUpdate === true ? 'btn-primary' : 'btn-light'">Update</a>
+              <a class="btn btn-primary" @click="arcadeUpdateSwitch" :class="arcadeUpdate === false ? 'btn-primary' : 'btn-light'">New</a>
+              <a class="btn btn-primary" @click="arcadeUpdateSwitch" :class="arcadeUpdate === true ? 'btn-primary' : 'btn-light'">Update</a>
               <a v-if="isSongName" class="btn btn-outline-primary ms-3" @click="reset"><i class="fa fa-sync-alt"></i> Reset</a>
             </div>
-            <div v-if="!songUpdate">
+            <div v-if="!arcadeUpdate">
               <div class="form-group">
-                <label for="songName">Song Name</label>
+                <label for="songName">Arcade Name</label>
                 <input class="form-control" type="text" id="songName" v-model="enteredName" />
               </div>
             </div>
-              <div v-else class="form-group">
-                <label for="songName">Choose song</label>
-                <div class="input-group mb-3">
-                  <select class="form-select " v-model="songID">
-                    <option class="dropdown-item " v-for="song in songList" :key="song.id" :value="song.id">
-                      {{ song.name }}
-                    </option>
-                  </select>
-                  <a v-if="isSongID" class="btn btn-light text-danger" @click="deleteSong"><i class="fa fa-trash-alt"></i></a>
-                  <a v-else class="btn btn-light text-dark disabled" @click="deleteSong"><i class="fa fa-trash-alt"></i></a>
-                </div>
+            <div v-else class="form-group">
+              <label for="songName">Choose arcade</label>
+              <div class="input-group mb-3">
+                <select class="form-select " v-model="arcadeID">
+                  <option class="dropdown-item " v-for="arcade in arcadeList" :key="arcade.id" :value="arcade.id">
+                    {{ arcade.name }}
+                  </option>
+                </select>
+                <a v-if="isArcadeID" class="btn btn-light text-danger" @click="deleteSong"><i class="fa fa-trash-alt"></i></a>
+                <a v-else class="btn btn-light text-dark disabled" @click="deleteSong"><i class="fa fa-trash-alt"></i></a>
               </div>
-            <div class="form-group">
-              <label for="songArtist">Artist/ Alias</label>
-              <input class="form-control" type="text" id="songArtist" v-model="enteredArtist" />
             </div>
             <div class="form-group">
-              <label for="songArtist">Composer</label>
-              <input class="form-control" type="text" id="songArtist" v-model="enteredComposer" />
-            </div>
-            <h5 class="mt-4">Difficulty Single</h5>
-            <div class="form-group">
-              <label for="formControlRangeN">Normal Difficulty {{ displayEnteredDifficultyNormal }}</label>
-              <input data- type="range" max="9" min="0" class="form-range col-12" id="formControlRangeN" v-model="enteredDifficultyNormal" />
+              <label for="songArtist">Country</label>
+              <input class="form-control" type="text" id="songArtist" v-model="enteredCountry" />
             </div>
             <div class="form-group">
-              <label for="formControlRangeH">Hard Difficulty {{ displayEnteredDifficultyHard }}</label>
-              <input type="range" max="9" min="0" class="form-range col-12" id="formControlRangeH" v-model="enteredDifficultyHard" />
+              <label for="songArtist">Arcade code</label>
+              <input class="form-control" type="text" id="songArtist" v-model="enteredCode" />
             </div>
-            <div class="form-group">
-              <label for="formControlRangeA">Another Difficulty {{ displayEnteredDifficultyAnother }}</label>
-              <input type="range" max="9" min="0" class="form-range col-12" id="formControlRangeA" v-model="enteredDifficultyAnother" />
+
+            <h6 class="mt-3">Playable games</h6>
+<!--              select multiple playable games as chackboxes-->
+            <div class="form-check" v-for="game in gameChoises" :key="game.id">
+              <input class="form-check-input" type="checkbox" :id="game.id" :value="game.id" v-model="enteredGames">
+              <label class="form-check-label" :for="game.id">{{ game.name }}</label>
             </div>
-            <h5 class="mt-4">Difficulty Double</h5>
-            <div class="form-group">
-              <label for="formControlRangeDN">Normal Difficulty {{ displayEnteredDifficultyDoubleNormal }}</label>
-              <input type="range" max="9" min="0" class="form-range col-12" id="formControlRangeDN" v-model="enteredDifficultyDoubleNormal" />
-            </div>
-            <div class="form-group">
-              <label for="formControlRangeDH">Hard Difficulty {{ displayEnteredDifficultyDoubleHard }}</label>
-              <input type="range" max="9" min="0" class="form-range col-12" id="formControlRangeDH" v-model="enteredDifficultyDoubleHard" />
-            </div>
-            <div class="form-group">
-              <label for="formControlRangeDA">Another Difficulty {{ displayEnteredDifficultyDoubleAnother }}</label>
-              <input type="range" max="9" min="0" class="form-range col-12" id="formControlRangeDA" v-model="enteredDifficultyDoubleAnother" />
-            </div>
+
             <p v-if="invalidInput">One or more input fields are invalid. Please check your provided data.</p>
             <p v-if="error">{{ error }}</p>
             <hr>
@@ -93,25 +69,14 @@ export default {
   name: "submitSong",
   data() {
     return {
-      songID: "",
-      gameID: "",
-      songUpdate: false,
+      arcadeID: "",
+      gameList: [],
+      arcadeList: [],
       enteredName: "",
-      enteredArtist: "",
-      enteredComposer: "",
-      enteredDifficultyNormal: 1,
-      enteredDifficultyHard: 1,
-      enteredDifficultyAnother: 1,
-      enteredDifficultyDoubleNormal: 1,
-      enteredDifficultyDoubleHard: 1,
-      enteredDifficultyDoubleAnother: 1,
-      selectedGames: [],
-      invalidInput: false,
-      error: null,
-      submitted: false,
-      lastSubmittedID: '',
-      gameChoises: [],
-      songList: [],
+      enteredCode: "",
+      enteredCountry: "",
+      enteredGames: [],
+      arcadeUpdate: false,
     }
   },
   async created() {
@@ -178,9 +143,9 @@ export default {
         }
       });
     },
-    songUpdateSwitch() {
-      this.songUpdate = !this.songUpdate;
-      if (this.songUpdate === false) {
+    arcadeUpdateSwitch() {
+      this.arcadeUpdate = !this.arcadeUpdate;
+      if (this.arcadeUpdate === false) {
         this.reset();
       }
     },
@@ -295,8 +260,8 @@ export default {
     displayEnteredDifficultyDoubleAnother() {
       return this.setNumber(this.enteredDifficultyDoubleAnother);
     },
-    isSongID() {
-      if (this.songID === "") {
+    isArcadeID() {
+      if (this.arcadeID === "") {
         return false;
       } else {
         return true;
