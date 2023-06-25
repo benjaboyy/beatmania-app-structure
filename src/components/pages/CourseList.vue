@@ -333,7 +333,7 @@ export default {
     padding: 4px;
   }
   .opacity-down {
-    opacity: 66%;
+    opacity: 73%;
   }
   .transition {
     transition: 1s;
