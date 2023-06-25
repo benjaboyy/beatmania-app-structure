@@ -2,17 +2,32 @@
   <div class="container-fluid bg-dark">
     <div class="row text-center mx-md-3">
       <div class="col-12 p-0 text pt-4">
-        <h1 class="text-center mb-3">{{ game.name }} <i :class="'icon ' + game.icon + ' text-primary'"></i></h1>
-        <div class="pb-3">
-          <a class="btn btn-primary" @click="courseDoubleSwitch" :class="courseDouble === false ? 'btn-primary' : 'btn-light'"><i class="fa fa-compact-disc"></i> Single Courses</a>
-          <a class="btn btn-primary" @click="courseDoubleSwitch" :class="courseDouble === true ? 'btn-primary' : 'btn-light'"><i class="fa fa-compact-disc"></i> <i class="fa fa-compact-disc"></i> Double Courses</a>
+        <h1 class="text-center mb-2">{{ game.name }} <i :class="'icon ' + game.icon + ' text-primary'"></i></h1>
+        <h4 v-if="!toggleFilted" class="text-center text-white mb-2 mt-1">
+          <span v-if="courseDouble === false">Single Courses</span>
+          <span v-if="courseDouble === true">Double Courses</span>
+        </h4>
+        <div class="row">
+          <div v-if="toggleFilted" class="pb-2 col-12">
+            <a class="btn btn-primary" @click="courseDoubleSwitch" :class="courseDouble === false ? 'btn-primary' : 'btn-light'"><i class="fa fa-compact-disc"></i> Single Courses</a>
+            <a class="btn btn-primary" @click="courseDoubleSwitch" :class="courseDouble === true ? 'btn-primary' : 'btn-light'"><i class="fa fa-compact-disc"></i> <i class="fa fa-compact-disc"></i> Double Courses</a>
+          </div>
+          <div class="pb-3 col-12">
+            <a v-if="toggleFilted" class="btn btn-primary" @click="courseFilterCleared" :class="filterCleared === true ? 'btn-primary' : 'btn-light'"><i class="fa fa-check"></i> Cleared</a>
+            <a v-if="toggleFilted" class="btn btn-primary" @click="courseFilterFailed" :class="filterFailed === true ? 'btn-primary' : 'btn-light'"><i class="fa fa-times"></i> Failed</a>
+            <a v-if="toggleFilted" class="btn btn-primary" @click="courseFilterFC" :class="filterFC === true ? 'btn-primary' : 'btn-light'"><i class="fas fa-crosshairs"></i> Full-Combo</a>
+            <a v-if="toggleFilted" class="btn btn-primary" @click="courseFilterGrade" :class="filterGrade === true ? 'btn-primary' : 'btn-light'"><i class="fas fa-graduation-cap"></i> Grade</a>
+            <a v-if="toggleFilted" class="btn btn-primary" @click="courseFilterScore" :class="filterScore === true ? 'btn-primary' : 'btn-light'"><i class="fas fa-star"></i> Score</a>
+            <a class="btn btn-primary" @click="toggleFilter" :class="toggleFilted === true ? 'btn-primary' : 'btn-light'"><i class="fa fa-filter"></i> Filter</a>
+          </div>
         </div>
         <div class="container-fluid">
           <div class="row">
 
             <!--TODO: Courses Cards-->
-            <div v-for="course in setCourses" :key="course.id" class="col-12 col-md-6 col-lg-4 col-xxl-3 mb-3">
-                <div v-if="course.type === getType" class="card h-100 border-primary">
+            <div v-for="course in filteredsetCourses" :key="course.id" class="col-12 col-md-6 col-lg-4 col-xxl-3 mb-3">
+              <span>
+                <div :class="course.clear ? ' ' : 'opacity-down'" class="card h-100 border-primary">
                   <div class="card-header bg-primary">
                   </div>
                   <div class="card-body">
@@ -43,7 +58,7 @@
                         </div>
                       </div>
                     </div>
-                    <div class="collapse" :id="'collapseSongs-' + course.id">
+                    <div class="transition" v-if="course.show">
                       <hr>
                       <table class="w-100 text-start table table-borderless table-sm mb-0">
                         <tr v-for="(song, index) in course.songIDs" :key="song.id">
@@ -79,6 +94,7 @@
                     </div>
                   </div>
                 </div>
+              </span>
             </div>
 
           </div>
@@ -104,9 +120,13 @@ export default {
       game: '',
       setCourses: [],
       dialogIsVisible: false,
-      filterVisible: false,
+      filterCleared:  false,
+      filterFailed: false,
+      filterFC: false,
+      filterGrade: false,
+      filterScore: false,
+      toggleFilted: false,
       infoSong: {},
-      filters: {},
       isLoaded: false,
       loading: false,
       noFilter: true,
@@ -118,10 +138,36 @@ export default {
     courseDoubleSwitch() {
       this.courseDouble = !this.courseDouble;
     },
+    //TODO: Make filters code efficient
+    courseFilterCleared() {
+      this.filterCleared = !this.filterCleared;
+      if (this.filterCleared) {
+        this.filterFailed = false;
+      }
+    },
+    courseFilterFailed() {
+      this.filterFailed = !this.filterFailed;
+      if (this.filterFailed) {
+        this.filterCleared = false;
+      }
+    },
+    courseFilterFC() {
+      this.filterFC = !this.filterFC;
+    },
+    courseFilterGrade() {
+      this.filterGrade = !this.filterGrade;
+    },
+    courseFilterScore() {
+      this.filterScore = !this.filterScore;
+    },
+    toggleFilter() {
+      this.toggleFilted = !this.toggleFilted;
+    },
+    //end filters
     setBG(value) {
-      if (value === 'difficultyHard') {
+      if (value === 'difficultyNormal') {
         return { 'bg-theme-1': true };
-      } else if (value === 'difficultyNormal') {
+      } else if (value === 'difficultyHard') {
         return { 'bg-theme-2': true };
       } else {
         return { 'bg-theme-3': true };
@@ -164,6 +210,7 @@ export default {
           userSong.type = song.type;
           userSong.rating = song.rating;
           userSong.songIDs = song.songIDs;
+          userSong.show = false;
           mergedUserCourses.push(userSong);
         } else {
           mergedUserCourses.push(song);
@@ -210,6 +257,25 @@ export default {
       } else {
         return 'singles';
       }
+    },
+    filteredsetCourses () {
+      let filteredCourses = this.setCourses;
+      if (this.filterCleared) {
+        filteredCourses = filteredCourses.filter(course => course.clear);
+      }
+      if (this.filterFailed) {
+        filteredCourses = filteredCourses.filter(course => !course.clear);
+      }
+      if (this.filterFC) {
+        filteredCourses = filteredCourses.filter(course => course.FC);
+      }
+      if (this.filterGrade) {
+        filteredCourses = filteredCourses.filter(course => course.grade);
+      }
+      if (this.filterScore) {
+        filteredCourses = filteredCourses.filter(course => course.score);
+      }
+      return filteredCourses;
     },
     loadInfoSong() {
       return this.infoSong;
@@ -260,16 +326,18 @@ export default {
       opacity: 1;
     }
   }
-  .bg-difficultyHard {
-    background-color: #ff0000;
-  }
-  .bg-difficultyNormal {
-    background-color: #00ff00;
-  }
-  .bg-difficultyAnother {
-    background-color: #0000ff;
-  }
   .grade-border {
     border: 3px solid;
   }
+  .card-header {
+    padding: 4px;
+  }
+  .opacity-down {
+    opacity: 66%;
+  }
+  .transition {
+    transition: 1s;
+
+  }
+
 </style>

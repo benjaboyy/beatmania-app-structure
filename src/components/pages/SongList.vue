@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid bg-dark">
+  <div class="container-fluid max-width bg-dark">
     <div class="row text-center mx-md-3">
       <div class="col-12 p-0 text pt-4">
         <h1 class="text-center">{{ game.name }} <i :class="'icon ' + game.icon + ' text-primary'"></i></h1>
@@ -403,5 +403,11 @@ export default {
   }
   .favo {
     font-size: 1.rem;
+  }
+  .max-width {
+    max-width: 1100px;
+  }
+  tbody > tr:hover {
+    opacity: 60%;
   }
 </style>
