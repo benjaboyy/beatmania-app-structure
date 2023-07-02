@@ -8,12 +8,12 @@
         <div v-if="submitted" class="alert alert-success" role="alert">
           Submitted! {{ this.lastSubmittedID }}
         </div>
-        <form @submit.prevent="submitSong">
+        <form @submit.prevent="submitArcade">
           <div>
             <div class="mt-3">
               <a class="btn btn-primary" @click="arcadeUpdateSwitch" :class="arcadeUpdate === false ? 'btn-primary' : 'btn-light'">New</a>
               <a class="btn btn-primary" @click="arcadeUpdateSwitch" :class="arcadeUpdate === true ? 'btn-primary' : 'btn-light'">Update</a>
-              <a v-if="isSongName" class="btn btn-outline-primary ms-3" @click="reset"><i class="fa fa-sync-alt"></i> Reset</a>
+              <a v-if="isArcadeName" class="btn btn-outline-primary ms-3" @click="reset"><i class="fa fa-sync-alt"></i> Reset</a>
             </div>
             <div v-if="!arcadeUpdate">
               <div class="form-group">
@@ -29,8 +29,8 @@
                     {{ arcade.name }}
                   </option>
                 </select>
-                <a v-if="isArcadeID" class="btn btn-light text-danger" @click="deleteSong"><i class="fa fa-trash-alt"></i></a>
-                <a v-else class="btn btn-light text-dark disabled" @click="deleteSong"><i class="fa fa-trash-alt"></i></a>
+                <a v-if="isArcadeID" class="btn btn-light text-danger" @click="deleteArcade"><i class="fa fa-trash-alt"></i></a>
+                <a v-else class="btn btn-light text-dark disabled"><i class="fa fa-trash-alt"></i></a>
               </div>
             </div>
             <div class="form-group">
@@ -48,7 +48,12 @@
               <input class="form-check-input" type="checkbox" :id="game.id" :value="game.id" v-model="enteredGames">
               <label class="form-check-label" :for="game.id">{{ game.name }}</label>
             </div>
-
+            <div v-if="arcadeUpdate">
+              <h6 class="mt-3">Players</h6>
+              <div v-for="player in enteredPlayers " :key="player.id" class="input-group mb-3">
+                <p>{{ player.name }} <a class="btn btn-light text-danger" @click="removePlayer(player.id)"><i class="fa fa-trash-alt"></i></a></p>
+              </div>
+            </div>
             <p v-if="invalidInput">One or more input fields are invalid. Please check your provided data.</p>
             <p v-if="error">{{ error }}</p>
             <hr>
@@ -66,80 +71,54 @@
 <script>
 export default {
 
-  name: "submitSong",
+  name: "submitArcade",
   data() {
     return {
       arcadeID: "",
-      gameList: [],
       arcadeList: [],
+      enteredPlayers: [],
       enteredName: "",
       enteredCode: "",
       enteredCountry: "",
       enteredGames: [],
       arcadeUpdate: false,
+      gameChoises: [],
     }
   },
   async created() {
+    await this.$store.dispatch('arcades/loadArcades');
     const getGames = this.getGames;
+    const getArcades = this.getArcades;
     this.gameChoises = getGames;
-    const songID = this.$route.query.songID;
-    const gameID = this.$route.query.gameID;
-    if (gameID) {
-      this.gameID = gameID;
-    }
-    if (songID) {
-      this.songID = songID;
-      this.songUpdate = true;
-    }
-  },
-  watch: {
-    gameID: function (val) {
-      this.getGameSongs(val);
-    },
-    songID: function (val) {
-      this.songList.forEach(game => {
-        if (game.id === val) {
-          this.enteredName = game.name;
-          this.enteredArtist = game.artist;
-          this.enteredDifficultyNormal = game.difficultyNormal;
-          this.enteredDifficultyHard = game.difficultyHard;
-          this.enteredDifficultyAnother = game.difficultyAnother;
-          this.enteredDifficultyDoubleNormal = game.difficultyDoubleNormal;
-          this.enteredDifficultyDoubleHard = game.difficultyDoubleHard;
-          this.enteredDifficultyDoubleAnother = game.difficultyDoubleAnother;
-        }
-      });
+    this.arcadeList = getArcades;
+    const arcadeID = this.$route.query.arcadeID;
+    if (arcadeID) {
+      this.arcadeID = arcadeID;
     }
   },
   methods: {
     reset() {
       this.enteredName = "";
-      this.enteredArtist = "";
-      this.enteredDifficultyNormal = 1;
-      this.enteredDifficultyHard = 1;
-      this.enteredDifficultyAnother = 1;
-      this.enteredDifficultyDoubleNormal = 1;
-      this.enteredDifficultyDoubleHard = 1;
-      this.enteredDifficultyDoubleAnother = 1;
+      this.enteredCode = "";
+      this.enteredCountry = "";
+      this.enteredGames = [];
+      this.arcadePlayers = [];
+      this.arcadeID = "";
       this.songID = "";
       this.songUpdate = false;
+      this.arcadeUpdate = false;
       this.invalidInput = false;
       this.error = null;
-      this.submitted = false;
-      this.lastSubmittedID = '';
     },
-    deleteSong() {
+    deleteArcade() {
       const token = this.$store.getters.token;
-      const gameID = this.gameID;
-      const songID = this.songID;
-      if (songID === "" || gameID === "") {
-        return;
-      }
-      fetch(`https://beatmania-pro-default-rtdb.europe-west1.firebasedatabase.app/songs/${gameID}/${songID}.json?auth=${token}`, {
+      fetch(`https://beatmania-pro-default-rtdb.europe-west1.firebasedatabase.app/arcades/${this.arcadeID}.json?auth=${token}`, {
         method: 'DELETE',
-      }).then(res => {
-        if (res.ok) {
+      }).then((response) => {
+        if (response.ok) {
           this.reset();
+        } else {
+          this.error = "Something went wrong. Please try again later.";
         }
       });
     },
@@ -149,48 +128,25 @@ export default {
         this.reset();
       }
     },
-    submitSong() {
+    submitArcade() {
       this.invalidInput = false;
       this.error = null;
-      let SongID = "";
-      if (this.songUpdate === false) {
-        SongID = this.songIDRandom;
-      } else {
-        SongID = this.songID;
-      }
+      let ID = "";
+      ID = this.enteredCode;
       const token = this.$store.getters.token;
-      const gameID = this.gameID;
-      fetch(`https://beatmania-pro-default-rtdb.europe-west1.firebasedatabase.app/songs/${gameID}/${SongID}.json?auth=${token}`, {
+      fetch(`https://beatmania-pro-default-rtdb.europe-west1.firebasedatabase.app/arcades/${ID}.json?auth=${token}`, {
         method: 'PUT',
         body: JSON.stringify({
-          id: SongID,
+          id: this.enteredCode,
           name: this.enteredName,
-          artist: this.enteredArtist,
-          composer: this.enteredComposer,
-          difficultyNormal: this.enteredDifficultyNormal,
-          difficultyHard: this.enteredDifficultyHard,
-          difficultyAnother: this.enteredDifficultyAnother,
-          difficultyDoubleNormal: this.enteredDifficultyDoubleNormal,
-          difficultyDoubleHard: this.enteredDifficultyDoubleHard,
-          difficultyDoubleAnother: this.enteredDifficultyDoubleAnother,
+          code: this.enteredCode,
+          country: this.enteredCountry,
+          games: this.enteredGames,
+          players: this.arcadePlayers,
         })
       }).then((response) => {
         if (response.ok) {
-          this.lastSubmittedID = SongID;
-          this.submitted = true;
-          this.enteredName = "";
-          this.enteredArtist = "";
-          this.enteredComposer = "";
-          this.enteredDifficultyNormal = 1;
-          this.enteredDifficultyHard = 1;
-          this.enteredDifficultyAnother = 1;
-          this.enteredDifficultyDoubleNormal = 1;
-          this.enteredDifficultyDoubleHard = 1;
-          this.enteredDifficultyDoubleAnother = 1;
-          this.songID = "";
-          this.songUpdate = false;
-          this.invalidInput = false;
-          this.error = null;
+          this.reset()
           window.scrollTo(0,0);
           return response.json();
         } else {
@@ -199,66 +155,14 @@ export default {
       }).then((data) => {
         console.log(data);
       })
-    },
-    async getGameSongs() {
-      const token = this.$store.getters.token;
-      const gameID = this.gameID;
-      const response = await fetch(`https://beatmania-pro-default-rtdb.europe-west1.firebasedatabase.app/songs/${gameID}.json?auth=${token}`);
-      const responseData = await response.json();
-      if (!response.ok) {
-        const error = new Error(responseData.message || 'Failed to fetch!');
-        throw error;
-      }
-      const songs = [];
-      for (const key in responseData) {
-        const song = {
-          id: responseData[key].id,
-          name: responseData[key].name,
-          artist: responseData[key].artist,
-          composer: responseData[key].composer,
-          difficultyNormal: responseData[key].difficultyNormal,
-          difficultyHard: responseData[key].difficultyHard,
-          difficultyAnother: responseData[key].difficultyAnother,
-          difficultyDoubleNormal: responseData[key].difficultyDoubleNormal,
-          difficultyDoubleHard: responseData[key].difficultyDoubleHard,
-          difficultyDoubleAnother: responseData[key].difficultyDoubleAnother,
-        };
-        songs.push(song);
-      }
-      this.songList = songs;
-    },
-    setNumber(num) {
-      if (num < 1) {
-        return "not set";
-      } else {
-        return num;
-      }
     }
   },
   computed: {
-    songIDRandom() {
-      return this.enteredArtist.trim().replace(/[^\w\s]/g, '') + Math.floor(Math.random() * 9999);
-    },
     getGames() {
       return this.$store.getters["games/getGames"];
     },
-    displayEnteredDifficultyNormal() {
-      return this.setNumber(this.enteredDifficultyNormal);
-    },
-    displayEnteredDifficultyHard() {
-      return this.setNumber(this.enteredDifficultyHard);
-    },
-    displayEnteredDifficultyAnother() {
-      return this.setNumber(this.enteredDifficultyAnother);
-    },
-    displayEnteredDifficultyDoubleNormal() {
-      return this.setNumber(this.enteredDifficultyDoubleNormal);
-    },
-    displayEnteredDifficultyDoubleHard() {
-      return this.setNumber(this.enteredDifficultyDoubleHard);
-    },
-    displayEnteredDifficultyDoubleAnother() {
-      return this.setNumber(this.enteredDifficultyDoubleAnother);
+    getArcades() {
+      return this.$store.getters["arcades/getArcades"];
     },
     isArcadeID() {
       if (this.arcadeID === "") {
@@ -267,20 +171,13 @@ export default {
         return true;
       }
     },
-    isSongName() {
+    isArcadeName() {
       if (this.enteredName === "") {
         return false;
       } else {
         return true;
       }
-    },
-    isGameSelected() {
-      if (this.gameID === "") {
-        return false;
-      } else {
-        return true;
-      }
-    },
+    }
   }
 }
 </script>

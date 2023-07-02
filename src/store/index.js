@@ -4,6 +4,7 @@ import gamesModule from "./games.js";
 import songsModule from "./songs.js";
 import userModule from "./user.js";
 import coursesModule from "./courses.js";
+import arcadesModule from "./arcades.js";
 
 const store = createStore({
     modules: {
@@ -11,6 +12,7 @@ const store = createStore({
         songs: songsModule,
         user: userModule,
         courses: coursesModule,
+        arcades: arcadesModule,
     },
     state() {
         return {
