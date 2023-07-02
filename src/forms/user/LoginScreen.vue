@@ -1,14 +1,13 @@
 <template>
   <div class="login-screen px-2 mx-auto">
     <div class="text-center mb-5">
-      <img src="../../assets/svg/logo.svg" width="120" height="60" class="d-inline-block align-middle" alt="">
-      <h1 class="mb-0">BMPT</h1>
+      <img src="../../assets/svg/logo-full.svg" class="d-inline-block align-middle logo-scale" alt="">
+      <h1 class="mb-0 d-none">Beatmania Progress tracker</h1>
     </div>
     <div class="card">
       <div class="card-body">
         <h1 class="text-primary">Login</h1>
-        <div v-if="!formIsValid" class="alert alert-warning" role="alert">Something went wrong please try again</div>
-        <div v-show="error" class="alert alert-warning" role="alert">Something went wrong please try again</div>
+        <div v-if="!formIsValid || error" class="alert alert-warning" role="alert">Something went wrong please try again</div>
         <form @submit.prevent="submitForm">
           <div class="mb-3">
             <label for="exampleInputEmail1" class="form-label">Email address</label>
@@ -27,7 +26,7 @@
         </form>
       </div>
       <div class="card-footer text-end text-muted">
-        Version 1.0.2
+        Version 1.0.3
       </div>
     </div>
   </div>
@@ -49,6 +48,7 @@ export default {
   },
   methods: {
     async submitForm() {
+      this.formIsValid = true;
       const formData = {
         email: this.email,
         password: this.password,
@@ -80,5 +80,9 @@ export default {
 </script>
 
 <style scoped>
-
+.logo-scale {
+  width: 80%;
+  max-width: 300px;
+  height: auto;
+}
 </style>
