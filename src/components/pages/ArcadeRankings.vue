@@ -1,7 +1,11 @@
 <template>
   <div class="stats-screen px-2 px-md-5 m-auto">
     <h1 v-if="!arcadeID" class="text-center my-4">Arcade Rankings</h1>
-    <h1 v-else class="text-center my-4">{{ getArcadeName }} Ranking</h1>
+    <h1 v-else class="text-center my-4">{{ getArcadeName }} Ranking
+      <small v-if="selectedGame">
+        Game: {{ nameOfSelectedGame }}
+      </small>
+    </h1>
     <div v-if="!arcadeID" class="card">
       <div class="card-body">
         <h3>Select Arcade</h3>
@@ -15,7 +19,7 @@
       </div>
     </div>
     <div v-else>
-      <table class="table table-dark table-striped table-hover">
+      <table v-if="selectedGame" class="table table-dark table-striped table-hover">
         <thead>
           <tr>
             <th style="width: 1px" scope="col">Rank</th>
@@ -23,22 +27,25 @@
             <th class="d-none d-md-table-cell" scope="col">Singles</th>
             <th class="d-none d-md-table-cell" scope="col">Doubles</th>
             <th class="d-none d-md-table-cell" scope="col">Courses</th>
-            <th class="d-none d-md-table-cell" scope="col">Double Courses</th>
             <th scope="col">Points</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="player in players" :key="player.rank">
-            <th scope="row">{{ player.rank }}</th>
+          <tr v-for="player, key in playersSortedOnStats" :key="player.rank" class="bg-light">
+            <th v-if="key === 0" scope="row"><i class="fas fa-trophy"></i></th>
+            <th v-else>{{ key+1 }}</th>
             <td>{{ player.name }}</td>
-            <td class="d-none d-md-table-cell">{{ player.singles }}</td>
-            <td class="d-none d-md-table-cell">{{ player.doubles }}</td>
-            <td class="d-none d-md-table-cell">{{ player.courses }}</td>
-            <td class="d-none d-md-table-cell">{{ player.doubleCourses }}</td>
-            <td>{{ player.total }}</td>
+            <td class="d-none d-md-table-cell">{{ player.trackedGames[selectedGame].singles }}</td>
+            <td class="d-none d-md-table-cell">{{ player.trackedGames[selectedGame].doubles }}</td>
+            <td class="d-none d-md-table-cell">{{ player.trackedGames[selectedGame].courses }}</td>
+            <td>{{ player.trackedGames[selectedGame].singles + player.trackedGames[selectedGame].doubles + (player.trackedGames[selectedGame].courses*2) }}</td>
           </tr>
         </tbody>
       </table>
+      <div class="card p-3" v-else>
+        <h3>Select Game</h3>
+        <button v-for="game in getArcadeGames" :key="game" class="btn btn-primary" @click="selectedGame = game">{{ game }}</button>
+      </div>
     </div>
   </div>
 </template>
@@ -49,41 +56,8 @@ export default {
   data() {
     return {
       arcadeID: '',
-      arcadeName: 'DDR-EXP Arcade',
       selectedGame: '',
-      players: [{
-        rank: 1,
-        name: 'Behy',
-        singles: 147,
-        doubles: 0,
-        courses: 6,
-        doubleCourses: 0,
-        total: 159,
-      },{
-        rank: 2,
-        name: 'Player 2',
-        singles: 132,
-        doubles: 0,
-        courses: 7,
-        doubleCourses: 0,
-        total: 148,
-      },{
-        rank: 3,
-        name: 'Player 3',
-        singles: 40,
-        doubles: 0,
-        courses: 6,
-        doubleCourses: 0,
-        total: 52,
-      },{
-        rank: 4,
-        name: 'Player 4',
-        singles: 12,
-        doubles: 0,
-        courses: 2,
-        doubleCourses: 0,
-        total: 16,
-      },],
+      players: [],
       arcadeList: [],
     };
   },
@@ -96,21 +70,38 @@ export default {
     if (arcadeID) {
       this.arcadeID = arcadeID;
     }
+    const gameID = this.$route.params.gameID;
+    if (gameID) {
+      this.selectedGame = gameID;
+    }
   },
   computed: {
     getArcades() {
       return this.$store.getters['arcades/getArcades'];
     },
+    nameOfSelectedGame() {
+      return this.$store.getters['games/getGameName'](this.selectedGame);
+    },
     getArcadeName() {
       return this.$store.getters['arcades/getArcadeName'](this.arcadeID);
+    },
+    getArcadeGames() {
+      return this.$store.getters['arcades/getArcadeGames'](this.arcadeID);
     },
     getPlayers() {
       return this.$store.getters['arcades/getPlayers'](this.arcadeID);
     },
+    playersSortedOnStats() {
+      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+      const sort = this.players.sort((a, b) => b.total - a.total);
+      return sort;
+    },
   },
   watch: {
-    arcadeID() {
-      // TODO: build new ranking table
+    async arcadeID() {
+      for (let player in this.getPlayers) {
+        this.players.push(await this.$store.dispatch('loadUserStats', player));
+      }
     },
   },
 };

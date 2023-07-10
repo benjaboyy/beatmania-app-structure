@@ -9,6 +9,7 @@ export default {
             userId: '',
             token: '',
             name: '',
+            successUpdate: false,
             didLogout: false,
             accountSettings: {
                 trackedGames: {
@@ -17,16 +18,12 @@ export default {
                         doubles: true,
                         singleCourse: false,
                         doubleCourse: false
-                    },
-                    sixthmix: {
-                        singles: false,
-                        doubles: false,
-                        singleCourse: false,
-                        doubleCourse: false
-                    },
+                    }
                 },
                 favoriteGame: '',
-                arcadeCode: '',
+                arcadeCode01: '',
+                arcadeCode02: '',
+                arcadeCode03: '',
             }
         }
     },
@@ -44,6 +41,9 @@ export default {
         },
         setUserCourses(state, payload) {
             state.userCourses = payload;
+        },
+        setSuccessUpdate(state, payload) {
+            state.successUpdate = payload;
         },
         addSong(state, payload) {
             const index = state.userSongs.findIndex(s => s.id === payload.id);
@@ -95,6 +95,7 @@ export default {
             } else {
                 const updatedAccountSettings = { ...getters.accountSettings, ...payload };
                 commit('setAccountSettings', updatedAccountSettings);
+                commit('setSuccessUpdate', true);
             }
         },
         async updateUsername({ commit, getters }, payload) {
@@ -108,6 +109,7 @@ export default {
                 alert('Error while updating username');
             } else {
                 commit('setUserInfo', payload.name);
+                commit('setSuccessUpdate', true);
             }
         },
         async addSongToUser (context, payload) {
@@ -317,6 +319,40 @@ export default {
             context.commit('setUserCourses', userCourses);
         },
 
+        async loadUserStats(context, payload) {
+            const userId = payload;
+            const token = context.getters.token;
+            const response = await fetch(`https://beatmania-pro-default-rtdb.europe-west1.firebasedatabase.app/users/${userId}.json?auth=` + token);
+            const responseData = await response.json();
+
+            if (!response.ok) {
+                alert('Error while logging in');
+            }
+            const userStats = {
+                name: responseData.name,
+                trackedGames: responseData.accountSettings.trackedGames,
+            }
+
+            return userStats;
+        },
+
+        async setUserStatsForGame(context, payload) {
+            const userId = context.getters.userId;
+            const token = context.getters.token;
+            const response = await fetch(`https://beatmania-pro-default-rtdb.europe-west1.firebasedatabase.app/users/${userId}/accountSettings/trackedGames/${payload.game}.json?auth=` + token, {
+                method: 'PATCH',
+                body: JSON.stringify({
+                    singles: payload.singles,
+                    doubles: payload.doubles,
+                    courses: payload.courses,
+                })
+            });
+
+            if (!response.ok) {
+                alert('Error while submission stats');
+            }
+        },
+
         async auth(context, payload) {
             let url = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyA-o_3wteXq2TeoHwnVC5fCSyr_dzVd_j0';
             const response = await fetch(url, {
@@ -456,8 +492,17 @@ export default {
         favoriteGame(state) {
             return state.accountSettings.favoriteGame;
         },
-        getArcadeCode(state) {
-            return state.accountSettings.arcadeCode;
+        getArcadeCode01(state) {
+            return state.accountSettings.arcadeCode01;
+        },
+        getArcadeCode02(state) {
+            return state.accountSettings.arcadeCode02;
+        },
+        getArcadeCode03(state) {
+            return state.accountSettings.arcadeCode03;
+        },
+        getSuccessUpdate(state) {
+            return state.successUpdate;
         },
         getTrackGames(state) {
             return state.accountSettings.trackedGames;

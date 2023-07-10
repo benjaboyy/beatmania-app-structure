@@ -218,6 +218,13 @@ export default {
         this.gamestats[item.id].courses.clear = singleCoursesCleared + doublesCoursesCleared;
         this.gamestats[item.id].courses.total = totalCourses;
         this.gamestats[item.id].songs = totalSongs;
+
+        this.$store.dispatch('setUserStatsForGame', {
+          game: item.id,
+          singles: this.gamestats[item.id].singles.clear,
+          doubles: this.gamestats[item.id].doubles.clear,
+          courses: this.gamestats[item.id].courses.clear,
+        });
       }
     },
     reload () {

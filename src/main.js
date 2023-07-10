@@ -45,6 +45,7 @@ const router = createRouter({
         { path: '/tips', component: TipsScreen, meta: { requiresAuth: false } },
         { path: '/arcade', component: ArcadeRankings, meta: { requiresAuth: false } },
         { path: '/arcade/:arcadeID', component: ArcadeRankings, props: true, meta: { requiresAuth: false } },
+        { path: '/arcade/:arcadeID/:gameID', component: ArcadeRankings, props: true, meta: { requiresAuth: false } },
         { path: '/register', component: RegisterUser },
         { path: '/:notFound(.*)', redirect: '/welcome'},
     ],

@@ -146,6 +146,15 @@ export default {
         })
       }).then((response) => {
         if (response.ok) {
+          // update to store
+          this.$store.dispatch('arcades/updateArcade', {
+            id: this.enteredCode,
+            name: this.enteredName,
+            code: this.enteredCode,
+            country: this.enteredCountry,
+            games: this.enteredGames,
+            players: this.arcadePlayers,
+          });
           this.reset()
           window.scrollTo(0,0);
           return response.json();
@@ -176,6 +185,19 @@ export default {
         return false;
       } else {
         return true;
+      }
+    }
+  },
+  watch: {
+    arcadeID() {
+      if (this.arcadeID !== "") {
+        this.arcadeUpdate = true;
+        const arcade = this.arcadeList.find(arcade => arcade.id === this.arcadeID);
+        this.enteredName = arcade.name;
+        this.enteredCode = arcade.code;
+        this.enteredCountry = arcade.country;
+        this.enteredGames = arcade.games;
+        this.enteredPlayers = arcade.players;
       }
     }
   }

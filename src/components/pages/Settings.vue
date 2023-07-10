@@ -31,13 +31,23 @@
           <div id="emailHelp" class="form-text my-3">Set your account information.</div>
           <div class="mb-3">
             <label for="Name" class="form-label">Game tag/ name</label>
-            <input type="username" class="form-control" v-model="enteredName" id="exampleInputEmail1" aria-describedby="emailHelp">
+            <input type="username" class="form-control" v-model="enteredName" id="username" aria-describedby="username">
           </div>
           <div class="mb-3">
             <label for="Select" class="form-label">
               Arcade code <router-link to="/tips" class="text-primary"><i class="fa fa-question-circle ms-2"></i> info</router-link>
             </label>
-            <input type="arcadecode" class="form-control" v-model="enteredAracdeCode" id="exampleInputEmail1" aria-describedby="emailHelp">
+            <div class="row">
+              <div class="col-12 col-md">
+                <input type="arcadecode01" class="form-control" v-model="enteredAracdeCode01" id="arcadecode01" aria-describedby="arcadecode01" placeholder="Slot 1">
+              </div>
+              <div v-if="enteredAracdeCode01" class="col-12 col-md mt-2 mt-md-0">
+                <input type="arcadecode02" class="form-control" v-model="enteredAracdeCode02" id="arcadecode02" aria-describedby="arcadecode02" placeholder="Slot 2">
+              </div>
+              <div v-if="enteredAracdeCode02" class="col-12 col-md mt-2 mt-md-0">
+                <input type="arcadecode03" class="form-control" v-model="enteredAracdeCode03" id="arcadecode03" aria-describedby="arcadecode03" placeholder="Slot 3">
+              </div>
+            </div>
           </div>
           <div class="mb-3">
             <label for="Select" class="form-label">Favorite Game</label>
@@ -48,12 +58,13 @@
           <div class="mb-3">
             <label for="Select" class="form-label">Select theme</label>
             <select id="Select" class="form-select" disabled>
-              <option selected>Choose...</option>
+              <option selected>Flat</option>
+              <option>Old-school</option>
             </select>
           </div>
           <button type="submit" @click="updateSettings" class="btn btn-primary"><i class="fa fa-save"></i> Save</button>
+          <button v-if="successUpdate" class="btn btn-success disabled"><i class="fa fa-check Reset me-2" ></i>Updated</button>
         </div>
-
       </div>
     </div>
   </div>
@@ -70,14 +81,18 @@ export default {
       tab: 'details',
       enteredFavoriteGame: '',
       enteredName: '',
-      enteredAracdeCode: '',
+      enteredAracdeCode01: '',
+      enteredAracdeCode02: '',
+      enteredAracdeCode03: '',
       enteredTrackGames: {},
     }
   },
   async created() {
     this.enteredFavoriteGame = this.favoriteGame;
     this.enteredName = this.userName;
-    this.enteredAracdeCode = this.arcadeCode;
+    this.enteredAracdeCode01 = this.arcadeCode01;
+    this.enteredAracdeCode02 = this.arcadeCode02;
+    this.enteredAracdeCode03 = this.arcadeCode03;
     await this.$store.dispatch('loadTrackedGames');
     await this.games.forEach(game => {
       this.enteredTrackGames[game.id] = {
@@ -115,15 +130,43 @@ export default {
     },
     updateSettings() {
       this.$store.dispatch('updateSettings', {
-        arcadeCode: this.enteredAracdeCode,
+        arcadeCode01: this.enteredAracdeCode01,
+        arcadeCode02: this.enteredAracdeCode02,
+        arcadeCode03: this.enteredAracdeCode03,
         favoriteGame: this.enteredFavoriteGame
       });
-      this.$store.dispatch('updateUsername', this.enteredName);
+      this.$store.dispatch('updateUsername', {
+        name: this.enteredName
+      });
+      if (this.enteredAracdeCode01) {
+        this.$store.dispatch('arcades/updatePlayerOnArcade', {
+          arcadeID: this.enteredAracdeCode01,
+          name: this.enteredName,
+          userID: this.$store.getters['userId']
+        });
+      }
+      if (this.enteredAracdeCode02) {
+        this.$store.dispatch('arcades/updatePlayerOnArcade', {
+          arcadeID: this.enteredAracdeCode02,
+          name: this.enteredName,
+          userID: this.$store.getters['userId']
+        });
+      }
+      if (this.enteredAracdeCode03) {
+        this.$store.dispatch('arcades/updatePlayerOnArcade', {
+          arcadeID: this.enteredAracdeCode03,
+          name: this.enteredName,
+          userID: this.$store.getters['userId']
+        });
+      }
     }
   },
   computed: {
     games() {
       return this.$store.getters['games/getGames'];
+    },
+    successUpdate() {
+      return this.$store.getters['getSuccessUpdate'];
     },
     trackGames() {
       return this.$store.getters['getTrackGames'];
@@ -131,8 +174,14 @@ export default {
     favoriteGame() {
       return this.$store.getters['favoriteGame'];
     },
-    arcadeCode() {
-      return this.$store.getters['getArcadeCode'];
+    arcadeCode01() {
+      return this.$store.getters['getArcadeCode01'];
+    },
+    arcadeCode02() {
+      return this.$store.getters['getArcadeCode02'];
+    },
+    arcadeCode03() {
+      return this.$store.getters['getArcadeCode03'];
     },
     userName() {
       return this.$store.getters['userName'];

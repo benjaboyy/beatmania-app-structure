@@ -8,6 +8,10 @@ export default {
     getters: {
         getGames(state) {
             return state.games;
+        },
+        getGameName: (state) => (gameID) => {
+            const game = state.games.find(game => game.id === gameID);
+            return game.name;
         }
     },
     mutations: {
