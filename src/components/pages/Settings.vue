@@ -39,13 +39,25 @@
             </label>
             <div class="row">
               <div class="col-12 col-md">
-                <input type="arcadecode01" class="form-control" v-model="enteredAracdeCode01" id="arcadecode01" aria-describedby="arcadecode01" placeholder="Slot 1">
+                <div class="input-group">
+                  <input type="arcadecode01" :disabled="codeSet01" class="form-control" v-model="enteredAracdeCode01" id="arcadecode01" aria-describedby="arcadecode01" placeholder="Slot 1">
+                  <router-link v-if="codeSet01" :to="'/arcade/'+enteredAracdeCode01" class="btn btn-primary"><i class="fa fa-link"></i></router-link>
+                  <button v-if="codeSet01" @click="deleteFromArcade(enteredAracdeCode01)" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                </div>
               </div>
               <div v-if="enteredAracdeCode01" class="col-12 col-md mt-2 mt-md-0">
-                <input type="arcadecode02" class="form-control" v-model="enteredAracdeCode02" id="arcadecode02" aria-describedby="arcadecode02" placeholder="Slot 2">
+                <div class="input-group">
+                  <input type="arcadecode02" :disabled="codeSet02" class="form-control" v-model="enteredAracdeCode02" id="arcadecode02" aria-describedby="arcadecode02" placeholder="Slot 2">
+                  <router-link v-if="codeSet02" :to="'/arcade/'+enteredAracdeCode02" class="btn btn-primary"><i class="fa fa-link"></i></router-link>
+                  <button v-if="codeSet02" @click="deleteFromArcade(enteredAracdeCode02)" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                </div>
               </div>
-              <div v-if="enteredAracdeCode02" class="col-12 col-md mt-2 mt-md-0">
-                <input type="arcadecode03" class="form-control" v-model="enteredAracdeCode03" id="arcadecode03" aria-describedby="arcadecode03" placeholder="Slot 3">
+              <div v-if="enteredAracdeCode02 || enteredAracdeCode01" class="col-12 col-md mt-2 mt-md-0">
+                <div class="input-group">
+                  <input type="arcadecode03" :disabled="codeSet03" class="form-control" v-model="enteredAracdeCode03" id="arcadecode03" aria-describedby="arcadecode03" placeholder="Slot 3">
+                  <router-link v-if="codeSet03" :to="'/arcade/'+enteredAracdeCode03" class="btn btn-primary"><i class="fa fa-link"></i></router-link>
+                  <button v-if="codeSet03" @click="deleteFromArcade(enteredAracdeCode03)" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                </div>
               </div>
             </div>
           </div>
@@ -62,8 +74,8 @@
               <option>Old-school</option>
             </select>
           </div>
-          <button type="submit" @click="updateSettings" class="btn btn-primary"><i class="fa fa-save"></i> Save</button>
-          <button v-if="successUpdate" class="btn btn-success disabled"><i class="fa fa-check Reset me-2" ></i>Updated</button>
+          <button type="submit" @click="updateSettings" class="btn btn-primary"><i class="fa fa-save me-1"></i> Save</button>
+          <button v-if="successUpdate" class="btn btn-success disabled"><i class="fa fa-check Reset me-1" ></i> Updated</button>
         </div>
       </div>
     </div>
@@ -84,14 +96,26 @@ export default {
       enteredAracdeCode01: '',
       enteredAracdeCode02: '',
       enteredAracdeCode03: '',
+      codeSet01: false,
+      codeSet02: false,
+      codeSet03: false,
       enteredTrackGames: {},
     }
   },
   async created() {
     this.enteredFavoriteGame = this.favoriteGame;
     this.enteredName = this.userName;
+    if (this.arcadeCode01) {
+      this.codeSet01 = true;
+    }
     this.enteredAracdeCode01 = this.arcadeCode01;
+    if (this.arcadeCode02) {
+      this.codeSet02 = true;
+    }
     this.enteredAracdeCode02 = this.arcadeCode02;
+    if (this.arcadeCode03) {
+      this.codeSet03 = true;
+    }
     this.enteredAracdeCode03 = this.arcadeCode03;
     await this.$store.dispatch('loadTrackedGames');
     await this.games.forEach(game => {
@@ -139,6 +163,7 @@ export default {
         name: this.enteredName
       });
       if (this.enteredAracdeCode01) {
+        this.codeSet01 = true;
         this.$store.dispatch('arcades/updatePlayerOnArcade', {
           arcadeID: this.enteredAracdeCode01,
           name: this.enteredName,
@@ -146,6 +171,7 @@ export default {
         });
       }
       if (this.enteredAracdeCode02) {
+        this.codeSet02 = true;
         this.$store.dispatch('arcades/updatePlayerOnArcade', {
           arcadeID: this.enteredAracdeCode02,
           name: this.enteredName,
@@ -153,12 +179,35 @@ export default {
         });
       }
       if (this.enteredAracdeCode03) {
+        this.codeSet03 = true;
         this.$store.dispatch('arcades/updatePlayerOnArcade', {
           arcadeID: this.enteredAracdeCode03,
           name: this.enteredName,
           userID: this.$store.getters['userId']
         });
       }
+    },
+    deleteFromArcade(arcadeID) {
+      if (arcadeID === this.enteredAracdeCode01) {
+        this.enteredAracdeCode01 = '';
+        this.codeSet01 = false;
+      } else if (arcadeID === this.enteredAracdeCode02) {
+        this.enteredAracdeCode02 = '';
+        this.codeSet02 = false;
+      } else if (arcadeID === this.enteredAracdeCode03) {
+        this.enteredAracdeCode03 = '';
+        this.codeSet03 = false;
+      }
+      this.$store.dispatch('arcades/deletePlayerOnArcade', {
+        arcadeID: arcadeID,
+        userID: this.$store.getters['userId']
+      });
+      this.$store.dispatch('updateSettings', {
+        arcadeCode01: this.enteredAracdeCode01,
+        arcadeCode02: this.enteredAracdeCode02,
+        arcadeCode03: this.enteredAracdeCode03,
+        favoriteGame: this.enteredFavoriteGame
+      });
     }
   },
   computed: {

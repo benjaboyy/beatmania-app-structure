@@ -29,7 +29,7 @@
                 <i class="fa fa-question me-1"></i> About & Info
               </router-link>
             </li>
-            <li class="nav-item">
+            <li v-if="isAdmin" class="nav-item">
               <router-link @click="closeMenu" to="/admin" class="nav-link btn btn-dark mb-2" href="#" type="button" role="button">
                 <i class="fa fa-server me-1"></i> Admin
               </router-link>
@@ -64,6 +64,11 @@ export default {
     },
     closeMenu() {
       this.isMenuOpen = false;
+    }
+  },
+  computed: {
+    isAdmin() {
+      return this.$store.getters['isAdmin'];
     }
   }
 }

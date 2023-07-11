@@ -20,12 +20,17 @@
           than you can use the app as a normal app. <br>
         </p>
         <h5>Arcade Code</h5>
-        <p class="text-secondary">
-          <i>Coming soon. . .</i> <br>
+        <p>
+          The arcade code is used to identify the arcade you play at. <br>
+          You can find the code on the arcade machine. <br>
+          If you can't find it, ask the arcade owner. <br>
+          Is your arcade not listed? <br>
+          Contact me and I will add it. <br>
         </p>
 
+
         <router-link to="/" class="btn btn-primary mb-2 me-2" href="#" type="button" role="button" exact><i class="fa fa-home me-2"></i> Back</router-link>
-        <router-link to="/" class="btn btn-primary mb-2" href="#" type="button" role="button" exact><i class="fa fa-question me-2"></i> About & Info</router-link>
+        <router-link to="/about" class="btn btn-primary mb-2" href="#" type="button" role="button" exact><i class="fa fa-question me-2"></i> About & Info</router-link>
       </div>
     </div>
   </div>

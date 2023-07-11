@@ -8,6 +8,7 @@ export default {
             user: {},
             userId: '',
             token: '',
+            admin: false,
             name: '',
             successUpdate: false,
             didLogout: false,
@@ -35,6 +36,9 @@ export default {
         },
         setUserInfo(state, payload) {
             state.name = payload;
+        },
+        setAdmin(state, payload) {
+            state.admin = payload;
         },
         setUserSongs(state, payload) {
             state.userSongs = payload;
@@ -245,11 +249,8 @@ export default {
                 alert('Error while logging in');
             }
 
-            // const user = {
-            //     name: responseData.name,
-            // };
             context.commit('setUserInfo', responseData.name);
-            // TODO: load user info
+            context.commit('setAdmin', responseData.admin);
         },
         async loadUserSongs(context) {
             const userId = context.getters.userId;
@@ -345,6 +346,7 @@ export default {
                     singles: payload.singles,
                     doubles: payload.doubles,
                     courses: payload.courses,
+                    total: payload.total,
                 })
             });
 
@@ -479,6 +481,13 @@ export default {
         },
         userId(state) {
             return state.userId;
+        },
+        isAdmin(state) {
+            if (state.admin === true) {
+                return true;
+            } else {
+                return false;
+            }
         },
         token(state) {
             return state.token;

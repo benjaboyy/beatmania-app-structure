@@ -224,6 +224,7 @@ export default {
           singles: this.gamestats[item.id].singles.clear,
           doubles: this.gamestats[item.id].doubles.clear,
           courses: this.gamestats[item.id].courses.clear,
+          total: this.gamestats[item.id].singles.clear + this.gamestats[item.id].doubles.clear + (this.gamestats[item.id].courses.clear*5),
         });
       }
     },

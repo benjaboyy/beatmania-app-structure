@@ -38,7 +38,7 @@
             <td class="d-none d-md-table-cell">{{ player.trackedGames[selectedGame].singles }}</td>
             <td class="d-none d-md-table-cell">{{ player.trackedGames[selectedGame].doubles }}</td>
             <td class="d-none d-md-table-cell">{{ player.trackedGames[selectedGame].courses }}</td>
-            <td>{{ player.trackedGames[selectedGame].singles + player.trackedGames[selectedGame].doubles + (player.trackedGames[selectedGame].courses*2) }}</td>
+            <td>{{ player.trackedGames[selectedGame].total }}</td>
           </tr>
         </tbody>
       </table>
@@ -92,8 +92,21 @@ export default {
       return this.$store.getters['arcades/getPlayers'](this.arcadeID);
     },
     playersSortedOnStats() {
-      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-      const sort = this.players.sort((a, b) => b.total - a.total);
+      let players = [];
+      if (!this.selectedGame) {
+        return [];
+      }
+      if (this.players.length > 0) {
+        players = this.players;
+      }
+      // filter all players with no total
+      players = players.filter((player) => {
+        return player.trackedGames[this.selectedGame].total > 0;
+      });
+      // sort the players on total
+      const sort = players.sort((a, b) => {
+        return b.trackedGames[this.selectedGame].total - a.trackedGames[this.selectedGame].total;
+      });
       return sort;
     },
   },
