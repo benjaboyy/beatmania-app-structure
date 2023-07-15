@@ -40,6 +40,7 @@ export default
         favoriteShort: 'Fav',
         targetShort: '目標',
         searchName: '名前で検索',
+        fullComboCap: 'フルコンボ',
     },
     filter: {
         songFilters: '曲フィルター',
@@ -63,6 +64,10 @@ export default
         setTarget: '目標を設定',
         setFavorite: 'お気に入りを設定',
         save: '保存',
+        grade: 'グレード',
+        score: 'スコア',
+        update: '更新',
+        show: '表示',
     },
     login: {
         login: 'ログイン',
@@ -79,5 +84,13 @@ export default
         formInvalid: 'フォームが無効です',
         confirmPassword: 'パスワードを認証する',
         goLogin: 'ログインする',
+    },
+    settings: {
+        settings: 'アカウント設定',
+        singlePLay: 'シングルプレイ',
+        doublePlay: 'ダブルプレイ',
+        accountDetails: 'アカウント詳細',
+        gameSelect: 'ゲームを選択',
+        gameSelectInfo: '追跡するゲームを選択します。',
     }
 }

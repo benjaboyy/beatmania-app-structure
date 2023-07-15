@@ -1,29 +1,29 @@
 <template>
   <div class="stats-screen px-2 px-md-5 m-auto">
-    <h1 class="text-center my-4">Account settings</h1>
+    <h1 class="text-center my-4">{{ $t("settings.settings") }}</h1>
     <div class="card">
       <div class="card-body">
         <div class="mt-3">
-          <a class="btn btn-primary" @click="tab = 'details'" :class="tab === 'details' ? 'btn-primary' : 'btn-light'">Account Details</a>
-          <a class="btn btn-primary" @click="tab = 'games'" :class="tab === 'games' ? 'btn-primary' : 'btn-light'">Game select</a>
+          <a class="btn btn-primary" @click="tab = 'details'" :class="tab === 'details' ? 'btn-primary' : 'btn-light'">{{ $t("settings.accountDetails") }}</a>
+          <a class="btn btn-primary" @click="tab = 'games'" :class="tab === 'games' ? 'btn-primary' : 'btn-light'">{{ $t("settings.gameSelect") }}</a>
         </div>
         <div v-if="tab === 'games' && games">
-          <div id="emailHelp" class="form-text my-3">Choose the games you want to track.</div>
+          <div id="emailHelp" class="form-text my-3">{{ $t("settings.gameSelectInfo") }}</div>
           <div v-for="game in games" v-bind:key="game" class="card mb-2">
             <div class="card-body card-mix--choices">
               <h5 class=" text-dark">{{ game.name }}<i class="icon icon-5k text-primary"></i></h5>
               <a class="btn btn-sm me-1 mb-1" type="button"
                  :class="{'bg-light text-primary': !enteredTrackGames[game.id].singles, 'bg-primary text-white': enteredTrackGames[game.id].singles}"
-                 @click="updateTrackGames(game.id, 'singles', !enteredTrackGames[game.id].singles)">Single Play</a>
+                 @click="updateTrackGames(game.id, 'singles', !enteredTrackGames[game.id].singles)">{{ $t("settings.singlePlay") }}</a>
               <a class="btn btn-sm me-1 mb-1" type="button"
                  :class="{'bg-light text-primary': !enteredTrackGames[game.id].doubles, 'bg-primary text-white': enteredTrackGames[game.id].doubles}"
-                 @click="updateTrackGames(game.id, 'doubles', !enteredTrackGames[game.id].doubles)">Double Play</a>
+                 @click="updateTrackGames(game.id, 'doubles', !enteredTrackGames[game.id].doubles)">{{ $t("settings.doublePlay") }}</a>
               <a class="btn btn-sm me-1 mb-1"
                  :class="{'bg-light text-primary': !enteredTrackGames[game.id].singleCourse, 'bg-primary text-white': enteredTrackGames[game.id].singleCourse}"
-                 @click="updateTrackGames(game.id, 'singleCourse', !enteredTrackGames[game.id].singleCourse)">Single Courses</a>
+                 @click="updateTrackGames(game.id, 'singleCourse', !enteredTrackGames[game.id].singleCourse)">{{ $t("filter.singleCourses") }}</a>
               <a class="btn btn-sm me-1 mb-1" type="button"
                  :class="{'bg-light text-primary': !enteredTrackGames[game.id].doubleCourse, 'bg-primary text-white': enteredTrackGames[game.id].doubleCourse}"
-                  @click="updateTrackGames(game.id, 'doubleCourse', !enteredTrackGames[game.id].doubleCourse)">Double Courses</a>
+                  @click="updateTrackGames(game.id, 'doubleCourse', !enteredTrackGames[game.id].doubleCourse)">{{ $t("filter.doubleCourses") }}</a>
             </div>
           </div>
         </div>

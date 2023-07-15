@@ -5,7 +5,7 @@
       <h3>{{ infoSong.name }}</h3>
       <span v-for="n in 5" :key="n"><i class="fa fa-star h3" :class="n <= infoSong.rating ? 'text-primary' : 'text-dark'"></i></span>
       <br>
-      <span>{{ infoSong.type }}</span>
+      <span>{{ $t("filter."+infoSong.type) }}</span>
       <hr>
       <div class="row">
         <div class="col-6 mb-3">
@@ -15,16 +15,16 @@
             <input placeholder="Grade" type="text" class="form-control form-control-lg" id="scoreNormal" v-model="grade" />
         </div>
         <div class="col-6 mb-3">
-            <a class="btn btn-block w-100" :class="clear ? 'bg-primary text-white' : 'bg-light text-primary'" @click="toggleClear">Cleared</a>
+            <a class="btn btn-block w-100" :class="clear ? 'bg-primary text-white' : 'bg-light text-primary'" @click="toggleClear">{{ $t("filter.cleared") }}</a>
         </div>
         <div class="col-6 mb-3">
-            <a class="btn btn-block w-100" :class="FC ? 'bg-primary text-white flash' : 'bg-light text-primary'" @click="toggleFC">FULL-COMBO</a>
+            <a class="btn btn-block w-100" :class="FC ? 'bg-primary text-white flash' : 'bg-light text-primary'" @click="toggleFC">{{ $t("filter.fullCombo") }}</a>
         </div>
       </div>
       <div class="d-grid gap-2">
-        <button class="btn" @click="toggleFavorite" :class="favorite ? 'btn-primary' : 'bg-light text-primary'"><i class="fa fa-heart" :class="favorite ? 'text-white' : 'text-primary'"></i> Set favorite</button>
+        <button class="btn" @click="toggleFavorite" :class="favorite ? 'btn-primary' : 'bg-light text-primary'"><i class="fa fa-heart" :class="favorite ? 'text-white' : 'text-primary'"></i> {{ $t("filter.setFavorite") }}</button>
         <hr>
-        <button class="btn btn-dark" @click="hideDialog"><i class="fa fa-save text-white me-1"></i> Save</button>
+        <button class="btn btn-dark" @click="hideDialog"><i class="fa fa-save text-white me-1"></i> {{ $t("filter.save") }}</button>
       </div>
     </dialog>
   </transition>

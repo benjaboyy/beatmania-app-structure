@@ -40,6 +40,7 @@ export default
         favoriteShort: 'Fav',
         targetShort: 'Tar',
         searchName: 'Search by name',
+        fullComboCap: 'FULL-COMBO',
     },
     filter: {
         songFilters: 'Song Filters',
@@ -62,7 +63,11 @@ export default
         fullComboShort: 'FC',
         setTarget: 'Set Target',
         setFavorite: 'Set Favorite',
-        save: 'Save'
+        save: 'Save',
+        grade: 'Grade',
+        score: 'Score',
+        update: 'Update',
+        show: 'Show',
     },
     login: {
         login: 'Login',
@@ -79,5 +84,13 @@ export default
         formInvalid: 'Form is invalid',
         confirmPassword: 'Confirm Password',
         goLogin: 'Go to login',
+    },
+    settings: {
+        settings: 'Account Settings',
+        singlePLay: 'Single Play',
+        doublePlay: 'Double Play',
+        accountDetails: 'Account Details',
+        gameSelect: 'Game Select',
+        gameSelectInfo: 'Choose the games you want to track.',
     }
 }

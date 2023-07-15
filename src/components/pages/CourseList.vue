@@ -4,21 +4,21 @@
       <div class="col-12 p-0 text pt-4">
         <h1 class="text-center mb-2">{{ game.name }} <i :class="'icon ' + game.icon + ' text-primary'"></i></h1>
         <h4 v-if="!toggleFilted" class="text-center text-white mb-2 mt-1">
-          <span v-if="courseDouble === false">Single Courses</span>
-          <span v-if="courseDouble === true">Double Courses</span>
+          <span v-if="courseDouble === false">{{ $t("welcomeScreen.singleCourses") }}</span>
+          <span v-if="courseDouble === true">{{ $t("welcomeScreen.doubleCourses") }}</span>
         </h4>
         <div class="row">
           <div v-if="toggleFilted" class="pb-2 col-12">
-            <a class="btn btn-primary" @click="courseDoubleSwitch" :class="courseDouble === false ? 'btn-primary' : 'btn-light'"><i class="fa fa-compact-disc"></i> Single Courses</a>
-            <a class="btn btn-primary" @click="courseDoubleSwitch" :class="courseDouble === true ? 'btn-primary' : 'btn-light'"><i class="fa fa-compact-disc"></i> <i class="fa fa-compact-disc"></i> Double Courses</a>
+            <a class="btn btn-primary" @click="courseDoubleSwitch" :class="courseDouble === false ? 'btn-primary' : 'btn-light'"><i class="fa fa-compact-disc"></i> {{ $t("welcomeScreen.singleCourses") }}</a>
+            <a class="btn btn-primary" @click="courseDoubleSwitch" :class="courseDouble === true ? 'btn-primary' : 'btn-light'"><i class="fa fa-compact-disc"></i> <i class="fa fa-compact-disc"></i> {{ $t("welcomeScreen.doubleCourses") }}</a>
           </div>
           <div class="pb-3 col-12">
-            <a v-if="toggleFilted" class="btn btn-primary" @click="courseFilterCleared" :class="filterCleared === true ? 'btn-primary' : 'btn-light'"><i class="fa fa-check"></i> Cleared</a>
-            <a v-if="toggleFilted" class="btn btn-primary" @click="courseFilterFailed" :class="filterFailed === true ? 'btn-primary' : 'btn-light'"><i class="fa fa-times"></i> Failed</a>
-            <a v-if="toggleFilted" class="btn btn-primary" @click="courseFilterFC" :class="filterFC === true ? 'btn-primary' : 'btn-light'"><i class="fas fa-crosshairs"></i> Full-Combo</a>
-            <a v-if="toggleFilted" class="btn btn-primary" @click="courseFilterGrade" :class="filterGrade === true ? 'btn-primary' : 'btn-light'"><i class="fas fa-graduation-cap"></i> Grade</a>
-            <a v-if="toggleFilted" class="btn btn-primary" @click="courseFilterScore" :class="filterScore === true ? 'btn-primary' : 'btn-light'"><i class="fas fa-star"></i> Score</a>
-            <a class="btn btn-primary" @click="toggleFilter" :class="toggleFilted === true ? 'btn-primary' : 'btn-light'"><i class="fa fa-filter"></i> Filter</a>
+            <a v-if="toggleFilted" class="btn btn-primary" @click="courseFilterCleared" :class="filterCleared === true ? 'btn-primary' : 'btn-light'"><i class="fa fa-check"></i> {{ $t("filter.cleared") }}</a>
+            <a v-if="toggleFilted" class="btn btn-primary" @click="courseFilterFailed" :class="filterFailed === true ? 'btn-primary' : 'btn-light'"><i class="fa fa-times"></i> {{ $t("filter.failed") }}</a>
+            <a v-if="toggleFilted" class="btn btn-primary" @click="courseFilterFC" :class="filterFC === true ? 'btn-primary' : 'btn-light'"><i class="fas fa-crosshairs"></i> {{ $t("filter.fullCombo") }}</a>
+            <a v-if="toggleFilted" class="btn btn-primary" @click="courseFilterGrade" :class="filterGrade === true ? 'btn-primary' : 'btn-light'"><i class="fas fa-graduation-cap"></i> {{ $t("filter.grade") }}</a>
+            <a v-if="toggleFilted" class="btn btn-primary" @click="courseFilterScore" :class="filterScore === true ? 'btn-primary' : 'btn-light'"><i class="fas fa-star"></i> {{ $t("filter.score") }}</a>
+            <a class="btn btn-primary" @click="toggleFilter" :class="toggleFilted === true ? 'btn-primary' : 'btn-light'"><i class="fa fa-filter"></i> {{ $t("listScreen.filters") }}</a>
           </div>
         </div>
         <div class="container-fluid">
@@ -38,7 +38,7 @@
                           <i class="fa fa-star h4" :class="n <= course.rating ? 'text-primary' : 'text-light'"></i>
                         </span>
                         <div v-if="course.score">
-                          <h6 class="text-dark mb-0 mt-1"><b>Score:</b> <span class="text-primary">{{ course.score }}</span></h6>
+                          <h6 class="text-dark mb-0 mt-1"><b>{{ $t("filter.score") }}:</b> <span class="text-primary">{{ course.score }}</span></h6>
                         </div>
                       </div>
                       <div class="col-3">
@@ -46,10 +46,10 @@
                         :class="course.FC ? 'border-primary flash' : course.clear ? 'border-primary' : 'border-secondary'">
                           <span class="text-primary fw-bolder header-text m-auto">
                               <span v-if="course.clear || course.grade">
-                                <h6 v-if="course.FC && !course.grade" class="m-0">FULL-COMBO</h6>
-                                <h6 v-if="course.clear && !course.FC && !course.grade" class="m-0">CLEAR</h6>
+                                <h6 v-if="course.FC && !course.grade" class="m-0">{{ $t("listScreen.fullComboCap") }}</h6>
+                                <h6 v-if="course.clear && !course.FC && !course.grade" class="m-0">{{ $t("filter.cleared") }}</h6>
                                 <span v-if="course.grade">
-                                  <span v-if="course.FC" class="text-primary">FC </span>
+                                  <span v-if="course.FC" class="text-primary">{{ $t("filter.fullComboShort") }}</span>
                                   <span v-if="course.grade">{{ course.grade }}</span>
                                 </span>
                               </span>
@@ -74,7 +74,7 @@
                     <div class="row g-3 mt-2">
                       <div class="col-6">
                         <div class="d-grid gap-2">
-                          <button class="btn btn-secondary btn-sm btn-block" @click="showDialog(course)"><i class="fa fa-edit me-1"></i> Update</button>
+                          <button class="btn btn-secondary btn-sm btn-block" @click="showDialog(course)"><i class="fa fa-edit me-1"></i> {{ $t("filter.update") }}</button>
                         </div>
                       </div>
                       <div class="col-6">
@@ -88,7 +88,7 @@
                               aria-expanded="false"
                               :aria-controls="'collapseSongs-' + course.id"
                               ><i :class="course.show === true ? 'fa fa-eye-slash' : 'fa fa-eye'"></i>
-                              Show</button>
+                              {{ $t("filter.show") }}</button>
                         </div>
                       </div>
                     </div>
