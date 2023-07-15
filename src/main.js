@@ -1,8 +1,9 @@
 import { createApp } from 'vue'
 import { createRouter, createWebHistory } from 'vue-router'
+import { createI18n } from 'vue-i18n'
 import App from './App.vue'
-import HeaderApp from "@/components/UI/HeaderApp";
 
+import HeaderApp from "@/components/UI/HeaderApp";
 import WelcomeScreen from './components/pages/Welcome.vue'
 import LoginScreen from "@/forms/user/LoginScreen.vue";
 import Settings from "@/components/pages/Settings.vue";
@@ -10,7 +11,6 @@ import SongList from "@/components/pages/SongList.vue";
 import submitSong from "@/forms/submitSong";
 import submitGame from "@/forms/submitGame";
 import submitArcade from "@/forms/submitArcade";
-import AddSongModal from "@/components/UI/AddSongModal";
 import AddCourseModal from "@/components/UI/AddCourseModal";
 import RegisterUser from "@/forms/user/RegisterUser";
 import submitCourse from "@/forms/submitCourse";
@@ -62,13 +62,28 @@ router.beforeEach(function(to, from, next) {
     }
 });
 
+import en from './assets/locales/en.js'
+import ja from './assets/locales/ja.js'
+
+const messages = {
+    en: en,
+    ja: ja
+}
+
+const i18n = createI18n({
+    locale: 'en', // set locale
+    fallbackLocale: 'ja', // set fallback locale
+    messages, // set locale messages
+    // If you need to specify other options, you can set other options
+    // ...
+})
+
 const app = createApp(App)
 app.component('header-app', HeaderApp);
-app.component('add-song-modal', AddSongModal);
 app.component('add-course-modal', AddCourseModal);
 
 app.use(store);
-
 app.use(router);
+app.use(i18n)
 
 app.mount('#app')

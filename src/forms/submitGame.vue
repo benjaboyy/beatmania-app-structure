@@ -1,7 +1,7 @@
 <template>
   <div class="login-screen px-2 mx-auto">
     <h1 class="text-center my-4">Update  Games
-      <router-link to="/admin" class="btn btn-secondary ms-3" href="#" type="button" role="button"><i class="fa fa-arrow-left"></i> Back</router-link>
+      <router-link to="/admin" class="btn btn-secondary ms-3" href="#" type="button" role="button"><i class="fa fa-arrow-left"></i> {{ $t("menu.back") }}</router-link>
     </h1>
     <div class="card">
       <div class="card-body">
@@ -54,7 +54,7 @@
           <hr>
           <div class="form-group">
             <button class="btn btn-primary"><i class="fa fa-paper-plane"></i> Submit</button>
-            <router-link to="/" class="btn btn-outline-primary ms-3" href="#" type="button" role="button"><i class="fa fa-home"></i> Back</router-link>
+            <router-link to="/" class="btn btn-outline-primary ms-3" href="#" type="button" role="button"><i class="fa fa-home"></i> {{ $t("menu.back") }}</router-link>
           </div>
         </form>
       </div>

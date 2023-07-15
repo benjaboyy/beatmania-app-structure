@@ -1,7 +1,7 @@
 <template>
   <div class="login-screen px-2 mx-auto">
     <h1 class="text-center my-4">Update Courses
-      <router-link to="/admin" class="btn btn-secondary ms-3" href="#" type="button" role="button"><i class="fa fa-arrow-left"></i> Back</router-link>
+      <router-link to="/admin" class="btn btn-secondary ms-3" href="#" type="button" role="button"><i class="fa fa-arrow-left"></i> {{ $t("menu.back") }}</router-link>
     </h1>
     <div class="card">
       <div class="card-body">

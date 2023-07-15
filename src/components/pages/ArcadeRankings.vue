@@ -15,7 +15,7 @@
           </select>
         </div>
         <hr>
-        <router-link to="/about" class="btn btn-primary " href="#" type="button" role="button" exact><i class="fa fa-home me-2"></i> Back</router-link>
+        <router-link to="/about" class="btn btn-primary " href="#" type="button" role="button" exact><i class="fa fa-home me-2"></i> {{ $t("menu.back") }}</router-link>
       </div>
     </div>
     <div v-else>

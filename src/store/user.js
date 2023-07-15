@@ -9,6 +9,7 @@ export default {
             userId: '',
             token: '',
             admin: false,
+            language: '',
             name: '',
             successUpdate: false,
             didLogout: false,
@@ -48,6 +49,9 @@ export default {
         },
         setSuccessUpdate(state, payload) {
             state.successUpdate = payload;
+        },
+        setLanguage(state, payload) {
+            state.language = payload;
         },
         addSong(state, payload) {
             const index = state.userSongs.findIndex(s => s.id === payload.id);
@@ -113,6 +117,20 @@ export default {
                 alert('Error while updating username');
             } else {
                 commit('setUserInfo', payload.name);
+                commit('setSuccessUpdate', true);
+            }
+        },
+        async updateLanguage({ commit, getters }, payload) {
+            const userId = getters.userId;
+            const token = getters.token;
+            const response = await fetch(`https://beatmania-pro-default-rtdb.europe-west1.firebasedatabase.app/users/${userId}.json?auth=` + token, {
+                method: 'PATCH',
+                body: JSON.stringify(payload)
+            });
+            if (!response.ok) {
+                console.log('Error while updating language to user');
+            } else {
+                commit('setLanguage', payload.language);
                 commit('setSuccessUpdate', true);
             }
         },
@@ -250,6 +268,8 @@ export default {
             }
 
             context.commit('setUserInfo', responseData.name);
+            context.commit('setLanguage', responseData.language);
+
             context.commit('setAdmin', responseData.admin);
         },
         async loadUserSongs(context) {
@@ -518,6 +538,9 @@ export default {
         },
         didAutoLogout(state) {
             return state.didLogout;
+        },
+        getLanguage(state) {
+            return state.language;
         }
     }
 }

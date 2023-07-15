@@ -6,53 +6,53 @@
       <p>{{ infoSong.artist }}</p>
       <div class="row">
         <div class="col-12 col-lg-6">
-          <p class="my-2">Singles</p>
+          <p class="my-2">{{ $t("filter.singles") }}</p>
           <div class="input-group mb-2  input-group-lg" v-if="infoSong.difficultyNormal > 0">
             <span class="input-group-text text-white bg-theme-1 border-0">{{ infoSong.difficultyNormal }}</span>
             <input placeholder="Score" type="text" class="form-control" id="scoreNormal" v-model="scoreNormal" />
-            <a class="btn" :class="normalClear ? 'bg-primary text-white' : 'bg-light text-primary'" @click="toggleNormalClear">Cleared</a>
-            <a class="btn" :class="normalFC ? 'bg-primary text-white flash' : 'bg-light text-primary'" @click="toggleNormalFC">FC</a>
+            <a class="btn" :class="normalClear ? 'bg-primary text-white' : 'bg-light text-primary'" @click="toggleNormalClear">{{ $t("filter.cleared") }}</a>
+            <a class="btn" :class="normalFC ? 'bg-primary text-white flash' : 'bg-light text-primary'" @click="toggleNormalFC">{{ $t("filter.fullComboShort") }}</a>
           </div>
           <div class="input-group mb-2  input-group-lg" v-if="infoSong.difficultyHard > 0">
             <span class="input-group-text text-white bg-theme-2 border-0">{{ infoSong.difficultyHard }}</span>
             <input placeholder="Score" type="text" class="form-control" id="scoreHard" v-model="scoreHard" />
-            <a class="btn" type="button" :class="hardClear ? 'bg-primary text-white' : 'bg-light text-primary'" @click="toggleHardClear">Cleared</a>
-            <a class="btn" type="button" :class="hardFC ? 'bg-primary text-white flash' : 'bg-light text-primary'" @click="toggleHardFC">FC</a>
+            <a class="btn" type="button" :class="hardClear ? 'bg-primary text-white' : 'bg-light text-primary'" @click="toggleHardClear">{{ $t("filter.cleared") }}</a>
+            <a class="btn" type="button" :class="hardFC ? 'bg-primary text-white flash' : 'bg-light text-primary'" @click="toggleHardFC">{{ $t("filter.fullComboShort") }}</a>
           </div>
           <div class="input-group mb-2  input-group-lg" v-if="infoSong.difficultyAnother > 0">
             <span class="input-group-text text-white bg-theme-3 border-0">{{ infoSong.difficultyAnother }}</span>
             <input placeholder="Score" type="text" class="form-control" id="scoreAnother" v-model="scoreAnother" />
-            <a class="btn" type="button" :class="anotherClear ? 'bg-primary text-white' : 'bg-light text-primary'" @click="toggleAnotherClear">Cleared</a>
-            <a class="btn" type="button" :class="anotherFC ? 'bg-primary text-white flash' : 'bg-light text-primary'" @click="toggleAnotherFC">FC</a>
+            <a class="btn" type="button" :class="anotherClear ? 'bg-primary text-white' : 'bg-light text-primary'" @click="toggleAnotherClear">{{ $t("filter.cleared") }}</a>
+            <a class="btn" type="button" :class="anotherFC ? 'bg-primary text-white flash' : 'bg-light text-primary'" @click="toggleAnotherFC">{{ $t("filter.fullComboShort") }}</a>
           </div>
         </div>
         <div class="col-12 col-lg-6">
-          <p class="my-2">Doubles</p>
+          <p class="my-2">{{ $t("filter.doubles") }}</p>
           <div class="input-group mb-2  input-group-lg" v-if="infoSong.difficultyDoubleNormal > 0">
             <span class="input-group-text text-white bg-theme-1 border-0">{{ infoSong.difficultyDoubleNormal }}</span>
             <input placeholder="Score" type="text" class="form-control" id="scoreDoubleNormal" v-model="scoreDoubleNormal" />
-            <a class="btn" type="button" :class="normalDoubleClear ? 'bg-primary text-white' : 'bg-light text-primary'" @click="toggleNormalDoubleClear">Cleared</a>
-            <a class="btn" type="button" :class="normalDoubleFC ? 'bg-primary text-white flash' : 'bg-light text-primary'" @click="toggleNormalDoubleFC">FC</a>
+            <a class="btn" type="button" :class="normalDoubleClear ? 'bg-primary text-white' : 'bg-light text-primary'" @click="toggleNormalDoubleClear">{{ $t("filter.cleared") }}</a>
+            <a class="btn" type="button" :class="normalDoubleFC ? 'bg-primary text-white flash' : 'bg-light text-primary'" @click="toggleNormalDoubleFC">{{ $t("filter.fullComboShort") }}</a>
           </div>
           <div class="input-group mb-2  input-group-lg" v-if="infoSong.difficultyDoubleHard > 0">
             <span class="input-group-text text-white bg-theme-2 border-0">{{ infoSong.difficultyDoubleHard }}</span>
             <input placeholder="Score" type="text" class="form-control" id="scoreDoubleHard" v-model="scoreDoubleHard" />
-            <a class="btn" type="button" :class="hardDoubleClear ? 'bg-primary text-white' : 'bg-light text-primary'" @click="toggleHardDoubleClear">Cleared</a>
-            <a class="btn" type="button" :class="hardDoubleFC ? 'bg-primary text-white flash' : 'bg-light text-primary'" @click="toggleHardDoubleFC">FC</a>
+            <a class="btn" type="button" :class="hardDoubleClear ? 'bg-primary text-white' : 'bg-light text-primary'" @click="toggleHardDoubleClear">{{ $t("filter.cleared") }}</a>
+            <a class="btn" type="button" :class="hardDoubleFC ? 'bg-primary text-white flash' : 'bg-light text-primary'" @click="toggleHardDoubleFC">{{ $t("filter.fullComboShort") }}</a>
           </div>
           <div class="input-group mb-2  input-group-lg" v-if="infoSong.difficultyDoubleAnother > 0">
             <span class="input-group-text text-white bg-theme-3 border-0">{{ infoSong.difficultyDoubleAnother }}</span>
             <input placeholder="Score" type="text" class="form-control" id="scoreDoubleAnother" v-model="scoreDoubleAnother" />
-            <a class="btn" type="button" :class="anotherDoubleClear ? 'bg-primary text-white' : 'bg-light text-primary'" @click="toggleAnotherDoubleClear">Cleared</a>
-            <a class="btn" type="button" :class="anotherDoubleFC ? 'bg-primary text-white flash' : 'bg-light text-primary'" @click="toggleAnotherDoubleFC">FC</a>
+            <a class="btn" type="button" :class="anotherDoubleClear ? 'bg-primary text-white' : 'bg-light text-primary'" @click="toggleAnotherDoubleClear">{{ $t("filter.cleared") }}</a>
+            <a class="btn" type="button" :class="anotherDoubleFC ? 'bg-primary text-white flash' : 'bg-light text-primary'" @click="toggleAnotherDoubleFC">{{ $t("filter.fullComboShort") }}</a>
           </div>
         </div>
       </div>
       <div class="d-grid mt-2 gap-2">
-        <button class="btn" @click="toggleTarget" :class="target ? 'btn-danger' : 'bg-light'"><i class="fas fa-bullseye me-1" :class="target ? 'text-white' : 'text-primary'"></i> Set target</button>
-        <button class="btn" @click="toggleFavorite" :class="favorite ? 'btn-primary' : 'bg-light'"><i class="fa fa-heart me-1" :class="favorite ? 'text-white' : 'text-primary'"></i> Set Favorite</button>
+        <button class="btn" @click="toggleTarget" :class="target ? 'btn-danger' : 'bg-light'"><i class="fas fa-bullseye me-1" :class="target ? 'text-white' : 'text-primary'"></i> {{ $t("filter.setTarget") }}</button>
+        <button class="btn" @click="toggleFavorite" :class="favorite ? 'btn-primary' : 'bg-light'"><i class="fa fa-heart me-1" :class="favorite ? 'text-white' : 'text-primary'"></i> {{ $t("filter.setFavorite") }}</button>
         <hr>
-        <button class="btn btn-dark" @click="hideDialog"><i class="fas fa-save text-white me-1"></i> Save</button>
+        <button class="btn btn-dark" @click="hideDialog"><i class="fas fa-save text-white me-1"></i> {{ $t("filter.save") }}</button>
       </div>
     </dialog>
   </transition>

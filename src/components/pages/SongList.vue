@@ -5,26 +5,26 @@
         <h1 class="text-center">{{ game.name }} <i :class="'icon ' + game.icon + ' text-primary'"></i></h1>
         <div class="px-2 px-md-0">
           <div class="input-group mt-4">
-            <input type="text" class="form-control" placeholder="Song name" aria-label="Recipient's username" aria-describedby="button-addon2"
+            <input type="text" class="form-control" :placeholder="$t('listScreen.searchName')" aria-label="Recipient's username" aria-describedby="button-addon2"
                    v-model="searchWord"
                    v-on:keyup.enter="search">
-            <button class="btn btn-primary" type="button" id="button-search" @click="search"><i class="fa fa-search me-md-1"></i>  <span class="d-none d-md-inline">Search</span></button>
-            <button @click="showFilter" class="btn btn-primary ms-3" type="button"><i class="fa fa-sliders-h me-md-1"></i> <span class="d-none d-md-inline">Filters</span></button>
+            <button class="btn btn-primary" type="button" id="button-search" @click="search"><i class="fa fa-search me-md-1"></i>  <span class="d-none d-md-inline">{{ $t("listScreen.search") }}</span></button>
+            <button @click="showFilter" class="btn btn-primary ms-3" type="button"><i class="fa fa-sliders-h me-md-1"></i> <span class="d-none d-md-inline">{{ $t("listScreen.filters") }}</span></button>
           </div>
           <div class="my-2 my-md-4 text-start">
-            <span v-if="!noFilter" class="text-white me-2">Filter:</span>
-            <span v-if="!noFilter && searchWord !== '' && searchWord !== undefined" class="badge rounded-pill bg-light text-dark me-2">Name/ artist</span>
-            <span v-if="!noFilter && filters.filterLevel > 0 && filters.filterLevel !== undefined" class="badge rounded-pill pill bg-light text-dark me-2">Level {{ filters.filterLevel }}</span>
-            <span v-if="!noFilter && filters.filteredClear !== '' && filters.filteredClear !== undefined" class="badge rounded-pill bg-light text-dark me-2">On {{ filters.filteredClear }}</span>
-            <span v-if="!noFilter && filters.filterFavorite !== false && filters.filterFavorite !== undefined" class="badge rounded-pill bg-light text-dark me-2">Favorite</span>
+            <span v-if="!noFilter" class="text-white me-2">{{ $t("listScreen.filter") }}:</span>
+            <span v-if="!noFilter && searchWord !== '' && searchWord !== undefined" class="badge rounded-pill bg-light text-dark me-2">{{ $t("listScreen.nameArtist") }}</span>
+            <span v-if="!noFilter && filters.filterLevel > 0 && filters.filterLevel !== undefined" class="badge rounded-pill pill bg-light text-dark me-2">{{ $t("listScreen.level") }} {{ filters.filterLevel }}</span>
+            <span v-if="!noFilter && filters.filteredClear !== '' && filters.filteredClear !== undefined" class="badge rounded-pill bg-light text-dark me-2">{{ $t("listScreen.filterOn") }} {{ filters.filteredClear }}</span>
+            <span v-if="!noFilter && filters.filterFavorite !== false && filters.filterFavorite !== undefined" class="badge rounded-pill bg-light text-dark me-2">{{ $t("listScreen.favorite") }}</span>
           </div>
         </div>
         <table class="table table-borderless bg-light table-striped table-songs">
           <thead>
           <tr class=" text-white bg-dark">
             <th class="indicator d-none d-md-table-cell"></th>
-            <th class="text-start">Song name</th>
-            <th class="text-start d-none d-md-table-cell">Artist/ Alias</th>
+            <th class="text-start">{{ $t("listScreen.songName") }}</th>
+            <th class="text-start d-none d-md-table-cell">{{ $t("listScreen.artistAlias") }}</th>
             <th class="text-center text-theme-1"
                 :class="{ 'd-none d-md-table-cell': this.type !== 'single' }">SN</th>
             <th class="text-center text-theme-2"
@@ -37,8 +37,8 @@
                 :class="{ 'd-none d-md-table-cell': this.type !== 'double' }">DH</th>
             <th class="text-center text-theme-3"
                 :class="{ 'd-none d-md-table-cell': this.type !== 'double' }">DA</th>
-            <th class="text-center">Fav</th>
-            <th class="text-center">Tar</th>
+            <th class="text-center">{{ $t("listScreen.favoriteShort") }}</th>
+            <th class="text-center px-0">{{ $t("listScreen.targetShort") }}</th>
           </tr>
           </thead>
           <tbody v-if="!loading">
@@ -117,8 +117,9 @@
 </template>
 <script>
 import AddFilterModal from "@/components/UI/AddFilterModal";
+import AddSongModal from "@/components/UI/AddSongModal";
 export default {
-  components: {AddFilterModal},
+  components: {AddFilterModal, AddSongModal},
   emits: ['loaded'],
   name: 'SongList',
   data() {

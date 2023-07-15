@@ -28,20 +28,6 @@ export default {
       await this.dataGetter();
     }
     this.isLoaded = true;
-
-    // Prevent the screen from going dark
-    document.addEventListener('DOMContentLoaded', () => {
-      if (document.visibilityState === 'visible') {
-        this.keepScreenOn(true);
-      }
-    });
-    document.addEventListener('visibilitychange', () => {
-      if (document.visibilityState === 'visible') {
-        this.keepScreenOn(true);
-      } else {
-        this.keepScreenOn(false);
-      }
-    });
   },
   methods: {
     loaded() {
@@ -55,15 +41,7 @@ export default {
       await this.$store.dispatch('loadUserSongs');
       await this.$store.dispatch('loadTrackedGames');
       await this.$store.dispatch('loadUserCourses');
-    },
-    keepScreenOn(shouldKeepOn) {
-      if (shouldKeepOn) {
-        // Prevent the screen from going dark
-        document.defaultView?.wakeLock?.request('screen');
-      } else {
-        // Allow the screen to go dark
-        document.defaultView?.wakeLock?.release();
-      }
+      this.$i18n.locale = this.$store.getters['getLanguage'];
     },
   },
   computed: {

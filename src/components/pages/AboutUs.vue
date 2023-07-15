@@ -26,7 +26,11 @@
         <p>
           The app is not affiliated with Konami or any other company.
         </p>
-        <router-link to="/" class="btn btn-primary mb-2" href="#" type="button" role="button" exact><i class="fa fa-home me-2"></i> Back</router-link>
+        <router-link to="/" class="btn btn-primary mb-2" href="#" type="button" role="button" exact><i class="fa fa-home me-2"></i> {{ $t("menu.back") }}</router-link>
+      </div>
+      <div class="card-footer d-flex text-muted">
+        <div class="select-lang" @click="toggleLanguage"><i class="fas fa-globe"></i> {{ $t("login.selectLanguage") }}</div>
+        <div class="ms-auto">{{ $t("login.version") }} 1.0.3</div>
       </div>
     </div>
   </div>
@@ -39,5 +43,16 @@ export default {
     msg: String,
   },
   emits: ['select-view'],
+  methods: {
+    toggleLanguage() {
+      this.$i18n.locale = this.$i18n.locale === 'en' ? 'ja' : 'en';
+    },
+  },
 };
 </script>
+
+<style scoped>
+  .select-lang {
+    cursor: pointer;
+  }
+</style>
