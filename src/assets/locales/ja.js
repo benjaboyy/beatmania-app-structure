@@ -26,6 +26,7 @@ export default
         aboutAndInfo: '情報',
         admin: '管理者',
         back: '戻る',
+        arcadeRanking: 'アーケードランキング',
     },
     listScreen: {
         search: '検索',
@@ -70,6 +71,10 @@ export default
         show: '表示',
     },
     login: {
+        languageIs: '日本語',
+        english: '英語',
+        japanese: '日本語',
+        close: '閉じる',
         login: 'ログイン',
         selectLanguage: '言語を選択',
         aboutApp: 'アプリについて',
@@ -92,5 +97,15 @@ export default
         accountDetails: 'アカウント詳細',
         gameSelect: 'ゲームを選択',
         gameSelectInfo: '追跡するゲームを選択します。',
+        accountInfo: 'アカウント情報を設定します。',
+        arcadeCode: 'アーケードコード',
+        info: '情報',
+        favoriteGame: 'お気に入りのゲーム',
+        selectTheme: 'テーマを選択',
+        updated: '更新!',
+        codeSlot1: 'スロット1',
+        codeSlot2: 'スロット2',
+        codeSlot3: 'スロット3',
     }
 }
+

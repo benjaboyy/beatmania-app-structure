@@ -7,7 +7,7 @@
 
       <div class="d-flex">
         <button class="btn-lang p-0 me-3" type="button">
-          <i @click="toggleLanguage" class="fas fa-language fa-2x text-white"></i>
+          <i @click="showDialog" class="fas fa-language fa-2x text-white"></i>
         </button>
 
         <button class="btn-menu text-white" type="button" @click="toggleMenu" aria-controls="offcanvasDarkNavbar">
@@ -23,27 +23,32 @@
         <div class="offcanvas-body">
           <ul class="navbar-nav justify-content-end flex-grow-1">
             <li class="nav-item">
-              <router-link @click="closeMenu" to="/" class="nav-link btn btn-dark mb-2" href="#" type="button" role="button" exact>
+              <router-link @click="closeMenu" to="/" class="btn w-100 btn-light mb-2" href="#" type="button" role="button" exact>
                 <i class="fa fa-home me-1"></i> {{ $t("menu.overview") }}
               </router-link>
             </li>
             <li class="nav-item">
-              <router-link @click="closeMenu" to="/settings" class="nav-link btn btn-dark mb-2" href="#" type="button" role="button" exact>
+              <router-link @click="closeMenu" to="/settings" class="btn w-100 btn-light mb-2" href="#" type="button" role="button" exact>
                 <i class="fa fa-cogs me-1"></i> {{ $t("menu.settings") }}
               </router-link>
             </li>
             <li class="nav-item">
-              <router-link @click="closeMenu" to="/about" class="nav-link btn btn-dark mb-2" href="#" type="button" role="button">
+              <router-link @click="closeMenu" to="/about" class="btn w-100 btn-light mb-2" href="#" type="button" role="button">
                 <i class="fa fa-question me-1"></i> {{ $t("menu.aboutAndInfo") }}
               </router-link>
             </li>
             <li v-if="isAdmin" class="nav-item">
-              <router-link @click="closeMenu" to="/admin" class="nav-link btn btn-dark mb-2" href="#" type="button" role="button">
+              <router-link @click="closeMenu" to="/admin" class="btn w-100 btn-light mb-2" href="#" type="button" role="button">
                 <i class="fa fa-server me-1"></i> {{ $t("menu.admin") }}
               </router-link>
             </li>
             <li class="nav-item">
-              <a @click="logout" class="nav-link btn btn-dark mb-2">
+              <router-link @click="closeMenu" to="/arcade"  class="btn w-100 btn-light mb-2" href="#" type="button" role="button">
+                <i class="fas fa-trophy me-1"></i> {{ $t("menu.arcadeRanking") }}
+              </router-link>
+            </li>
+            <li class="nav-item">
+              <a @click="logout" class="w-100 btn btn-light text-danger mb-2">
                 <i class="fa fa-sign-out-alt me-1"></i> {{ $t("menu.logout") }}
               </a>
             </li>
@@ -51,18 +56,30 @@
         </div>
       </div>
     </div>
+    <LanguageModal
+        @close="hideDialog"
+        :open="dialogIsVisible"
+    />
   </nav>
 </template>
 
 <script>
+import LanguageModal from "@/components/UI/LanguageModal";
 export default {
   name: "HeaderApp",
+  components: {
+    LanguageModal
+  },
   data() {
     return {
-      isMenuOpen: false
+      isMenuOpen: false,
+      dialogIsVisible: false,
     };
   },
   methods: {
+    hideDialog() {
+      this.dialogIsVisible = false;
+    },
     logout() {
       this.$store.dispatch('logout');
       this.$router.replace('/login');
@@ -73,12 +90,9 @@ export default {
     closeMenu() {
       this.isMenuOpen = false;
     },
-    toggleLanguage() {
-      this.$i18n.locale = this.$i18n.locale === 'en' ? 'ja' : 'en';
-      this.$store.dispatch('updateLanguage', {
-        language: this.$i18n.locale
-      });
-    }
+    showDialog() {
+      this.dialogIsVisible = true;
+    },
   },
   computed: {
     isAdmin() {
@@ -107,5 +121,11 @@ export default {
 .btn-menu i {
   font-size: 1.9em;
   opacity: 0.7;
+}
+.btn-light {
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 </style>

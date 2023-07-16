@@ -28,33 +28,34 @@
           </div>
         </div>
         <div v-if="tab === 'details'">
-          <div id="emailHelp" class="form-text my-3">Set your account information.</div>
+          <div id="emailHelp" class="form-text my-3">{{ $t("settings.accountInfo") }}</div>
           <div class="mb-3">
-            <label for="Name" class="form-label">Game tag/ name</label>
+            <label for="Name" class="form-label">{{ $t("login.gametagName") }}</label>
             <input type="username" class="form-control" v-model="enteredName" id="username" aria-describedby="username">
           </div>
           <div class="mb-3">
             <label for="Select" class="form-label">
-              Arcade code <router-link to="/tips" class="text-primary"><i class="fa fa-question-circle ms-2"></i> info</router-link>
+              {{ $t("settings.arcadeCode") }}
+              <router-link to="/tips" class="text-primary"><i class="fa fa-question-circle ms-2"></i> {{ $t("settings.info") }}</router-link>
             </label>
             <div class="row">
               <div class="col-12 col-md">
                 <div class="input-group">
-                  <input type="arcadecode01" :disabled="codeSet01" class="form-control" v-model="enteredAracdeCode01" id="arcadecode01" aria-describedby="arcadecode01" placeholder="Slot 1">
+                  <input type="arcadecode01" :disabled="codeSet01" class="form-control" v-model="enteredAracdeCode01" id="arcadecode01" aria-describedby="arcadecode01" :placeholder="$t('settings.codeSlot1')">
                   <router-link v-if="codeSet01" :to="'/arcade/'+enteredAracdeCode01" class="btn btn-primary"><i class="fa fa-link"></i></router-link>
                   <button v-if="codeSet01" @click="deleteFromArcade(enteredAracdeCode01)" class="btn btn-danger"><i class="fa fa-trash"></i></button>
                 </div>
               </div>
               <div v-if="enteredAracdeCode01" class="col-12 col-md mt-2 mt-md-0">
                 <div class="input-group">
-                  <input type="arcadecode02" :disabled="codeSet02" class="form-control" v-model="enteredAracdeCode02" id="arcadecode02" aria-describedby="arcadecode02" placeholder="Slot 2">
+                  <input type="arcadecode02" :disabled="codeSet02" class="form-control" v-model="enteredAracdeCode02" id="arcadecode02" aria-describedby="arcadecode02"  :placeholder="$t('settings.codeSlot2')">
                   <router-link v-if="codeSet02" :to="'/arcade/'+enteredAracdeCode02" class="btn btn-primary"><i class="fa fa-link"></i></router-link>
                   <button v-if="codeSet02" @click="deleteFromArcade(enteredAracdeCode02)" class="btn btn-danger"><i class="fa fa-trash"></i></button>
                 </div>
               </div>
               <div v-if="enteredAracdeCode02 || enteredAracdeCode01" class="col-12 col-md mt-2 mt-md-0">
                 <div class="input-group">
-                  <input type="arcadecode03" :disabled="codeSet03" class="form-control" v-model="enteredAracdeCode03" id="arcadecode03" aria-describedby="arcadecode03" placeholder="Slot 3">
+                  <input type="arcadecode03" :disabled="codeSet03" class="form-control" v-model="enteredAracdeCode03" id="arcadecode03" aria-describedby="arcadecode03"  :placeholder="$t('settings.codeSlot3')">
                   <router-link v-if="codeSet03" :to="'/arcade/'+enteredAracdeCode03" class="btn btn-primary"><i class="fa fa-link"></i></router-link>
                   <button v-if="codeSet03" @click="deleteFromArcade(enteredAracdeCode03)" class="btn btn-danger"><i class="fa fa-trash"></i></button>
                 </div>
@@ -62,20 +63,20 @@
             </div>
           </div>
           <div class="mb-3">
-            <label for="Select" class="form-label">Favorite Game</label>
+            <label for="Select" class="form-label">{{ $t("settings.favoriteGame")}}</label>
             <select id="Select" class="form-select" placeholder="Choose" v-model="enteredFavoriteGame">
               <option v-for="game in games" v-bind:key="game">{{ game.name }}</option>
             </select>
           </div>
           <div class="mb-3">
-            <label for="Select" class="form-label">Select theme</label>
+            <label for="Select" class="form-label">{{ $t("settings.selectTheme")}}</label>
             <select id="Select" class="form-select" disabled>
-              <option selected>Flat</option>
+              <option selected>lumen</option>
               <option>Old-school</option>
             </select>
           </div>
-          <button type="submit" @click="updateSettings" class="btn btn-primary"><i class="fa fa-save me-1"></i> Save</button>
-          <button v-if="successUpdate" class="btn btn-success disabled"><i class="fa fa-check Reset me-1" ></i> Updated</button>
+          <button type="submit" @click="updateSettings" class="btn btn-primary"><i class="fa fa-save me-1"></i> {{ $t("filter.save") }}</button>
+          <button v-if="successUpdate" class="btn btn-success disabled"><i class="fa fa-check Reset me-1" ></i> {{ $t("settings.updated") }}</button>
         </div>
       </div>
     </div>

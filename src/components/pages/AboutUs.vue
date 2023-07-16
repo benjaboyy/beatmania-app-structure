@@ -11,13 +11,16 @@
         </p>
           <h5>Key Features:</h5>
       <ul>
-        <li>Progress Tracking: Keep track of your scores and progress in Beatmania.</li>
+        <li>Progress Tracking: Keep track of your scores, progress and achievements.</li>
         <li>User-Friendly: Intuitive interface, making it easy to navigate and use.</li>
+        <li>Arcade highscores: Keep track of your highscores in your local arcade.</li>
+        <li>Translations: Available in English and Japanese.</li>
       </ul>
         <p>Set the app to your homescreen or use the website and start tracking your progress in Beatmania!</p>
         <div class="mb-2">
-          <button class="btn btn-outline-primary me-2" disabled><i class="fa fa-mobile-alt me-2"></i> Add to homescreen</button>
-          <a href="https://github.com/benjaboyy/beatmania-app-structure" class="btn btn-outline-primary"><i class="fab fa-github me-2"></i> Github</a>
+          <button class="btn btn-outline-primary me-2 mt-2" disabled><i class="fa fa-mobile-alt me-2"></i> Add to homescreen</button>
+          <a href="https://github.com/benjaboyy/beatmania-app-structure" class="btn btn-outline-primary me-2 mt-2"><i class="fab fa-github me-2"></i> Github</a>
+          <router-link to="/arcade" class="btn btn-outline-primary me-2 mt-2"><i class="fas fa-trophy me-2"></i> Arcade Ranking</router-link>
         </div>
         <p>For any questions or feedback, <br>please reach out to us at <a href="mailto:benjaboyy@hotmail.nl">benjaboyy@hotmail.nl</a>.
           <br>We value your input and are continuously working to improve the app for the community. <br><br>
@@ -37,6 +40,7 @@
 </template>
 
 <script>
+import info from '@/assets/locales/info.js' // import common locale messages
 export default {
   name: 'AdminUs',
   props: {
@@ -48,6 +52,9 @@ export default {
       this.$i18n.locale = this.$i18n.locale === 'en' ? 'ja' : 'en';
     },
   },
+  i18n: {
+    sharedMessages: info
+  }
 };
 </script>
 

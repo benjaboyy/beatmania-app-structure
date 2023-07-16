@@ -1,26 +1,28 @@
 <template>
-  <div class="stats-screen px-2 px-md-5 m-auto">
-    <h1 v-if="!arcadeID" class="text-center my-4">Arcade Rankings</h1>
-    <h1 v-else class="text-center my-4">{{ getArcadeName }} Ranking
-      <small v-if="selectedGame">
-        Game: {{ nameOfSelectedGame }}
-      </small>
-    </h1>
-    <div v-if="!arcadeID" class="card">
-      <div class="card-body">
-        <h3>Select Arcade</h3>
-        <div class="input-group mb-0">
-          <select class="form-select" v-model="arcadeID">
-            <option class="dropdown-item text-theme-1" value="573300">DDR-EXP Arcade</option>
-          </select>
-        </div>
-        <hr>
-        <router-link to="/about" class="btn btn-primary " href="#" type="button" role="button" exact><i class="fa fa-home me-2"></i> {{ $t("menu.back") }}</router-link>
-      </div>
+  <div class="stats-screen px-2 px-md-5 pt-4 m-auto">
+    <div class="banner--highscore d-flex bg-primary" v-if="!isAuthenticated">
+      <img src="../../assets/img/banner-highscore.png" class="d-inline-block align-middle mx-auto logo--size" alt="">
     </div>
-    <div v-else>
-      <table v-if="selectedGame" class="table table-dark table-striped table-hover">
-        <thead>
+    <h1 v-if="!arcadeID && isAuthenticated" class="text-center my-0">Arcade Rankings</h1>
+    <h1 v-if="selectedGame" class="text-center my-0">{{ nameOfSelectedGame }} Ranking</h1>
+    <div v-if="arcadeID" :class="{'h1': !selectedGame, 'h5': selectedGame}" class="text-center text-white my-0">Location: {{ getArcadeName }}</div>
+    <div class="mt-4">
+      <div v-if="!arcadeID" class="card">
+        <div class="card-body">
+          <h3>Select Arcade</h3>
+          <div class="input-group mb-0">
+            <select class="form-select" v-model="arcadeID">
+              <option class="dropdown-item text-theme-1" value="573300">DDR-EXP Arcade</option>
+            </select>
+          </div>
+          <hr>
+          <router-link to="/" class="btn btn-primary " href="#" type="button" role="button" exact><i class="fa fa-home me-2"></i> {{ $t("menu.back") }}</router-link>
+          <router-link to="/about" class="btn btn-link" href="#" type="button" role="button" exact>{{ $t("menu.aboutAndInfo") }}</router-link>
+        </div>
+      </div>
+      <div v-else>
+        <table v-if="selectedGame" class="table table-dark table-striped table-hover">
+          <thead>
           <tr>
             <th style="width: 1px" scope="col">Rank</th>
             <th scope="col">Player</th>
@@ -29,8 +31,8 @@
             <th class="d-none d-md-table-cell" scope="col">Courses</th>
             <th scope="col">Points</th>
           </tr>
-        </thead>
-        <tbody>
+          </thead>
+          <tbody>
           <tr v-for="player, key in playersSortedOnStats" :key="player.rank" class="bg-light">
             <th v-if="key === 0" scope="row"><i class="fas fa-trophy"></i></th>
             <th v-else>{{ key+1 }}</th>
@@ -40,12 +42,22 @@
             <td class="d-none d-md-table-cell">{{ player.trackedGames[selectedGame].courses }}</td>
             <td>{{ player.trackedGames[selectedGame].total }}</td>
           </tr>
-        </tbody>
-      </table>
-      <div class="card p-3" v-else>
-        <h3>Select Game</h3>
-        <button v-for="game in getArcadeGames" :key="game" class="btn btn-primary" @click="selectedGame = game">{{ game }}</button>
+          </tbody>
+        </table>
+        <div class="card p-3" v-else>
+          <h3>Select Game</h3>
+          <button v-for="game in getArcadeGames" :key="game" class="btn btn-primary mt-2" @click="selectedGame = game">{{ game }}</button>
+          <div>
+            <hr>
+            <router-link to="/" class="btn btn-primary " href="#" type="button" role="button" exact><i class="fa fa-home me-2"></i> {{ $t("menu.back") }}</router-link>
+            <router-link to="/about" class="btn btn-link" href="#" type="button" role="button" exact>{{ $t("menu.aboutAndInfo") }}</router-link>
+          </div>
+        </div>
       </div>
+    </div>
+    <div class="card-footer d-flex mt-2 text-muted">
+      <div class="select-lang" @click="toggleLanguage"><i class="fas fa-globe"></i> {{ $t("login.selectLanguage") }}</div>
+      <div class="ms-auto">© <a class="text-white" href="https://beatmania-pro.web.app">BMGress</a> - {{ new Date().getFullYear() }}</div>
     </div>
   </div>
 </template>
@@ -57,6 +69,7 @@ export default {
     return {
       arcadeID: '',
       selectedGame: '',
+      nameSelectedArcade: '',
       players: [],
       arcadeList: [],
     };
@@ -66,16 +79,22 @@ export default {
   },
   async created() {
     await this.$store.dispatch('arcades/loadArcades');
+    await this.$store.dispatch('games/fetchGameSongs');
     const arcadeID = this.$route.params.arcadeID;
     if (arcadeID) {
       this.arcadeID = arcadeID;
+      this.nameSelectedArcade = this.getArcadeName;
     }
     const gameID = this.$route.params.gameID;
     if (gameID) {
       this.selectedGame = gameID;
+      this.nameSelectedGame = this.nameOfSelectedGame;
     }
   },
   computed: {
+    isAuthenticated() {
+      return this.$store.getters['isAuthenticated'];
+    },
     getArcades() {
       return this.$store.getters['arcades/getArcades'];
     },
@@ -110,6 +129,11 @@ export default {
       return sort;
     },
   },
+  methods: {
+    toggleLanguage() {
+      this.$i18n.locale = this.$i18n.locale === 'en' ? 'ja' : 'en';
+    },
+  },
   watch: {
     async arcadeID() {
       for (let player in this.getPlayers) {
@@ -119,3 +143,19 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.banner--highscore {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+.logo--size {
+  width: 100%;
+  max-width: 350px;
+}
+.stats-screen {
+  margin-top: 75px!important;
+}
+</style>

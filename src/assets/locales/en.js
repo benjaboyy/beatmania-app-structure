@@ -26,6 +26,7 @@ export default
         aboutAndInfo: 'About & Info',
         admin: 'Admin',
         back: 'Back',
+        arcadeRanking: 'Arcade Ranking',
     },
     listScreen: {
         search: 'Search',
@@ -70,6 +71,8 @@ export default
         show: 'Show',
     },
     login: {
+        languageIs: 'English',
+        close: 'Close',
         login: 'Login',
         selectLanguage: 'Select Language',
         aboutApp: 'About app',
@@ -92,5 +95,14 @@ export default
         accountDetails: 'Account Details',
         gameSelect: 'Game Select',
         gameSelectInfo: 'Choose the games you want to track.',
+        accountInfo: 'Set your account information.',
+        arcadeCode: 'Arcade Code',
+        info: 'Info',
+        favoriteGame: 'Favorite Game',
+        selectTheme: 'Select Theme',
+        updated: 'Updated',
+        codeSlot1: 'Slot 1',
+        codeSlot2: 'Slot 2',
+        codeSlot3: 'Slot 3',
     }
 }

@@ -26,6 +26,8 @@ export default {
     await this.$store.dispatch('tryLogin');
     if (this.isAuthenticated) {
       await this.dataGetter();
+    } else {
+      await this.$store.dispatch('games/fetchGameSongs');
     }
     this.isLoaded = true;
   },

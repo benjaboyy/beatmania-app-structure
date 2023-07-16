@@ -26,6 +26,8 @@ import importSongs from "@/components/pages/ImportSongs";
 import AboutUs from "@/components/pages/AboutUs";
 import AdminPanel from "@/components/pages/AdminPanel";
 
+
+// Create a router instance for navigation between pages
 const router = createRouter({
     history: createWebHistory(),
     routes: [
@@ -52,6 +54,7 @@ const router = createRouter({
     linkActiveClass: 'btn-active',
 });
 
+// Check if user is authenticated before each route change
 router.beforeEach(function(to, from, next) {
     if (to.meta.requiresAuth && !store.getters.isAuthenticated) {
         next('/login');
@@ -62,6 +65,7 @@ router.beforeEach(function(to, from, next) {
     }
 });
 
+// Create VueI18n instance with options for language detection
 import en from './assets/locales/en.js'
 import ja from './assets/locales/ja.js'
 
@@ -72,12 +76,11 @@ const messages = {
 
 const i18n = createI18n({
     locale: 'en', // set locale
-    fallbackLocale: 'ja', // set fallback locale
+    fallbackLocale: 'en', // set fallback locale
     messages, // set locale messages
-    // If you need to specify other options, you can set other options
-    // ...
 })
 
+// Create a new app
 const app = createApp(App)
 app.component('header-app', HeaderApp);
 app.component('add-course-modal', AddCourseModal);
