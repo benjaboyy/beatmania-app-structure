@@ -68,10 +68,12 @@ router.beforeEach(function(to, from, next) {
 // Create VueI18n instance with options for language detection
 import en from './assets/locales/en.js'
 import ja from './assets/locales/ja.js'
+import nl from './assets/locales/nl.js'
 
 const messages = {
     en: en,
-    ja: ja
+    ja: ja,
+    nl: nl
 }
 
 const i18n = createI18n({

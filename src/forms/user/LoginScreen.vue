@@ -26,16 +26,24 @@
         </form>
       </div>
       <div class="card-footer d-flex text-muted">
-        <div class="select-lang" @click="toggleLanguage"><i class="fas fa-globe"></i> {{ $t("login.selectLanguage") }}</div>
+        <div class="select-lang" @click="showDialog"><i class="fas fa-globe"></i> {{ $t("login.selectLanguage") }}</div>
         <div class="ms-auto">{{ $t("login.version") }} 1.0.3</div>
       </div>
     </div>
+    <LanguageModal
+        @close="hideDialog"
+        :open="dialogIsVisible"
+    />
   </div>
 </template>
 
 <script>
+import LanguageModal from "@/components/UI/LanguageModal";
 export default {
   emits: ['data'],
+  components: {
+    LanguageModal,
+  },
   data() {
     return {
       email: '',
@@ -44,12 +52,16 @@ export default {
       formIsValid: true,
       emailInvalid: false,
       passwordInvalid: false,
+      dialogIsVisible: false,
       error: null,
     };
   },
   methods: {
-    toggleLanguage() {
-      this.$i18n.locale = this.$i18n.locale === 'en' ? 'ja' : 'en';
+    showDialog() {
+      this.dialogIsVisible = true;
+    },
+    hideDialog() {
+      this.dialogIsVisible = false;
     },
     async submitForm() {
       this.formIsValid = true;

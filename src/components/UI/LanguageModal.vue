@@ -3,27 +3,30 @@
   <transition name="modal">
     <dialog class="window" open v-if="open">
       <h3><i class="fas fa-globe"></i> {{ $t("login.selectLanguage") }}</h3>
-      <div class="row mt-3">
-        <div class="col-12">
+      <div class="row g-3 pt-1">
+        <div class="col-6">
           <button
               :class="$i18n.locale === 'en' ? 'btn-primary ' : 'btn-outline-primary'"
-              class="btn  w-100" @click="setLanguage('en')">English</button>
+              class="btn py-4 w-100" @click="setLanguage('en')">English</button>
+        </div>
+        <div class="col-6">
           <button
               :class="$i18n.locale === 'ja' ? 'btn-primary ' : 'btn-outline-primary'"
-              class="btn mt-2 w-100" @click="setLanguage('ja')">日本語</button>
+              class="btn py-4 w-100" @click="setLanguage('ja')">日本語</button>
+        </div>
+        <div class="col-6 mt-3">
           <button
               :class="$i18n.locale === 'nl' ? 'btn-primary ' : 'btn-outline-primary'"
-              class="btn mt-2 w-100" @click="setLanguage('nl')" disabled>Nederlands</button>
-          <button
-              :class="$i18n.locale === 'de' ? 'btn-primary ' : 'btn-outline-primary'"
-              class="btn mt-2 w-100" @click="setLanguage('de')" disabled>Deutsch</button>
-          <button
-              :class="$i18n.locale === 'sp' ? 'btn-primary ' : 'btn-outline-primary'"
-              class="btn mt-2 w-100" @click="setLanguage('sp')" disabled>Español</button>
+              class="btn py-4 w-100" @click="setLanguage('nl')">Nederlands</button>
         </div>
+        <!--          <button-->
+        <!--              :class="$i18n.locale === 'de' ? 'btn-primary ' : 'btn-outline-primary'"-->
+        <!--              class="btn mt-2 w-100" @click="setLanguage('de')" disabled>Deutsch</button>-->
+        <!--          <button-->
+        <!--              :class="$i18n.locale === 'sp' ? 'btn-primary ' : 'btn-outline-primary'"-->
+        <!--              class="btn mt-2 w-100" @click="setLanguage('sp')" disabled>Español</button>-->
       </div>
-      <div class="d-grid mt-2 gap-2">
-        <hr>
+      <div class="d-grid mt-3 gap-2">
         <button class="btn btn-dark" @click="hideDialog">{{ $t("login.close") }}</button>
       </div>
     </dialog>

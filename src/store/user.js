@@ -102,6 +102,9 @@ export default {
                 alert('Error while updating settings');
             } else {
                 const updatedAccountSettings = { ...getters.accountSettings, ...payload };
+                // get trackedgames and add to payload
+                const trackedGames = getters.accountSettings.trackedGames;
+                updatedAccountSettings.trackedGames = trackedGames;
                 commit('setAccountSettings', updatedAccountSettings);
                 commit('setSuccessUpdate', true);
             }
@@ -407,12 +410,32 @@ export default {
                 context.dispatch('refreshToken');
             }, refreshTokenInterval);
 
+
             context.commit('setUser', {
                 token: responseData.idToken,
                 userId: responseData.localId,
-                expirationDate: responseData.expirationDate,
+                expirationDate: responseData.expiresIn,
             });
+
+            await context.dispatch('checkTokenExpiration');
         },
+        async checkTokenExpiration({ dispatch }) {
+            const tokenExpiration = localStorage.getItem('tokenExpiration');
+            const expiresIn = +tokenExpiration - new Date().getTime();
+
+            if (expiresIn < 0) {
+                await dispatch('refreshToken');
+            } else {
+                const refreshTokenInterval = expiresIn - 60000; // Refresh token 1 minute before it expires
+
+                clearTimeout(timer);
+
+                timer = setTimeout(async () => {
+                    await dispatch('refreshToken');
+                }, refreshTokenInterval);
+            }
+        },
+
         async refreshToken(context) {
             const token = localStorage.getItem('token');
             const refreshTokenUrl = 'https://securetoken.googleapis.com/v1/token?key=AIzaSyA-o_3wteXq2TeoHwnVC5fCSyr_dzVd_j0';
@@ -441,8 +464,10 @@ export default {
             const expiresIn = +responseData.expires_in * 1000;
             const refreshTokenInterval = expiresIn - 60000;
 
-            timer = setTimeout(function() {
-                context.dispatch('refreshToken');
+            clearTimeout(timer);
+
+            timer = setTimeout(async () => {
+                await context.dispatch('refreshToken');
             }, refreshTokenInterval);
 
             context.commit('setUser', {
@@ -462,8 +487,9 @@ export default {
                 return;
             }
 
-            timer = setTimeout(() => {
-                context.dispatch('autoLogout');
+            timer = setTimeout(async () => {
+                clearTimeout(timer);
+                await context.dispatch('checkTokenExpiration');
             }, expiresIn);
 
             if (token && userId) {
