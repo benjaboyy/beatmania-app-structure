@@ -26,3 +26,4 @@ pnpm-debug.log*
 public/Config.xml
 public/manifest.json
 public/service-worker.js
+.env
