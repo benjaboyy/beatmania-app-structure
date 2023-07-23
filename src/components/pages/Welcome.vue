@@ -2,9 +2,9 @@
   <div class="stats-screen px-2 px-md-5 m-auto">
     <h1 class="text-center my-4">{{ $t("welcomeScreen.welcome") }} DJ {{ userName }}</h1>
     <div class="row">
-      <div v-if="filteredGames < 1" class="col-12 my-4 text-center">
-        <a class="btn btn-primary" @click="reload" href="#" type="button" role="button"><i class="fas fa-spin fa-redo me-2"></i> {{ $t("welcomeScreen.reload") }}</a>
-        <div id="reloadHelp" class="form-text mt-3">{{ $t("welcomeScreen.clickReload") }}</div>
+      <div v-if="filteredGames < 1" class="col-12 my-0 text-center">
+        <div id="reloadHelp" class="form-text mb-3">{{ $t("welcomeScreen.clickReload") }}</div>
+        <router-link :to="{ path: '/settings', query: { ID: 'game' } }" class="btn w-100 mb-3 btn-block btn-lg btn-secondary" type="button" role="button"><i class="fas fa-check-square"></i> {{ $t("welcomeScreen.selectGames") }}</router-link>
       </div>
       <div v-for="game in filteredGames" v-bind:key="game" class="col-md-6 mt-4 m-auto">
         <div class="card">
@@ -37,7 +37,7 @@
           </div>
         </div>
       </div>
-      <div class="col-12 my-4 text-center">
+      <div v-if="filteredGames.length > 0" class="col-12 my-4 text-center">
         <router-link :to="{ path: '/settings', query: { ID: 'game' } }" class="btn btn-block btn-secondary" type="button" role="button"><i class="fas fa-check-square"></i> {{ $t("welcomeScreen.selectGames") }}</router-link>
         <router-link to="/tips" class="btn btn-block btn-secondary ms-3" href="#" type="button" role="button"><i class="far fa-lightbulb"></i> {{ $t("welcomeScreen.tips") }}</router-link>
         <div id="emailHelp" class="form-text mt-3">{{ $t("welcomeScreen.findMore") }}</div>
@@ -107,15 +107,6 @@ export default {
           }
         }
       }
-    },
-    async testToken() {
-      await this.$store.dispatch('games/fetchGameSongs');
-      await this.$store.dispatch('loadUser');
-      await this.$store.dispatch('songs/loadSongs');
-      await this.$store.dispatch('courses/loadCourses');
-      await this.$store.dispatch('loadUserSongs');
-      await this.$store.dispatch('loadUserCourses');
-      await this.calculateStats();
     },
     async calculateStats() {
       const userSongs = await this.$store.getters['getUserSongs'];

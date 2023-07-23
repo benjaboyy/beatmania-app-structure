@@ -18,7 +18,7 @@
             <label for="exampleInputPassword1" class="form-label">{{ $t("login.password") }}</label>
             <input type="password" class="form-control" id="exampleInputPassword1" v-model="password">
             <div v-if="passwordInvalid" class="text-warning" role="alert">Make sure the password is at least 6 characters long</div>
-
+            <router-link to="/reset" type="submit" class="link-primary">{{ $t("login.passwordReset") }}</router-link>
           </div>
           <button class="btn btn-primary">{{ $t("login.login") }}</button>
           <router-link to="/register" type="submit" class="btn btn-block btn-outline-primary ms-2">{{ $t("login.register") }}</router-link>

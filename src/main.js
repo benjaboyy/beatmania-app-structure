@@ -49,6 +49,7 @@ const router = createRouter({
         { path: '/arcade/:arcadeID', component: ArcadeRankings, props: true, meta: { requiresAuth: false } },
         { path: '/arcade/:arcadeID/:gameID', component: ArcadeRankings, props: true, meta: { requiresAuth: false } },
         { path: '/register', component: RegisterUser },
+        { path: '/reset', component: PasswordReset },
         { path: '/:notFound(.*)', redirect: '/welcome'},
     ],
     linkActiveClass: 'btn-active',
@@ -69,6 +70,7 @@ router.beforeEach(function(to, from, next) {
 import en from './assets/locales/en.js'
 import ja from './assets/locales/ja.js'
 import nl from './assets/locales/nl.js'
+import PasswordReset from "@/forms/user/PasswordReset";
 
 const messages = {
     en: en,

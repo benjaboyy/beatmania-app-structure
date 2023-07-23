@@ -4,8 +4,16 @@
     <dialog class="window" open v-if="open">
       <h3>{{ infoSong.name }}</h3>
       <p>{{ infoSong.artist }}</p>
+      <ul class="nav nav-tabs d-lg-none">
+        <li class="nav-item">
+          <a @click="toggleTypeselected" class="nav-link" aria-current="page" :class="typeSelected === 'singles' ? 'active' : ''">Singles</a>
+        </li>
+        <li class="nav-item">
+          <a @click="toggleTypeselected" class="nav-link" :class="typeSelected === 'doubles' ? 'active' : ''">Doubles</a>
+        </li>
+      </ul>
       <div class="row">
-        <div class="col-12 col-lg-6">
+        <div class="col-12 col-lg-6" :class="typeSelected === 'singles' ? '' : ' d-none d-lg-block'">
           <p class="my-2">{{ $t("filter.singles") }}</p>
           <div class="input-group mb-2  input-group-lg" v-if="infoSong.difficultyNormal > 0">
             <span class="input-group-text text-white bg-theme-1 border-0">{{ infoSong.difficultyNormal }}</span>
@@ -26,7 +34,7 @@
             <a class="btn" type="button" :class="anotherFC ? 'bg-primary text-white flash' : 'bg-light text-primary'" @click="toggleAnotherFC">{{ $t("filter.fullComboShort") }}</a>
           </div>
         </div>
-        <div class="col-12 col-lg-6">
+        <div class="col-12 col-lg-6" :class="typeSelected === 'doubles' ? '' : ' d-none d-lg-block'">
           <p class="my-2">{{ $t("filter.doubles") }}</p>
           <div class="input-group mb-2  input-group-lg" v-if="infoSong.difficultyDoubleNormal > 0">
             <span class="input-group-text text-white bg-theme-1 border-0">{{ infoSong.difficultyDoubleNormal }}</span>
@@ -93,7 +101,8 @@ export default {
       anotherDoubleFC: false,
       anotherDoubleClear: false,
       favorite: false,
-      target: false
+      target: false,
+      typeSelected: 'singles',
     }
   },
   methods: {
@@ -124,6 +133,9 @@ export default {
         target: this.target
       });
 
+    },
+    toggleTypeselected() {
+      this.typeSelected = this.typeSelected == 'singles' ? 'doubles' : 'singles';
     },
     toggleNormalFC() {
       this.normalFC = !this.normalFC;

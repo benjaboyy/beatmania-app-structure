@@ -6,7 +6,7 @@
     </div>
     <div class="card">
       <div class="card-body">
-        <h1 class="text-primary">{{ $t("login.register") }}</h1>
+        <h1 class="text-primary">{{ $t("login.resetUser") }}</h1>
         <form @submit.prevent="submitForm">
           <div v-if="!formIsValid" class="alert alert-danger" role="alert">
             {{ $t("login.formInvalid") }}
@@ -18,24 +18,10 @@
             <label for="email">{{ $t("login.email") }}</label>
             <input class="form-control" type="text" id="email" v-model="email" />
             <div v-if="emailInvalid" id="emailInvalid" class="form-text red">Pick a valid email address.</div>
-            <div v-else id="emailHelp" class="form-text">{{ $t("login.emailIsSave") }}</div>
-          </div>
-          <div :class="!formIsValid && nameInvalid ? 'red' : ''" class="form-group">
-            <label for="name">{{ $t("login.gametagName") }}</label>
-            <input class="form-control" type="text" id="name" v-model="name" />
-            <div v-if="nameInvalid" id="nameInvalid" class="form-text red">Please fill this field.</div>
-            <div v-else id="nameHelp" class="form-text">{{ $t("login.nameInProfile") }}</div>
-          </div>
-          <div :class="!formIsValid && passwordInvalid ? 'red' : ''" class="form-group">
-            <label for="password">{{ $t("login.password") }}</label>
-            <input class="form-control" type="password" id="password" v-model="password" />
-          </div>
-          <div :class="!formIsValid && passwordInvalid ? 'red' : ''" class="form-group">
-            <label for="confirmPassword">{{ $t("login.confirmPassword") }}</label>
-            <input class="form-control" type="password" id="confirmPassword" v-model="confirmPassword" />
+            <div v-else id="emailHelp" class="form-text">{{ $t("login.emailWillBeSendToReset") }}</div>
           </div>
           <div class="form-group mt-3">
-            <button class="btn btn-primary"><i class="fa fa-paper-plane"></i> {{ $t("login.register") }}</button>
+            <button class="btn btn-primary"><i class="fa fa-paper-plane"></i> {{ $t("login.sendReset") }}</button>
             <router-link to="/login" class="btn btn-outline-primary ms-2">{{ $t("login.goLogin") }}</router-link>
           </div>
         </form>
@@ -55,7 +41,7 @@
 <script>
 import LanguageModal from "@/components/UI/LanguageModal";
 export default {
-  name: "RegisterUser",
+  name: 'LoginScreen',
   components: {
     LanguageModal,
   },
@@ -84,33 +70,18 @@ export default {
 
       this.formIsValid = true;
       this.emailInvalid = false;
-      this.nameInvalid = false;
-      this.passwordInvalid = false;
 
       const formData = {
         email: this.email,
-        name: this.name,
-        password: this.password,
       };
       if (this.email.trim().length === 0 || !this.email.includes('@')) {
         this.formIsValid = false;
         this.emailInvalid = true;
         return;
       }
-      if (this.name.trim().length === 0) {
-        this.formIsValid = false;
-        this.nameInvalid = true;
-        return;
-      }
-      if (this.password !== this.confirmPassword || this.password.trim().length < 6) {
-        this.formIsValid = false;
-        this.passwordInvalid = true;
-        return;
-      }
       try {
         if (this.formIsValid) {
-          await this.$store.dispatch('registerUser', formData);
-          this.$router.replace('/login');
+          await this.$store.dispatch('passwordMailRequest', formData);
         }
       } catch (error) {
         this.error = error.message || 'Something went wrong'

@@ -1,4 +1,6 @@
 let timer;
+const API_KEY = process.env.VUE_APP_FIREBASE_API_KEY;
+const API_BASE_URL = 'https://beatmania-pro-default-rtdb.europe-west1.firebasedatabase.app/';
 
 export default {
     state() {
@@ -80,7 +82,7 @@ export default {
         async updateTrackGames({ commit, getters }, payload) {
             const userId = getters.userId;
             const token = getters.token;
-            const response = await fetch(`https://beatmania-pro-default-rtdb.europe-west1.firebasedatabase.app/users/${userId}/accountSettings/trackedGames.json?auth=` + token, {
+            const response = await fetch(`${API_BASE_URL}users/${userId}/accountSettings/trackedGames.json?auth=` + token, {
                 method: 'put',
                 body: JSON.stringify(payload)
             });
@@ -94,7 +96,7 @@ export default {
         async updateSettings({ commit, getters }, payload) {
             const userId = getters.userId;
             const token = getters.token;
-            const response = await fetch(`https://beatmania-pro-default-rtdb.europe-west1.firebasedatabase.app/users/${userId}/accountSettings.json?auth=` + token, {
+            const response = await fetch(`${API_BASE_URL}users/${userId}/accountSettings.json?auth=` + token, {
                 method: 'PATCH',
                 body: JSON.stringify(payload)
             });
@@ -112,7 +114,7 @@ export default {
         async updateUsername({ commit, getters }, payload) {
             const userId = getters.userId;
             const token = getters.token;
-            const response = await fetch(`https://beatmania-pro-default-rtdb.europe-west1.firebasedatabase.app/users/${userId}.json?auth=` + token, {
+            const response = await fetch(`${API_BASE_URL}users/${userId}.json?auth=` + token, {
                 method: 'PATCH',
                 body: JSON.stringify(payload)
             });
@@ -126,7 +128,7 @@ export default {
         async updateLanguage({ commit, getters }, payload) {
             const userId = getters.userId;
             const token = getters.token;
-            const response = await fetch(`https://beatmania-pro-default-rtdb.europe-west1.firebasedatabase.app/users/${userId}.json?auth=` + token, {
+            const response = await fetch(`${API_BASE_URL}users/${userId}.json?auth=` + token, {
                 method: 'PATCH',
                 body: JSON.stringify(payload)
             });
@@ -138,6 +140,7 @@ export default {
             }
         },
         async addSongToUser (context, payload) {
+            await context.dispatch('checkTokenExpiration');
             const userId = context.getters.userId;
             const songID = payload.id;
             const songData = {
@@ -166,7 +169,7 @@ export default {
             }
 
             const token = context.getters.token;
-            const response = await fetch(`https://beatmania-pro-default-rtdb.europe-west1.firebasedatabase.app/users/${userId}/songs/${songID}.json?auth=` + token, {
+            const response = await fetch(`${API_BASE_URL}users/${userId}/songs/${songID}.json?auth=` + token, {
                 method: 'put',
                 body: JSON.stringify(songData)
             });
@@ -178,6 +181,7 @@ export default {
             });
         },
         async addCourseToUser (context, payload) {
+            await context.dispatch('checkTokenExpiration');
             const userId = context.getters.userId;
             const songID = payload.id;
             const songData = {
@@ -191,8 +195,10 @@ export default {
                 score: payload.score,
             }
 
+            console.log(payload);
+
             const token = context.getters.token;
-            const response = await fetch(`https://beatmania-pro-default-rtdb.europe-west1.firebasedatabase.app/users/${userId}/courses/${songID}.json?auth=` + token, {
+            const response = await fetch(`${API_BASE_URL}users/${userId}/courses/${songID}.json?auth=` + token, {
                 method: 'put',
                 body: JSON.stringify(songData)
             });
@@ -204,7 +210,7 @@ export default {
             });
         },
         async registerUser(context, payload) {
-            const response = await fetch('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyA-o_3wteXq2TeoHwnVC5fCSyr_dzVd_j0', {
+            const response = await fetch('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=' + API_KEY, {
                 method: 'POST',
                 body: JSON.stringify({
                     email: payload.email,
@@ -227,7 +233,7 @@ export default {
             });
             const userId = responseData.localId;
             const token = responseData.idToken;
-            const response2 = await fetch(`https://beatmania-pro-default-rtdb.europe-west1.firebasedatabase.app/users/${userId}.json?auth=${token}`, {
+            const response2 = await fetch(`${API_BASE_URL}users/${userId}.json?auth=${token}`, {
                 method: 'PUT',
                 body: JSON.stringify({
                     id: userId,
@@ -244,7 +250,7 @@ export default {
         async loadTrackedGames(context) {
             const userId = context.getters.userId;
             const token = context.getters.token;
-            const response = await fetch(`https://beatmania-pro-default-rtdb.europe-west1.firebasedatabase.app/users/${userId}/accountSettings.json?auth=` + token);
+            const response = await fetch(`${API_BASE_URL}users/${userId}/accountSettings.json?auth=` + token);
             const responseData = await response.json();
 
             if (!response.ok) {
@@ -263,7 +269,7 @@ export default {
             const userId = context.getters.userId;
             const token = context.getters.token;
             //
-            const response = await fetch(`https://beatmania-pro-default-rtdb.europe-west1.firebasedatabase.app/users/${userId}.json?auth=` + token);
+            const response = await fetch(`${API_BASE_URL}users/${userId}.json?auth=` + token);
             const responseData = await response.json();
 
             if (!response.ok) {
@@ -278,7 +284,7 @@ export default {
         async loadUserSongs(context) {
             const userId = context.getters.userId;
             const token = context.getters.token;
-            const response = await fetch(`https://beatmania-pro-default-rtdb.europe-west1.firebasedatabase.app/users/${userId}/songs.json?auth=` + token);
+            const response = await fetch(`${API_BASE_URL}users/${userId}/songs.json?auth=` + token);
             const responseData = await response.json();
 
             if (!response.ok) {
@@ -319,7 +325,7 @@ export default {
         async loadUserCourses(context) {
             const userId = context.getters.userId;
             const token = context.getters.token;
-            const response = await fetch(`https://beatmania-pro-default-rtdb.europe-west1.firebasedatabase.app/users/${userId}/courses.json?auth=` + token);
+            const response = await fetch(`${API_BASE_URL}users/${userId}/courses.json?auth=` + token);
             const responseData = await response.json();
 
             if (!response.ok) {
@@ -333,7 +339,7 @@ export default {
                     name: responseData[key].name,
                     score: responseData[key].score,
                     clear: responseData[key].clear,
-                    fc: responseData[key].fc,
+                    FC: responseData[key].FC,
                     favorite: responseData[key].favorite,
                     grade: responseData[key].grade,
                 }
@@ -346,7 +352,7 @@ export default {
         async loadUserStats(context, payload) {
             const userId = payload;
             const token = context.getters.token;
-            const response = await fetch(`https://beatmania-pro-default-rtdb.europe-west1.firebasedatabase.app/users/${userId}.json?auth=` + token);
+            const response = await fetch(`${API_BASE_URL}users/${userId}.json?auth=` + token);
             const responseData = await response.json();
 
             if (!response.ok) {
@@ -363,7 +369,7 @@ export default {
         async setUserStatsForGame(context, payload) {
             const userId = context.getters.userId;
             const token = context.getters.token;
-            const response = await fetch(`https://beatmania-pro-default-rtdb.europe-west1.firebasedatabase.app/users/${userId}/accountSettings/trackedGames/${payload.game}.json?auth=` + token, {
+            const response = await fetch(`${API_BASE_URL}users/${userId}/accountSettings/trackedGames/${payload.game}.json?auth=` + token, {
                 method: 'PATCH',
                 body: JSON.stringify({
                     singles: payload.singles,
@@ -378,8 +384,28 @@ export default {
             }
         },
 
+        async passwordMailRequest(context, payload) {
+            let url = 'https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=' + API_KEY;
+            const response = await fetch(url, {
+                method: 'POST',
+                body: JSON.stringify({
+                    requestType: 'PASSWORD_RESET',
+                    email: payload.email,
+                })
+            });
+
+            const responseData = await response.json();
+
+            if (!response.ok) {
+                const error = new Error(responseData.message || 'Failed to authenticate');
+                throw error;
+            }
+
+            alert('Password reset email sent');
+        },
+
         async auth(context, payload) {
-            let url = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyA-o_3wteXq2TeoHwnVC5fCSyr_dzVd_j0';
+            let url = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=' + API_KEY;
             const response = await fetch(url, {
                 method: 'POST',
                 body: JSON.stringify({
@@ -400,6 +426,7 @@ export default {
 
             localStorage.setItem('token', responseData.idToken);
             localStorage.setItem('userId', responseData.localId);
+            localStorage.setItem('refreshToken', responseData.refreshToken);
             localStorage.setItem('tokenExpiration', expirationDate);
 
             // Calculate the remaining time before token expiration
@@ -414,6 +441,7 @@ export default {
             context.commit('setUser', {
                 token: responseData.idToken,
                 userId: responseData.localId,
+                refreshToken: responseData.refreshToken,
                 expirationDate: responseData.expiresIn,
             });
 
@@ -437,8 +465,8 @@ export default {
         },
 
         async refreshToken(context) {
-            const token = localStorage.getItem('token');
-            const refreshTokenUrl = 'https://securetoken.googleapis.com/v1/token?key=AIzaSyA-o_3wteXq2TeoHwnVC5fCSyr_dzVd_j0';
+            const token = localStorage.getItem('refreshToken');
+            const refreshTokenUrl = 'https://securetoken.googleapis.com/v1/token?key=' + API_KEY;
             const response = await fetch(refreshTokenUrl, {
                 method: 'POST',
                 body: JSON.stringify({
@@ -452,7 +480,8 @@ export default {
             if (!response.ok) {
                 // Handle token refresh failure
                 // For example, logout the user or show an error message
-                context.dispatch('logout');
+                alert('Token refresh failed');
+                await context.dispatch('logout');
                 return;
             }
 
@@ -503,6 +532,7 @@ export default {
         logout(context) {
             localStorage.removeItem('token');
             localStorage.removeItem('userId');
+            localStorage.removeItem('refreshToken');
             localStorage.removeItem('tokenExpiration');
 
             clearTimeout(timer);
@@ -510,13 +540,10 @@ export default {
             context.commit('setUser', {
                 token: null,
                 userId: null,
+                tokenExpiration: null,
                 name: null,
             });
         },
-        autoLogout(context) {
-            context.dispatch('logout');
-            context.commit('didLogout');
-        }
     },
     getters: {
         getUserSongs(state) {
