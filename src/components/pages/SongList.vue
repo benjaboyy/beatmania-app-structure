@@ -9,7 +9,11 @@
                    v-model="searchWord"
                    v-on:keyup.enter="search">
             <button class="btn btn-primary" type="button" id="button-search" @click="search"><i class="fa fa-search me-md-1"></i>  <span class="d-none d-md-inline">{{ $t("listScreen.search") }}</span></button>
-            <button @click="showFilter" class="btn btn-primary ms-3" type="button"><i class="fa fa-sliders-h me-md-1"></i> <span class="d-none d-md-inline">{{ $t("listScreen.filters") }}</span></button>
+<!--            buttons to toggle between singles and doubles-->
+            <button @click="toggleType" class="btn ms-2 d-md-none" :class="type === 'single' ? 'btn-primary' : 'btn-light'" type="button"><i class="fa fa-compact-disc"></i></button>
+            <button @click="toggleType" class="btn d-md-none" :class="type === 'double' ? 'btn-primary' : 'btn-light'" type="button"><i class="fa fa-compact-disc"></i><i class="fa fa-compact-disc me-md-1"></i></button>
+<!--            button for filtering-->
+            <button @click="showFilter" class="btn btn-primary ms-2" type="button"><i class="fa fa-sliders-h me-md-1"></i> <span class="d-none d-md-inline">{{ $t("listScreen.filters") }}</span></button>
           </div>
           <div class="my-2 my-md-4 text-start">
             <span v-if="!noFilter" class="text-white me-2">{{ $t("listScreen.filter") }}:</span>
@@ -244,6 +248,13 @@ export default {
     },
     hideFilter() {
       this.filterVisible = false;
+    },
+    toggleType() {
+      if (this.type === 'single') {
+        this.type = 'double';
+      } else {
+        this.type = 'single';
+      }
     },
     addFilter(data) {
       if (data.filterLevel === 0 && data.filteredClear === '' && data.filterFavorite === false && data.filterTarget === false && this.searchWord === '') {

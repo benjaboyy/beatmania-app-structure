@@ -1,6 +1,7 @@
 let timer;
 const API_KEY = process.env.VUE_APP_FIREBASE_API_KEY;
 const API_BASE_URL = 'https://beatmania-pro-default-rtdb.europe-west1.firebasedatabase.app/';
+const REFRESH_TOKEN_INTERVAL = 60000; // 1 minute
 
 export default {
     state() {
@@ -447,6 +448,49 @@ export default {
 
             await context.dispatch('checkTokenExpiration');
         },
+        async refreshToken(context) {
+            const refreshToken = localStorage.getItem('refreshToken');
+            const refreshTokenUrl = 'https://securetoken.googleapis.com/v1/token?key=' + API_KEY;
+
+            try {
+                const response = await fetch(refreshTokenUrl, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        grant_type: 'refresh_token',
+                        refresh_token: refreshToken
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Token refresh failed');
+                }
+
+                const responseData = await response.json();
+                const expirationDate = new Date().getTime() + +responseData.expires_in * 1000;
+
+                localStorage.setItem('token', responseData.id_token);
+                localStorage.setItem('tokenExpiration', expirationDate);
+
+                const expiresIn = +responseData.expires_in * 1000;
+                const refreshTokenInterval = expiresIn - REFRESH_TOKEN_INTERVAL;
+
+                clearTimeout(timer);
+
+                timer = setTimeout(async () => {
+                    await context.dispatch('refreshToken');
+                }, refreshTokenInterval);
+
+                context.commit('setUser', {
+                    token: responseData.id_token,
+                    userId: responseData.user_id,
+                    expirationDate: responseData.expires_in,
+                });
+            } catch (error) {
+                console.error(error);
+                await context.dispatch('logout');
+            }
+        },
+
         async checkTokenExpiration({ dispatch }) {
             const tokenExpiration = localStorage.getItem('tokenExpiration');
             const expiresIn = +tokenExpiration - new Date().getTime();
@@ -454,56 +498,11 @@ export default {
             if (expiresIn < 0) {
                 await dispatch('refreshToken');
             } else {
-                const refreshTokenInterval = expiresIn - 60000; // Refresh token 1 minute before it expires
-
                 clearTimeout(timer);
-
                 timer = setTimeout(async () => {
                     await dispatch('refreshToken');
-                }, refreshTokenInterval);
+                }, expiresIn - REFRESH_TOKEN_INTERVAL);
             }
-        },
-
-        async refreshToken(context) {
-            const token = localStorage.getItem('refreshToken');
-            const refreshTokenUrl = 'https://securetoken.googleapis.com/v1/token?key=' + API_KEY;
-            const response = await fetch(refreshTokenUrl, {
-                method: 'POST',
-                body: JSON.stringify({
-                    grant_type: 'refresh_token',
-                    refresh_token: token
-                })
-            });
-
-            const responseData = await response.json();
-
-            if (!response.ok) {
-                // Handle token refresh failure
-                // For example, logout the user or show an error message
-                alert('Token refresh failed');
-                await context.dispatch('logout');
-                return;
-            }
-
-            const expirationDate = new Date().getTime() + +responseData.expires_in * 1000;
-
-            localStorage.setItem('token', responseData.id_token);
-            localStorage.setItem('tokenExpiration', expirationDate);
-
-            const expiresIn = +responseData.expires_in * 1000;
-            const refreshTokenInterval = expiresIn - 60000;
-
-            clearTimeout(timer);
-
-            timer = setTimeout(async () => {
-                await context.dispatch('refreshToken');
-            }, refreshTokenInterval);
-
-            context.commit('setUser', {
-                token: responseData.id_token,
-                userId: responseData.user_id,
-                expirationDate: responseData.expires_in,
-            });
         },
 
         tryLogin(context) {
@@ -516,8 +515,8 @@ export default {
                 return;
             }
 
+            clearTimeout(timer);
             timer = setTimeout(async () => {
-                clearTimeout(timer);
                 await context.dispatch('checkTokenExpiration');
             }, expiresIn);
 
