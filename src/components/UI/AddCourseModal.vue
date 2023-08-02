@@ -7,21 +7,21 @@
       <br>
       <span>{{ $t("filter."+infoSong.type) }}</span>
       <hr>
-      <div class="row">
-        <div class="col-6 mb-3">
+      <div class="row g-3">
+        <div class="col-6">
             <input placeholder="Score" type="text" class="form-control form-control-lg" id="scoreNormal" v-model="score" />
         </div>
-        <div class="col-6 mb-3">
+        <div class="col-6">
             <input placeholder="Grade" type="text" class="form-control form-control-lg" id="scoreNormal" v-model="grade" />
         </div>
-        <div class="col-6 mb-3">
+        <div class="col-6">
             <a class="btn py-2 btn-block w-100" :class="clear ? 'bg-primary text-white' : 'bg-light text-primary'" @click="toggleClear"><i class="fa fa-check text-success"></i> {{ $t("filter.cleared") }}</a>
         </div>
-        <div class="col-6 mb-3">
+        <div class="col-6">
             <a class="btn py-2 btn-block w-100" :class="FC ? 'bg-primary text-white flash' : 'bg-light text-primary'" @click="toggleFC"><i class="fa fa-star text-theme-1"></i> {{ $t("filter.fullCombo") }}</a>
         </div>
       </div>
-      <div class="d-grid gap-2">
+      <div class="d-grid mt-3 gap-2">
         <button class="btn py-2" @click="toggleFavorite" :class="favorite ? 'btn-primary' : 'bg-light text-primary'"><i class="fa fa-heart" :class="favorite ? 'text-white' : 'text-primary'"></i> {{ $t("filter.setFavorite") }}</button>
         <hr>
         <button class="btn btn-dark" @click="hideDialog"><i class="fa fa-save text-white me-1"></i> {{ $t("filter.save") }}</button>
