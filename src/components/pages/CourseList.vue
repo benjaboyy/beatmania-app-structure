@@ -7,18 +7,20 @@
           <span v-if="courseDouble === false">{{ $t("welcomeScreen.singleCourses") }}</span>
           <span v-if="courseDouble === true">{{ $t("welcomeScreen.doubleCourses") }}</span>
         </h4>
-        <div class="row">
-          <div v-if="toggleFilted" class="pb-2 col-12">
-            <a class="btn btn-primary" @click="courseDoubleSwitch" :class="courseDouble === false ? 'btn-primary' : 'btn-light'"><i class="fa fa-compact-disc"></i> {{ $t("welcomeScreen.singleCourses") }}</a>
-            <a class="btn btn-primary" @click="courseDoubleSwitch" :class="courseDouble === true ? 'btn-primary' : 'btn-light'"><i class="fa fa-compact-disc"></i> <i class="fa fa-compact-disc"></i> {{ $t("welcomeScreen.doubleCourses") }}</a>
-          </div>
-          <div class="pb-3 col-12">
-            <a v-if="toggleFilted" class="btn btn-primary" @click="courseFilterCleared" :class="filterCleared === true ? 'btn-primary' : 'btn-light'"><i class="fa fa-check"></i> {{ $t("filter.cleared") }}</a>
-            <a v-if="toggleFilted" class="btn btn-primary" @click="courseFilterFailed" :class="filterFailed === true ? 'btn-primary' : 'btn-light'"><i class="fa fa-times"></i> {{ $t("filter.failed") }}</a>
-            <a v-if="toggleFilted" class="btn btn-primary" @click="courseFilterFC" :class="filterFC === true ? 'btn-primary' : 'btn-light'"><i class="fas fa-crosshairs"></i> {{ $t("filter.fullCombo") }}</a>
-            <a v-if="toggleFilted" class="btn btn-primary" @click="courseFilterGrade" :class="filterGrade === true ? 'btn-primary' : 'btn-light'"><i class="fas fa-graduation-cap"></i> {{ $t("filter.grade") }}</a>
-            <a v-if="toggleFilted" class="btn btn-primary" @click="courseFilterScore" :class="filterScore === true ? 'btn-primary' : 'btn-light'"><i class="fas fa-star"></i> {{ $t("filter.score") }}</a>
-            <a class="btn btn-primary" @click="toggleFilter" :class="toggleFilted === true ? 'btn-primary' : 'btn-light'"><i class="fa fa-filter"></i> {{ $t("listScreen.filters") }}</a>
+        <div class="container">
+          <div class="row">
+            <div v-if="toggleFilted" class="pb-2 col-12">
+              <a class="btn btn-primary" @click="courseDoubleSwitch" :class="courseDouble === false ? 'btn-primary' : 'btn-light'"><i class="fa fa-compact-disc"></i> {{ $t("welcomeScreen.singleCourses") }}</a>
+              <a class="btn btn-primary" @click="courseDoubleSwitch" :class="courseDouble === true ? 'btn-primary' : 'btn-light'"><i class="fa fa-compact-disc"></i> <i class="fa fa-compact-disc"></i> {{ $t("welcomeScreen.doubleCourses") }}</a>
+            </div>
+            <div class="pb-3 col-12">
+              <a v-if="toggleFilted" class="btn btn-primary" @click="courseFilterCleared" :class="filterCleared === true ? 'btn-primary' : 'btn-light'"><i class="fa fa-check"></i> {{ $t("filter.cleared") }}</a>
+              <a v-if="toggleFilted" class="btn btn-primary" @click="courseFilterFailed" :class="filterFailed === true ? 'btn-primary' : 'btn-light'"><i class="fa fa-times"></i> {{ $t("filter.failed") }}</a>
+              <a v-if="toggleFilted" class="btn btn-primary" @click="courseFilterFC" :class="filterFC === true ? 'btn-primary' : 'btn-light'"><i class="fas fa-crosshairs"></i> {{ $t("filter.fullCombo") }}</a>
+              <a v-if="toggleFilted" class="btn btn-primary" @click="courseFilterGrade" :class="filterGrade === true ? 'btn-primary' : 'btn-light'"><i class="fas fa-graduation-cap"></i> {{ $t("filter.grade") }}</a>
+              <a v-if="toggleFilted" class="btn btn-primary" @click="courseFilterScore" :class="filterScore === true ? 'btn-primary' : 'btn-light'"><i class="fas fa-star"></i> {{ $t("filter.score") }}</a>
+              <a class="btn btn-primary" @click="toggleFilter" :class="toggleFilted === true ? 'btn-primary' : 'btn-light'"><i class="fa fa-filter"></i> {{ $t("listScreen.filters") }}</a>
+            </div>
           </div>
         </div>
         <div class="container-fluid">

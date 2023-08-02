@@ -6,14 +6,14 @@
       <p>{{ infoSong.artist }}</p>
       <ul class="nav nav-tabs d-lg-none">
         <li class="nav-item">
-          <a @click="toggleTypeselected" class="nav-link" aria-current="page" :class="typeSelected === 'singles' ? 'active' : ''">Singles</a>
+          <a @click="toggleTypeselected" class="nav-link" aria-current="page" :class="typeSelected === 'single' ? 'active' : ''">Singles</a>
         </li>
         <li class="nav-item">
-          <a @click="toggleTypeselected" class="nav-link" :class="typeSelected === 'doubles' ? 'active' : ''">Doubles</a>
+          <a @click="toggleTypeselected" class="nav-link" :class="typeSelected === 'double' ? 'active' : ''">Doubles</a>
         </li>
       </ul>
       <div class="row">
-        <div class="col-12 col-lg-6" :class="typeSelected === 'singles' ? '' : ' d-none d-lg-block'">
+        <div class="col-12 col-lg-6" :class="typeSelected === 'single' ? '' : ' d-none d-lg-block'">
           <p class="my-2">{{ $t("filter.singles") }}</p>
           <div class="input-group mb-2  input-group-lg" v-if="infoSong.difficultyNormal > 0">
             <span class="input-group-text text-white bg-theme-1 border-0">{{ infoSong.difficultyNormal }}</span>
@@ -34,7 +34,7 @@
             <a class="btn" type="button" :class="anotherFC ? 'bg-primary text-white flash' : 'bg-light text-primary'" @click="toggleAnotherFC">{{ $t("filter.fullComboShort") }}</a>
           </div>
         </div>
-        <div class="col-12 col-lg-6" :class="typeSelected === 'doubles' ? '' : ' d-none d-lg-block'">
+        <div class="col-12 col-lg-6" :class="typeSelected === 'double' ? '' : ' d-none d-lg-block'">
           <p class="my-2">{{ $t("filter.doubles") }}</p>
           <div class="input-group mb-2  input-group-lg" v-if="infoSong.difficultyDoubleNormal > 0">
             <span class="input-group-text text-white bg-theme-1 border-0">{{ infoSong.difficultyDoubleNormal }}</span>
@@ -57,8 +57,14 @@
         </div>
       </div>
       <div class="d-grid mt-2 gap-2">
-        <button class="btn" @click="toggleTarget" :class="target ? 'btn-danger' : 'bg-light'"><i class="fas fa-bullseye me-1" :class="target ? 'text-white' : 'text-primary'"></i> {{ $t("filter.setTarget") }}</button>
-        <button class="btn" @click="toggleFavorite" :class="favorite ? 'btn-primary' : 'bg-light'"><i class="fa fa-heart me-1" :class="favorite ? 'text-white' : 'text-primary'"></i> {{ $t("filter.setFavorite") }}</button>
+        <div class="row g-2">
+          <div class="col-6">
+            <button class="btn w-100" @click="toggleTarget" :class="target ? 'btn-danger' : 'bg-light'"><i class="fas fa-bullseye me-1" :class="target ? 'text-white' : 'text-primary'"></i> {{ $t("filter.setTarget") }}</button>
+          </div>
+          <div class="col-6">
+            <button class="btn w-100" @click="toggleFavorite" :class="favorite ? 'btn-primary' : 'bg-light'"><i class="fa fa-heart me-1" :class="favorite ? 'text-white' : 'text-primary'"></i> {{ $t("filter.setFavorite") }}</button>
+          </div>
+        </div>
         <hr>
         <button class="btn btn-dark" @click="hideDialog"><i class="fas fa-save text-white me-1"></i> {{ $t("filter.save") }}</button>
       </div>
@@ -76,6 +82,10 @@ export default {
     },
     infoSong: {
       type: Object,
+      required: true
+    },
+    type: {
+      type: String,
       required: true
     }
   },
@@ -102,7 +112,7 @@ export default {
       anotherDoubleClear: false,
       favorite: false,
       target: false,
-      typeSelected: 'singles',
+      typeSelected: 'single',
     }
   },
   methods: {
@@ -135,7 +145,7 @@ export default {
 
     },
     toggleTypeselected() {
-      this.typeSelected = this.typeSelected == 'singles' ? 'doubles' : 'singles';
+      this.typeSelected = this.typeSelected == 'single' ? 'double' : 'single';
     },
     toggleNormalFC() {
       this.normalFC = !this.normalFC;
@@ -203,6 +213,7 @@ export default {
         this.anotherDoubleClear = this.infoSong.anotherDoubleClear;
         this.favorite = this.infoSong.favorite;
         this.target = this.infoSong.target;
+        this.typeSelected = this.type;
       }
     }
   }
@@ -223,11 +234,11 @@ export default {
 dialog {
   position: fixed;
   top: 10%;
-  max-height: 80%;
+  max-height: 85%;
   overflow: auto;
   width: 90%;
   margin: 0 auto;
-  bottom: 20vh;
+  bottom: 15vh;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
   border-radius: 0;
   padding: 1rem;

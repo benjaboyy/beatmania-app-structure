@@ -112,6 +112,7 @@
       @addSongUser="addSongToUser"
       :open="dialogIsVisible"
       :infoSong="loadInfoSong"
+      :type="type"
   ></add-song-modal>
   <add-filter-modal
       @close="hideFilter"
@@ -358,6 +359,9 @@ export default {
   computed: {
     loadInfoSong() {
       return this.infoSong;
+    },
+    typeIs() {
+      return this.type;
     },
   },
   created() {

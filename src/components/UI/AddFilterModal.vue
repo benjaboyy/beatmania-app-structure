@@ -8,22 +8,42 @@
         <input data- type="range" max="9" min="0" class="form-range col-12" id="formControlRangeN" v-model="filterLevel" />
       </div>
       <h6>{{ $t("filter.filterOnClear") }}</h6>
-      <a class="btn btn-sm" :class="filteredClear === '' ? 'btn-primary' : 'btn-light'" @click="clearFil('')">{{ $t("filter.none") }}</a>
-      <a class="btn btn-sm" :class="filteredClear === 'failed' ? 'btn-primary' : 'btn-light'" @click="clearFil('failed')"><i class="fa fa-times"></i> {{ $t("filter.failed") }}</a>
-      <a class="btn btn-sm" :class="filteredClear === 'clear' ? 'btn-primary' : 'btn-light'" @click="clearFil('clear')"><i class="fa fa-check"></i> {{ $t("filter.clear") }}</a>
-      <a class="btn btn-sm" :class="filteredClear === 'fullcombo' ? 'btn-primary' : 'btn-light'" @click="clearFil('fullcombo')"><i class="fa fa-star"></i> {{ $t("filter.fullCombo") }}</a>
-      <div class="d-md-none">
-        <h6>{{ $t("filter.playStyle") }}</h6>
-        <div>
-          <a class="btn btn-sm" :class="filterType === 'single' ? 'btn-primary' : 'btn-light'" @click="filterType = 'single'"><i class="fa fa-compact-disc"></i> {{ $t("filter.single") }}</a>
-          <a class="btn btn-sm" :class="filterType === 'double' ? 'btn-primary' : 'btn-light'" @click="filterType = 'double'"><i class="fa fa-compact-disc"></i> <i class="fa fa-compact-disc"></i> {{ $t("filter.double") }}</a>
+      <div class="row g-3">
+        <div class="col-6">
+          <a class="btn w-100 py-3" :class="filteredClear === '' ? 'btn-primary' : 'btn-light'" @click="clearFil('')">{{ $t("filter.none") }}</a>
+        </div>
+        <div class="col-6">
+          <a class="btn w-100 py-3" :class="filteredClear === 'failed' ? 'btn-primary' : 'btn-light'" @click="clearFil('failed')"><i class="fa fa-times text-danger"></i> {{ $t("filter.failed") }}</a>
+        </div>
+        <div class="col-6">
+          <a class="btn w-100 py-3" :class="filteredClear === 'clear' ? 'btn-primary' : 'btn-light'" @click="clearFil('clear')"><i class="fa fa-check text-success"></i> {{ $t("filter.clear") }}</a>
+        </div>
+        <div class="col-6">
+          <a class="btn w-100 py-3" :class="filteredClear === 'fullcombo' ? 'btn-primary' : 'btn-light'" @click="clearFil('fullcombo')"><i class="fa fa-star text-theme-1"></i> {{ $t("filter.fullCombo") }}</a>
         </div>
       </div>
+<!--      <div class="d-md-none">-->
+<!--        <h6>{{ $t("filter.playStyle") }}</h6>-->
+<!--        <div class="row g-3">-->
+<!--          <div class="col-6">-->
+<!--            <a class="btn btn-sm w-100 py-3" :class="filterType === 'single' ? 'btn-primary' : 'btn-light'" @click="filterType = 'single'"><i class="fa fa-compact-disc"></i> {{ $t("filter.single") }}</a>-->
+<!--          </div>-->
+<!--          <div class="col-6">-->
+<!--            <a class="btn btn-sm w-100 py-3" :class="filterType === 'double' ? 'btn-primary' : 'btn-light'" @click="filterType = 'double'"><i class="fa fa-compact-disc"></i> <i class="fa fa-compact-disc"></i> {{ $t("filter.double") }}</a>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
       <h6>{{ $t("filter.otherFilters") }}</h6>
-      <a class="btn btn-sm btn-primary me-2" :class="filterFavorite ? 'btn-primary' : 'btn-light'" @click="favoriteFil"><i class="fa fa-heart" :class="filterFavorite ? 'text-white' : 'text-primary'"></i> {{ $t("filter.favorite") }}</a>
-      <a class="btn btn-sm btn-primary" :class="filterTarget ? 'btn-primary' : 'btn-light'" @click="targetFil"><i class="fa fa-bullseye" :class="filterTarget ? 'text-white' : 'text-danger'"></i> {{ $t("filter.target") }}</a>
+      <div class="row g-3">
+        <div class="col-6">
+          <a class="btn btn-sm btn-primary w-100 py-3 me-2" :class="filterFavorite ? 'btn-primary' : 'btn-light'" @click="favoriteFil"><i class="fa fa-heart" :class="filterFavorite ? 'text-white' : 'text-primary'"></i> {{ $t("filter.favorite") }}</a>
+        </div>
+        <div class="col-6">
+          <a class="btn btn-sm btn-primary w-100 py-3" :class="filterTarget ? 'btn-primary' : 'btn-light'" @click="targetFil"><i class="fa fa-bullseye" :class="filterTarget ? 'text-white' : 'text-danger'"></i> {{ $t("filter.target") }}</a>
+        </div>
+      </div>
       <hr>
-      <a class="btn-primary btn" @click="hideDialog">{{ $t("filter.applyFilters") }}</a>
+      <a class="btn-primary btn w-100 py-3" @click="hideDialog">{{ $t("filter.applyFilters") }}</a>
     </dialog>
   </transition>
 </template>
@@ -105,10 +125,12 @@ h6 {
 
 dialog {
   position: fixed;
-  top: 20vh;
-  width: 100%;
-  max-width: 600px;
-  margin: auto;
+  top: 10%;
+  max-height: 85%;
+  overflow: auto;
+  width: 90%;
+  margin: 0 auto;
+  bottom: 15vh;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
   border-radius: 0;
   padding: 1rem;

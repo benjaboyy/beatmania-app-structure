@@ -15,14 +15,14 @@
             <input placeholder="Grade" type="text" class="form-control form-control-lg" id="scoreNormal" v-model="grade" />
         </div>
         <div class="col-6 mb-3">
-            <a class="btn btn-block w-100" :class="clear ? 'bg-primary text-white' : 'bg-light text-primary'" @click="toggleClear">{{ $t("filter.cleared") }}</a>
+            <a class="btn py-2 btn-block w-100" :class="clear ? 'bg-primary text-white' : 'bg-light text-primary'" @click="toggleClear"><i class="fa fa-check text-success"></i> {{ $t("filter.cleared") }}</a>
         </div>
         <div class="col-6 mb-3">
-            <a class="btn btn-block w-100" :class="FC ? 'bg-primary text-white flash' : 'bg-light text-primary'" @click="toggleFC">{{ $t("filter.fullCombo") }}</a>
+            <a class="btn py-2 btn-block w-100" :class="FC ? 'bg-primary text-white flash' : 'bg-light text-primary'" @click="toggleFC"><i class="fa fa-star text-theme-1"></i> {{ $t("filter.fullCombo") }}</a>
         </div>
       </div>
       <div class="d-grid gap-2">
-        <button class="btn" @click="toggleFavorite" :class="favorite ? 'btn-primary' : 'bg-light text-primary'"><i class="fa fa-heart" :class="favorite ? 'text-white' : 'text-primary'"></i> {{ $t("filter.setFavorite") }}</button>
+        <button class="btn py-2" @click="toggleFavorite" :class="favorite ? 'btn-primary' : 'bg-light text-primary'"><i class="fa fa-heart" :class="favorite ? 'text-white' : 'text-primary'"></i> {{ $t("filter.setFavorite") }}</button>
         <hr>
         <button class="btn btn-dark" @click="hideDialog"><i class="fa fa-save text-white me-1"></i> {{ $t("filter.save") }}</button>
       </div>
@@ -104,7 +104,7 @@ export default {
 dialog {
   position: fixed;
   top: 20vh;
-  width: 100%;
+  width: 90%;
   max-width: 40rem;
   margin: auto;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);

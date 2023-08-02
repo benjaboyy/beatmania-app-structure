@@ -1,48 +1,54 @@
 <template>
-  <div class="stats-screen px-2 px-md-5 m-auto">
+  <div class="stats-screen px-md-5 m-auto">
     <h1 class="text-center my-4">{{ $t("welcomeScreen.welcome") }} DJ {{ userName }}</h1>
-    <div class="row">
-      <div v-if="filteredGames < 1" class="col-12 my-0 text-center">
-        <div id="reloadHelp" class="form-text mb-3">{{ $t("welcomeScreen.clickReload") }}</div>
-        <router-link :to="{ path: '/settings', query: { ID: 'game' } }" class="btn w-100 mb-3 btn-block btn-lg btn-secondary" type="button" role="button"><i class="fas fa-check-square"></i> {{ $t("welcomeScreen.selectGames") }}</router-link>
-      </div>
-      <div v-for="game in filteredGames" v-bind:key="game" class="col-md-6 mt-4 m-auto">
-        <div class="card">
-          <div class="card-body">
-            <span class="p-2 bg-dark text-white float-end"><strong>5K</strong></span>
-            <h3><strong>{{ game.name }}</strong></h3>
-            <div class="mb-2">
-              <router-link :to="'/games/' + game.id" class="btn btn-primary me-2" href="#"><i class="fa fa-compact-disc"></i> {{ $t("welcomeScreen.songList") }}</router-link>
-              <router-link :to="'/g/course/' + game.id" class="btn btn-primary" href="#"><i class="fa fa-layer-group"></i> {{ $t("welcomeScreen.courses") }}</router-link>
-            </div>
-            <span class="text-primary">{{ $t("welcomeScreen.songs") }}: </span>{{ gamestats[game.id].songs }}<br>
-            <span class="text-primary">{{ $t("welcomeScreen.system") }}: </span>{{ $t("welcomeScreen.arcade") }}
-            <hr class="my-2 border-primary">
-            <div v-if="game.trackedGame.singles">
-              <p class="my-1"><span class="text-primary">{{ $t("welcomeScreen.singles") }}: </span>{{ gamestats[game.id].singles.clear }}/{{ gamestats[game.id].singles.total }}</p>
-              <progress-bar-stats :clear="gamestats[game.id].singles.clear" :total="gamestats[game.id].singles.total" :name="'primary'"></progress-bar-stats>
-            </div>
-            <div v-if="game.trackedGame.doubles">
-              <p class="my-1"><span class="text-primary">{{ $t("welcomeScreen.doubles") }}: </span>{{ gamestats[game.id].doubles.clear }}/{{ gamestats[game.id].doubles.total }}</p>
-              <progress-bar-stats :clear="gamestats[game.id].doubles.clear" :total="gamestats[game.id].doubles.total" :name="'primary'"></progress-bar-stats>
-            </div>
-            <div v-if="game.trackedGame.singleCourse">
-              <p class="my-1"><span class="text-primary">{{ $t("welcomeScreen.singleCourses") }}: </span>{{ gamestats[game.id].courses.singleClear }}/{{ gamestats[game.id].courses.singleTotal }}</p>
-              <progress-bar-stats :clear="gamestats[game.id].courses.singleClear" :total="gamestats[game.id].courses.singleTotal" :name="'primary'"></progress-bar-stats>
-            </div>
-            <div v-if="game.trackedGame.doubleCourse">
-              <p class="my-1"><span class="text-primary">{{ $t("welcomeScreen.doubleCourses") }}: </span>{{ gamestats[game.id].courses.doubleClear }}/{{ gamestats[game.id].courses.doubleTotal }}</p>
-              <progress-bar-stats :clear="gamestats[game.id].courses.doubleClear" :total="gamestats[game.id].courses.doubleTotal" :name="'primary'"></progress-bar-stats>
+    <div class="container">
+      <div class="row">
+        <div v-if="filteredGames < 1" class="col-12 my-0 text-center">
+          <div id="reloadHelp" class="form-text mb-3">{{ $t("welcomeScreen.clickReload") }}</div>
+          <router-link :to="{ path: '/settings', query: { ID: 'game' } }" class="btn w-100 mb-3 btn-block btn-lg btn-secondary" type="button" role="button"><i class="fas fa-check-square"></i> {{ $t("welcomeScreen.selectGames") }}</router-link>
+        </div>
+        <div v-for="game in filteredGames" v-bind:key="game" class="col-md-6 mt-4 m-auto">
+          <div class="card">
+            <div class="card-body">
+              <h3><strong>{{ game.name }}</strong></h3>
+              <span class="text-primary">{{ $t("welcomeScreen.songs") }}: </span>{{ gamestats[game.id].songs }}<br>
+              <span class="text-primary">{{ $t("welcomeScreen.system") }}: </span>{{ $t("welcomeScreen.arcade") }}
+
+              <div class="row g-3 mb-2 mt-0">
+                <div class="col-6">
+                  <router-link :to="'/games/' + game.id" class="btn w-100 btn-primary me-2" href="#"><i class="fa fa-compact-disc"></i> {{ $t("welcomeScreen.songList") }}</router-link>
+                </div>
+                <div class="col-6">
+                  <router-link :to="'/g/course/' + game.id" class="btn w-100 btn-primary" href="#"><i class="fa fa-layer-group"></i> {{ $t("welcomeScreen.courses") }}</router-link>
+                </div>
+              </div>
+
+              <div v-if="game.trackedGame.singles">
+                <p class="my-1"><span class="text-primary">{{ $t("welcomeScreen.singles") }}: </span>{{ gamestats[game.id].singles.clear }}/{{ gamestats[game.id].singles.total }}</p>
+                <progress-bar-stats :clear="gamestats[game.id].singles.clear" :total="gamestats[game.id].singles.total" :name="'primary'"></progress-bar-stats>
+              </div>
+              <div v-if="game.trackedGame.doubles">
+                <p class="my-1"><span class="text-primary">{{ $t("welcomeScreen.doubles") }}: </span>{{ gamestats[game.id].doubles.clear }}/{{ gamestats[game.id].doubles.total }}</p>
+                <progress-bar-stats :clear="gamestats[game.id].doubles.clear" :total="gamestats[game.id].doubles.total" :name="'primary'"></progress-bar-stats>
+              </div>
+              <div v-if="game.trackedGame.singleCourse">
+                <p class="my-1"><span class="text-primary">{{ $t("welcomeScreen.singleCourses") }}: </span>{{ gamestats[game.id].courses.singleClear }}/{{ gamestats[game.id].courses.singleTotal }}</p>
+                <progress-bar-stats :clear="gamestats[game.id].courses.singleClear" :total="gamestats[game.id].courses.singleTotal" :name="'primary'"></progress-bar-stats>
+              </div>
+              <div v-if="game.trackedGame.doubleCourse">
+                <p class="my-1"><span class="text-primary">{{ $t("welcomeScreen.doubleCourses") }}: </span>{{ gamestats[game.id].courses.doubleClear }}/{{ gamestats[game.id].courses.doubleTotal }}</p>
+                <progress-bar-stats :clear="gamestats[game.id].courses.doubleClear" :total="gamestats[game.id].courses.doubleTotal" :name="'primary'"></progress-bar-stats>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div v-if="filteredGames.length > 0" class="col-12 my-4 text-center">
-        <router-link :to="{ path: '/settings', query: { ID: 'game' } }" class="btn btn-block btn-secondary" type="button" role="button"><i class="fas fa-check-square"></i> {{ $t("welcomeScreen.selectGames") }}</router-link>
-        <router-link to="/tips" class="btn btn-block btn-secondary ms-3" href="#" type="button" role="button"><i class="far fa-lightbulb"></i> {{ $t("welcomeScreen.tips") }}</router-link>
-        <div id="emailHelp" class="form-text mt-3">{{ $t("welcomeScreen.findMore") }}</div>
-      </div>
+        <div v-if="filteredGames.length > 0" class="col-12 my-4 text-center">
+          <router-link :to="{ path: '/settings', query: { ID: 'game' } }" class="btn btn-block btn-secondary" type="button" role="button"><i class="fas fa-check-square"></i> {{ $t("welcomeScreen.selectGames") }}</router-link>
+          <router-link to="/tips" class="btn btn-block btn-secondary ms-3" href="#" type="button" role="button"><i class="far fa-lightbulb"></i> {{ $t("welcomeScreen.tips") }}</router-link>
+          <div id="emailHelp" class="form-text mt-3">{{ $t("welcomeScreen.findMore") }}</div>
+        </div>
 
+      </div>
     </div>
   </div>
 </template>
