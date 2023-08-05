@@ -87,6 +87,9 @@ export default
         formInvalid: 'Form is invalid',
         confirmPassword: 'Confirm Password',
         goLogin: 'Go to login',
+        passwordReset: 'Password Reset',
+        emailWillBeSendToReset: 'An email will be sent to you with instructions on how to reset your password.',
+        sendReset: 'Send Reset Email',
     },
     settings: {
         settings: 'Account Settings',

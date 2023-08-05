@@ -89,6 +89,9 @@ export default
         formInvalid: 'フォームが無効です',
         confirmPassword: 'パスワードを認証する',
         goLogin: 'ログインする',
+        passwordReset: 'パスワードをリセット',
+        emailWillBeSendToReset: 'パスワードをリセットするためのメールが送信されます。',
+        sendReset: 'リセットを送信',
     },
     settings: {
         settings: 'アカウント設定',
