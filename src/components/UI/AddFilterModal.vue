@@ -4,9 +4,8 @@
     <dialog open v-if="open">
       <h2 class="text-primary mb-3"><i class="fa fa-sliders-h"></i> {{ $t("filter.songFilters") }}</h2>
      <h6>{{ $t("filter.level") }} <span class="bold">{{ filteredLevel }}</span></h6>
-      <div class="form-range">
-        <input data- type="range" max="9" min="0" class="form-range col-12" id="formControlRangeN" v-model="filterLevel" />
-      </div>
+
+        <button-row :value="filterLevel" :min="0" :max="9" @update:value="updateFilterLevel" />
       <h6>{{ $t("filter.filterOnClear") }}</h6>
       <div class="row g-3">
         <div class="col-6">
@@ -22,17 +21,6 @@
           <a class="btn w-100 py-3" :class="filteredClear === 'fullcombo' ? 'btn-primary' : 'btn-light'" @click="clearFil('fullcombo')"><i class="fa fa-star text-theme-1"></i> {{ $t("filter.fullCombo") }}</a>
         </div>
       </div>
-<!--      <div class="d-md-none">-->
-<!--        <h6>{{ $t("filter.playStyle") }}</h6>-->
-<!--        <div class="row g-3">-->
-<!--          <div class="col-6">-->
-<!--            <a class="btn btn-sm w-100 py-3" :class="filterType === 'single' ? 'btn-primary' : 'btn-light'" @click="filterType = 'single'"><i class="fa fa-compact-disc"></i> {{ $t("filter.single") }}</a>-->
-<!--          </div>-->
-<!--          <div class="col-6">-->
-<!--            <a class="btn btn-sm w-100 py-3" :class="filterType === 'double' ? 'btn-primary' : 'btn-light'" @click="filterType = 'double'"><i class="fa fa-compact-disc"></i> <i class="fa fa-compact-disc"></i> {{ $t("filter.double") }}</a>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
       <h6>{{ $t("filter.otherFilters") }}</h6>
       <div class="row g-3">
         <div class="col-6">
@@ -50,7 +38,11 @@
 
 
 <script>
+import ButtonRow from "./ButtonRow.vue";
 export default {
+  components: {
+    ButtonRow,
+  },
   props:
       {
         open: {
@@ -72,6 +64,9 @@ export default {
     }
   },
   methods: {
+    updateFilterLevel(newValue) {
+      this.filterLevel = newValue;
+    },
     hideDialog() {
       this.$emit('close');
       this.$emit('addFilter', {
@@ -127,6 +122,7 @@ dialog {
   position: fixed;
   top: 10%;
   max-height: 85%;
+  max-width: 600px;
   overflow: auto;
   width: 90%;
   margin: 0 auto;
