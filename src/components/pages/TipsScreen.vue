@@ -1,5 +1,5 @@
 <template>
-  <div class="stats-screen px-2 px-md-5 m-auto">
+  <div class="stats-screen px-2 px-md-5 m-auto mb-5">
     <h1 class="text-center my-4">Tips for users</h1>
     <div class="card">
       <div class="card-body">
@@ -14,8 +14,16 @@
             </h2>
             <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
               <div class="accordion-body">
-                This app is designed to help you keep track of your progress in Beatmania. <br>
-                It is not a game, but a tool to help you keep track of your progress in the game. <br>
+                <p>
+                  This app is designed to help you keep track of your progress in Beatmania. <br>
+                  It is not a game, but a tool to help you keep track of your progress in the game.
+                </p>
+                <h5>Games supported:</h5>
+                <ul>
+                  <li v-for="game in games" :key="game.id">
+                    {{ game.name }} <br>
+                  </li>
+                </ul>
               </div>
             </div>
           </div>
@@ -27,12 +35,12 @@
             </h2>
             <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
               <div class="accordion-body">
-                Single songs: <br>
+                <strong>Single songs:</strong> <br>
                 Search for the song you want to play and click on it. <br>
                 You will see the song info and the difficulty levels. <br>
                 Play the song and enter your score. <br>
                 <br>
-                Full courses: <br>
+                <strong>Full courses:</strong> <br>
                 Search for the course you want to play and click on it. <br>
                 You will see the course info and the songs in the course. <br>
                 Play the course and enter your score for each song. <br><br>
@@ -49,9 +57,11 @@
             </h2>
             <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
               <div class="accordion-body">
-                The arcade code is used to identify the arcade you play at. <br>
-                You can find the code at the arcade. <br>
-                Is your arcade not listed? <br>
+                The arcade code is used to identify the arcade you play at, you can find the code at the arcade. <br>
+                when you play at a new arcade, you can add it to the app, your progress will then be saved for that arcade. <br>
+                <router-link to="/arcade" class="btn btn-outline-primary me-2 mt-2"><i class="fas fa-trophy me-2"></i> Arcade Ranking</router-link>
+                <br>
+                Is your arcade not listed?
                 Contact me and I will add it. <br>
             </div>
           </div>
@@ -84,5 +94,10 @@ export default {
     msg: String,
   },
   emits: ['select-view'],
+  computed: {
+    games() {
+      return this.$store.getters['games/getGames'];
+    },
+  }
 };
 </script>
