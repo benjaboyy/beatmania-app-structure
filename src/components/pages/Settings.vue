@@ -13,29 +13,29 @@
             <div class="card-body card-mix--choices">
               <h5 class=" text-dark">{{ game.name }}<i class="icon icon-5k text-primary"></i></h5>
               <a class="btn btn-sm w-100 text-start me-1 mb-1" type="button"
-                 :class="{'bg-light text-primary': !enteredTrackGames[game.id].singles, 'bg-primary text-white': enteredTrackGames[game.id].singles}"
-                 @click="updateTrackGames(game.id, 'singles', !enteredTrackGames[game.id].singles)">
+                 :class="{'bg-light text-primary': !enteredTrackGames[game.id].singlesSet, 'bg-primary text-white': enteredTrackGames[game.id].singlesSet}"
+                 @click="updateTrackGames(game.id, 'singlesSet', !enteredTrackGames[game.id].singlesSet)">
                 <div>
-                  <input class="form-check-input" type="checkbox" id="checkboxNoLabel" value="" aria-label="..." :checked="enteredTrackGames[game.id].singles">
+                  <input class="form-check-input" type="checkbox" id="checkboxNoLabel" value="" aria-label="..." :checked="enteredTrackGames[game.id].singlesSet">
                   {{ $t("settings.singlePLay") }}
                 </div></a>
               <a class="btn btn-sm w-100 text-start me-1 mb-1" type="button"
-                 :class="{'bg-light text-primary': !enteredTrackGames[game.id].doubles, 'bg-primary text-white': enteredTrackGames[game.id].doubles}"
-                 @click="updateTrackGames(game.id, 'doubles', !enteredTrackGames[game.id].doubles)">
+                 :class="{'bg-light text-primary': !enteredTrackGames[game.id].doublesSet, 'bg-primary text-white': enteredTrackGames[game.id].doublesSet}"
+                 @click="updateTrackGames(game.id, 'doublesSet', !enteredTrackGames[game.id].doublesSet)">
                 <div>
-                  <input class="form-check-input" type="checkbox" id="checkboxNoLabel" value="" aria-label="..." :checked="enteredTrackGames[game.id].doubles">
+                  <input class="form-check-input" type="checkbox" id="checkboxNoLabel" value="" aria-label="..." :checked="enteredTrackGames[game.id].doublesSet">
                   {{ $t("settings.doublePlay") }}
                 </div></a>
               <a class="btn btn-sm w-100 text-start me-1 mb-1"
                  :class="{'bg-light text-primary': !enteredTrackGames[game.id].singleCourse, 'bg-primary text-white': enteredTrackGames[game.id].singleCourse}"
-                 @click="updateTrackGames(game.id, 'singleCourse', !enteredTrackGames[game.id].singleCourse)">
+                 @click="updateTrackGames(game.id, 'singleCourseSet', !enteredTrackGames[game.id].singleCourse)">
                 <div>
                   <input class="form-check-input" type="checkbox" id="checkboxNoLabel" value="" aria-label="..." :checked="enteredTrackGames[game.id].singleCourse">
                   {{ $t("welcomeScreen.singleCourses") }}
                 </div></a>
               <a class="btn btn-sm w-100 text-start me-1 mb-1" type="button"
                  :class="{'bg-light text-primary': !enteredTrackGames[game.id].doubleCourse, 'bg-primary text-white': enteredTrackGames[game.id].doubleCourse}"
-                  @click="updateTrackGames(game.id, 'doubleCourse', !enteredTrackGames[game.id].doubleCourse)">
+                  @click="updateTrackGames(game.id, 'doubleCourseSet', !enteredTrackGames[game.id].doubleCourse)">
                 <div>
                   <input class="form-check-input" type="checkbox" id="checkboxNoLabel" value="" aria-label="..." :checked="enteredTrackGames[game.id].doubleCourse">
                   {{ $t("welcomeScreen.doubleCourses") }}
@@ -158,14 +158,14 @@ export default {
   },
   methods: {
     updateTrackGames(gameId, option, value) {
-      if (option === 'singles') {
-        this.enteredTrackGames[gameId].singles = value;
-      } else if (option === 'doubles') {
-        this.enteredTrackGames[gameId].doubles = value;
-      } else if (option === 'singleCourse') {
-        this.enteredTrackGames[gameId].singleCourse = value;
-      } else if (option === 'doubleCourse') {
-        this.enteredTrackGames[gameId].doubleCourse = value;
+      if (option === 'singlesSet') {
+        this.enteredTrackGames[gameId].singlesSet = value;
+      } else if (option === 'doublesSet') {
+        this.enteredTrackGames[gameId].doublesSet = value;
+      } else if (option === 'singleCourseSet') {
+        this.enteredTrackGames[gameId].singleCourseSet = value;
+      } else if (option === 'doubleCourseSet') {
+        this.enteredTrackGames[gameId].doubleCourseSet = value;
       }
       this.$store.dispatch('updateTrackGames', this.enteredTrackGames);
     },
