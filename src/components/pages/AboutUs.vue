@@ -1,5 +1,5 @@
 <template>
-  <div class="stats-screen px-2 px-md-5 m-auto">
+  <div class="stats-screen px-2 px-md-5 m-auto mb-5">
     <h1 class="text-center my-4">About the app</h1>
     <div class="card">
       <div class="card-body">
@@ -10,17 +10,24 @@
           I have developed this app free and open-source, to provide a tool for Beatmania players.
         </p>
           <h5>Key Features:</h5>
-      <ul>
-        <li>Progress Tracking: Keep track of your scores, progress and achievements.</li>
-        <li>User-Friendly: Intuitive interface, making it easy to navigate and use.</li>
-        <li>Arcade highscores: Keep track of your highscores in your local arcade.</li>
-        <li>Translations: Available in English and Japanese.</li>
-      </ul>
+        <ul>
+          <li>Progress Tracking: Keep track of your scores, progress and achievements.</li>
+          <li>User-Friendly: Intuitive interface, making it easy to navigate and use.</li>
+          <li>Arcade highscores: Keep track of your highscores in your local arcade.</li>
+          <li>Translations: Available in English and Japanese.</li>
+        </ul>
+
+        <h5>Games supported:</h5>
+        <ul>
+          <li v-for="game in games" :key="game.id">
+            {{ game.name }} <br>
+          </li>
+        </ul>
         <p>Set the app to your homescreen or use the website and start tracking your progress in Beatmania!</p>
         <div class="mb-2">
-          <button class="btn btn-outline-primary me-2 mt-2" disabled><i class="fa fa-mobile-alt me-2"></i> Add to homescreen</button>
           <a href="https://github.com/benjaboyy/beatmania-app-structure" class="btn btn-outline-primary me-2 mt-2"><i class="fab fa-github me-2"></i> Github</a>
           <router-link to="/arcade" class="btn btn-outline-primary me-2 mt-2"><i class="fas fa-trophy me-2"></i> Arcade Ranking</router-link>
+          <router-link to="/tips" class="btn btn-outline-primary me-2 mt-2"><i class="fas fa-lightbulb me-2"></i> Tips & Tricks</router-link>
         </div>
         <p>For any questions or feedback, <br>please reach out to us at <a href="mailto:benjaboyy@hotmail.nl">benjaboyy@hotmail.nl</a>.
           <br>We value your input and are continuously working to improve the app for the community. <br><br>
@@ -50,6 +57,11 @@ export default {
   methods: {
     toggleLanguage() {
       this.$i18n.locale = this.$i18n.locale === 'en' ? 'ja' : 'en';
+    },
+  },
+  computed: {
+    games() {
+      return this.$store.getters['games/getGames'];
     },
   },
   i18n: {

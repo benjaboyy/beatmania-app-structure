@@ -23,11 +23,11 @@
                 </div>
               </div>
 
-              <div v-if="game.trackedGame.singles">
+              <div v-if="game.trackedGame.singlesSet">
                 <p class="my-1"><span class="text-primary">{{ $t("welcomeScreen.singles") }}: </span>{{ gamestats[game.id].singles.clear }}/{{ gamestats[game.id].singles.total }}</p>
                 <progress-bar-stats :clear="gamestats[game.id].singles.clear" :total="gamestats[game.id].singles.total" :name="'primary'"></progress-bar-stats>
               </div>
-              <div v-if="game.trackedGame.doubles">
+              <div v-if="game.trackedGame.doublesSet">
                 <p class="my-1"><span class="text-primary">{{ $t("welcomeScreen.doubles") }}: </span>{{ gamestats[game.id].doubles.clear }}/{{ gamestats[game.id].doubles.total }}</p>
                 <progress-bar-stats :clear="gamestats[game.id].doubles.clear" :total="gamestats[game.id].doubles.total" :name="'primary'"></progress-bar-stats>
               </div>
