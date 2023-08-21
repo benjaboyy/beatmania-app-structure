@@ -40,6 +40,8 @@ export default {
                     courseSongs: responseData[key].courseSongs,
                     hasDoubleCharts: responseData[key].hasDoubleCharts,
                     hasCourseMode: responseData[key].hasCourseMode,
+                    hasHardSongs: responseData[key].hasHardSongs,
+                    hasAnotherSongs: responseData[key].hasAnotherSongs,
                 };
                 gameList.push(game);
             }

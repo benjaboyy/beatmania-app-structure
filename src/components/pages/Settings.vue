@@ -14,15 +14,15 @@
               <h4 class=" text-dark">{{ game.name }}</h4>
               <h6 class=" text-dark">{{ game.playStyle }}</h6>
               <a class="btn btn-sm w-100 text-start me-1 mb-1" type="button"
-                 :class="{'bg-light text-primary': !enteredTrackGames[game.id].singles, 'bg-primary text-white': enteredTrackGames[game.id].singles}"
-                 @click="updateTrackGames(game.id, 'singles', !enteredTrackGames[game.id].singles)">
+                 :class="{'bg-light text-primary': !enteredTrackGames[game.id].singlesSet, 'bg-primary text-white': enteredTrackGames[game.id].singlesSet}"
+                 @click="updateTrackGames(game.id, 'singlesSet', !enteredTrackGames[game.id].singlesSet)">
                 <div>
-                  <input class="form-check-input" type="checkbox" id="checkboxNoLabel" value="" aria-label="..." :checked="enteredTrackGames[game.id].singles">
+                  <input class="form-check-input" type="checkbox" id="checkboxNoLabel" value="" aria-label="..." :checked="enteredTrackGames[game.id].singlesSet">
                   {{ $t("settings.singlePLay") }}
                 </div></a>
               <a v-if="game.hasDoubleCharts" class="btn btn-sm w-100 text-start me-1 mb-1" type="button"
-                 :class="{'bg-light text-primary': !enteredTrackGames[game.id].doubles, 'bg-primary text-white': enteredTrackGames[game.id].doubles}"
-                 @click="updateTrackGames(game.id, 'doubles', !enteredTrackGames[game.id].doubles)">
+                 :class="{'bg-light text-primary': !enteredTrackGames[game.id].doublesSet, 'bg-primary text-white': enteredTrackGames[game.id].doublesSet}"
+                 @click="updateTrackGames(game.id, 'doublesSet', !enteredTrackGames[game.id].doublesSet)">
                 <div>
                   <input class="form-check-input" type="checkbox" id="checkboxNoLabel" value="" aria-label="..." :checked="enteredTrackGames[game.id].doubles">
                   {{ $t("settings.doublePlay") }}
@@ -138,8 +138,8 @@ export default {
     await this.$store.dispatch('loadTrackedGames');
     await this.games.forEach(game => {
       this.enteredTrackGames[game.id] = {
-        singles: false,
-        doubles: false,
+        singlesSet: false,
+        doublesSet: false,
         singleCourse: false,
         doubleCourse: false
       };
@@ -159,10 +159,10 @@ export default {
   },
   methods: {
     updateTrackGames(gameId, option, value) {
-      if (option === 'singles') {
-        this.enteredTrackGames[gameId].singles = value;
-      } else if (option === 'doubles') {
-        this.enteredTrackGames[gameId].doubles = value;
+      if (option === 'singlesSet') {
+        this.enteredTrackGames[gameId].singlesSet = value;
+      } else if (option === 'doublesSet') {
+        this.enteredTrackGames[gameId].doublesSet = value;
       } else if (option === 'singleCourse') {
         this.enteredTrackGames[gameId].singleCourse = value;
       } else if (option === 'doubleCourse') {

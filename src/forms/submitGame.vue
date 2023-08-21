@@ -46,7 +46,14 @@
               <input v-model="hasCourseMode" class="form-check-input" type="checkbox" id="hasCourseMode" checked>
               <label class="form-check-label" for="hasCourseMode">Has course mode</label>
             </div>
-
+            <div class="form-check form-switch">
+              <input v-model="hasHardSongs" class="form-check-input" type="checkbox" id="hasHardSongs" checked>
+              <label class="form-check-label" for="hasHardSongs">Has hard songs</label>
+            </div>
+            <div class="form-check form-switch">
+              <input v-model="hasAnotherSongs" class="form-check-input" type="checkbox" id="hasAnotherSongs" checked>
+              <label class="form-check-label" for="hasAnotherSongs">Has another songs</label>
+            </div>
           </div>
 
           <router-link to="/submitSong" class="btn btn-primary mt-3">Manage songs</router-link>
@@ -78,6 +85,8 @@ export default {
       error: null,
       hasDoubleCharts: true,
       hasCourseMode: true,
+      hasHardSongs: true,
+      hasAnotherSongs: true,
       enteredPlayStyle: "",
       playStyles: ['Arcade', 'Arcade', 'Wonderswan', 'Gameboy', 'Playstation'],
       submitted: false,
@@ -108,6 +117,8 @@ export default {
           courseSongs: this.songIDsEnteredCourses,
           hasDoubleCharts: this.hasDoubleCharts,
           hasCourseMode: this.hasCourseMode,
+          hasHardSongs: this.hasHardSongs,
+          hasAnotherSongs: this.hasAnotherSongs,
         })
       }).then(res => {
         if (res.ok) {
@@ -121,6 +132,8 @@ export default {
           this.gameID = "";
           this.hasDoubleCharts = true;
           this.hasCourseMode = true;
+          this.hasHardSongs = true;
+          this.hasAnotherSongs = true;
         } else {
           return res.json().then(data => {
             let errorMessage = 'Authentication failed!';
@@ -150,6 +163,8 @@ export default {
           this.songIDsEnteredCourses = game.courseSongs;
           this.hasDoubleCharts = game.hasDoubleCharts;
           this.hasCourseMode = game.hasCourseMode;
+          this.hasHardSongs = game.hasHardSongs;
+          this.hasAnotherSongs = game.hasAnotherSongs;
         }
       });
     }
