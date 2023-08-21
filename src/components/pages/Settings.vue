@@ -11,7 +11,8 @@
           <div id="emailHelp" class="form-text my-3">{{ $t("settings.gameSelectInfo") }}</div>
           <div v-for="game in games" v-bind:key="game" class="card mb-2">
             <div class="card-body card-mix--choices">
-              <h5 class=" text-dark">{{ game.name }}<i class="icon icon-5k text-primary"></i></h5>
+              <h4 class=" text-dark">{{ game.name }}</h4>
+              <h6 class=" text-dark">{{ game.playStyle }}</h6>
               <a class="btn btn-sm w-100 text-start me-1 mb-1" type="button"
                  :class="{'bg-light text-primary': !enteredTrackGames[game.id].singles, 'bg-primary text-white': enteredTrackGames[game.id].singles}"
                  @click="updateTrackGames(game.id, 'singles', !enteredTrackGames[game.id].singles)">
@@ -19,21 +20,21 @@
                   <input class="form-check-input" type="checkbox" id="checkboxNoLabel" value="" aria-label="..." :checked="enteredTrackGames[game.id].singles">
                   {{ $t("settings.singlePLay") }}
                 </div></a>
-              <a class="btn btn-sm w-100 text-start me-1 mb-1" type="button"
+              <a v-if="game.hasDoubleCharts" class="btn btn-sm w-100 text-start me-1 mb-1" type="button"
                  :class="{'bg-light text-primary': !enteredTrackGames[game.id].doubles, 'bg-primary text-white': enteredTrackGames[game.id].doubles}"
                  @click="updateTrackGames(game.id, 'doubles', !enteredTrackGames[game.id].doubles)">
                 <div>
                   <input class="form-check-input" type="checkbox" id="checkboxNoLabel" value="" aria-label="..." :checked="enteredTrackGames[game.id].doubles">
                   {{ $t("settings.doublePlay") }}
                 </div></a>
-              <a class="btn btn-sm w-100 text-start me-1 mb-1"
+              <a v-if="game.hasCourseMode" class="btn btn-sm w-100 text-start me-1 mb-1"
                  :class="{'bg-light text-primary': !enteredTrackGames[game.id].singleCourse, 'bg-primary text-white': enteredTrackGames[game.id].singleCourse}"
                  @click="updateTrackGames(game.id, 'singleCourse', !enteredTrackGames[game.id].singleCourse)">
                 <div>
                   <input class="form-check-input" type="checkbox" id="checkboxNoLabel" value="" aria-label="..." :checked="enteredTrackGames[game.id].singleCourse">
                   {{ $t("welcomeScreen.singleCourses") }}
                 </div></a>
-              <a class="btn btn-sm w-100 text-start me-1 mb-1" type="button"
+              <a v-if="game.hasDoubleCharts && game.hasCourseMode" class="btn btn-sm w-100 text-start me-1 mb-1" type="button"
                  :class="{'bg-light text-primary': !enteredTrackGames[game.id].doubleCourse, 'bg-primary text-white': enteredTrackGames[game.id].doubleCourse}"
                   @click="updateTrackGames(game.id, 'doubleCourse', !enteredTrackGames[game.id].doubleCourse)">
                 <div>

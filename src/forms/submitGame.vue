@@ -36,18 +36,20 @@
               </select>
             </div>
           </div>
+          <div class="form-group">
+            <label for="gameType">Options</label>
+            <div class="form-check form-switch">
+              <input v-model="hasDoubleCharts" class="form-check-input" type="checkbox" id="hasDoubleCharts" checked>
+              <label class="form-check-label" for="hasDoubleCharts">Has double charts</label>
+            </div>
+            <div class="form-check form-switch">
+              <input v-model="hasCourseMode" class="form-check-input" type="checkbox" id="hasCourseMode" checked>
+              <label class="form-check-label" for="hasCourseMode">Has course mode</label>
+            </div>
+
+          </div>
 
           <router-link to="/submitSong" class="btn btn-primary mt-3">Manage songs</router-link>
-
-          <div class="form-group">
-            <label for="songID">Song courses ID's</label>
-            <div class="row">
-              <span class="col-6 col-sm-4 col-md-2" v-for="(song, index) in songIDsEnteredCourses" :key="index">
-                <input class="form-control mb-2" type="text" id="songID" v-model="songIDsEnteredCourses[index]" />
-              </span>
-            </div>
-            <a class="btn btn-primary" @click="addSong('songIDsEnteredCourses')">Add Song</a>
-          </div>
 
           <p v-if="invalidInput">One or more input fields are invalid. Please check your provided data.</p>
           <p v-if="error">{{ error }}</p>
@@ -74,8 +76,10 @@ export default {
       iconChoice: "",
       invalidInput: false,
       error: null,
+      hasDoubleCharts: true,
+      hasCourseMode: true,
       enteredPlayStyle: "",
-      playStyles: ['Beatmania', 'Beatmania III'],
+      playStyles: ['Arcade', 'Arcade', 'Wonderswan', 'Gameboy', 'Playstation'],
       submitted: false,
       gameChoises: [],
     }
@@ -102,6 +106,8 @@ export default {
           url: this.enteredUrl,
           playStyle: this.enteredPlayStyle,
           courseSongs: this.songIDsEnteredCourses,
+          hasDoubleCharts: this.hasDoubleCharts,
+          hasCourseMode: this.hasCourseMode,
         })
       }).then(res => {
         if (res.ok) {
@@ -113,6 +119,8 @@ export default {
           this.iconChoice = "";
           this.enteredPlayStyle = "";
           this.gameID = "";
+          this.hasDoubleCharts = true;
+          this.hasCourseMode = true;
         } else {
           return res.json().then(data => {
             let errorMessage = 'Authentication failed!';
@@ -140,6 +148,8 @@ export default {
           this.enteredArtist = game.artist;
           this.enteredPlayStyle = game.playStyle;
           this.songIDsEnteredCourses = game.courseSongs;
+          this.hasDoubleCharts = game.hasDoubleCharts;
+          this.hasCourseMode = game.hasCourseMode;
         }
       });
     }
