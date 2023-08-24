@@ -45,11 +45,11 @@
             </tr>
             </tbody>
           </table>
-          <button @click="copyURL('https://beatmania-pro.web.app/arcade/' + arcadeID + '/' + selectedGame)"><i class="fa fa-link"></i> Copy ranking URL</button>
+          <button class="btn btn-primary btn-sm" @click="copyURL('https://beatmania-pro.web.app/arcade/' + arcadeID + '/' + selectedGame)"><i class="fa fa-link"></i> Copy ranking URL</button>
         </div>
         <div class="card p-3" v-else>
           <h3>Select Game</h3>
-          <button v-for="game in getArcadeGames" :key="game" class="btn btn-primary mt-2" @click="selectedGame = game">{{ game.name }}</button>
+          <button v-for="game in getArcadeGames" :key="game" class="btn btn-primary mt-2" @click="selectedGame = game">{{ getGameName(game) }}</button>
           <div>
             <hr>
             <router-link to="/" class="btn btn-primary " href="#" type="button" role="button" exact><i class="fa fa-home me-2"></i> {{ $t("menu.back") }}</router-link>
@@ -151,6 +151,9 @@ export default {
     },
     toggleLanguage() {
       this.$i18n.locale = this.$i18n.locale === 'en' ? 'ja' : 'en';
+    },
+    getGameName(gameID) {
+      return this.$store.getters['games/getGameName'](gameID);
     },
     async copyURL(url) {
       try {

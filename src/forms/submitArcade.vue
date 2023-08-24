@@ -46,12 +46,12 @@
 <!--              select multiple playable games as chackboxes-->
             <div class="form-check" v-for="game in gameChoises" :key="game.id">
               <input class="form-check-input" type="checkbox" :id="game.id" :value="game.id" v-model="enteredGames">
-              <label class="form-check-label" :for="game.id">{{ game.name }}</label>
+              <label class="form-check-label" :for="game.id">{{ nameOfSelectedGame(game) }}</label>
             </div>
             <div v-if="arcadeUpdate">
               <h6 class="mt-3">Players</h6>
               <div v-for="player in enteredPlayers " :key="player.id" class="input-group mb-3">
-                <p>{{ player.name }} <a class="btn btn-light text-danger" @click="removePlayer(player.id)"><i class="fa fa-trash-alt"></i></a></p>
+                <a class="btn btn-light disabled w-auto">{{ player }} </a> <a class="btn btn-light float-end text-danger" @click="removePlayer(player.id)"><i class="fa fa-trash-alt"></i></a>
               </div>
             </div>
             <p v-if="invalidInput">One or more input fields are invalid. Please check your provided data.</p>
@@ -109,6 +109,9 @@ export default {
       this.arcadeUpdate = false;
       this.invalidInput = false;
       this.error = null;
+    },
+    nameOfSelectedGame(id) {
+      return this.$store.getters['games/getGameName'](id);
     },
     deleteArcade() {
       const token = this.$store.getters.token;
