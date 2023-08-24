@@ -28,14 +28,14 @@
                 </div></a>
               <a class="btn btn-sm w-100 text-start me-1 mb-1"
                  :class="{'bg-light text-primary': !enteredTrackGames[game.id].singleCourse, 'bg-primary text-white': enteredTrackGames[game.id].singleCourse}"
-                 @click="updateTrackGames(game.id, 'singleCourseSet', !enteredTrackGames[game.id].singleCourse)">
+                 @click="updateTrackGames(game.id, 'singleCourse', !enteredTrackGames[game.id].singleCourse)">
                 <div>
                   <input class="form-check-input" type="checkbox" id="checkboxNoLabel" value="" aria-label="..." :checked="enteredTrackGames[game.id].singleCourse">
                   {{ $t("welcomeScreen.singleCourses") }}
                 </div></a>
               <a class="btn btn-sm w-100 text-start me-1 mb-1" type="button"
                  :class="{'bg-light text-primary': !enteredTrackGames[game.id].doubleCourse, 'bg-primary text-white': enteredTrackGames[game.id].doubleCourse}"
-                  @click="updateTrackGames(game.id, 'doubleCourseSet', !enteredTrackGames[game.id].doubleCourse)">
+                  @click="updateTrackGames(game.id, 'doubleCourse', !enteredTrackGames[game.id].doubleCourse)">
                 <div>
                   <input class="form-check-input" type="checkbox" id="checkboxNoLabel" value="" aria-label="..." :checked="enteredTrackGames[game.id].doubleCourse">
                   {{ $t("welcomeScreen.doubleCourses") }}
@@ -78,12 +78,12 @@
               </div>
             </div>
           </div>
-          <div class="mb-3">
-            <label for="Select" class="form-label">{{ $t("settings.favoriteGame")}}</label>
-            <select id="Select" class="form-select" placeholder="Choose" v-model="enteredFavoriteGame">
-              <option v-for="game in games" v-bind:key="game">{{ game.name }}</option>
-            </select>
-          </div>
+<!--          <div class="mb-3">-->
+<!--            <label for="Select" class="form-label">{{ $t("settings.favoriteGame")}}</label>-->
+<!--            <select id="Select" class="form-select" placeholder="Choose" v-model="enteredFavoriteGame">-->
+<!--              <option v-for="game in games" v-bind:key="game">{{ game.name }}</option>-->
+<!--            </select>-->
+<!--          </div>-->
           <div class="mb-3">
             <label for="Select" class="form-label">{{ $t("settings.selectTheme")}}</label>
             <select id="Select" class="form-select" disabled>

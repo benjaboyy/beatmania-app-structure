@@ -9,7 +9,7 @@
         </h4>
         <div class="container">
           <div class="row">
-            <div v-if="toggleFilted" class="pb-2 col-12">
+            <div class="pb-2 col-12">
               <a class="btn btn-primary" @click="courseDoubleSwitch" :class="courseDouble === false ? 'btn-primary' : 'btn-light'"><i class="fa fa-compact-disc"></i> {{ $t("welcomeScreen.singleCourses") }}</a>
               <a class="btn btn-primary" @click="courseDoubleSwitch" :class="courseDouble === true ? 'btn-primary' : 'btn-light'"><i class="fa fa-compact-disc"></i> <i class="fa fa-compact-disc"></i> {{ $t("welcomeScreen.doubleCourses") }}</a>
             </div>
@@ -276,6 +276,11 @@ export default {
       }
       if (this.filterScore) {
         filteredCourses = filteredCourses.filter(course => course.score);
+      }
+      if (this.courseDouble) {
+        filteredCourses = filteredCourses.filter(course => course.type === 'doubles');
+      } else {
+        filteredCourses = filteredCourses.filter(course => course.type === 'singles');
       }
       return filteredCourses;
     },
