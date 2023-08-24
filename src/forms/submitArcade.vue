@@ -102,7 +102,7 @@ export default {
       this.enteredCode = "";
       this.enteredCountry = "";
       this.enteredGames = [];
-      this.arcadePlayers = [];
+      this.enteredPlayers = [];
       this.arcadeID = "";
       this.songID = "";
       this.songUpdate = false;
@@ -142,7 +142,7 @@ export default {
           code: this.enteredCode,
           country: this.enteredCountry,
           games: this.enteredGames,
-          players: this.arcadePlayers,
+          players: this.enteredPlayers,
         })
       }).then((response) => {
         if (response.ok) {
@@ -153,7 +153,7 @@ export default {
             code: this.enteredCode,
             country: this.enteredCountry,
             games: this.enteredGames,
-            players: this.arcadePlayers,
+            players: this.enteredPlayers,
           });
           this.reset()
           window.scrollTo(0,0);

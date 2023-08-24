@@ -11,7 +11,8 @@
           <div id="emailHelp" class="form-text my-3">{{ $t("settings.gameSelectInfo") }}</div>
           <div v-for="game in games" v-bind:key="game" class="card mb-2">
             <div class="card-body card-mix--choices">
-              <h5 class=" text-dark">{{ game.name }}<i class="icon icon-5k text-primary"></i></h5>
+              <h4 class=" text-dark">{{ game.name }}</h4>
+              <h6 class=" text-dark">{{ game.playStyle }}</h6>
               <a class="btn btn-sm w-100 text-start me-1 mb-1" type="button"
                  :class="{'bg-light text-primary': !enteredTrackGames[game.id].singlesSet, 'bg-primary text-white': enteredTrackGames[game.id].singlesSet}"
                  @click="updateTrackGames(game.id, 'singlesSet', !enteredTrackGames[game.id].singlesSet)">
@@ -19,21 +20,21 @@
                   <input class="form-check-input" type="checkbox" id="checkboxNoLabel" value="" aria-label="..." :checked="enteredTrackGames[game.id].singlesSet">
                   {{ $t("settings.singlePLay") }}
                 </div></a>
-              <a class="btn btn-sm w-100 text-start me-1 mb-1" type="button"
+              <a v-if="game.hasDoubleCharts" class="btn btn-sm w-100 text-start me-1 mb-1" type="button"
                  :class="{'bg-light text-primary': !enteredTrackGames[game.id].doublesSet, 'bg-primary text-white': enteredTrackGames[game.id].doublesSet}"
                  @click="updateTrackGames(game.id, 'doublesSet', !enteredTrackGames[game.id].doublesSet)">
                 <div>
-                  <input class="form-check-input" type="checkbox" id="checkboxNoLabel" value="" aria-label="..." :checked="enteredTrackGames[game.id].doublesSet">
+                  <input class="form-check-input" type="checkbox" id="checkboxNoLabel" value="" aria-label="..." :checked="enteredTrackGames[game.id].doubles">
                   {{ $t("settings.doublePlay") }}
                 </div></a>
-              <a class="btn btn-sm w-100 text-start me-1 mb-1"
+              <a v-if="game.hasCourseMode" class="btn btn-sm w-100 text-start me-1 mb-1"
                  :class="{'bg-light text-primary': !enteredTrackGames[game.id].singleCourse, 'bg-primary text-white': enteredTrackGames[game.id].singleCourse}"
                  @click="updateTrackGames(game.id, 'singleCourse', !enteredTrackGames[game.id].singleCourse)">
                 <div>
                   <input class="form-check-input" type="checkbox" id="checkboxNoLabel" value="" aria-label="..." :checked="enteredTrackGames[game.id].singleCourse">
                   {{ $t("welcomeScreen.singleCourses") }}
                 </div></a>
-              <a class="btn btn-sm w-100 text-start me-1 mb-1" type="button"
+              <a v-if="game.hasDoubleCharts && game.hasCourseMode" class="btn btn-sm w-100 text-start me-1 mb-1" type="button"
                  :class="{'bg-light text-primary': !enteredTrackGames[game.id].doubleCourse, 'bg-primary text-white': enteredTrackGames[game.id].doubleCourse}"
                   @click="updateTrackGames(game.id, 'doubleCourse', !enteredTrackGames[game.id].doubleCourse)">
                 <div>
@@ -137,8 +138,8 @@ export default {
     await this.$store.dispatch('loadTrackedGames');
     await this.games.forEach(game => {
       this.enteredTrackGames[game.id] = {
-        singles: false,
-        doubles: false,
+        singlesSet: false,
+        doublesSet: false,
         singleCourse: false,
         doubleCourse: false
       };
@@ -162,10 +163,10 @@ export default {
         this.enteredTrackGames[gameId].singlesSet = value;
       } else if (option === 'doublesSet') {
         this.enteredTrackGames[gameId].doublesSet = value;
-      } else if (option === 'singleCourseSet') {
-        this.enteredTrackGames[gameId].singleCourseSet = value;
-      } else if (option === 'doubleCourseSet') {
-        this.enteredTrackGames[gameId].doubleCourseSet = value;
+      } else if (option === 'singleCourse') {
+        this.enteredTrackGames[gameId].singleCourse = value;
+      } else if (option === 'doubleCourse') {
+        this.enteredTrackGames[gameId].doubleCourse = value;
       }
       this.$store.dispatch('updateTrackGames', this.enteredTrackGames);
     },

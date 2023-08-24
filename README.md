@@ -38,5 +38,10 @@ npm run build
 npm run lint
 ```
 
+### Set env variables
+```
+Set the 'VUE_APP_FIREBASE_API_KEY' in your local .env file
+```
+
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).

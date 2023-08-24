@@ -38,6 +38,10 @@ export default {
                     icon: responseData[key].icon,
                     playStyle: responseData[key].playStyle,
                     courseSongs: responseData[key].courseSongs,
+                    hasDoubleCharts: responseData[key].hasDoubleCharts,
+                    hasCourseMode: responseData[key].hasCourseMode,
+                    hasHardSongs: responseData[key].hasHardSongs,
+                    hasAnotherSongs: responseData[key].hasAnotherSongs,
                 };
                 gameList.push(game);
             }

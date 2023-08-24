@@ -21,32 +21,35 @@
         </div>
       </div>
       <div v-else>
-        <table v-if="selectedGame" class="table table-dark table-striped table-hover">
-          <thead>
-          <tr>
-            <th style="width: 1px" scope="col">Rank</th>
-            <th scope="col">Player</th>
-            <th class="d-none d-md-table-cell" scope="col">Singles</th>
-            <th class="d-none d-md-table-cell" scope="col">Doubles</th>
-            <th class="d-none d-md-table-cell" scope="col">Courses</th>
-            <th scope="col">Points</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr v-for="player, key in playersSortedOnStats" :key="player.rank" class="bg-light">
-            <th v-if="key === 0" scope="row"><i class="fas fa-trophy"></i></th>
-            <th v-else>{{ key+1 }}</th>
-            <td>{{ player.name }}</td>
-            <td class="d-none d-md-table-cell">{{ player.trackedGames[selectedGame].singles }}</td>
-            <td class="d-none d-md-table-cell">{{ player.trackedGames[selectedGame].doubles }}</td>
-            <td class="d-none d-md-table-cell">{{ player.trackedGames[selectedGame].courses }}</td>
-            <td>{{ player.trackedGames[selectedGame].total }}</td>
-          </tr>
-          </tbody>
-        </table>
+        <div v-if="selectedGame">
+          <table class="table table-dark table-striped table-hover">
+            <thead>
+            <tr>
+              <th style="width: 1px" scope="col">Rank</th>
+              <th scope="col">Player</th>
+              <th class="d-none d-md-table-cell" scope="col">Singles</th>
+              <th class="d-none d-md-table-cell" scope="col">Doubles</th>
+              <th class="d-none d-md-table-cell" scope="col">Courses</th>
+              <th scope="col">Points</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="player, key in playersSortedOnStats" :key="player.rank" class="bg-light">
+              <th v-if="key === 0" scope="row"><i class="fas fa-trophy"></i></th>
+              <th v-else>{{ key+1 }}</th>
+              <td>{{ player.name }}</td>
+              <td class="d-none d-md-table-cell">{{ player.trackedGames[selectedGame].singles }}</td>
+              <td class="d-none d-md-table-cell">{{ player.trackedGames[selectedGame].doubles }}</td>
+              <td class="d-none d-md-table-cell">{{ player.trackedGames[selectedGame].courses }}</td>
+              <td>{{ player.trackedGames[selectedGame].total }}</td>
+            </tr>
+            </tbody>
+          </table>
+          <button @click="copyURL('https://beatmania-pro.web.app/arcade/' + arcadeID + '/' + selectedGame)"><i class="fa fa-link"></i> Copy ranking URL</button>
+        </div>
         <div class="card p-3" v-else>
           <h3>Select Game</h3>
-          <button v-for="game in getArcadeGames" :key="game" class="btn btn-primary mt-2" @click="selectedGame = game">{{ game }}</button>
+          <button v-for="game in getArcadeGames" :key="game" class="btn btn-primary mt-2" @click="selectedGame = game">{{ game.name }}</button>
           <div>
             <hr>
             <router-link to="/" class="btn btn-primary " href="#" type="button" role="button" exact><i class="fa fa-home me-2"></i> {{ $t("menu.back") }}</router-link>
@@ -56,22 +59,32 @@
       </div>
     </div>
     <div class="card-footer d-flex mt-2 text-muted">
-      <div class="select-lang" @click="toggleLanguage"><i class="fas fa-globe"></i> {{ $t("login.selectLanguage") }}</div>
+      <div class="select-lang" @click="showDialog"><i class="fas fa-globe"></i> {{ $t("login.selectLanguage") }}</div>
       <div class="ms-auto">© <a class="text-white" href="https://beatmania-pro.web.app">BMGress</a> - {{ new Date().getFullYear() }}</div>
     </div>
   </div>
+  <LanguageModal
+      @close="hideDialog"
+      :open="dialogIsVisible"
+  />
 </template>
 
 <script>
+import LanguageModal from "@/components/UI/LanguageModal";
 export default {
   name: 'AdminUs',
+  components: {
+    LanguageModal,
+  },
   data() {
     return {
       arcadeID: '',
       selectedGame: '',
       nameSelectedArcade: '',
+      nameSelectedGame: '',
       players: [],
       arcadeList: [],
+      dialogIsVisible: false,
     };
   },
   props: {
@@ -130,9 +143,23 @@ export default {
     },
   },
   methods: {
+    showDialog() {
+      this.dialogIsVisible = true;
+    },
+    hideDialog() {
+      this.dialogIsVisible = false;
+    },
     toggleLanguage() {
       this.$i18n.locale = this.$i18n.locale === 'en' ? 'ja' : 'en';
     },
+    async copyURL(url) {
+      try {
+        await navigator.clipboard.writeText(url);
+        alert('Copied');
+      } catch ($e) {
+        alert('Cannot copy');
+      }
+    }
   },
   watch: {
     async arcadeID() {

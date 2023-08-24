@@ -12,14 +12,14 @@
             <div class="card-body">
               <h3><strong>{{ game.name }}</strong></h3>
               <span class="text-primary">{{ $t("welcomeScreen.songs") }}: </span>{{ gamestats[game.id].songs }}<br>
-              <span class="text-primary">{{ $t("welcomeScreen.system") }}: </span>{{ $t("welcomeScreen.arcade") }}
+              <span class="text-primary">{{ $t("welcomeScreen.system") }}: </span>{{ game.playStyle }}
 
               <div class="row g-3 mb-2 mt-0">
                 <div class="col-6">
                   <router-link :to="'/games/' + game.id" class="btn w-100 btn-primary me-2" href="#"><i class="fa fa-compact-disc"></i> {{ $t("welcomeScreen.songList") }}</router-link>
                 </div>
                 <div class="col-6">
-                  <router-link :to="'/g/course/' + game.id" class="btn w-100 btn-primary" href="#"><i class="fa fa-layer-group"></i> {{ $t("welcomeScreen.courses") }}</router-link>
+                  <router-link  v-if="game.trackedGame.doubleCourse || game.trackedGame.singleCourse" :to="'/g/course/' + game.id" class="btn w-100 btn-primary" href="#"><i class="fa fa-layer-group"></i> {{ $t("welcomeScreen.courses") }}</router-link>
                 </div>
               </div>
 
