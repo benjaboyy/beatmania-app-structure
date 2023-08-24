@@ -84,6 +84,7 @@ export default {
       nameSelectedGame: '',
       players: [],
       arcadeList: [],
+      dialogIsVisible: false,
     };
   },
   props: {
