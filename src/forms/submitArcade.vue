@@ -46,7 +46,7 @@
 <!--              select multiple playable games as chackboxes-->
             <div class="form-check" v-for="game in gameChoises" :key="game.id">
               <input class="form-check-input" type="checkbox" :id="game.id" :value="game.id" v-model="enteredGames">
-              <label class="form-check-label" :for="game.id">{{ nameOfSelectedGame(game) }}</label>
+              <label class="form-check-label" :for="game.id">{{ game.name }}</label>
             </div>
             <div v-if="arcadeUpdate">
               <h6 class="mt-3">Players</h6>
@@ -109,9 +109,6 @@ export default {
       this.arcadeUpdate = false;
       this.invalidInput = false;
       this.error = null;
-    },
-    nameOfSelectedGame(id) {
-      return this.$store.getters['games/getGameName'](id);
     },
     deleteArcade() {
       const token = this.$store.getters.token;
