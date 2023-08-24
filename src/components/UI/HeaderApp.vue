@@ -4,6 +4,7 @@
       <router-link to="/" class="navbar-brand" href="#">
         <img src="../../assets/svg/logo.svg" width="60" height="30" class="d-inline-block align-top" alt="">
       </router-link>
+      <span class="d-none d-md-block me-auto weight-600 text-white">BMGRESS</span>
 
       <div class="d-flex">
         <button class="btn-lang p-0 me-3" type="button">
@@ -127,5 +128,9 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.weight-600 {
+  font-weight: 600;
+  letter-spacing: .06em;
 }
 </style>

@@ -7,8 +7,8 @@
           <div id="reloadHelp" class="form-text mb-3">{{ $t("welcomeScreen.clickReload") }}</div>
           <router-link :to="{ path: '/settings', query: { ID: 'game' } }" class="btn w-100 mb-3 btn-block btn-lg btn-secondary" type="button" role="button"><i class="fas fa-check-square"></i> {{ $t("welcomeScreen.selectGames") }}</router-link>
         </div>
-        <div v-for="game in filteredGames" v-bind:key="game" class="col-md-6 mt-4 m-auto">
-          <div class="card">
+        <div v-for="game in filteredGames" v-bind:key="game" class="col-md-6 mt-4 mx-auto">
+          <div class="card h-100">
             <div class="card-body">
               <h3><strong>{{ game.name }}</strong></h3>
               <span class="text-primary">{{ $t("welcomeScreen.songs") }}: </span>{{ gamestats[game.id].songs }}<br>

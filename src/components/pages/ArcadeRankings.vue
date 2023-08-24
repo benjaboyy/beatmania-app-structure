@@ -12,7 +12,9 @@
           <h3>Select Arcade</h3>
           <div class="input-group mb-0">
             <select class="form-select" v-model="arcadeID">
-              <option class="dropdown-item text-theme-1" value="573300">DDR-EXP Arcade</option>
+              <option class="dropdown-item text-theme-1" v-for="arcade in getArcades" :key="arcade.id" :value="arcade.id">
+                {{ arcade.name }}
+              </option>
             </select>
           </div>
           <hr>
@@ -45,7 +47,11 @@
             </tr>
             </tbody>
           </table>
-          <button class="btn btn-primary btn-sm" @click="copyURL('https://beatmania-pro.web.app/arcade/' + arcadeID + '/' + selectedGame)"><i class="fa fa-link"></i> Copy ranking URL</button>
+          <div class="card-footer d-flex mt-2 text-muted">
+            <div class="select-lang" @click="showDialog"><i class="fas fa-globe"></i> {{ $t("login.selectLanguage") }}</div>
+            <button class="btn btn-link ms-3 text-white btn-sm" @click="copyURL('https://beatmania-pro.web.app/arcade/' + arcadeID + '/' + selectedGame)"><i class="fa fa-link"></i> {{ $t("login.rankingUrl") }}</button>
+            <div class="mx-auto">© <a class="text-white" href="https://beatmania-pro.web.app">BMGress</a> - {{ new Date().getFullYear() }}</div>
+          </div>
         </div>
         <div class="card p-3" v-else>
           <h3>Select Game</h3>
@@ -57,10 +63,6 @@
           </div>
         </div>
       </div>
-    </div>
-    <div class="card-footer d-flex mt-2 text-muted">
-      <div class="select-lang" @click="showDialog"><i class="fas fa-globe"></i> {{ $t("login.selectLanguage") }}</div>
-      <div class="ms-auto">© <a class="text-white" href="https://beatmania-pro.web.app">BMGress</a> - {{ new Date().getFullYear() }}</div>
     </div>
   </div>
   <LanguageModal
@@ -187,5 +189,12 @@ export default {
 }
 .stats-screen {
   margin-top: 75px!important;
+}
+.card {
+  max-width: 500px;
+  margin: 0 auto;
+}
+.select-lang {
+  cursor: pointer;
 }
 </style>

@@ -77,6 +77,7 @@ export default
         close: '閉じる',
         login: 'ログイン',
         selectLanguage: '言語を選択',
+        rankingUrl: 'ランキングURL',
         aboutApp: 'アプリについて',
         register: '登録',
         password: 'パスワード',

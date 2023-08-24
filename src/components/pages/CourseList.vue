@@ -3,13 +3,9 @@
     <div class="row text-center mx-md-3">
       <div class="col-12 p-0 text pt-4">
         <h1 class="text-center mb-2">{{ game.name }} <i :class="'icon ' + game.icon + ' text-primary'"></i></h1>
-        <h4 v-if="!toggleFilted" class="text-center text-white mb-2 mt-1">
-          <span v-if="courseDouble === false">{{ $t("welcomeScreen.singleCourses") }}</span>
-          <span v-if="courseDouble === true">{{ $t("welcomeScreen.doubleCourses") }}</span>
-        </h4>
         <div class="container">
           <div class="row">
-            <div class="pb-2 col-12">
+            <div v-if="game.hasDoubleCharts" class="pb-2 col-12">
               <a class="btn btn-primary" @click="courseDoubleSwitch" :class="courseDouble === false ? 'btn-primary' : 'btn-light'"><i class="fa fa-compact-disc"></i> {{ $t("welcomeScreen.singleCourses") }}</a>
               <a class="btn btn-primary" @click="courseDoubleSwitch" :class="courseDouble === true ? 'btn-primary' : 'btn-light'"><i class="fa fa-compact-disc"></i> <i class="fa fa-compact-disc"></i> {{ $t("welcomeScreen.doubleCourses") }}</a>
             </div>

@@ -75,6 +75,7 @@ export default
         close: 'Sluiten',
         login: 'Inloggen',
         selectLanguage: 'Selecteer taal',
+        rankingUrl: 'Ranking URL',
         aboutApp: 'Over app',
         register: 'Registreren',
         password: 'Wachtwoord',
