@@ -229,13 +229,21 @@ export default {
       window.location.reload()
     },
   },
-  created() {
-    this.setBaseStats();
-    this.calculateStats();
+  async created() {
+    await this.setBaseStats();
+    await this.calculateStats();
   },
   props: {
     msg: String,
   },
-  emits: ['select-view']
+  watch: {
+    filteredGames() {
+      this.calculateStats();
+    },
+    games() {
+      this.calculateStats();
+    },
+  },
+  emits: ['select-view', 'loaded']
 }
 </script>
