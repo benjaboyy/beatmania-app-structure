@@ -1,7 +1,9 @@
 <template>
   <nav class="navbar navbar-dark bg-primary fixed-top">
     <div class="container-fluid">
-      <router-link to="/" class="navbar-brand" href="#">
+<!--      check if current page is the home page, if so, don't show the back button-->
+      <router-link v-if="$route.path !== '/welcome'" to="/" class="btn-menu text-white" href="#" type="button" role="button" exact><i class="fa fa-arrow-left me-2"></i></router-link>
+      <router-link v-else to="/" class="navbar-brand" href="#">
         <img src="../../assets/svg/logo.svg" width="60" height="30" class="d-inline-block align-top" alt="">
       </router-link>
       <span class="d-none d-md-block me-auto weight-600 text-white">BMGRESS</span>
@@ -34,6 +36,11 @@
               </router-link>
             </li>
             <li class="nav-item">
+              <router-link @click="closeMenu" to="/arcade"  class="btn w-100 btn-light mb-2" href="#" type="button" role="button">
+                <i class="fas fa-trophy me-1"></i> {{ $t("menu.arcadeRanking") }}
+              </router-link>
+            </li>
+            <li class="nav-item">
               <router-link @click="closeMenu" to="/about" class="btn w-100 btn-light mb-2" href="#" type="button" role="button">
                 <i class="fa fa-question me-1"></i> {{ $t("menu.aboutAndInfo") }}
               </router-link>
@@ -41,11 +48,6 @@
             <li v-if="isAdmin" class="nav-item">
               <router-link @click="closeMenu" to="/admin" class="btn w-100 btn-light mb-2" href="#" type="button" role="button">
                 <i class="fa fa-server me-1"></i> {{ $t("menu.admin") }}
-              </router-link>
-            </li>
-            <li class="nav-item">
-              <router-link @click="closeMenu" to="/arcade"  class="btn w-100 btn-light mb-2" href="#" type="button" role="button">
-                <i class="fas fa-trophy me-1"></i> {{ $t("menu.arcadeRanking") }}
               </router-link>
             </li>
             <li class="nav-item">

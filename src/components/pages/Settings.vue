@@ -1,5 +1,5 @@
 <template>
-  <div class="stats-screen px-2 px-md-5 m-auto">
+  <div class="stats-screen px-md-5 m-auto">
     <h1 class="text-center my-4">{{ $t("settings.settings") }}</h1>
     <div class="card">
       <div class="card-body">
@@ -59,21 +59,21 @@
               <div class="col-12 col-md">
                 <div class="input-group">
                   <input type="arcadecode01" :disabled="codeSet01" class="form-control" v-model="enteredAracdeCode01" id="arcadecode01" aria-describedby="arcadecode01" :placeholder="$t('settings.codeSlot1')">
-                  <router-link v-if="codeSet01" :to="'/arcade/'+enteredAracdeCode01" class="btn btn-primary"><i class="fa fa-link"></i></router-link>
+                  <router-link v-if="codeSet01" :to="'/arcade/'+enteredAracdeCode01" class="btn btn-primary"><i class="fa fas fa-trophy"></i> See ranking</router-link>
                   <button v-if="codeSet01" @click="deleteFromArcade(enteredAracdeCode01)" class="btn btn-danger"><i class="fa fa-trash"></i></button>
                 </div>
               </div>
               <div v-if="enteredAracdeCode01" class="col-12 col-md mt-2 mt-md-0">
                 <div class="input-group">
                   <input type="arcadecode02" :disabled="codeSet02" class="form-control" v-model="enteredAracdeCode02" id="arcadecode02" aria-describedby="arcadecode02"  :placeholder="$t('settings.codeSlot2')">
-                  <router-link v-if="codeSet02" :to="'/arcade/'+enteredAracdeCode02" class="btn btn-primary"><i class="fa fa-link"></i></router-link>
+                  <router-link v-if="codeSet02" :to="'/arcade/'+enteredAracdeCode02" class="btn btn-primary"><i class="fa fas fa-trophy"></i> See ranking</router-link>
                   <button v-if="codeSet02" @click="deleteFromArcade(enteredAracdeCode02)" class="btn btn-danger"><i class="fa fa-trash"></i></button>
                 </div>
               </div>
               <div v-if="enteredAracdeCode02 || enteredAracdeCode01" class="col-12 col-md mt-2 mt-md-0">
                 <div class="input-group">
                   <input type="arcadecode03" :disabled="codeSet03" class="form-control" v-model="enteredAracdeCode03" id="arcadecode03" aria-describedby="arcadecode03"  :placeholder="$t('settings.codeSlot3')">
-                  <router-link v-if="codeSet03" :to="'/arcade/'+enteredAracdeCode03" class="btn btn-primary"><i class="fa fa-link"></i></router-link>
+                  <router-link v-if="codeSet03" :to="'/arcade/'+enteredAracdeCode03" class="btn btn-primary"><i class="fa fas fa-trophy"></i> See ranking</router-link>
                   <button v-if="codeSet03" @click="deleteFromArcade(enteredAracdeCode03)" class="btn btn-danger"><i class="fa fa-trash"></i></button>
                 </div>
               </div>

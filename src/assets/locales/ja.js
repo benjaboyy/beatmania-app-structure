@@ -69,6 +69,7 @@ export default
         score: 'スコア',
         update: '更新',
         show: '表示',
+        filerOn: 'フィルター',
     },
     login: {
         languageIs: '日本語',

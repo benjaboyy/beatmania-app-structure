@@ -55,9 +55,6 @@
               <label class="form-check-label" for="hasAnotherSongs">Has another songs</label>
             </div>
           </div>
-
-          <router-link to="/submitSong" class="btn btn-primary mt-3">Manage songs</router-link>
-
           <p v-if="invalidInput">One or more input fields are invalid. Please check your provided data.</p>
           <p v-if="error">{{ error }}</p>
           <hr>

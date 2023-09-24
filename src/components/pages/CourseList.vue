@@ -4,18 +4,19 @@
       <div class="col-12 p-0 text pt-4">
         <h1 class="text-center mb-2">{{ game.name }} <i :class="'icon ' + game.icon + ' text-primary'"></i></h1>
         <div class="container">
-          <div class="row">
+          <div class="row mb-2">
             <div v-if="game.hasDoubleCharts" class="pb-2 col-12">
-              <a class="btn btn-primary" @click="courseDoubleSwitch" :class="courseDouble === false ? 'btn-primary' : 'btn-light'"><i class="fa fa-compact-disc"></i> {{ $t("welcomeScreen.singleCourses") }}</a>
-              <a class="btn btn-primary" @click="courseDoubleSwitch" :class="courseDouble === true ? 'btn-primary' : 'btn-light'"><i class="fa fa-compact-disc"></i> <i class="fa fa-compact-disc"></i> {{ $t("welcomeScreen.doubleCourses") }}</a>
+              <a class="btn btn-primary" @click="courseDoubleSwitch" :class="courseDouble === false ? 'btn-primary' : 'btn-light'"><i class="fa fa-compact-disc"></i> {{ $t("filter.singles") }}</a>
+              <a class="btn btn-primary" @click="courseDoubleSwitch" :class="courseDouble === true ? 'btn-primary' : 'btn-light'"><i class="fa fa-compact-disc"></i> <i class="fa fa-compact-disc"></i> {{ $t("filter.doubles") }}</a>
+              <a class="btn ms-2 btn-primary" @click="toggleFilter" :class="toggleFilted === true ? 'btn-primary' : 'btn-light'"><i class="fa fa-filter"></i></a>
             </div>
-            <div class="pb-3 col-12">
-              <a v-if="toggleFilted" class="btn btn-primary" @click="courseFilterCleared" :class="filterCleared === true ? 'btn-primary' : 'btn-light'"><i class="fa fa-check"></i> {{ $t("filter.cleared") }}</a>
-              <a v-if="toggleFilted" class="btn btn-primary" @click="courseFilterFailed" :class="filterFailed === true ? 'btn-primary' : 'btn-light'"><i class="fa fa-times"></i> {{ $t("filter.failed") }}</a>
-              <a v-if="toggleFilted" class="btn btn-primary" @click="courseFilterFC" :class="filterFC === true ? 'btn-primary' : 'btn-light'"><i class="fas fa-crosshairs"></i> {{ $t("filter.fullCombo") }}</a>
-              <a v-if="toggleFilted" class="btn btn-primary" @click="courseFilterGrade" :class="filterGrade === true ? 'btn-primary' : 'btn-light'"><i class="fas fa-graduation-cap"></i> {{ $t("filter.grade") }}</a>
-              <a v-if="toggleFilted" class="btn btn-primary" @click="courseFilterScore" :class="filterScore === true ? 'btn-primary' : 'btn-light'"><i class="fas fa-star"></i> {{ $t("filter.score") }}</a>
-              <a class="btn btn-primary" @click="toggleFilter" :class="toggleFilted === true ? 'btn-primary' : 'btn-light'"><i class="fa fa-filter"></i> {{ $t("listScreen.filters") }}</a>
+            <div v-if="toggleFilted" class="pb-2 col-12">
+              <div id="emailHelp" class="form-text">{{ $t("filter.filterOn") }}:</div>
+              <a class="btn btn-primary" @click="courseFilterCleared" :class="filterCleared === true ? 'btn-primary' : 'btn-light'"><i class="fa fa-check"></i> {{ $t("filter.cleared") }}</a>
+              <a class="btn btn-primary" @click="courseFilterFailed" :class="filterFailed === true ? 'btn-primary' : 'btn-light'"><i class="fa fa-times"></i> {{ $t("filter.failed") }}</a>
+              <a class="btn btn-primary" @click="courseFilterFC" :class="filterFC === true ? 'btn-primary' : 'btn-light'"><i class="fas fa-crosshairs"></i> {{ $t("filter.fullCombo") }}</a>
+              <a class="btn btn-primary" @click="courseFilterGrade" :class="filterGrade === true ? 'btn-primary' : 'btn-light'"><i class="fas fa-graduation-cap"></i> {{ $t("filter.grade") }}</a>
+              <a class="btn btn-primary" @click="courseFilterScore" :class="filterScore === true ? 'btn-primary' : 'btn-light'"><i class="fas fa-star"></i> {{ $t("filter.score") }}</a>
             </div>
           </div>
         </div>
