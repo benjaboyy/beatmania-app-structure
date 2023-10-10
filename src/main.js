@@ -52,6 +52,9 @@ const router = createRouter({
         { path: '/reset', component: PasswordReset },
         { path: '/:notFound(.*)', redirect: '/welcome'},
     ],
+    scrollBehavior() {
+        return {x: 0, y: 0}
+    },
     linkActiveClass: 'btn-active',
 });
 
