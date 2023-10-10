@@ -14,17 +14,6 @@
               :class="$i18n.locale === 'ja' ? 'btn-primary ' : 'btn-outline-primary'"
               class="btn py-4 w-100" @click="setLanguage('ja')">日本語</button>
         </div>
-        <div class="col-6 mt-3">
-          <button
-              :class="$i18n.locale === 'nl' ? 'btn-primary ' : 'btn-outline-primary'"
-              class="btn py-4 w-100" @click="setLanguage('nl')">Nederlands</button>
-        </div>
-        <!--          <button-->
-        <!--              :class="$i18n.locale === 'de' ? 'btn-primary ' : 'btn-outline-primary'"-->
-        <!--              class="btn mt-2 w-100" @click="setLanguage('de')" disabled>Deutsch</button>-->
-        <!--          <button-->
-        <!--              :class="$i18n.locale === 'sp' ? 'btn-primary ' : 'btn-outline-primary'"-->
-        <!--              class="btn mt-2 w-100" @click="setLanguage('sp')" disabled>Español</button>-->
       </div>
       <div class="d-grid mt-3 gap-2">
         <button class="btn btn-dark" @click="hideDialog">{{ $t("login.close") }}</button>
