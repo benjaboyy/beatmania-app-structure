@@ -1,6 +1,6 @@
 <template>
   <div v-if="open" class="backdrop" @click="$emit('close')"></div>
-  <transition name="modal">
+  <transition name="modal" class="front">
     <dialog open v-if="open">
       <h2 class="text-primary mb-3"><i class="fa fa-sliders-h"></i> {{ $t("filter.songFilters") }}</h2>
      <h6>{{ $t("filter.level") }} <span class="bold">{{ filteredLevel }}</span></h6>
@@ -114,8 +114,11 @@ h6 {
   left: 0;
   width: 100%;
   height: 100vh;
-  z-index: 10;
+  z-index: 1050;
   background-color: rgba(0, 0, 0, 0.75);
+}
+.front {
+  z-index: 1051;
 }
 
 dialog {

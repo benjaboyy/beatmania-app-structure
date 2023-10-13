@@ -7,10 +7,25 @@
           <div id="reloadHelp" class="form-text mb-3">{{ $t("welcomeScreen.clickReload") }}</div>
           <router-link :to="{ path: '/settings', query: { ID: 'game' } }" class="btn w-100 mb-3 btn-block btn-lg btn-secondary" type="button" role="button"><i class="fas fa-check-square"></i> {{ $t("welcomeScreen.selectGames") }}</router-link>
         </div>
+        <div v-if="true">
+          <div v-if="allArcadeCodes !== null" class="col-12">
+            <div class="card text-bg-primary">
+              <div class="card-body">
+                <h5 class="card-title"><strong>High-score Rankings</strong></h5>
+                <h6 class="card-subtitle mb-2 text-body-secondary">Compare with local players</h6>
+                <div class="row g-3 mb-2 mt-0">
+                  <div v-for="code in allArcadeCodes" v-bind:key="code" class="col-lg-6">
+                    <router-link :to="{ path: '/arcade/' + code }" class="btn w-100 btn-outline-light me-2" href="#">{{ getArcadeName(code) }}</router-link>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         <div v-for="game in filteredGames" v-bind:key="game" class="col-md-6 mt-4 mx-auto">
           <div class="card h-100">
             <div class="card-body">
-              <h3><strong>{{ game.name }}</strong></h3>
+              <h5 class="card-title"><strong>{{ game.name }}</strong></h5>
               <span class="text-primary">{{ $t("welcomeScreen.songs") }}: </span>{{ gamestats[game.id].songs }}<br>
               <span class="text-primary">{{ $t("welcomeScreen.system") }}: </span>{{ game.playStyle }}
 
@@ -24,20 +39,16 @@
               </div>
 
               <div v-if="game.trackedGame.singlesSet">
-                <p class="my-1"><span class="text-primary">{{ $t("welcomeScreen.singles") }}: </span>{{ gamestats[game.id].singles.clear }}/{{ gamestats[game.id].singles.total }}</p>
-                <progress-bar-stats :clear="gamestats[game.id].singles.clear" :total="gamestats[game.id].singles.total" :name="'primary'"></progress-bar-stats>
+                <progress-bar-stats :clear="gamestats[game.id].singles.clear" :total="gamestats[game.id].singles.total" :name="'primary'" :type="$t('welcomeScreen.singles')"></progress-bar-stats>
               </div>
               <div v-if="game.trackedGame.doublesSet">
-                <p class="my-1"><span class="text-primary">{{ $t("welcomeScreen.doubles") }}: </span>{{ gamestats[game.id].doubles.clear }}/{{ gamestats[game.id].doubles.total }}</p>
-                <progress-bar-stats :clear="gamestats[game.id].doubles.clear" :total="gamestats[game.id].doubles.total" :name="'primary'"></progress-bar-stats>
+                <progress-bar-stats :clear="gamestats[game.id].doubles.clear" :total="gamestats[game.id].doubles.total" :name="'primary'" :type="$t('welcomeScreen.doubles')"></progress-bar-stats>
               </div>
               <div v-if="game.trackedGame.singleCourse">
-                <p class="my-1"><span class="text-primary">{{ $t("welcomeScreen.singleCourses") }}: </span>{{ gamestats[game.id].courses.singleClear }}/{{ gamestats[game.id].courses.singleTotal }}</p>
-                <progress-bar-stats :clear="gamestats[game.id].courses.singleClear" :total="gamestats[game.id].courses.singleTotal" :name="'primary'"></progress-bar-stats>
+                <progress-bar-stats :clear="gamestats[game.id].courses.singleClear" :total="gamestats[game.id].courses.singleTotal" :name="'primary'" :type="$t('welcomeScreen.singleCourses')"></progress-bar-stats>
               </div>
               <div v-if="game.trackedGame.doubleCourse">
-                <p class="my-1"><span class="text-primary">{{ $t("welcomeScreen.doubleCourses") }}: </span>{{ gamestats[game.id].courses.doubleClear }}/{{ gamestats[game.id].courses.doubleTotal }}</p>
-                <progress-bar-stats :clear="gamestats[game.id].courses.doubleClear" :total="gamestats[game.id].courses.doubleTotal" :name="'primary'"></progress-bar-stats>
+                <progress-bar-stats :clear="gamestats[game.id].courses.doubleClear" :total="gamestats[game.id].courses.doubleTotal" :name="'primary'" :type="$t('welcomeScreen.doubleCourses')"></progress-bar-stats>
               </div>
             </div>
           </div>
@@ -89,8 +100,33 @@ export default {
     userName() {
       return this.$store.getters['userName'];
     },
+    allArcadeCodes() {
+      const arcadeCodes = [];
+      if (this.arcadeCode01) {
+        arcadeCodes.push(this.arcadeCode01);
+      }
+      if (this.arcadeCode02) {
+        arcadeCodes.push(this.arcadeCode02);
+      }
+      if (this.arcadeCode03) {
+        arcadeCodes.push(this.arcadeCode03);
+      }
+      return arcadeCodes;
+    },
+    arcadeCode01() {
+      return this.$store.getters['getArcadeCode01'];
+    },
+    arcadeCode02() {
+      return this.$store.getters['getArcadeCode02'];
+    },
+    arcadeCode03() {
+      return this.$store.getters['getArcadeCode03'];
+    },
   },
   methods: {
+    getArcadeName(arcadeID) {
+      return this.$store.getters['arcades/getArcadeName'](arcadeID);
+    },
     setBaseStats() {
       for (const game of this.games) {
         this.gamestats[game.id] = {
@@ -230,6 +266,7 @@ export default {
     },
   },
   async created() {
+    await this.$store.dispatch('arcades/loadArcades');
     await this.setBaseStats();
     await this.calculateStats();
   },

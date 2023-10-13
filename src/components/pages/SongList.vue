@@ -31,16 +31,16 @@
             <th class="text-start d-none d-md-table-cell">{{ $t("listScreen.artistAlias") }}</th>
             <th class="text-center text-theme-1"
                 :class="{ 'd-none d-md-table-cell': this.type !== 'single' }">SN</th>
-            <th class="text-center text-theme-2"
-                :class="{ 'd-none d-md-table-cell': this.type !== 'single' || !this.game.hasHardSongs }">SH</th>
-            <th class="text-center text-theme-3"
-                :class="{ 'd-none d-md-table-cell': this.type !== 'single' || !this.game.hasAnotherSongs }">SA</th>
-            <th class="text-center text-theme-1"
+            <th v-if="this.game.hasHardSongs" class="text-center text-theme-2"
+                :class="{ 'd-none d-md-table-cell': this.type !== 'single' }">SH</th>
+            <th v-if="this.game.hasAnotherSongs" class="text-center text-theme-3"
+                :class="{ 'd-none d-md-table-cell': this.type !== 'single' }">SA</th>
+            <th v-if="this.game.hasDoubleCharts" class="text-center text-theme-1"
                 :class="{ 'd-none d-md-table-cell': this.type !== 'double' }">DN</th>
-            <th class="text-center text-theme-2"
-                :class="{ 'd-none d-md-table-cell': this.type !== 'double' || !this.game.hasHardSongs }">DH</th>
-            <th class="text-center text-theme-3"
-                :class="{ 'd-none d-md-table-cell': this.type !== 'double' || !this.game.hasAnotherSongs }">DA</th>
+            <th v-if="this.game.hasHardSongs && game.hasDoubleCharts" class="text-center text-theme-2"
+                :class="{ 'd-none d-md-table-cell': this.type !== 'double' }">DH</th>
+            <th v-if="this.game.hasAnotherSongs && game.hasDoubleCharts" class="text-center text-theme-3"
+                :class="{ 'd-none d-md-table-cell': this.type !== 'double' }">DA</th>
             <th class="text-center">{{ $t("listScreen.favoriteShort") }}</th>
             <th class="text-center px-0">{{ $t("listScreen.targetShort") }}</th>
           </tr>
@@ -63,42 +63,42 @@
               </td>
               <td v-else class="text-white diff-td"
                   :class="{'d-none d-md-table-cell': this.type !== 'single'}">-</td>
-              <td v-if="song.difficultyHard > 0"
+              <td v-if="song.difficultyHard > 0 && this.game.hasHardSongs"
                   class="text-black diff-td"
-                  :class="{ 'bg-light': !song.hardClear, 'bg-theme-2': song.hardClear, 'flash': song.hardFC, 'd-none d-md-table-cell': this.type !== 'single' || !this.game.hasHardSongs }">
+                  :class="{ 'bg-light': !song.hardClear, 'bg-theme-2': song.hardClear, 'flash': song.hardFC, 'd-none d-md-table-cell': this.type !== 'single' }">
                 {{ song.difficultyHard }}
               </td>
-              <td v-else class="text-white diff-td"
-                  :class="{'d-none d-md-table-cell': this.type !== 'single' || !this.game.hasHardSongs}">-</td>
-              <td v-if="song.difficultyAnother > 0"
+              <td v-else-if="this.game.hasHardSongs" class="text-white diff-td"
+                  :class="{'d-none d-md-table-cell': this.type !== 'single'}">-</td>
+              <td v-if="song.difficultyAnother > 0 && this.game.hasAnotherSongs"
                   class="text-black diff-td"
-                  :class="{ 'bg-light': !song.anotherClear, 'bg-theme-3': song.anotherClear, 'flash': song.anotherFC, 'd-none d-md-table-cell': this.type !== 'single' || !this.game.hasAnotherSongs }">
+                  :class="{ 'bg-light': !song.anotherClear, 'bg-theme-3': song.anotherClear, 'flash': song.anotherFC, 'd-none d-md-table-cell': this.type !== 'single' }">
                 {{ song.difficultyAnother }}
               </td>
-              <td v-else class="text-white diff-td"
-                  :class="{'d-none d-md-table-cell': this.type !== 'single' || !this.game.hasAnotherSongs}">-</td>
-              <td v-if="song.difficultyDoubleNormal > 0"
+              <td v-else-if="this.game.hasAnotherSongs" class="text-white diff-td"
+                  :class="{'d-none d-md-table-cell': this.type !== 'single'}">-</td>
+              <td v-if="song.difficultyDoubleNormal > 0 && this.game.hasDoubleCharts"
                   class="text-black diff-td"
                   :class="{ 'bg-light': !song.normalDoubleClear, 'bg-theme-1': song.normalDoubleClear, 'flash': song.normalDoubleFC, 'd-none d-md-table-cell': this.type !== 'double' }">
                 {{ song.difficultyDoubleNormal }}
               </td>
-              <td v-else
+              <td v-else-if="this.game.hasDoubleCharts"
                   class="text-white diff-td"
                   :class="{'d-none d-md-table-cell': this.type !== 'double'}">-</td>
-              <td v-if="song.difficultyDoubleHard > 0"
+              <td v-if="song.difficultyDoubleHard > 0 && this.game.hasHardSongs && this.game.hasDoubleCharts"
                   class="text-black diff-td"
                   :class="{ 'bg-light': !song.hardDoubleClear, 'bg-theme-2': song.hardDoubleClear, 'flash': song.hardDoubleFC, 'd-none d-md-table-cell': this.type !== 'double' || !this.game.hasHardSongs }">
                 {{ song.difficultyDoubleHard }}
               </td>
-              <td v-else class="text-white diff-td"
+              <td v-else-if="this.game.hasHardSongs && this.game.hasDoubleCharts" class="text-white diff-td"
                   :class="{'d-none d-md-table-cell': this.type !== 'double' || !this.game.hasHardSongs}">-</td>
-              <td v-if="song.difficultyDoubleAnother > 0"
+              <td v-if="song.difficultyDoubleAnother > 0 && this.game.hasAnotherSongs && this.game.hasDoubleCharts"
                   class="text-black diff-td"
-                  :class="{ 'bg-light': !song.anotherDoubleClear, 'bg-theme-3': song.anotherDoubleClear, 'flash': song.anotherDoubleFC, 'd-none d-md-table-cell': this.type !== 'double' || !this.game.hasAnotherSongs }">
+                  :class="{ 'bg-light': !song.anotherDoubleClear, 'bg-theme-3': song.anotherDoubleClear, 'flash': song.anotherDoubleFC, 'd-none d-md-table-cell': this.type !== 'double' }">
                 {{ song.difficultyDoubleAnother }}
               </td>
-              <td v-else class="text-white diff-td"
-                  :class="{'d-none d-md-table-cell': this.type !== 'double' || !this.game.hasAnotherSongs}">-</td>
+              <td v-else-if="this.game.hasAnotherSongs && this.game.hasDoubleCharts" class="text-white diff-td"
+                  :class="{'d-none d-md-table-cell': this.type !== 'double'}">-</td>
               <td class=" diff-td pb-0" :class="{ ' text-dark': !song.favorite, 'bg-primary text-white': song.favorite }"><i class="fa favo fa-heart"></i></td>
               <td class=" diff-td pb-0" :class="{ ' text-dark': !song.target, 'bg-danger text-white': song.target }"><i class="fa favo fa-bullseye"></i></td>
             </tr>

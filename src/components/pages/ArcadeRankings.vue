@@ -135,8 +135,10 @@ export default {
       }
       // filter all players with no total
       players = players.filter((player) => {
-        return player.trackedGames[this.selectedGame].total > 0;
+        const trackedGames = player.trackedGames[this.selectedGame];
+        return trackedGames && trackedGames.total > 0;
       });
+
       // sort the players on total
       const sort = players.sort((a, b) => {
         return b.trackedGames[this.selectedGame].total - a.trackedGames[this.selectedGame].total;

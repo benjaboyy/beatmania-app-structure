@@ -1,6 +1,6 @@
 <template>
   <div v-if="open" class="backdrop" @click="hideDialog"></div>
-  <transition name="modal">
+  <transition name="modal" class="front">
     <dialog class="window" open v-if="open">
       <h3>{{ infoSong.name }}</h3>
       <p>{{ infoSong.artist }}</p>
@@ -227,8 +227,11 @@ export default {
   left: 0;
   width: 100%;
   height: 100vh;
-  z-index: 10;
+  z-index: 1050;
   background-color: rgba(0, 0, 0, 0.75);
+}
+.front {
+  z-index: 1051;
 }
 
 dialog {

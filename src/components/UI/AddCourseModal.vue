@@ -1,6 +1,6 @@
 <template>
   <div v-if="open" class="backdrop" @click="hideDialog"></div>
-  <transition name="modal">
+  <transition name="modal" class="front">
     <dialog open v-if="open">
       <h3>{{ infoSong.name }}</h3>
       <span v-for="n in 5" :key="n"><i class="fa fa-star h3" :class="n <= infoSong.rating ? 'text-primary' : 'text-dark'"></i></span>
@@ -97,8 +97,11 @@ export default {
   left: 0;
   width: 100%;
   height: 100vh;
-  z-index: 10;
+  z-index: 1050;
   background-color: rgba(0, 0, 0, 0.75);
+}
+.front {
+  z-index: 1051;
 }
 
 dialog {
