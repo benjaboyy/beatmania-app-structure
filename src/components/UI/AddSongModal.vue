@@ -2,14 +2,22 @@
   <div v-if="open" class="backdrop" @click="hideDialog"></div>
   <transition name="modal" class="front">
     <dialog class="window" open v-if="open">
-      <h3>{{ infoSong.name }}</h3>
+      <h4>{{ infoSong.name }} <a :href="`https://remywiki.com/${infoSong.name}`" target="_blank" class="btn btn-link float-end btn-sm"><i class="fa fa-info-circle"></i> Song info</a></h4>
       <p>{{ infoSong.artist }}</p>
       <ul class="nav nav-tabs d-lg-none">
         <li class="nav-item">
-          <a @click="toggleTypeselected" class="nav-link" aria-current="page" :class="typeSelected === 'single' ? 'active' : ''">Singles</a>
+          <a @click="toggleTypeselected" class="nav-link" aria-current="page" :class="typeSelected === 'single' ? 'active' : ''">Singles
+            <clear-indicator v-if="infoSong.difficultyNormal > 0" :clear="normalClear" :fc="normalFC" />
+            <clear-indicator v-if="infoSong.difficultyHard > 0" :clear="hardClear" :fc="hardFC" />
+            <clear-indicator v-if="infoSong.difficultyAnother > 0" :clear="anotherClear" :fc="anotherFC" />
+          </a>
         </li>
         <li class="nav-item">
-          <a @click="toggleTypeselected" class="nav-link" :class="typeSelected === 'double' ? 'active' : ''">Doubles</a>
+          <a @click="toggleTypeselected" class="nav-link" :class="typeSelected === 'double' ? 'active' : ''">Doubles
+            <clear-indicator v-if="infoSong.difficultyDoubleNormal > 0" :clear="normalDoubleClear" :fc="normalDoubleFC" />
+            <clear-indicator v-if="infoSong.difficultyDoubleHard > 0" :clear="hardDoubleClear" :fc="hardDoubleFC" />
+            <clear-indicator v-if="infoSong.difficultyDoubleAnother > 0" :clear="anotherDoubleClear" :fc="anotherDoubleFC" />
+          </a>
         </li>
       </ul>
       <div class="row">
@@ -72,8 +80,11 @@
   </transition>
 </template>
 
+
 <script>
+import ClearIndicator from "@/components/widgets/ClearIndicator";
 export default {
+  components: {ClearIndicator},
   props:
   {
     open: {

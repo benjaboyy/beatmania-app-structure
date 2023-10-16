@@ -3,7 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import { createI18n } from 'vue-i18n'
 import App from './App.vue'
 
-import HeaderApp from "@/components/UI/HeaderApp";
+import HeaderApp from "@/components/widgets/HeaderApp";
 import WelcomeScreen from './components/pages/Welcome.vue'
 import LoginScreen from "@/forms/user/LoginScreen.vue";
 import Settings from "@/components/pages/Settings.vue";

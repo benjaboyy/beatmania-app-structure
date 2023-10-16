@@ -265,7 +265,6 @@ export default {
         this.noFilter = false;
         this.filters = data;
       }
-      this.type = data.filterType;
     },
     async addSongToUser(data) {
       await this.$store.dispatch('addSongToUser', data);

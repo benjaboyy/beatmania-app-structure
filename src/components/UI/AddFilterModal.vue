@@ -60,7 +60,6 @@ export default {
       filteredClear: '',
       filterFavorite: false,
       filterTarget: false,
-      filterType: 'single',
     }
   },
   methods: {
@@ -73,7 +72,6 @@ export default {
         filterLevel: this.filterLevel,
         filteredClear: this.filteredClear,
         filterFavorite: this.filterFavorite,
-        filterType: this.filterType,
         filterTarget: this.filterTarget,
       });
     },
