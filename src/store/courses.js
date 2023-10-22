@@ -31,6 +31,7 @@ export default {
                                 rating: gameData[courseKey].rating,
                                 songIDs: gameData[courseKey].songIDs,
                                 type: gameData[courseKey].type,
+                                onlySinglePlayer: gameData[courseKey].onlySinglePlayer,
                             };
                             courseByGame[gameKey].push(course);
                         }
@@ -57,6 +58,7 @@ export default {
                         rating: gameData[key].rating,
                         songIDs: gameData[key].songIDs,
                         type: gameData[key].type,
+                        onlySinglePlayer: gameData[key].onlySinglePlayer,
                     });
                 }
             }

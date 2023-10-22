@@ -7,21 +7,23 @@
           <div id="reloadHelp" class="form-text mb-3">{{ $t("welcomeScreen.clickReload") }}</div>
           <router-link :to="{ path: '/settings', query: { ID: 'game' } }" class="btn w-100 mb-3 btn-block btn-lg btn-secondary" type="button" role="button"><i class="fas fa-check-square"></i> {{ $t("welcomeScreen.selectGames") }}</router-link>
         </div>
-        <div v-if="true">
-          <div v-if="allArcadeCodes !== null" class="col-12">
-            <div class="card text-bg-primary">
-              <div class="card-body">
-                <h5 class="card-title"><strong>High-score Rankings</strong></h5>
-                <h6 class="card-subtitle mb-2 text-body-secondary">Compare with local players</h6>
-                <div class="row g-3 mb-2 mt-0">
-                  <div v-for="code in allArcadeCodes" v-bind:key="code" class="col-lg-6">
-                    <router-link :to="{ path: '/arcade/' + code }" class="btn w-100 btn-outline-light me-2" href="#">{{ getArcadeName(code) }}</router-link>
-                  </div>
+      </div>
+      <div v-if="true" class="row">
+        <div v-if="allArcadeCodes !== null" class="col-md-6 mx-auto">
+          <div class="card text-bg-primary">
+            <div class="card-body">
+              <h5 class="card-title"><strong>High-score Rankings</strong></h5>
+              <h6 class="card-subtitle mb-2 text-body-secondary">Compare with local players</h6>
+              <div class="row g-3 mb-2 mt-0">
+                <div v-for="code in allArcadeCodes" v-bind:key="code" class="col-lg-6">
+                  <router-link :to="{ path: '/arcade/' + code }" class="btn w-100 btn-outline-light me-2" href="#">{{ getArcadeName(code) }}</router-link>
                 </div>
               </div>
             </div>
           </div>
         </div>
+      </div>
+      <div class="row">
         <div v-for="game in filteredGames" v-bind:key="game" class="col-md-6 mt-4 mx-auto">
           <div class="card h-100">
             <div class="card-body">

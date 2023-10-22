@@ -70,6 +70,8 @@ export default
         update: '更新',
         show: '表示',
         filerOn: 'フィルター',
+        onlySinglePlayer: 'シングルプレイのみで利用可能',
+        onlySinglePlayerInfo: 'マルチプレイでプレイする場合、コースはバトルモードでプレイできません。 タイトルは黄色くなり、コースが選択されるとカップルモードに切り替わります。',
     },
     login: {
         languageIs: '日本語',

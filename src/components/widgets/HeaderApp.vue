@@ -1,6 +1,6 @@
 <template>
   <nav class="navbar navbar-dark bg-primary fixed-top">
-    <div class="container-fluid">
+    <div class="container">
 <!--      check if current page is the home page, if so, don't show the back button-->
       <router-link v-if="$route.path !== '/welcome'" to="/" class="btn-menu text-white" href="#" type="button" role="button" exact><i class="fa fa-arrow-left me-2"></i></router-link>
       <router-link v-else to="/" class="navbar-brand" href="#">

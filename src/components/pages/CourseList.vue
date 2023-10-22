@@ -32,7 +32,8 @@
                   <div class="card-body">
                     <div class="row g-0">
                       <div class="col-9 text-start">
-                        <h2 class="text-dark mb-2">{{ course.name }}</h2>
+                                                 <small class="float-end me-1"><i  v-if="course.onlySinglePlayer && !course.show" class="fas fa-exclamation-triangle text-warning"></i></small>
+<h2 class="text-dark mb-2">{{ course.name }}</h2>
                         <span v-for="n in 5" :key="n">
                           <i class="fa fa-star h4" :class="n <= course.rating ? 'text-primary' : 'text-light'"></i>
                         </span>
@@ -59,6 +60,13 @@
                     </div>
                     <div class="transition" v-if="course.show">
                       <hr>
+                      <div v-if="course.onlySinglePlayer" class="alert alert-warning" role="alert">
+                        <i class="fas fa-exclamation-triangle text-warning"></i> {{ $t("filter.onlySinglePlayer") }}
+                        <a @click="showInfoContent = !showInfoContent" class="link-primary">{{ $t("settings.info") }}</a>
+                        <div v-if="showInfoContent" class="mt-2">
+                          {{ $t("filter.onlySinglePlayerInfo") }}
+                        </div>
+                      </div>
                       <table class="w-100 text-start table table-borderless table-sm mb-0">
                         <tr v-for="(song, index) in course.songIDs" :key="song.id">
                           <td style="width: 10px">#{{ index + 1 }}</td>
@@ -131,6 +139,7 @@ export default {
       noFilter: true,
       searchWord: '',
       courseDouble: false,
+      showInfoContent: false
     }
   },
   methods: {
@@ -209,6 +218,7 @@ export default {
           userSong.type = song.type;
           userSong.rating = song.rating;
           userSong.songIDs = song.songIDs;
+          userSong.onlySinglePlayer = song.onlySinglePlayer;
           userSong.show = false;
           mergedUserCourses.push(userSong);
         } else {
@@ -294,7 +304,7 @@ export default {
     },
     filters: function() {
       this.reset();
-    }
+    },
   },
   props: {'msg': {
       type: String,
@@ -342,6 +352,13 @@ export default {
   .transition {
     transition: 1s;
 
+  }
+
+  .alert-warning {
+    background-color: #fff3cd;
+    border-color: #ffeeba;
+    color: #856404;
+    padding: 0.5rem 1rem;
   }
 
 </style>

@@ -2,18 +2,18 @@
   <div v-if="open" class="backdrop" @click="hideDialog"></div>
   <transition name="modal">
     <dialog class="window" open v-if="open">
-      <h3><i class="fas fa-globe"></i> {{ $t("login.selectLanguage") }}</h3>
-      <div class="row g-3 pt-1">
-        <div class="col-6">
-          <button
-              :class="$i18n.locale === 'en' ? 'btn-primary ' : 'btn-outline-primary'"
-              class="btn py-4 w-100" @click="setLanguage('en')">English</button>
-        </div>
-        <div class="col-6">
-          <button
-              :class="$i18n.locale === 'ja' ? 'btn-primary ' : 'btn-outline-primary'"
-              class="btn py-4 w-100" @click="setLanguage('ja')">日本語</button>
-        </div>
+      <h3><i class="fas fa-user"></i> {{ player.name }}</h3>
+      <hr>
+      <h5>{{ $t("welcomeScreen.trackedGames") }}</h5>
+      <div class="row">
+        <table class="table mb-0 table-sm table-borderless">
+          <tbody>
+          <tr v-for="game in filteredTrackedGames" :key="game.index">
+            <td>{{ getGameName(game.index) }}</td>
+            <td class="text-end text-primary"><b>{{ game.total }}</b></td>
+          </tr>
+          </tbody>
+        </table>
       </div>
       <div class="d-grid mt-3 gap-2">
         <button class="btn btn-dark" @click="hideDialog">{{ $t("login.close") }}</button>
@@ -29,24 +29,27 @@ export default {
     open: {
       type: Boolean,
       required: true
-    }
+    },
+    player: {
+      type: Object,
+      required: true
+    },
   },
   emits: ['close'],
+  computed: {
+    filteredTrackedGames() {
+      const gamesArray = Object.entries(this.player.trackedGames)
+          .map(([key, game]) => ({ index: key, ...game }))
+          .filter(game => game.total > 0);
+      return gamesArray;
+    },
+  },
   methods: {
     hideDialog() {
       this.$emit('close');
     },
-    toggleLanguage() {
-      this.$i18n.locale = this.$i18n.locale === 'en' ? 'ja' : 'en';
-      this.$store.dispatch('updateLanguage', {
-        language: this.$i18n.locale
-      });
-    },
-    setLanguage(language) {
-      this.$i18n.locale = language;
-      this.$store.dispatch('updateLanguage', {
-        language: language
-      });
+    getGameName(gameID) {
+      return this.$store.getters['games/getGameName'](gameID);
     },
   },
 };
@@ -84,6 +87,12 @@ dialog {
 .flash {
   animation: flash 0.6s infinite;
 }
+
+.table-sm td, .table-sm th {
+  padding-top: 0!important;
+  padding-bottom: 0!important;
+}
+
 @keyframes flash {
   0% {
     opacity: 1;

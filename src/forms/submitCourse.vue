@@ -41,14 +41,21 @@
             </div>
               <div class="mt-3">
                 <label class="w-100" for="songName">Play style</label>
-                <a class="btn btn-primary" @click="courseDoubleSwitch" :class="courseDouble === false ? 'btn-primary' : 'btn-light'"><i class="fa fa-compact-disc"></i> Single Courses</a>
-                <a class="btn btn-primary" @click="courseDoubleSwitch" :class="courseDouble === true ? 'btn-primary' : 'btn-light'"><i class="fa fa-compact-disc"></i> <i class="fa fa-compact-disc"></i> Double Courses</a>
+                <a class="btn btn-primary" @click="courseDoubleSwitch" :class="courseDouble === false ? 'btn-primary' : 'btn-light'"><i class="fa fa-compact-disc"></i> Single</a>
+                <a class="btn btn-primary" @click="courseDoubleSwitch" :class="courseDouble === true ? 'btn-primary' : 'btn-light'"><i class="fa fa-compact-disc"></i> <i class="fa fa-compact-disc"></i> Double</a>
               </div>
               <div class="form-group">
                 <label for="formControlRangeN">Course rating <h3>
                   <span v-for="n in 5" :key="n"><i class="fa fa-star" :class="n <= enteredRating ? 'text-primary' : 'text-light'"></i></span></h3>
                 </label>
                 <input data- type="range" max="5" min="1" class="form-range col-12" id="formControlRangeN" v-model="enteredRating" />
+              </div>
+              <div class="form-group mb-3">
+                <label for="gameType">Options</label>
+                <div class="form-check form-switch">
+                  <input v-model="onlySinglePlayer" class="form-check-input" type="checkbox" id="hasDoubleCharts" checked>
+                  <label class="form-check-label" for="hasDoubleCharts">Only available in single player</label>
+                </div>
               </div>
               <div v-for="(courseSong, index) in songIDs" :key="index">
                 <label for="songName">Song {{ index + 1 }}</label>
@@ -99,6 +106,7 @@ export default {
       gameID: "",
       CourseID: "",
       enteredName: "",
+      onlySinglePlayer: false,
       enteredRating: 1,
       invalidInput: false,
       error: null,
@@ -126,6 +134,7 @@ export default {
       this.courseDouble = false;
       this.courseUpdate = false;
       this.invalidInput = false;
+      this.onlySinglePlayer = false;
     },
     courseUpdateSwitch() {
       this.courseUpdate = !this.courseUpdate;
@@ -170,6 +179,7 @@ export default {
         songIDs: this.songToUpdate.map((item, index) => Object.assign({}, item, this.songToUpdate[index])),
         id: this.enteredName.trim().replace(/\s/g, ''),
         rating: this.enteredRating,
+        onlySinglePlayer: this.onlySinglePlayer,
         type: this.type,
       };
       const token = this.$store.getters.token;

@@ -36,7 +36,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr v-for="player, key in playersSortedOnStats" :key="player.rank" class="bg-light">
+            <tr v-for="player, key in playersSortedOnStats" :key="player.rank" @click="showProfile(player)" class="bg-light">
               <th v-if="key === 0" scope="row"><i class="fas fa-trophy"></i></th>
               <th v-else>{{ key+1 }}</th>
               <td>{{ player.name }}</td>
@@ -70,14 +70,20 @@
       @close="hideDialog"
       :open="dialogIsVisible"
   />
+  <ProfileModal
+      @close="hideProfile"
+      :open="profileVisible"
+      :player="loadedPlayer"
+  />
 </template>
 
 <script>
 import LanguageModal from "@/components/UI/LanguageModal";
+import ProfileModal from "@/components/UI/ProfileModal";
 export default {
   name: 'AdminUs',
   components: {
-    LanguageModal,
+    LanguageModal, ProfileModal
   },
   data() {
     return {
@@ -88,6 +94,8 @@ export default {
       players: [],
       arcadeList: [],
       dialogIsVisible: false,
+      profileVisible: false,
+      loadedPlayer: null,
     };
   },
   props: {
@@ -153,6 +161,14 @@ export default {
     },
     hideDialog() {
       this.dialogIsVisible = false;
+    },
+    showProfile(player) {
+      console.log(player);
+      this.loadedPlayer = player;
+      this.profileVisible = true;
+    },
+    hideProfile() {
+      this.profileVisible = false;
     },
     toggleLanguage() {
       this.$i18n.locale = this.$i18n.locale === 'en' ? 'ja' : 'en';
