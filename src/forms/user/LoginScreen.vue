@@ -10,13 +10,13 @@
         <div v-if="!formIsValid || error" class="alert alert-warning" role="alert">Something went wrong please try again</div>
         <form @submit.prevent="submitForm">
           <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">{{ $t("login.email") }}</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" v-model="email">
+            <label for="email" class="form-label">{{ $t("login.email") }}</label>
+            <input type="email" class="form-control" id="email" aria-describedby="emailHelp" v-model="email">
             <div v-if="emailInvalid" class="text-warning" role="alert">Email address is not valid</div>
           </div>
           <div class="mb-4">
-            <label for="exampleInputPassword1" class="form-label">{{ $t("login.password") }}</label>
-            <input type="password" class="form-control" id="exampleInputPassword1" v-model="password">
+            <label for="password" class="form-label">{{ $t("login.password") }}</label>
+            <input type="password" class="form-control" id="password" v-model="password">
             <div v-if="passwordInvalid" class="text-warning" role="alert">Make sure the password is at least 6 characters long</div>
             <router-link to="/reset" type="submit" class="link-primary">{{ $t("login.passwordReset") }}</router-link>
           </div>

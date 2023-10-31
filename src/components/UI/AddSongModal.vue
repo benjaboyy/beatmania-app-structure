@@ -100,7 +100,7 @@ export default {
       required: true
     }
   },
-  emits: ['close', 'addSongUser'],
+  emits: ['close', 'addSongUser', 'number'],
   data() {
     return {
       scoreNormal: '',
@@ -124,11 +124,37 @@ export default {
       favorite: false,
       target: false,
       typeSelected: 'single',
+
+      pointsOnOpen: 0,
+      pointsOnClose: 0,
     }
   },
   methods: {
+    countPointsOnOpen () {
+      this.pointsOnOpen = 0
+      if (this.normalClear) {
+        this.pointsOnOpen++
+      }
+      if (this.hardClear) {
+        this.pointsOnOpen++
+      }
+      if (this.anotherClear) {
+        this.pointsOnOpen++
+      }
+      if (this.normalDoubleClear) {
+        this.pointsOnOpen++
+      }
+      if (this.hardDoubleClear) {
+        this.pointsOnOpen++
+      }
+      if (this.anotherDoubleClear) {
+        this.pointsOnOpen++
+      }
+      this.pointsOnClose = this.pointsOnOpen
+    },
     hideDialog() {
       this.$emit('close');
+      this.$emit('number', this.pointsOnClose - this.pointsOnOpen);
       this.$emit('addSongUser', {
         id: this.infoSong.id,
         artist: this.infoSong.artist,
@@ -163,36 +189,66 @@ export default {
     },
     toggleNormalClear() {
       this.normalClear = !this.normalClear;
+      if (this.normalClear) {
+        this.pointsOnClose++
+      } else {
+        this.pointsOnClose--
+      }
     },
     toggleHardFC() {
       this.hardFC = !this.hardFC;
     },
     toggleHardClear() {
       this.hardClear = !this.hardClear;
+      if (this.hardClear) {
+        this.pointsOnClose++
+      } else {
+        this.pointsOnClose--
+      }
     },
     toggleAnotherFC() {
       this.anotherFC = !this.anotherFC;
     },
     toggleAnotherClear() {
       this.anotherClear = !this.anotherClear;
+      if (this.anotherClear) {
+        this.pointsOnClose++
+      } else {
+        this.pointsOnClose--
+      }
     },
     toggleNormalDoubleFC() {
       this.normalDoubleFC = !this.normalDoubleFC;
     },
     toggleNormalDoubleClear() {
       this.normalDoubleClear = !this.normalDoubleClear;
+      if (this.normalDoubleClear) {
+        this.pointsOnClose++
+      } else {
+        this.pointsOnClose--
+      }
     },
     toggleHardDoubleFC() {
       this.hardDoubleFC = !this.hardDoubleFC;
     },
     toggleHardDoubleClear() {
       this.hardDoubleClear = !this.hardDoubleClear;
+      if (this.hardDoubleClear) {
+        this.pointsOnClose++
+      } else {
+        this.pointsOnClose--
+      }
     },
     toggleAnotherDoubleFC() {
       this.anotherDoubleFC = !this.anotherDoubleFC;
     },
     toggleAnotherDoubleClear() {
       this.anotherDoubleClear = !this.anotherDoubleClear;
+      if (this.anotherDoubleClear) {
+        this.pointsOnClose++
+      } else {
+        this.pointsOnClose--
+      }
     },
     toggleFavorite() {
       this.favorite = !this.favorite;
@@ -225,6 +281,7 @@ export default {
         this.favorite = this.infoSong.favorite;
         this.target = this.infoSong.target;
         this.typeSelected = this.type;
+        this.countPointsOnOpen()
       }
     }
   }

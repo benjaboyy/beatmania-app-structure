@@ -110,6 +110,7 @@
   <add-song-modal
       @close="hideDialog"
       @addSongUser="addSongToUser"
+      @number="updatePoint"
       :open="dialogIsVisible"
       :infoSong="loadInfoSong"
       :type="type"
@@ -119,12 +120,18 @@
       @addFilter="addFilter"
       :open="filterVisible"
   ></add-filter-modal>
+  <point-alert
+      @close="hidePointAlert"
+      :open="pointAlertVisible"
+      :number="point"
+  ></point-alert>
 </template>
 <script>
 import AddFilterModal from "@/components/UI/AddFilterModal";
 import AddSongModal from "@/components/UI/AddSongModal";
+import PointAlert from "@/components/widgets/PointAlert";
 export default {
-  components: {AddFilterModal, AddSongModal},
+  components: {AddFilterModal, AddSongModal, PointAlert},
   emits: ['loaded'],
   name: 'SongList',
   data() {
@@ -140,6 +147,9 @@ export default {
       noFilter: true,
       searchWord: '',
       type: 'single',
+
+      pointAlertVisible: false,
+      point: 1,
     }
   },
   methods: {
@@ -148,6 +158,13 @@ export default {
         this.noFilter = false;
       }
       await this.reset();
+    },
+    hidePointAlert() {
+      this.pointAlertVisible = false;
+    },
+    updatePoint(number) {
+      this.point = number;
+      this.pointAlertVisible = true;
     },
     clearFilter() {
       this.noFilter = true;
