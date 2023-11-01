@@ -50,7 +50,7 @@
             <h5 class="mt-4">Difficulty Single</h5>
             <div class="form-group">
               <label for="formControlRangeN">Normal Difficulty {{ displayEnteredDifficultyNormal }}</label>
-              <input data- type="range" max="9" min="0" class="form-range col-12" id="formControlRangeN" v-model="enteredDifficultyNormal" />
+              <input data- type="range" max="30" min="0" class="form-range col-12" id="formControlRangeN" v-model="enteredDifficultyNormal" />
             </div>
             <div class="form-group">
               <label for="formControlRangeH">Hard Difficulty {{ displayEnteredDifficultyHard }}</label>
@@ -99,12 +99,12 @@ export default {
       enteredName: "",
       enteredArtist: "",
       enteredComposer: "",
-      enteredDifficultyNormal: 1,
-      enteredDifficultyHard: 1,
-      enteredDifficultyAnother: 1,
-      enteredDifficultyDoubleNormal: 1,
-      enteredDifficultyDoubleHard: 1,
-      enteredDifficultyDoubleAnother: 1,
+      enteredDifficultyNormal: 0,
+      enteredDifficultyHard: 0,
+      enteredDifficultyAnother: 0,
+      enteredDifficultyDoubleNormal: 0,
+      enteredDifficultyDoubleHard: 0,
+      enteredDifficultyDoubleAnother: 0,
       selectedGames: [],
       invalidInput: false,
       error: null,
@@ -150,12 +150,12 @@ export default {
     reset() {
       this.enteredName = "";
       this.enteredArtist = "";
-      this.enteredDifficultyNormal = 1;
-      this.enteredDifficultyHard = 1;
-      this.enteredDifficultyAnother = 1;
-      this.enteredDifficultyDoubleNormal = 1;
-      this.enteredDifficultyDoubleHard = 1;
-      this.enteredDifficultyDoubleAnother = 1;
+      this.enteredDifficultyNormal = 0;
+      this.enteredDifficultyHard = 0;
+      this.enteredDifficultyAnother = 0;
+      this.enteredDifficultyDoubleNormal = 0;
+      this.enteredDifficultyDoubleHard = 0;
+      this.enteredDifficultyDoubleAnother = 0;
       this.songID = "";
       this.songUpdate = false;
       this.invalidInput = false;
@@ -216,12 +216,12 @@ export default {
           this.enteredName = "";
           this.enteredArtist = "";
           this.enteredComposer = "";
-          this.enteredDifficultyNormal = 1;
-          this.enteredDifficultyHard = 1;
-          this.enteredDifficultyAnother = 1;
-          this.enteredDifficultyDoubleNormal = 1;
-          this.enteredDifficultyDoubleHard = 1;
-          this.enteredDifficultyDoubleAnother = 1;
+          this.enteredDifficultyNormal = 0;
+          this.enteredDifficultyHard = 0;
+          this.enteredDifficultyAnother = 0;
+          this.enteredDifficultyDoubleNormal = 0;
+          this.enteredDifficultyDoubleHard = 0;
+          this.enteredDifficultyDoubleAnother = 0;
           this.songID = "";
           this.songUpdate = false;
           this.invalidInput = false;

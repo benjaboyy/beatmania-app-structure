@@ -1,5 +1,5 @@
 <template>
-  <div class="alert--div">
+  <div class="alert--div px-3">
     <div v-if="showAlert" class="alert text-center" :class="{'alert-success': counterChange > 0, 'alert-danger': counterChange < 0}" role="alert">
       <strong>{{ counterChangeHumanized }}</strong> Points
     </div>
@@ -23,7 +23,7 @@ export default {
       this.showAlert = true;
       setTimeout(() => {
         this.showAlert = false;
-      }, 2000);
+      }, 2500);
       this.$emit('close');
     }
   },
