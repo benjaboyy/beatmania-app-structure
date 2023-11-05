@@ -273,6 +273,7 @@ export default {
       } else {
         this.type = 'single';
       }
+      this.reset();
     },
     addFilter(data) {
       if (data.filterLevel === 0 && data.filteredClear === '' && data.filterFavorite === false && data.filterTarget === false && this.searchWord === '') {
@@ -304,40 +305,78 @@ export default {
           }
           if (Object.keys(this.filters).length > 0) {
             // filter songs based on the filters
-            if (this.filters.filterLevel > 0) {
-              if (
-                  song.difficultyNormal !== this.filters.filterLevel &&
-                  song.difficultyHard !== this.filters.filterLevel &&
-                  song.difficultyAnother !== this.filters.filterLevel
-              ) {
-                matchesFilter = false;
+            if (this.typeIs === 'single') {
+              if (this.filters.filterLevel > 0) {
+                if (
+                    song.difficultyNormal !== this.filters.filterLevel &&
+                    song.difficultyHard !== this.filters.filterLevel &&
+                    song.difficultyAnother !== this.filters.filterLevel
+                ) {
+                  matchesFilter = false;
+                }
               }
-            }
-
-            if (this.filters.filteredClear) {
-              if (this.filters.filteredClear === 'clear') {
+              if (this.filters.filteredClear) {
+                if (this.filters.filteredClear === 'clear') {
+                  if (
+                      (song.difficultyNormal > 0 && !song.normalClear) ||
+                      (song.difficultyHard > 0 && !song.hardClear) ||
+                      (song.difficultyAnother > 0 && !song.anotherClear)
+                  ) {
+                    matchesFilter = false;
+                  }
+                } else if (this.filters.filteredClear === 'fullcombo') {
+                  if (
+                      !song.normalFC &&
+                      !song.hardFC &&
+                      !song.anotherFC
+                  ) {
+                    matchesFilter = false;
+                  }
+                } else if (this.filters.filteredClear === 'failed') {
+                  if (
+                      (song.difficultyNormal < 1 || song.normalClear) &&
+                      (song.difficultyHard < 1 || song.hardClear) &&
+                      (song.difficultyAnother < 1 || song.anotherClear)
+                  ) {
+                    matchesFilter = false;
+                  }
+                }
+              }
+            } else {
+              if (this.filters.filterLevel > 0) {
                 if (
-                    (song.difficultyNormal > 0 && !song.normalClear) ||
-                    (song.difficultyHard > 0 && !song.hardClear) ||
-                    (song.difficultyAnother > 0 && !song.anotherClear)
+                    song.difficultyDoubleNormal !== this.filters.filterLevel &&
+                    song.difficultyDoubleHard !== this.filters.filterLevel &&
+                    song.difficultyDoubleAnother !== this.filters.filterLevel
                 ) {
                   matchesFilter = false;
                 }
-              } else if (this.filters.filteredClear === 'fullcombo') {
-                if (
-                    !song.normalFC &&
-                    !song.hardFC &&
-                    !song.anotherFC
-                ) {
-                  matchesFilter = false;
-                }
-              } else if (this.filters.filteredClear === 'failed') {
-                if (
-                    (song.difficultyNormal < 1 || song.normalClear) &&
-                    (song.difficultyHard < 1 || song.hardClear) &&
-                    (song.difficultyAnother < 1 || song.anotherClear)
-                ) {
-                  matchesFilter = false;
+              }
+              if (this.filters.filteredClear) {
+                if (this.filters.filteredClear === 'clear') {
+                  if (
+                      (song.difficultyDoubleNormal > 0 && !song.normalDoubleClear) ||
+                      (song.difficultyDoubleHard > 0 && !song.hardDoubleClear) ||
+                      (song.difficultyDoubleAnother > 0 && !song.anotherDoubleClear)
+                  ) {
+                    matchesFilter = false;
+                  }
+                } else if (this.filters.filteredClear === 'fullcombo') {
+                  if (
+                      !song.normalDoubleFC &&
+                      !song.hardDoubleFC &&
+                      !song.anotherDoubleFC
+                  ) {
+                    matchesFilter = false;
+                  }
+                } else if (this.filters.filteredClear === 'failed') {
+                  if (
+                      (song.difficultyDoubleNormal < 1 || song.normalDoubleClear) &&
+                      (song.difficultyDoubleHard < 1 || song.hardDoubleClear) &&
+                      (song.difficultyDoubleAnother < 1 || song.anotherDoubleClear)
+                  ) {
+                    matchesFilter = false;
+                  }
                 }
               }
             }
