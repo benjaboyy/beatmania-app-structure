@@ -4,7 +4,7 @@
     <dialog class="window" open v-if="open">
       <h4>{{ infoSong.name }} <a :href="`https://remywiki.com/${infoSong.name}`" target="_blank" class="btn btn-link float-end btn-sm"><i class="fa fa-info-circle"></i> Song info</a></h4>
       <p>{{ infoSong.artist }}</p>
-      <ul class="nav nav-tabs d-lg-none">
+      <ul class="nav nav-tabs d-lg-none" v-if="infoSong.difficultyDoubleNormal > 0 || infoSong.difficultyDoubleHard > 0 || infoSong.difficultyDoubleAnother > 0">
         <li class="nav-item">
           <a @click="toggleTypeselected" class="nav-link" aria-current="page" :class="typeSelected === 'single' ? 'active' : ''">Singles
             <clear-indicator v-if="infoSong.difficultyNormal > 0" :clear="normalClear" :fc="normalFC" />

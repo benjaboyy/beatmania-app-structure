@@ -23,8 +23,8 @@
           </div>
         </div>
       </div>
-      <div class="row">
-        <div v-for="game in filteredGames" v-bind:key="game" class="col-md-6 mt-4 mx-auto">
+      <div v-for="game in filteredGames" v-bind:key="game" class="row">
+        <div class="col-md-6 mt-4 mx-auto">
           <div class="card h-100">
             <div class="card-body">
               <h5 class="card-title"><strong>{{ game.name }}</strong></h5>
@@ -55,12 +55,11 @@
             </div>
           </div>
         </div>
-        <div v-if="filteredGames.length > 0" class="col-12 my-4 text-center">
-          <router-link :to="{ path: '/settings', query: { ID: 'game' } }" class="btn btn-block btn-secondary" type="button" role="button"><i class="fas fa-check-square"></i> {{ $t("welcomeScreen.selectGames") }}</router-link>
-          <router-link to="/tips" class="btn btn-block btn-secondary ms-3" href="#" type="button" role="button"><i class="far fa-lightbulb"></i> {{ $t("welcomeScreen.tips") }}</router-link>
-          <div id="emailHelp" class="form-text mt-3">{{ $t("welcomeScreen.findMore") }}</div>
-        </div>
-
+      </div>
+      <div v-if="filteredGames.length > 0" class="col-12 my-4 text-center">
+        <router-link :to="{ path: '/settings', query: { ID: 'game' } }" class="btn btn-block btn-secondary" type="button" role="button"><i class="fas fa-check-square"></i> {{ $t("welcomeScreen.selectGames") }}</router-link>
+        <router-link to="/tips" class="btn btn-block btn-secondary ms-3" href="#" type="button" role="button"><i class="far fa-lightbulb"></i> {{ $t("welcomeScreen.tips") }}</router-link>
+        <div id="emailHelp" class="form-text mt-3">{{ $t("welcomeScreen.findMore") }}</div>
       </div>
     </div>
   </div>
