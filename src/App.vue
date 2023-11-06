@@ -48,14 +48,16 @@ export default {
       this.switchTheme(this.currentTheme);
     },
     switchTheme(themeName) {
-      // Dynamically load the CSS file for the selected theme
-      import(`@/assets/main${themeName}.css`)
-          .then(() => {
-            this.currentTheme = themeName;
-          })
-          .catch(error => {
-            console.error(`Error loading theme CSS: ${error}`);
-          });
+      if (themeName) {
+        // Dynamically load the CSS file for the selected theme
+        import(`@/assets/main${themeName}.css`)
+            .then(() => {
+              this.currentTheme = themeName;
+            })
+            .catch(error => {
+              console.error(`Error loading theme CSS: ${error}`);
+            });
+      }
     },
   },
   computed: {
