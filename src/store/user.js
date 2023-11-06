@@ -13,6 +13,7 @@ export default {
             token: '',
             admin: false,
             language: '',
+            theme: '',
             name: '',
             successUpdate: false,
             didLogout: false,
@@ -55,6 +56,9 @@ export default {
         },
         setLanguage(state, payload) {
             state.language = payload;
+        },
+        setTheme(state, payload) {
+            state.theme = payload;
         },
         addSong(state, payload) {
             const index = state.userSongs.findIndex(s => s.id === payload.id);
@@ -137,6 +141,20 @@ export default {
                 console.log('Error while updating language to user');
             } else {
                 commit('setLanguage', payload.language);
+                commit('setSuccessUpdate', true);
+            }
+        },
+        async updateTheme({ commit, getters }, payload) {
+            const userId = getters.userId;
+            const token = getters.token;
+            const response = await fetch(`${API_BASE_URL}users/${userId}.json?auth=` + token, {
+                method: 'PATCH',
+                body: JSON.stringify(payload)
+            });
+            if (!response.ok) {
+                console.log('Error while updating theme to user');
+            } else {
+                commit('setTheme', payload.theme);
                 commit('setSuccessUpdate', true);
             }
         },
@@ -279,6 +297,7 @@ export default {
 
             context.commit('setUserInfo', responseData.name);
             context.commit('setLanguage', responseData.language);
+            context.commit('setTheme', responseData.theme);
 
             context.commit('setAdmin', responseData.admin);
         },
@@ -593,6 +612,9 @@ export default {
         },
         getLanguage(state) {
             return state.language;
+        },
+        getTheme(state) {
+            return state.theme;
         }
     }
 }

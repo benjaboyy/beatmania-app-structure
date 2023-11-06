@@ -10,15 +10,15 @@
 </template>
 
 <script>
-// eslint-disable-next-line no-unused-vars
-import icon192 from '@/assets/img/icon-192.png';
-// eslint-disable-next-line no-unused-vars
-import icon512 from '@/assets/img/icon-512.png';
+import '@/assets/main1.css'; // Load the default theme (lumen) CSS file
+
 export default {
   name: 'App',
   data() {
     return {
       isLoaded: false,
+      currentTheme: '1', // Default theme
+      currentThemeLink: null, // Store the current theme link
     };
   },
   async created() {
@@ -43,7 +43,19 @@ export default {
       await this.$store.dispatch('loadUserSongs');
       await this.$store.dispatch('loadTrackedGames');
       await this.$store.dispatch('loadUserCourses');
-      this.$i18n.locale = this.$store.getters['getLanguage'];
+      this.$i18n.locale = await this.$store.getters['getLanguage'];
+      this.currentTheme = await this.$store.getters['getTheme'];
+      this.switchTheme(this.currentTheme);
+    },
+    switchTheme(themeName) {
+      // Dynamically load the CSS file for the selected theme
+      import(`@/assets/main${themeName}.css`)
+          .then(() => {
+            this.currentTheme = themeName;
+          })
+          .catch(error => {
+            console.error(`Error loading theme CSS: ${error}`);
+          });
     },
   },
   computed: {

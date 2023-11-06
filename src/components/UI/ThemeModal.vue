@@ -2,21 +2,31 @@
   <div v-if="open" class="backdrop" @click="hideDialog"></div>
   <transition name="modal">
     <dialog class="window" open v-if="open">
-      <h3><i class="fas fa-globe"></i> {{ $t("login.selectLanguage") }}</h3>
+      <h3><i class="fas fa-globe"></i> Select Theme</h3>
       <div class="row g-3 pt-1">
         <div class="col-6">
           <button
-              :class="$i18n.locale === 'en' ? 'btn-primary ' : 'btn-outline-primary'"
-              class="btn py-4 w-100" @click="setLanguage('en')">English</button>
+              :class="currentTheme === '1' ? 'btn-primary ' : 'btn-outline-primary'"
+              class="btn py-4 w-100" @click="setTheme('1')">Lumen</button>
         </div>
         <div class="col-6">
           <button
-              :class="$i18n.locale === 'ja' ? 'btn-primary ' : 'btn-outline-primary'"
-              class="btn py-4 w-100" @click="setLanguage('ja')">日本語</button>
+              :class="currentTheme === '2' ? 'btn-primary ' : 'btn-outline-primary'"
+              class="btn py-4 w-100" @click="setTheme('2')">Space</button>
+        </div>
+        <div class="col-6">
+          <button
+              :class="currentTheme === '3' ? 'btn-primary ' : 'btn-outline-primary'"
+              class="btn py-4 w-100" @click="setTheme('3')">Cosmo</button>
+        </div>
+        <div class="col-6">
+          <button
+              :class="currentTheme === '4' ? 'btn-primary ' : 'btn-outline-primary'"
+              class="btn py-4 w-100" @click="setTheme('4')">Cyborg</button>
         </div>
       </div>
       <div class="d-grid mt-3 gap-2">
-        <button class="btn btn-dark" @click="hideDialog">{{ $t("login.close") }}</button>
+        <button class="btn btn-dark" @click="hideDialog">Save & {{ $t("login.close") }}</button>
       </div>
     </dialog>
   </transition>
@@ -24,6 +34,11 @@
 
 <script>
 export default {
+  data() {
+    return {
+      currentTheme: '1',
+    };
+  },
   props:
   {
     open: {
@@ -36,10 +51,10 @@ export default {
     hideDialog() {
       this.$emit('close');
     },
-    setLanguage(language) {
-      this.$i18n.locale = language;
-      this.$store.dispatch('updateLanguage', {
-        language: language
+    setTheme(theme) {
+      this.currentTheme = theme;
+      this.$store.dispatch('updateTheme', {
+        theme: theme
       });
     },
   },

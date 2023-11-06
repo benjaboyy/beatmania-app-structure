@@ -50,11 +50,11 @@
             <h5 class="mt-4">Difficulty Single</h5>
             <div class="form-group">
               <label for="formControlRangeN">Normal Difficulty {{ displayEnteredDifficultyNormal }}</label>
-              <input data- type="range" max="30" min="0" class="form-range col-12" id="formControlRangeN" v-model="enteredDifficultyNormal" />
+              <input data- type="range" max="25" min="0" class="form-range col-12" id="formControlRangeN" v-model="enteredDifficultyNormal" />
             </div>
             <div class="form-group">
               <label for="formControlRangeH">Hard Difficulty {{ displayEnteredDifficultyHard }}</label>
-              <input type="range" max="9" min="0" class="form-range col-12" id="formControlRangeH" v-model="enteredDifficultyHard" />
+              <input type="range" max="25" min="0" class="form-range col-12" id="formControlRangeH" v-model="enteredDifficultyHard" />
             </div>
             <div class="form-group">
               <label for="formControlRangeA">Another Difficulty {{ displayEnteredDifficultyAnother }}</label>

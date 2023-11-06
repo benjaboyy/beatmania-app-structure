@@ -18,7 +18,6 @@ import CourseList from "@/components/pages/CourseList";
 import TipsScreen from "@/components/pages/TipsScreen";
 import ArcadeRankings from "@/components/pages/ArcadeRankings";
 
-import './assets/main.css'
 import './assets/css/all.css'
 
 import store from './store/index.js'

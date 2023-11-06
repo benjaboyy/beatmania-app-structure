@@ -8,11 +8,11 @@
           <router-link :to="{ path: '/settings', query: { ID: 'game' } }" class="btn w-100 mb-3 btn-block btn-lg btn-secondary" type="button" role="button"><i class="fas fa-check-square"></i> {{ $t("welcomeScreen.selectGames") }}</router-link>
         </div>
       </div>
-      <div v-if="true" class="row">
+      <div v-if="isDataLoaded" class="row">
         <div v-if="allArcadeCodes !== null" class="col-md-6 mx-auto">
           <div class="card text-bg-primary">
             <div class="card-body">
-              <h5 class="card-title"><strong>High-score Rankings</strong></h5>
+              <h4 class="card-title"><strong>High-score Rankings</strong></h4>
               <h6 class="card-subtitle mb-2 text-body-secondary">Compare with local players</h6>
               <div class="row g-3 mb-2 mt-0">
                 <div v-for="code in allArcadeCodes" v-bind:key="code" class="col-lg-6">
@@ -23,11 +23,15 @@
           </div>
         </div>
       </div>
+      <div v-if="!isDataLoaded" class="login-screen mt-2 px-2 mx-auto text-center">
+        <h1 class="display-2"><i class="fa fa-compact-disc fa-spin"></i></h1>
+        <h2>Loading...</h2>
+      </div>
       <div v-for="game in filteredGames" v-bind:key="game" class="row">
         <div class="col-md-6 mt-4 mx-auto">
-          <div class="card h-100">
+          <div v-if="gamestats[game.id]" class="card h-100">
             <div class="card-body">
-              <h5 class="card-title"><strong>{{ game.name }}</strong></h5>
+              <h4 class="card-title"><strong>{{ game.name }}</strong></h4>
               <span class="text-primary">{{ $t("welcomeScreen.songs") }}: </span>{{ gamestats[game.id].songs }}<br>
               <span class="text-primary">{{ $t("welcomeScreen.system") }}: </span>{{ game.playStyle }}
 
@@ -76,7 +80,8 @@ export default {
     return {
       gamesToShow: [],
       userPassedSongs: [],
-      gamestats: {}
+      gamestats: {},
+      isDataLoaded: false
     }
   },
   computed: {
@@ -270,6 +275,7 @@ export default {
     await this.$store.dispatch('arcades/loadArcades');
     await this.setBaseStats();
     await this.calculateStats();
+    this.isDataLoaded = true;
   },
   props: {
     msg: String,

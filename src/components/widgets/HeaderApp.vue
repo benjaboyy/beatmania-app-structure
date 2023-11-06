@@ -9,6 +9,9 @@
       <span class="d-none d-md-block me-auto weight-600 text-white">BMGRESS</span>
 
       <div class="d-flex">
+        <button class="btn-palette p-0 me-3" type="button">
+          <i @click="showThemeDialog" class="fas fa-palette text-white"></i>
+        </button>
         <button class="btn-lang p-0 me-3" type="button">
           <i @click="showDialog" class="fas fa-language fa-2x text-white"></i>
         </button>
@@ -63,25 +66,35 @@
         @close="hideDialog"
         :open="dialogIsVisible"
     />
+    <ThemeModal
+        @close="hideThemeDialog"
+        :open="dialogThemeIsVisible"
+    />
   </nav>
 </template>
 
 <script>
 import LanguageModal from "@/components/UI/LanguageModal";
+import ThemeModal from "@/components/UI/ThemeModal";
 export default {
   name: "HeaderApp",
   components: {
-    LanguageModal
+    LanguageModal, ThemeModal
   },
   data() {
     return {
       isMenuOpen: false,
       dialogIsVisible: false,
+      dialogThemeIsVisible: false,
     };
   },
   methods: {
     hideDialog() {
       this.dialogIsVisible = false;
+    },
+    hideThemeDialog() {
+      this.dialogThemeIsVisible = false;
+      window.location.reload();
     },
     logout() {
       this.$store.dispatch('logout');
@@ -96,6 +109,9 @@ export default {
     showDialog() {
       this.dialogIsVisible = true;
     },
+    showThemeDialog() {
+      this.dialogThemeIsVisible = true;
+    }
   },
   computed: {
     isAdmin() {
@@ -123,6 +139,14 @@ export default {
 }
 .btn-menu i {
   font-size: 1.9em;
+  opacity: 0.7;
+}
+.btn-palette {
+  background-color: rgba(0,0,0,0);
+  border: none;
+}
+.btn-palette i {
+  font-size: 1.5em;
   opacity: 0.7;
 }
 .btn-light {
