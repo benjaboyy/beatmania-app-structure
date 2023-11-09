@@ -11,18 +11,18 @@
         </div>
         <div class="col-6">
           <button
+              :class="currentTheme === '2' ? 'btn-primary ' : 'btn-outline-primary'"
+              class="btn py-4 w-100" @click="setTheme('2')">Space</button>
+        </div>
+        <div class="col-6">
+          <button
               :class="currentTheme === '3' ? 'btn-primary ' : 'btn-outline-primary'"
-              class="btn py-4 w-100" @click="setTheme('3')">Cosmo</button>
+              class="btn py-4 w-100" @click="setTheme('3')">Scrapbook</button>
         </div>
         <div class="col-6">
           <button
-              :class="currentTheme === '2' ? 'btn-primary ' : 'btn-outline-warning'"
-              class="btn py-4 w-100 disabled" @click="setTheme('2')" disabled>space</button>
-        </div>
-        <div class="col-6">
-          <button
-              :class="currentTheme === '4' ? 'btn-primary ' : 'btn-outline-warning'"
-              class="btn py-4 w-100" @click="setTheme('4')" disabled>Cyborg</button>
+              :class="currentTheme === '4' ? 'btn-primary ' : 'btn-outline-primary'"
+              class="btn py-4 w-100" @click="setTheme('4')">Bloom</button>
         </div>
       </div>
       <div class="d-grid mt-3 gap-2">
