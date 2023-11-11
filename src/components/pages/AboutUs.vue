@@ -5,15 +5,14 @@
       <div class="card-body">
         <h3>Beatmania Progress Tracker App</h3>
         <p>Welcome to the Beatmania Progress Tracker App,<br>
-          A app is designed to enhance your arcade experience by providing a simple way to track your progress and scores in the rhythm game, Beatmania.
-          This app is to help you stay organized and motivated on your Beatmania journey.
-          I have developed this app free and open-source, to provide a tool for Beatmania players.
+          A app is designed to enhance your arcade experience by providing a simple way to track your progress and scores in multiple rhythm games which do not support tracking native.
+          This app is to help you stay organized and motivated while playing older rhythm games.
+          I have developed this app free and open-source, to provide a tool at first for Beatmania players and i will keep adding titles in the future.
         </p>
           <h5>Key Features:</h5>
         <ul>
           <li>Progress Tracking: Keep track of your scores, progress and achievements.</li>
-          <li>User-Friendly: Intuitive interface, making it easy to navigate and use.</li>
-          <li>Arcade highscores: Keep track of your highscores in your local arcade.</li>
+          <li>Arcade high scores: Keep track of your high scores in your local arcade.</li>
           <li>Translations: Available in English and Japanese.</li>
         </ul>
 
@@ -23,7 +22,24 @@
             {{ game.name }} <br>
           </li>
         </ul>
-        <p>Set the app to your homescreen or use the website and start tracking your progress in Beatmania!</p>
+
+        <div class="accordion my-4" id="accordionExample">
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingFour">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHow" aria-expanded="false" aria-controls="collapseHow">
+                How to submit
+              </button>
+            </h2>
+            <div id="collapseHow" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
+              <div class="accordion-body">
+                <img src="../../assets/img/howto.png" class="w-100" alt="">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <h5>Info:</h5>
+        <p>Set the app to your home screen or use the website and start tracking your progress in Beatmania!</p>
         <div class="mb-2">
           <a href="https://github.com/benjaboyy/beatmania-app-structure" class="btn btn-outline-primary me-2 mt-2"><i class="fab fa-github me-2"></i> Github</a>
           <router-link to="/arcade" class="btn btn-outline-primary me-2 mt-2"><i class="fas fa-trophy me-2"></i> Arcade Ranking</router-link>

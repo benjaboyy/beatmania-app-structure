@@ -15,8 +15,9 @@
             <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
               <div class="accordion-body">
                 <p>
-                  This app is designed to help you keep track of your progress in Beatmania. <br>
-                  It is not a game, but a tool to help you keep track of your progress in the game.
+                  A app is designed to enhance your arcade experience by providing a simple way to track your progress and scores in multiple rhythm games which do not support tracking native.
+                  <br>
+                  It is not a game, but a tool.
                 </p>
                 <h5>Games supported:</h5>
                 <ul>
@@ -24,6 +25,18 @@
                     {{ game.name }} <br>
                   </li>
                 </ul>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingFour">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHow" aria-expanded="false" aria-controls="collapseHow">
+                How to submit
+              </button>
+            </h2>
+            <div id="collapseHow" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
+              <div class="accordion-body">
+                <img src="../../assets/img/howto.png" class="w-100" alt="">
               </div>
             </div>
           </div>
@@ -57,12 +70,12 @@
             </h2>
             <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
               <div class="accordion-body">
-                The arcade code is used to identify the arcade you play at, you can find the code at the arcade. <br>
-                when you play at a new arcade, you can add it to the app, your progress will then be saved for that arcade. <br>
-                <router-link to="/arcade" class="btn btn-outline-primary me-2 mt-2"><i class="fas fa-trophy me-2"></i> Arcade Ranking</router-link>
+                The arcade code is used to link your account to the arcade you play at, you can find the code at the arcade. <br>
+                when you play at a new arcade, you can add it to the app, your progress will be to the ranking for that arcade. <br>
                 <br>
                 Is your arcade not listed?
-                Contact me and I will add it. <br>
+                Arcades can be added on request. <br>
+                <router-link to="/arcade" class="btn btn-outline-primary me-2 mt-2"><i class="fas fa-trophy me-2"></i> Arcade Ranking</router-link>
             </div>
           </div>
         </div>

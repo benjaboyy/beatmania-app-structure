@@ -1,14 +1,15 @@
 # Beatmania Progress Tracker App
 
 Welcome to the Beatmania Progress Tracker App,<br>
-A app is designed to enhance your arcade experience by providing a simple way to track your progress and scores in the rhythm game, Beatmania.
-This app is to help you stay organized and motivated on your Beatmania journey.
-I have developed this app free and open-source, to provide a tool for Beatmania players.
+A app is designed to enhance your arcade experience by providing a simple way to track your progress and scores in multiple rhythm games which do not support tracking native.
+This app is to help you stay organized and motivated while playing older rhythm games.
+I have developed this app free and open-source, to provide a tool at first for Beatmania players and i will keep adding titles in the future.
 
 ### Key Features:
 <ul>
-<li>Progress Tracking: Keep track of your scores and progress in Beatmania.</li>
-<li>User-Friendly: Intuitive interface, making it easy to navigate and use.</li>
+  <li>Progress Tracking: Keep track of your scores, progress and achievements.</li>
+  <li>Arcade high scores: Keep track of your high scores in your local arcade.</li>
+  <li>Translations: Available in English and Japanese.</li>
 </ul>
 <p>Set the app to your homescreen or use the website and start tracking your progress in Beatmania!</p>
 

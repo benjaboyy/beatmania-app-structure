@@ -2,6 +2,7 @@ let timer;
 const API_KEY = process.env.VUE_APP_FIREBASE_API_KEY;
 const API_BASE_URL = 'https://beatmania-pro-default-rtdb.europe-west1.firebasedatabase.app/';
 const REFRESH_TOKEN_INTERVAL = 60000; // 1 minute
+import router from '../main';
 
 export default {
     state() {
@@ -93,6 +94,7 @@ export default {
             });
             if (!response.ok) {
                 alert('Error while updating tracked games');
+                router.push({ name: 'login' });
             } else {
                 const updatedAccountSettings = { ...getters.accountSettings, trackedGames: payload };
                 commit('setAccountSettings', updatedAccountSettings);
@@ -107,6 +109,7 @@ export default {
             });
             if (!response.ok) {
                 alert('Error while updating settings');
+                router.push({ name: 'login' });
             } else {
                 const updatedAccountSettings = { ...getters.accountSettings, ...payload };
                 // get trackedgames and add to payload
@@ -114,6 +117,7 @@ export default {
                 updatedAccountSettings.trackedGames = trackedGames;
                 commit('setAccountSettings', updatedAccountSettings);
                 commit('setSuccessUpdate', true);
+                router.push({ name: 'login' });
             }
         },
         async updateUsername({ commit, getters }, payload) {
@@ -125,6 +129,7 @@ export default {
             });
             if (!response.ok) {
                 alert('Error while updating username');
+                router.push({ name: 'login' });
             } else {
                 commit('setUserInfo', payload.name);
                 commit('setSuccessUpdate', true);
@@ -139,6 +144,7 @@ export default {
             });
             if (!response.ok) {
                 console.log('Error while updating language to user');
+                router.push({ name: 'login' });
             } else {
                 commit('setLanguage', payload.language);
                 commit('setSuccessUpdate', true);
@@ -153,6 +159,7 @@ export default {
             });
             if (!response.ok) {
                 console.log('Error while updating theme to user');
+                router.push({ name: 'login' });
             } else {
                 commit('setTheme', payload.theme);
                 commit('setSuccessUpdate', true);
@@ -194,6 +201,7 @@ export default {
             });
             if (!response.ok) {
                 alert('Error while adding song');
+                router.push({ name: 'login' });
             }
             context.commit('addSong', {
                 ...songData,
@@ -223,6 +231,7 @@ export default {
             });
             if (!response.ok) {
                 alert('Error while adding song');
+                router.push({ name: 'login' });
             }
             context.commit('addCourse', {
                 ...songData,
@@ -264,6 +273,7 @@ export default {
             //
             if (!response2.ok) {
                 alert(responseData2.message + 'Error while registering user');
+                router.push({ name: 'login' });
             }
         },
         async loadTrackedGames(context) {
@@ -274,6 +284,7 @@ export default {
 
             if (!response.ok) {
                 alert('Error while loading tracked games');
+                router.push({ name: 'login' });
             }
 
             context.commit('setAccountSettings', responseData);
@@ -293,6 +304,7 @@ export default {
 
             if (!response.ok) {
                 alert('Error while logging in');
+                router.push({ name: 'login' });
             }
 
             context.commit('setUserInfo', responseData.name);
@@ -309,6 +321,7 @@ export default {
 
             if (!response.ok) {
                 alert('Error while logging in');
+                router.push({ name: 'login' });
             }
             const userSongs = [];
 
@@ -350,6 +363,7 @@ export default {
 
             if (!response.ok) {
                 alert('Error while logging in');
+                router.push({ name: 'login' });
             }
             const userCourses = [];
 
@@ -377,6 +391,7 @@ export default {
 
             if (!response.ok) {
                 alert('Error while logging in');
+                router.push({ name: 'login' });
             }
             const userStats = {
                 name: responseData.name,
@@ -401,6 +416,7 @@ export default {
 
             if (!response.ok) {
                 alert('Error while submission stats');
+                router.push({ name: 'login' });
             }
         },
 
@@ -438,8 +454,8 @@ export default {
             const responseData = await response.json();
 
             if (!response.ok) {
-                const error = new Error(responseData.message || 'Failed to authenticate');
-                throw error;
+                alert('Error failed to authenticate');
+                router.push({ name: 'login' });
             }
 
             const expirationDate = new Date().getTime() + +responseData.expiresIn * 1000;
@@ -481,6 +497,7 @@ export default {
                 });
 
                 if (!response.ok) {
+                    router.push({ name: 'login' });
                     throw new Error('Token refresh failed');
                 }
 

@@ -32,7 +32,9 @@ const router = createRouter({
     routes: [
         { path: '/', redirect: '/welcome'},
         { path: '/welcome', component: WelcomeScreen, meta: { requiresAuth: true } },
-        { path: '/login', component: LoginScreen, meta: { requiresUnauth: false } },
+        { path: '/login', component: LoginScreen,
+            meta: { requiresUnauth: false },
+            name: 'login'},
         { path: '/settings', component: Settings, meta: { requiresAuth: true } },
         { path: '/games/:gameID', component: SongList, props: true, meta: { requiresAuth: true } },
         { path: '/g/course/:gameID', component: CourseList, props: true, meta: { requiresAuth: true } },
@@ -71,13 +73,11 @@ router.beforeEach(function(to, from, next) {
 // Create VueI18n instance with options for language detection
 import en from './assets/locales/en.js'
 import ja from './assets/locales/ja.js'
-import nl from './assets/locales/nl.js'
 import PasswordReset from "@/forms/user/PasswordReset";
 
 const messages = {
     en: en,
     ja: ja,
-    nl: nl
 }
 
 const i18n = createI18n({
