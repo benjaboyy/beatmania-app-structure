@@ -3,19 +3,18 @@
     <div class="container">
 <!--      check if current page is the home page, if so, don't show the back button-->
       <router-link v-if="$route.path !== '/welcome'" to="/" class="btn-menu text-white" href="#" type="button" role="button" exact><i class="fa fa-arrow-left me-2"></i></router-link>
-      <router-link v-else to="/" class="navbar-brand" href="#">
+      <router-link v-else to="/" class="navbar-brand border-0" href="#">
         <img src="../../assets/svg/logo.svg" width="60" height="30" class="d-inline-block align-top" alt="">
       </router-link>
-      <span class="d-none d-md-block me-auto weight-600 text-white">BMGRESS</span>
+      <router-link to="/" class="d-none d-md-block me-auto weight-600 text-decoration-none text-white">BMGRESS</router-link>
 
       <div class="d-flex">
-        <button class="btn-palette p-0 me-3" type="button">
-          <i @click="showThemeDialog" class="fas fa-palette text-white"></i>
-        </button>
         <button class="btn-lang p-0 me-3" type="button">
           <i @click="showDialog" class="fas fa-language fa-2x text-white"></i>
         </button>
-
+        <router-link @click="closeMenu" to="/settings" class="btn-palette me-3" href="#" type="button" role="button" exact>
+          <i class="fa fa-user text-white"></i>
+        </router-link>
         <button class="btn-menu text-white" type="button" @click="toggleMenu" aria-controls="offcanvasDarkNavbar">
           <i class="fas fa-bars"></i>
         </button>
@@ -66,35 +65,25 @@
         @close="hideDialog"
         :open="dialogIsVisible"
     />
-    <ThemeModal
-        @close="hideThemeDialog"
-        :open="dialogThemeIsVisible"
-    />
   </nav>
 </template>
 
 <script>
 import LanguageModal from "@/components/UI/LanguageModal";
-import ThemeModal from "@/components/UI/ThemeModal";
 export default {
   name: "HeaderApp",
   components: {
-    LanguageModal, ThemeModal
+    LanguageModal
   },
   data() {
     return {
       isMenuOpen: false,
       dialogIsVisible: false,
-      dialogThemeIsVisible: false,
     };
   },
   methods: {
     hideDialog() {
       this.dialogIsVisible = false;
-    },
-    hideThemeDialog() {
-      this.dialogThemeIsVisible = false;
-      window.location.reload();
     },
     logout() {
       this.$store.dispatch('logout');
@@ -108,9 +97,6 @@ export default {
     },
     showDialog() {
       this.dialogIsVisible = true;
-    },
-    showThemeDialog() {
-      this.dialogThemeIsVisible = true;
     }
   },
   computed: {
@@ -146,8 +132,9 @@ export default {
   border: none;
 }
 .btn-palette i {
-  font-size: 1.5em;
+  font-size: 1.7em;
   opacity: 0.7;
+  margin-top: 5px;
 }
 .btn-light {
   height: 50px;

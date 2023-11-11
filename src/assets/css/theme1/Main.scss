@@ -1,6 +1,6 @@
-@import "css/theme4/variables";
-@import "../../node_modules/bootstrap/scss/bootstrap.scss";
-@import "css/theme4/_bootswatch.scss";
+@import "variables";
+@import "../../../../node_modules/bootstrap/scss/bootstrap";
+@import "bootswatch";
 
 html {
     background-color: $dark;

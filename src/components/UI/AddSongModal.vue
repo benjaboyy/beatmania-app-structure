@@ -300,6 +300,7 @@ export default {
 }
 .front {
   z-index: 1051;
+  max-width: 900px;
 }
 
 dialog {

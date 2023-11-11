@@ -21,7 +21,7 @@ $black:    #000 !default;
 
 $blue:    #007bff !default;
 $indigo:  #6610f2 !default;
-$purple: #c17b42 !default;
+$purple: #9d42c1 !default;
 $pink:    #e83e8c !default;
 $red:     #ee5f5b !default;
 $orange:  #fd7e14 !default;
@@ -30,7 +30,7 @@ $green:   #62c462 !default;
 $teal:    #20c997 !default;
 $cyan:    #5bc0de !default;
 
-$primary:       $indigo !default;
+$primary:       $pink !default;
 $secondary:     $gray-600 !default;
 $success:       $green !default;
 $info:          $cyan !default;
@@ -38,17 +38,32 @@ $warning:       $yellow !default;
 $danger:        $red !default;
 $light:         $gray-200 !default;
 $dark:          $gray-900 !default;
-$theme-1:       $purple !default;
-$theme-2:       $pink !default;
+$theme-1:       $yellow !default;
+$theme-2:       $red !default;
 $theme-3:       $success !default;
 $theme-4:       $indigo !default;
+
+$theme-colors: (
+  "primary":       $primary,
+  "secondary":     $secondary,
+  "success":       $success,
+  "info":          $info,
+  "warning":       $warning,
+  "danger":        $danger,
+  "light":         $light,
+  "dark":          $dark,
+  "theme-1":       $theme-1,
+  "theme-2":       $theme-2,
+  "theme-3":       $theme-3,
+  "theme-4":       $theme-4
+) !default;
 
 $min-contrast-ratio:   1.95 !default;
 
 // Body
 
 $body-bg:                   $gray-900 !default;
-$body-color:                #aaa !default;
+$body-color: #cecece !default;
 
 // Links
 

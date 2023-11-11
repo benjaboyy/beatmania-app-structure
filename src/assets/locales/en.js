@@ -104,7 +104,7 @@ export default
         gameSelect: 'Game Select',
         gameSelectInfo: 'Choose the games you want to track.',
         accountInfo: 'Set your account information.',
-        arcadeCode: 'Arcade Code',
+        arcadeCode: 'Arcade ranking code',
         info: 'Info',
         favoriteGame: 'Favorite Game',
         selectTheme: 'Select Theme',

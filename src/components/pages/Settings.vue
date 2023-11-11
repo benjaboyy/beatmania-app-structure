@@ -87,24 +87,33 @@
 <!--              <option v-for="game in games" v-bind:key="game">{{ game.name }}</option>-->
 <!--            </select>-->
 <!--          </div>-->
-          <div class="mb-3">
-            <label for="Select" class="form-label">{{ $t("settings.selectTheme")}}</label>
-            <select id="Select" class="form-select" disabled>
-              <option selected>lumen</option>
-              <option>Old-school</option>
-            </select>
+          <div class="mb-0">
+            <div>Current theme: <span class="text-primary ms-2">{{ themes[currentTheme-1] }}</span></div>
+            <button @click="showThemeDialog" class="btn-primary btn" type="button">
+              <i class="fas fa-palette text-contrast"></i> Select theme
+            </button>
           </div>
+          <hr>
           <button type="submit" @click="updateSettings" class="btn btn-primary"><i class="fa fa-save me-1"></i> {{ $t("filter.save") }}</button>
           <button v-if="successUpdate" class="btn btn-success disabled"><i class="fa fa-check Reset me-1" ></i> {{ $t("settings.updated") }}</button>
         </div>
       </div>
     </div>
+    <ThemeModal
+        @close="hideThemeDialog"
+        :open="dialogThemeIsVisible"
+        class="z-top"
+    />
   </div>
 </template>
 
 <script>
+import ThemeModal from "@/components/UI/ThemeModal";
 export default {
   name: 'SettingsScreen',
+  components: {
+    ThemeModal
+  },
   props: {
     msg: String
   },
@@ -120,6 +129,9 @@ export default {
       codeSet02: false,
       codeSet03: false,
       enteredTrackGames: {},
+      dialogThemeIsVisible: false,
+      currentTheme: this.$store.getters['getTheme'], // gives number 1/4
+      themes: ['Lumen', 'Space', 'Scrapbook', 'Bloom'],
     }
   },
   async created() {
@@ -228,6 +240,13 @@ export default {
         arcadeCode03: this.enteredAracdeCode03,
         favoriteGame: this.enteredFavoriteGame
       });
+    },
+    hideThemeDialog() {
+      this.dialogThemeIsVisible = false;
+      window.location.reload();
+    },
+    showThemeDialog() {
+      this.dialogThemeIsVisible = true;
     }
   },
   computed: {
@@ -262,5 +281,8 @@ export default {
 <style scoped>
 .stats-screen {
   max-width: 800px;
+}
+.z-top {
+  z-index: 1000;
 }
 </style>

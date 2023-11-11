@@ -1,0 +1,27 @@
+@import "variables";
+@import "../../../../node_modules/bootstrap/scss/bootstrap";
+@import "bootswatch";
+
+html {
+    background-color: $dark;
+}
+
+h1,h2 {
+    color: white;
+    font-weight: bolder;
+    text-transform: capitalize;
+}
+
+td, th, .btn-lg {
+    padding: 15px !important;
+}
+td:hover {
+    background-color: $primary;
+    color: white !important;
+}
+
+.login-screen {
+    max-width: 500px;
+}
+
+

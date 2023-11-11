@@ -38,10 +38,25 @@ $warning:       $yellow !default;
 $danger:        $red !default;
 $light:         $white !default;
 $dark:          $gray-700 !default;
-$theme-1:       $purple !default;
+$theme-1:       $yellow !default;
 $theme-2:       $pink !default;
 $theme-3:       $success !default;
 $theme-4:       $indigo !default;
+
+$theme-colors: (
+        "primary":       $primary,
+        "secondary":     $secondary,
+        "success":       $success,
+        "info":          $info,
+        "warning":       $warning,
+        "danger":        $danger,
+        "light":         $light,
+        "dark":          $dark,
+        "theme-1":       $theme-1,
+        "theme-2":       $theme-2,
+        "theme-3":       $theme-3,
+        "theme-4":       $theme-4
+) !default;
 
 $min-contrast-ratio:   1.6 !default;
 
