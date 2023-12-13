@@ -30,32 +30,37 @@
       <div v-for="game in filteredGames" v-bind:key="game" class="row">
         <div class="col-md-6 mt-4 mx-auto">
           <div v-if="gamestats[game.id]" class="card h-100">
-            <div class="card-body">
+            <div class="card-body pb-2">
               <h4 class="card-title"><strong>{{ game.name }}</strong></h4>
-              <span class="text-primary">{{ $t("welcomeScreen.songs") }}: </span>{{ gamestats[game.id].songs }}<br>
-              <span class="text-primary">{{ $t("welcomeScreen.system") }}: </span>{{ game.playStyle }}
-
               <div class="row g-3 mb-2 mt-0">
                 <div class="col-6">
                   <router-link :to="'/games/' + game.id" class="btn w-100 btn-primary me-2" href="#"><i class="fa fa-compact-disc"></i> {{ $t("welcomeScreen.songList") }}</router-link>
                 </div>
                 <div class="col-6">
                   <router-link  v-if="game.trackedGame.doubleCourse || game.trackedGame.singleCourse" :to="'/g/course/' + game.id" class="btn w-100 btn-primary" href="#"><i class="fa fa-layer-group"></i> {{ $t("welcomeScreen.courses") }}</router-link>
+                  <button v-else class="btn w-100 btn-secondary" disabled><i class="fa fa-layer-group"></i> {{ $t("welcomeScreen.courses") }}</button>
                 </div>
               </div>
+              <div :id="'collapseOne' + game.id" class="accordion-collapse collapse text-start">
+                <span class="text-primary">{{ $t("welcomeScreen.songs") }}: </span>{{ gamestats[game.id].songs }}<br>
+                <span class="text-primary">{{ $t("welcomeScreen.system") }}: </span>{{ game.playStyle }}
 
-              <div v-if="game.trackedGame.singlesSet">
-                <progress-bar-stats :clear="gamestats[game.id].singles.clear" :total="gamestats[game.id].singles.total" :name="'primary'" :type="$t('welcomeScreen.singles')"></progress-bar-stats>
+                <div v-if="game.trackedGame.singlesSet">
+                  <progress-bar-stats :clear="gamestats[game.id].singles.clear" :total="gamestats[game.id].singles.total" :name="'primary'" :type="$t('welcomeScreen.singles')"></progress-bar-stats>
+                </div>
+                <div v-if="game.trackedGame.doublesSet">
+                  <progress-bar-stats :clear="gamestats[game.id].doubles.clear" :total="gamestats[game.id].doubles.total" :name="'primary'" :type="$t('welcomeScreen.doubles')"></progress-bar-stats>
+                </div>
+                <div v-if="game.trackedGame.singleCourse">
+                  <progress-bar-stats :clear="gamestats[game.id].courses.singleClear" :total="gamestats[game.id].courses.singleTotal" :name="'primary'" :type="$t('welcomeScreen.singleCourses')"></progress-bar-stats>
+                </div>
+                <div v-if="game.trackedGame.doubleCourse">
+                  <progress-bar-stats :clear="gamestats[game.id].courses.doubleClear" :total="gamestats[game.id].courses.doubleTotal" :name="'primary'" :type="$t('welcomeScreen.doubleCourses')"></progress-bar-stats>
+                </div>
               </div>
-              <div v-if="game.trackedGame.doublesSet">
-                <progress-bar-stats :clear="gamestats[game.id].doubles.clear" :total="gamestats[game.id].doubles.total" :name="'primary'" :type="$t('welcomeScreen.doubles')"></progress-bar-stats>
-              </div>
-              <div v-if="game.trackedGame.singleCourse">
-                <progress-bar-stats :clear="gamestats[game.id].courses.singleClear" :total="gamestats[game.id].courses.singleTotal" :name="'primary'" :type="$t('welcomeScreen.singleCourses')"></progress-bar-stats>
-              </div>
-              <div v-if="game.trackedGame.doubleCourse">
-                <progress-bar-stats :clear="gamestats[game.id].courses.doubleClear" :total="gamestats[game.id].courses.doubleTotal" :name="'primary'" :type="$t('welcomeScreen.doubleCourses')"></progress-bar-stats>
-              </div>
+              <button class="btn btn-sm w-100 m-0 p-0 mt-1" type="button" data-bs-toggle="collapse" :data-bs-target="'#collapseOne' + game.id" aria-expanded="true" aria-controls="collapseOne">
+                See info <i class="fas fa-eye ms-2"></i>
+              </button>
             </div>
           </div>
         </div>

@@ -32,6 +32,7 @@ export default
         search: '検索',
         filters: 'フィルター',
         filter: 'フィルター',
+        target: '目標',
         nameArtist: '曲名 / アーティスト',
         level: 'レベル',
         filterOn: 'オン',

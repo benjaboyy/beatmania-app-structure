@@ -50,7 +50,8 @@ export default {
           required: true
         },
         currentFilters: {
-          type: Array,
+          type: Object,
+          required: true
         }
       },
   emits: ['close', 'addSongUser'],
@@ -95,6 +96,15 @@ export default {
   },
   watch: {
     open() {
+    },
+    currentFilters: {
+      deep: true,
+      handler(newFilters) {
+        this.filterLevel = newFilters.filterLevel;
+        this.filteredClear = newFilters.filteredClear;
+        this.filterFavorite = newFilters.filterFavorite;
+        this.filterTarget = newFilters.filterTarget;
+      }
     }
   }
 };

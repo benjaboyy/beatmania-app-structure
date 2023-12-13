@@ -7,7 +7,7 @@
           <div class="input-group mt-4">
             <input type="text" class="form-control" :placeholder="$t('listScreen.searchName')" aria-label="Recipient's username" aria-describedby="button-addon2"
                    v-model="searchWord"
-                   v-on:keyup.enter="search">
+                   @input="search">
             <button class="btn btn-primary" type="button" id="button-search" @click="search"><i class="fa fa-search me-md-1"></i>  <span class="d-none d-md-inline">{{ $t("listScreen.search") }}</span></button>
 <!--            buttons to toggle between singles and doubles-->
             <button v-if="game.hasDoubleCharts" @click="toggleType" class="btn ms-2 d-md-none" :class="type === 'single' ? 'btn-primary' : 'btn-light'" type="button"><i class="fa fa-compact-disc"></i></button>
@@ -15,12 +15,13 @@
 <!--            button for filtering-->
             <button @click="showFilter" class="btn btn-primary ms-2" type="button"><i class="fa fa-sliders-h me-md-1"></i> <span class="d-none d-md-inline">{{ $t("listScreen.filters") }}</span></button>
           </div>
-          <div class="my-2 my-md-4 text-start">
-            <span v-if="!noFilter" class="text-white me-2">{{ $t("listScreen.filter") }}:</span>
-            <span v-if="!noFilter && searchWord !== '' && searchWord !== undefined" class="badge rounded-pill bg-light text-dark me-2">{{ $t("listScreen.nameArtist") }}</span>
-            <span v-if="!noFilter && filters.filterLevel > 0 && filters.filterLevel !== undefined" class="badge rounded-pill pill bg-light text-dark me-2">{{ $t("listScreen.level") }} {{ filters.filterLevel }}</span>
-            <span v-if="!noFilter && filters.filteredClear !== '' && filters.filteredClear !== undefined" class="badge rounded-pill bg-light text-dark me-2">{{ $t("listScreen.filterOn") }} {{ filters.filteredClear }}</span>
-            <span v-if="!noFilter && filters.filterFavorite !== false && filters.filterFavorite !== undefined" class="badge rounded-pill bg-light text-dark me-2">{{ $t("listScreen.favorite") }}</span>
+          <div class="my-2 text-start">
+            <span v-if="!filters" class="text-white me-2">{{ $t("listScreen.filter") }}:</span>
+            <span v-if="!noFilter && searchWord !== '' && searchWord !== undefined" @click="removeFilter('search')" class="badge rounded-pill bg-light text-dark me-2" role="button">{{ $t("listScreen.nameArtist") }} <i class="fa fa-times"></i></span>
+            <span v-if="!noFilter && filters.filterLevel > 0 && filters.filterLevel !== undefined" @click="removeFilter('level')" class="badge rounded-pill pill bg-light text-dark me-2" role="button">{{ $t("listScreen.level") }} {{ filters.filterLevel }} <i class="fa fa-times"></i></span>
+            <span v-if="!noFilter && filters.filteredClear !== '' && filters.filteredClear !== undefined" @click="removeFilter('clear')" class="badge rounded-pill bg-light text-dark me-2" role="button">{{ $t("listScreen.filterOn") }} {{ filters.filteredClear }} <i class="fa fa-times"></i></span>
+            <span v-if="!noFilter && filters.filterFavorite !== false && filters.filterFavorite !== undefined" @click="removeFilter('favorite')" class="badge rounded-pill bg-light text-dark me-2" role="button">{{ $t("listScreen.favorite") }} <i class="fa fa-times"></i></span>
+            <span v-if="!noFilter && filters.filterTarget !== false && filters.filterTarget !== undefined" @click="removeFilter('target')" class="badge rounded-pill bg-light text-dark me-2" role="button">{{ $t("listScreen.target") }} <i class="fa fa-times"></i></span>
           </div>
         </div>
         <table class="table table-borderless bg-light table-striped table-songs">
@@ -119,6 +120,7 @@
       @close="hideFilter"
       @addFilter="addFilter"
       :open="filterVisible"
+      :current-filters="filters"
   ></add-filter-modal>
   <point-alert
       @close="hidePointAlert"
@@ -153,6 +155,24 @@ export default {
     }
   },
   methods: {
+    removeFilter(filter) {
+      if (filter === 'level') {
+        this.filters.filterLevel = '';
+      }
+      if (filter === 'clear') {
+        this.filters.filteredClear = '';
+      }
+      if (filter === 'favorite') {
+        this.filters.filterFavorite = false;
+      }
+      if (filter === 'target') {
+        this.filters.filterTarget = false;
+      }
+      if (filter === 'search') {
+        this.searchWord = '';
+      }
+      this.reset();
+    },
     async search() {
       if (this.searchWord.length > 2) {
         this.noFilter = false;

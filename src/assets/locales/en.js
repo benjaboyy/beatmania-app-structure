@@ -32,6 +32,7 @@ export default
     listScreen: {
         search: 'Search',
         filters: 'Filters',
+        target: 'Target',
         filter: 'Filter',
         nameArtist: 'Name / Artist',
         level: 'Level',
@@ -71,7 +72,7 @@ export default
         update: 'Update',
         show: 'Show',
         filerOn: 'Filter on',
-        onlySinglePlayer: 'Only available in single player',
+        onlySinglePlayer: 'Battle Mode not available',
         onlySinglePlayerInfo: 'When playing in multiplayer, the course can not be played in Battle Mode. The title will yellow out and the course will be switched to couple mode when selected.',
     },
     login: {
