@@ -17,6 +17,8 @@ import submitCourse from "@/forms/submitCourse";
 import CourseList from "@/components/pages/CourseList";
 import TipsScreen from "@/components/pages/TipsScreen";
 import ArcadeRankings from "@/components/pages/ArcadeRankings";
+import SongRankings from "@/components/pages/SongRankings";
+import Leaderboard from "@/components/pages/Leaderboard";
 
 import './assets/css/all.css'
 
@@ -46,9 +48,15 @@ const router = createRouter({
         { path: '/Admin', component: AdminPanel, meta: { requiresAuth: true } },
         { path: '/about', component: AboutUs, meta: { requiresAuth: false } },
         { path: '/tips', component: TipsScreen, meta: { requiresAuth: false } },
+        // arcade ranking
         { path: '/arcade', component: ArcadeRankings, meta: { requiresAuth: false } },
         { path: '/arcade/:arcadeID', component: ArcadeRankings, props: true, meta: { requiresAuth: false } },
         { path: '/arcade/:arcadeID/:gameID', component: ArcadeRankings, props: true, meta: { requiresAuth: false } },
+        // song leaderboard
+        { path: '/leaderboard', component: SongRankings, meta: { requiresAuth: false } },
+        { path: '/leaderboard/:arcadeID', component: SongRankings, props: true, meta: { requiresAuth: false } },
+        { path: '/leaderboard/:arcadeID/:gameID', component: SongRankings, props: true, meta: { requiresAuth: false } },
+        { path: '/leaderboard/:arcadeID/:gameID/:songID', component: Leaderboard, props: true, meta: { requiresAuth: false } },
         { path: '/register', component: RegisterUser },
         { path: '/reset', component: PasswordReset },
         { path: '/:notFound(.*)', redirect: '/welcome'},
