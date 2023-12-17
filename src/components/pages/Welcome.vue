@@ -41,7 +41,7 @@
                   <button v-else class="btn w-100 btn-secondary" disabled><i class="fa fa-layer-group"></i> {{ $t("welcomeScreen.courses") }}</button>
                 </div>
               </div>
-              <div :id="'collapseOne' + game.id" class="accordion-collapse collapse text-start">
+              <div :id="'collapseOne' + game.id.replace(/[+\[\-:]/g, '')" class="accordion-collapse collapse text-start">
                 <span class="text-primary">{{ $t("welcomeScreen.songs") }}: </span>{{ gamestats[game.id].songs }}<br>
                 <span class="text-primary">{{ $t("welcomeScreen.system") }}: </span>{{ game.playStyle }}
 
@@ -58,7 +58,7 @@
                   <progress-bar-stats :clear="gamestats[game.id].courses.doubleClear" :total="gamestats[game.id].courses.doubleTotal" :name="'primary'" :type="$t('welcomeScreen.doubleCourses')"></progress-bar-stats>
                 </div>
               </div>
-              <button class="btn btn-sm w-100 m-0 p-0 mt-1" type="button" data-bs-toggle="collapse" :data-bs-target="'#collapseOne' + game.id" aria-expanded="true" aria-controls="collapseOne">
+              <button class="btn btn-sm w-100 m-0 p-0 mt-1" type="button" data-bs-toggle="collapse" :data-bs-target="'#collapseOne' + game.id.replace(/[+\[\-:]/g, '')" aria-expanded="true" aria-controls="collapseOne">
                 See info <i class="fas fa-eye ms-2"></i>
               </button>
             </div>
