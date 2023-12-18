@@ -43,6 +43,13 @@ export default
         targetShort: '目標',
         searchName: '名前で検索',
         fullComboCap: 'フルコンボ',
+        name: '名前',
+        artist: 'アーティスト',
+        genre: 'ジャンル',
+        normal: 'Normal',
+        hard: 'Hard',
+        another: 'Another',
+        title: 'タイトル',
     },
     filter: {
         songFilters: '曲フィルター',

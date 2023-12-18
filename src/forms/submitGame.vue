@@ -43,6 +43,10 @@
               <label class="form-check-label" for="hasDoubleCharts">Has double charts</label>
             </div>
             <div class="form-check form-switch">
+              <input v-model="hasGenres" class="form-check-input" type="checkbox" id="hasGenres" checked>
+              <label class="form-check-label" for="hasGenres">Has genres</label>
+            </div>
+            <div class="form-check form-switch">
               <input v-model="hasCourseMode" class="form-check-input" type="checkbox" id="hasCourseMode" checked>
               <label class="form-check-label" for="hasCourseMode">Has course mode</label>
             </div>
@@ -81,6 +85,7 @@ export default {
       invalidInput: false,
       error: null,
       hasDoubleCharts: true,
+      hasGenres: true,
       hasCourseMode: true,
       hasHardSongs: true,
       hasAnotherSongs: true,
@@ -113,6 +118,7 @@ export default {
           playStyle: this.enteredPlayStyle,
           courseSongs: this.songIDsEnteredCourses,
           hasDoubleCharts: this.hasDoubleCharts,
+          hasGenres: this.hasGenres,
           hasCourseMode: this.hasCourseMode,
           hasHardSongs: this.hasHardSongs,
           hasAnotherSongs: this.hasAnotherSongs,
@@ -128,6 +134,7 @@ export default {
           this.enteredPlayStyle = "";
           this.gameID = "";
           this.hasDoubleCharts = true;
+          this.hasGenres = true;
           this.hasCourseMode = true;
           this.hasHardSongs = true;
           this.hasAnotherSongs = true;
@@ -159,6 +166,7 @@ export default {
           this.enteredPlayStyle = game.playStyle;
           this.songIDsEnteredCourses = game.courseSongs;
           this.hasDoubleCharts = game.hasDoubleCharts;
+          this.hasGenres = game.hasGenres;
           this.hasCourseMode = game.hasCourseMode;
           this.hasHardSongs = game.hasHardSongs;
           this.hasAnotherSongs = game.hasAnotherSongs;

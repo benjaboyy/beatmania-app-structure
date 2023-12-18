@@ -47,6 +47,10 @@
               <label for="songArtist">Composer</label>
               <input class="form-control" type="text" id="songArtist" v-model="enteredComposer" />
             </div>
+            <div class="form-group">
+              <label for="songGenre">Genre</label>
+              <input class="form-control" type="text" id="songGenre" v-model="enteredGenre" />
+            </div>
             <h5 class="mt-4">Difficulty Single</h5>
             <div class="form-group">
               <label for="formControlRangeN">Normal Difficulty {{ displayEnteredDifficultyNormal }}</label>
@@ -99,6 +103,7 @@ export default {
       enteredName: "",
       enteredArtist: "",
       enteredComposer: "",
+      enteredGenre: "",
       enteredDifficultyNormal: 0,
       enteredDifficultyHard: 0,
       enteredDifficultyAnother: 0,
@@ -136,6 +141,8 @@ export default {
         if (game.id === val) {
           this.enteredName = game.name;
           this.enteredArtist = game.artist;
+          this.enteredComposer = game.composer;
+          this.enteredGenre = game.genre;
           this.enteredDifficultyNormal = game.difficultyNormal;
           this.enteredDifficultyHard = game.difficultyHard;
           this.enteredDifficultyAnother = game.difficultyAnother;
@@ -150,6 +157,8 @@ export default {
     reset() {
       this.enteredName = "";
       this.enteredArtist = "";
+      this.enteredComposer = "";
+      this.enteredGenre = "";
       this.enteredDifficultyNormal = 0;
       this.enteredDifficultyHard = 0;
       this.enteredDifficultyAnother = 0;
@@ -202,6 +211,7 @@ export default {
           name: this.enteredName,
           artist: this.enteredArtist,
           composer: this.enteredComposer,
+          genre: this.enteredGenre,
           difficultyNormal: this.enteredDifficultyNormal,
           difficultyHard: this.enteredDifficultyHard,
           difficultyAnother: this.enteredDifficultyAnother,
@@ -216,6 +226,7 @@ export default {
           this.enteredName = "";
           this.enteredArtist = "";
           this.enteredComposer = "";
+          this.enteredGenre = "";
           this.enteredDifficultyNormal = 0;
           this.enteredDifficultyHard = 0;
           this.enteredDifficultyAnother = 0;
@@ -251,6 +262,7 @@ export default {
           name: responseData[key].name,
           artist: responseData[key].artist,
           composer: responseData[key].composer,
+          genre: responseData[key].genre,
           difficultyNormal: responseData[key].difficultyNormal,
           difficultyHard: responseData[key].difficultyHard,
           difficultyAnother: responseData[key].difficultyAnother,

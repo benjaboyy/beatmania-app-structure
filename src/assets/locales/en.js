@@ -44,6 +44,13 @@ export default
         targetShort: 'Tar',
         searchName: 'Search by name',
         fullComboCap: 'FULL-COMBO',
+        name: 'Name',
+        artist: 'Artist',
+        genre: 'Genre',
+        normal: 'Normal',
+        hard: 'Hard',
+        another: 'Another',
+        title: 'Song name',
     },
     filter: {
         songFilters: 'Song Filters',

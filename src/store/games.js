@@ -42,6 +42,7 @@ export default {
                     hasCourseMode: responseData[key].hasCourseMode,
                     hasHardSongs: responseData[key].hasHardSongs,
                     hasAnotherSongs: responseData[key].hasAnotherSongs,
+                    hasGenres: responseData[key].hasGenres,
                 };
                 gameList.push(game);
             }

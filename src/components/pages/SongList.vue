@@ -10,9 +10,29 @@
                    @input="search">
             <button class="btn btn-primary" type="button" id="button-search" @click="search"><i class="fa fa-search me-md-1"></i>  <span class="d-none d-md-inline">{{ $t("listScreen.search") }}</span></button>
 <!--            buttons to toggle between singles and doubles-->
-            <button v-if="game.hasDoubleCharts" @click="toggleType" class="btn ms-2 d-md-none" :class="type === 'single' ? 'btn-primary' : 'btn-light'" type="button"><i class="fa fa-compact-disc"></i></button>
-            <button v-if="game.hasDoubleCharts" @click="toggleType" class="btn d-md-none" :class="type === 'double' ? 'btn-primary' : 'btn-light'" type="button"><i class="fa fa-compact-disc"></i><i class="fa fa-compact-disc me-md-1"></i></button>
-<!--            button for filtering-->
+            <button v-if="game.hasDoubleCharts && type === 'single'" @click="toggleType" class="btn ms-2 d-md-none" :class="type === 'single' ? 'btn-primary' : 'btn-light'" type="button"><i class="fa fa-compact-disc"></i></button>
+            <button v-if="game.hasDoubleCharts && type === 'double'" @click="toggleType" class="btn ms-2 d-md-none" :class="type === 'double' ? 'btn-primary' : 'btn-light'" type="button"><i class="fa fa-compact-disc"></i><i class="fa fa-compact-disc ms-1"></i></button>
+            <div class="dropdown">
+              <button class="btn btn-primary ms-2 dropdown-toggle rounded-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fas fa-sort-alpha-down"></i> <span class="d-none d-md-inline ms-1">{{ filterSorting }}</span>
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <small class="dropdown-item disabled">Sort By</small>
+                <a :class="filterSorting === 'title' ? 'dropdown-item active' : 'dropdown-item text-dark'" @click="changeSort('title')">{{ $t("listScreen.title") }}</a>
+                <a :class="filterSorting === 'artist' ? 'dropdown-item active' : 'dropdown-item text-dark'" @click="changeSort('artist')">{{ $t("listScreen.artist") }}</a>
+                <a v-if="game.hasGenres" :class="filterSorting === 'genre' ? 'dropdown-item active' : 'dropdown-item text-dark'" @click="changeSort('genre')">{{ $t("listScreen.genre") }}</a>
+                <li><hr class="dropdown-divider"></li>
+                <small class="dropdown-item disabled">Level Singles</small>
+                <a :class="filterSorting === 'normalLevel' ? 'dropdown-item active' : 'dropdown-item text-dark'" @click="changeSort('normalLevel')"><i class="fas fa-compact-disc text-theme-1"></i> {{ $t("listScreen.normal") }}</a>
+                <a v-if="game.hasHardSongs" :class="filterSorting === 'hardLevel' ? 'dropdown-item active' : 'dropdown-item text-dark'" @click="changeSort('hardLevel')"><i class="fas fa-compact-disc text-theme-2"></i> {{ $t("listScreen.hard") }}</a>
+                <a v-if="game.hasAnotherSongs" :class="filterSorting === 'anotherLevel' ? 'dropdown-item active' : 'dropdown-item text-dark'" @click="changeSort('anotherLevel')"><i class="fas fa-compact-disc text-theme-3"></i> {{ $t("listScreen.another") }}</a>
+                <li v-if="game.hasDoubleCharts"><hr class="dropdown-divider"></li>
+                <small v-if="game.hasDoubleCharts" class="dropdown-item disabled">Level Doubles</small>
+                <a v-if="game.hasDoubleCharts" :class="filterSorting === 'normalDoubleLevel' ? 'dropdown-item active' : 'dropdown-item text-dark'" @click="changeSort('normalDoubleLevel')"><i class="fas fa-compact-disc text-theme-1"></i><i class="fas fa-compact-disc ms-1 text-theme-1"></i> {{ $t("listScreen.normal") }}</a>
+                <a v-if="game.hasDoubleCharts && game.hasHardSongs" :class="filterSorting === 'hardDoubleLevel' ? 'dropdown-item active' : 'dropdown-item text-dark'" @click="changeSort('hardDoubleLevel')"><i class="fas fa-compact-disc text-theme-2"></i><i class="fas fa-compact-disc ms-1 text-theme-2"></i> {{ $t("listScreen.hard") }}</a>
+                <a v-if="game.hasDoubleCharts && game.hasAnotherSongs" :class="filterSorting === 'anotherDoubleLevel' ? 'dropdown-item active' : 'dropdown-item text-dark'" @click="changeSort('anotherDoubleLevel')"><i class="fas fa-compact-disc text-theme-3"></i><i class="fas fa-compact-disc ms-1 text-theme-3"></i> {{ $t("listScreen.another") }}</a>
+              </div>
+            </div>
             <button @click="showFilter" class="btn btn-primary ms-2" type="button"><i class="fa fa-sliders-h me-md-1"></i> <span class="d-none d-md-inline">{{ $t("listScreen.filters") }}</span></button>
           </div>
           <div class="my-2 text-start">
@@ -22,6 +42,7 @@
             <span v-if="!noFilter && filters.filteredClear !== '' && filters.filteredClear !== undefined" @click="removeFilter('clear')" class="badge rounded-pill bg-light text-dark me-2" role="button">{{ $t("listScreen.filterOn") }} {{ filters.filteredClear }} <i class="fa fa-times"></i></span>
             <span v-if="!noFilter && filters.filterFavorite !== false && filters.filterFavorite !== undefined" @click="removeFilter('favorite')" class="badge rounded-pill bg-light text-dark me-2" role="button">{{ $t("listScreen.favorite") }} <i class="fa fa-times"></i></span>
             <span v-if="!noFilter && filters.filterTarget !== false && filters.filterTarget !== undefined" @click="removeFilter('target')" class="badge rounded-pill bg-light text-dark me-2" role="button">{{ $t("listScreen.target") }} <i class="fa fa-times"></i></span>
+            <span v-if="!noFilter && filterSorting !== false && filterSorting !== undefined" @click="removeFilter('target')" class="badge rounded-pill bg-light text-dark me-2" role="button">{{ $t("listScreen.target") }} <i class="fa fa-times"></i></span>
           </div>
         </div>
         <table class="table table-borderless bg-light table-striped table-songs">
@@ -30,6 +51,7 @@
             <th class="indicator d-none d-md-table-cell"></th>
             <th class="text-start">{{ $t("listScreen.songName") }}</th>
             <th class="text-start d-none d-md-table-cell">{{ $t("listScreen.artistAlias") }}</th>
+            <th v-if="this.game.hasGenres" class="text-start d-none d-md-table-cell">Genre</th>
             <th class="text-center text-theme-1"
                 :class="{ 'd-none d-md-table-cell': this.type !== 'single' }">SN</th>
             <th v-if="this.game.hasHardSongs" class="text-center text-theme-2"
@@ -57,6 +79,7 @@
                 {{ song.name }}
               </th>
               <th class="text-start d-none d-md-table-cell">{{ song.artist }}</th>
+              <th v-if="this.game.hasGenres" class="text-start d-none d-md-table-cell">{{ song.genre }}</th>
               <td v-if="song.difficultyNormal > 0"
                   class="text-black diff-td"
                   :class="{ 'bg-light': !song.normalClear, 'bg-theme-1': song.normalClear, 'flash': song.normalFC, 'd-none d-md-table-cell': this.type !== 'single' }">
@@ -149,12 +172,57 @@ export default {
       noFilter: true,
       searchWord: '',
       type: 'single',
+      filterSorting: 'title',
 
       pointAlertVisible: false,
       point: 1,
     }
   },
   methods: {
+    sortSongs(songs) {
+      // Make a copy of the original array to avoid mutating it directly
+      const sortedSongs = [...songs];
+
+      // Sort the songs based on the selected sorting criteria
+      switch (this.filterSorting) {
+        case 'title':
+          sortedSongs.sort((a, b) => (a.name || '').localeCompare(b.name || ''));
+          break;
+        case 'artist':
+          sortedSongs.sort((a, b) => (a.artist || '').localeCompare(b.artist || ''));
+          break;
+        case 'genre':
+          sortedSongs.sort((a, b) => (a.genre || '').localeCompare(b.genre || ''));
+          break;
+        case 'normalLevel':
+          sortedSongs.sort((a, b) => (a.difficultyNormal || 100) - (b.difficultyNormal || 100));
+          break;
+        case 'hardLevel':
+          sortedSongs.sort((a, b) => (a.difficultyHard || 100) - (b.difficultyHard || 100));
+          break;
+        case 'anotherLevel':
+          sortedSongs.sort((a, b) => (a.difficultyAnother || 100) - (b.difficultyAnother || 100));
+          break;
+        case 'doubleNormalLevel':
+          sortedSongs.sort((a, b) => (a.difficultyDoubleNormal || 100) - (b.difficultyDoubleNormal || 100));
+          break;
+        case 'doubleHardLevel':
+          sortedSongs.sort((a, b) => (a.difficultyDoubleHard || 100) - (b.difficultyDoubleHard || 100));
+          break;
+        case 'doubleAnotherLevel':
+          sortedSongs.sort((a, b) => (a.difficultyDoubleAnother || 100) - (b.difficultyDoubleAnother || 100));
+          break;
+        default:
+          // Default sorting criteria, e.g., by title
+          sortedSongs.sort((a, b) => (a.name || '').localeCompare(b.name || ''));
+      }
+
+      return sortedSongs;
+    },
+    changeSort(sort) {
+      this.filterSorting = sort;
+      this.reset();
+    },
     removeFilter(filter) {
       if (filter === 'level') {
         this.filters.filterLevel = '';
@@ -257,6 +325,7 @@ export default {
           userSong.name = song.name;
           userSong.artist = song.artist;
           userSong.composer = song.composer;
+          userSong.genre = song.genre;
           mergedUserSongs.push(userSong);
         } else {
           mergedUserSongs.push(song);
@@ -264,8 +333,9 @@ export default {
       }
 
       const filteredSongs = this.addFilters(mergedUserSongs);
+      const sortedSongs = this.sortSongs(filteredSongs);
       this.game = selectedGame;
-      this.setSongs = filteredSongs;
+      this.setSongs = sortedSongs;
       this.loading = false;
     },
     async getUserSongs() {
@@ -500,5 +570,8 @@ export default {
   }
   tbody > tr:hover {
     opacity: 60%;
+  }
+  .dropdown-toggle::after {
+    display: none;
   }
 </style>
