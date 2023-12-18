@@ -13,10 +13,15 @@
           <div class="card text-bg-primary">
             <div class="card-body">
               <h4 class="card-title"><strong>High-score Rankings</strong></h4>
-              <h6 class="card-subtitle mb-0 text-body-secondary">Compare with local players</h6>
-              <div class="row g-3 mb-2 mt-2">
-                <div v-for="code in allArcadeCodes" v-bind:key="code" class="col-lg-6">
-                  <router-link :to="{ path: '/arcade/' + code }" class="btn w-100 btn-outline-light me-2" href="#">{{ getArcadeName(code) }}</router-link>
+              <div v-for="code in allArcadeCodes" v-bind:key="code" class="row g-3 mb-2 mt-2">
+                <div class="col-12">
+                  {{ getArcadeName(code) }}
+                </div>
+                <div class="col-lg-6">
+                  <router-link :to="{ path: '/arcade/' + code }" class="btn w-100 btn-outline-light me-2" href="#">Leaderboard</router-link>
+                </div>
+                <div class="col-lg-6">
+                  <router-link :to="{ path: '/leaderboard/' + code }" class="btn w-100 btn-outline-light me-2" href="#">High scores</router-link>
                 </div>
               </div>
             </div>

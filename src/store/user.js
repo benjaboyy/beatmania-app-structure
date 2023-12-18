@@ -587,6 +587,13 @@ export default {
         getUserCourses(state) {
             return state.userCourses;
         },
+        getUserArcadeCodes(state) {
+            const arcadeCodes = [];
+            arcadeCodes.push(state.accountSettings.arcadeCode01);
+            arcadeCodes.push(state.accountSettings.arcadeCode02);
+            arcadeCodes.push(state.accountSettings.arcadeCode03);
+            return arcadeCodes;
+        },
         userId(state) {
             return state.userId;
         },

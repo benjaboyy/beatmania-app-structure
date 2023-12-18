@@ -51,6 +51,13 @@ export default {
         getSongs(state) {
             return state.songsByGame;
         },
+        getSongByID: (state) => (game, songID) => {
+            const gameData = state.songsByGame[game];
+            if (gameData) {
+                const song = gameData.find(song => song.id === songID);
+                return song;
+            }
+        },
         getSongsByGame: (state) => (game) => {
             const songs = [];
             const gameData = state.songsByGame[game];

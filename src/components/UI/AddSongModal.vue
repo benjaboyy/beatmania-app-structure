@@ -73,6 +73,12 @@
             <button class="btn w-100" @click="toggleFavorite" :class="favorite ? 'btn-primary' : 'bg-light'"><i class="fa fa-heart me-1" :class="favorite ? 'text-white' : 'text-primary'"></i> {{ $t("filter.setFavorite") }}</button>
           </div>
         </div>
+<!--        <div v-for="(code, index) in userCodes" :key="index" class="input-group mb-1  input-group-lg">-->
+<!--          <div v-if="code">-->
+<!--            &lt;!&ndash; /leaderboard/{arcadeID}}/{gameID}/{songID}&ndash;&gt;-->
+<!--            <router-link to="/leaderboard/573300/1/1" class="input-group-text text-white bg-theme-1 border-0">{{ code }}</router-link>-->
+<!--          </div>-->
+<!--        </div>-->
         <hr>
         <button class="btn btn-dark" @click="hideDialog"><i class="fas fa-save text-white me-1"></i> {{ $t("filter.save") }}</button>
       </div>
@@ -124,6 +130,7 @@ export default {
       favorite: false,
       target: false,
       typeSelected: 'single',
+      userCodes: [],
 
       pointsOnOpen: 0,
       pointsOnClose: 0,
@@ -282,6 +289,7 @@ export default {
         this.target = this.infoSong.target;
         this.typeSelected = this.type;
         this.countPointsOnOpen()
+        this.userCodes = this.$store.getters['getUserArcadeCodes'];
       }
     }
   }
