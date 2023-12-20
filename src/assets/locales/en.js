@@ -51,6 +51,12 @@ export default
         hard: 'Hard',
         another: 'Another',
         title: 'Song name',
+        normalLevel: 'Normal Level',
+        hardLevel: 'Hard Level',
+        anotherLevel: 'Another Level',
+        normalDoubleLevel: 'N Double Level',
+        hardDoubleLevel: 'H Double Level',
+        anotherDoubleLevel: 'A Double Level',
     },
     filter: {
         songFilters: 'Song Filters',

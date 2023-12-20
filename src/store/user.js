@@ -19,14 +19,7 @@ export default {
             successUpdate: false,
             didLogout: false,
             accountSettings: {
-                trackedGames: {
-                    thefinal: {
-                        singles: false,
-                        doubles: true,
-                        singleCourse: false,
-                        doubleCourse: false
-                    }
-                },
+                trackedGames: {},
                 favoriteGame: '',
                 arcadeCode01: '',
                 arcadeCode02: '',
@@ -212,14 +205,7 @@ export default {
             const userId = context.getters.userId;
             const songID = payload.id;
             const songData = {
-                id: payload.id,
-                name: payload.name,
-                normal: payload.score,
-                clear: payload.clear,
-                FC: payload.FC,
-                grade: payload.grade,
-                favorite: payload.favorite,
-                score: payload.score,
+                normal: payload.score, ...payload
             }
 
             console.log(payload);
@@ -298,20 +284,27 @@ export default {
         async loadUser(context) {
             const userId = context.getters.userId;
             const token = context.getters.token;
-            //
-            const response = await fetch(`${API_BASE_URL}users/${userId}.json?auth=` + token);
-            const responseData = await response.json();
 
-            if (!response.ok) {
-                alert('Error while logging in');
-                router.push({ name: 'login' });
+            try {
+                // Fetch user information and user songs in a single request
+                const response = await fetch(`${API_BASE_URL}users/${userId}.json?auth=` + token);
+
+                if (!response.ok) {
+                    alert('Error while loading user info');
+                    router.push({ name: 'login' });
+                    return;
+                }
+
+                const userData = await response.json();
+
+                // Commit user information to the state
+                context.commit('setUserInfo', userData.name);
+                context.commit('setLanguage', userData.language);
+                context.commit('setTheme', userData.theme);
+                context.commit('setAdmin', userData.admin);
+            } catch (error) {
+                console.log(error);
             }
-
-            context.commit('setUserInfo', responseData.name);
-            context.commit('setLanguage', responseData.language);
-            context.commit('setTheme', responseData.theme);
-
-            context.commit('setAdmin', responseData.admin);
         },
         async loadUserSongs(context) {
             const userId = context.getters.userId;
@@ -320,7 +313,7 @@ export default {
             const responseData = await response.json();
 
             if (!response.ok) {
-                alert('Error while logging in');
+                alert('Error while loading songs in');
                 router.push({ name: 'login' });
             }
             const userSongs = [];
@@ -416,7 +409,7 @@ export default {
 
             if (!response.ok) {
                 alert('Error while submission stats');
-                router.push({ name: 'login' });
+                await context.dispatch('logout');
             }
         },
 
@@ -497,8 +490,7 @@ export default {
                 });
 
                 if (!response.ok) {
-                    router.push({ name: 'login' });
-                    throw new Error('Token refresh failed');
+                    await context.dispatch('logout');
                 }
 
                 const responseData = await response.json();

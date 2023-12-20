@@ -38,11 +38,17 @@ export default {
     async dataGetter() {
       await this.$store.dispatch('games/fetchGameSongs');
       await this.$store.dispatch('loadUser');
-      await this.$store.dispatch('songs/loadSongs');
-      await this.$store.dispatch('courses/loadCourses');
-      await this.$store.dispatch('loadUserSongs');
       await this.$store.dispatch('loadTrackedGames');
+
+      const trackedGames = await this.$store.getters['getTrackGames'];
+      const listOfGames = [];
+      for (const game in trackedGames) {
+        listOfGames.push(game);
+      }
+      await this.$store.dispatch('songs/getGameSongs', listOfGames);
+      await this.$store.dispatch('courses/loadCourses');
       await this.$store.dispatch('loadUserCourses');
+      await this.$store.dispatch('loadUserSongs');
       this.$i18n.locale = await this.$store.getters['getLanguage'];
       this.currentTheme = await this.$store.getters['getTheme'];
       this.switchTheme(this.currentTheme);

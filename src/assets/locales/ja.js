@@ -50,6 +50,12 @@ export default
         hard: 'Hard',
         another: 'Another',
         title: 'タイトル',
+        normalLevel: 'Normalレベル',
+        hardLevel: 'Hardレベル',
+        anotherLevel: 'Anotherレベル',
+        normalDoubleLevel: 'N Doubleレベル',
+        hardDoubleLevel: 'H Doubleレベル',
+        anotherDoubleLevel: 'A Doubleレベル',
     },
     filter: {
         songFilters: '曲フィルター',

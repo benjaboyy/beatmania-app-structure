@@ -9,12 +9,13 @@
                    v-model="searchWord"
                    @input="search">
             <button class="btn btn-primary" type="button" id="button-search" @click="search"><i class="fa fa-search me-md-1"></i>  <span class="d-none d-md-inline">{{ $t("listScreen.search") }}</span></button>
-<!--            buttons to toggle between singles and doubles-->
+
             <button v-if="game.hasDoubleCharts && type === 'single'" @click="toggleType" class="btn ms-2 d-md-none" :class="type === 'single' ? 'btn-primary' : 'btn-light'" type="button"><i class="fa fa-compact-disc"></i></button>
             <button v-if="game.hasDoubleCharts && type === 'double'" @click="toggleType" class="btn ms-2 d-md-none" :class="type === 'double' ? 'btn-primary' : 'btn-light'" type="button"><i class="fa fa-compact-disc"></i><i class="fa fa-compact-disc ms-1"></i></button>
+
             <div class="dropdown">
               <button class="btn btn-primary ms-2 dropdown-toggle rounded-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="fas fa-sort-alpha-down"></i> <span class="d-none d-md-inline ms-1">{{ filterSorting }}</span>
+                <i class="fas fa-sort-alpha-down"></i> <span class="d-none d-md-inline ms-1">{{ $t("listScreen." + filterSorting) }}</span>
               </button>
               <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                 <small class="dropdown-item disabled">Sort By</small>
@@ -42,7 +43,7 @@
             <span v-if="!noFilter && filters.filteredClear !== '' && filters.filteredClear !== undefined" @click="removeFilter('clear')" class="badge rounded-pill bg-light text-dark me-2" role="button">{{ $t("listScreen.filterOn") }} {{ filters.filteredClear }} <i class="fa fa-times"></i></span>
             <span v-if="!noFilter && filters.filterFavorite !== false && filters.filterFavorite !== undefined" @click="removeFilter('favorite')" class="badge rounded-pill bg-light text-dark me-2" role="button">{{ $t("listScreen.favorite") }} <i class="fa fa-times"></i></span>
             <span v-if="!noFilter && filters.filterTarget !== false && filters.filterTarget !== undefined" @click="removeFilter('target')" class="badge rounded-pill bg-light text-dark me-2" role="button">{{ $t("listScreen.target") }} <i class="fa fa-times"></i></span>
-            <span v-if="!noFilter && filterSorting !== false && filterSorting !== undefined" @click="removeFilter('target')" class="badge rounded-pill bg-light text-dark me-2" role="button">{{ $t("listScreen.target") }} <i class="fa fa-times"></i></span>
+            <span v-if="filterSorting !== 'title'" @click="changeSort('title')" class="badge rounded-pill d-md-none bg-light text-dark me-2"  role="button">Sort: {{ $t("listScreen." + filterSorting) }} <i class="fa fa-times"></i></span>
           </div>
         </div>
         <table class="table table-borderless bg-light table-striped table-songs">
@@ -195,22 +196,22 @@ export default {
           sortedSongs.sort((a, b) => (a.genre || '').localeCompare(b.genre || ''));
           break;
         case 'normalLevel':
-          sortedSongs.sort((a, b) => (a.difficultyNormal || 100) - (b.difficultyNormal || 100));
+          sortedSongs.sort((a, b) => this.compareDifficulty(a.difficultyNormal, b.difficultyNormal));
           break;
         case 'hardLevel':
-          sortedSongs.sort((a, b) => (a.difficultyHard || 100) - (b.difficultyHard || 100));
+          sortedSongs.sort((a, b) => this.compareDifficulty(a.difficultyHard, b.difficultyHard));
           break;
         case 'anotherLevel':
-          sortedSongs.sort((a, b) => (a.difficultyAnother || 100) - (b.difficultyAnother || 100));
+          sortedSongs.sort((a, b) => this.compareDifficulty(a.difficultyAnother, b.difficultyAnother));
           break;
-        case 'doubleNormalLevel':
-          sortedSongs.sort((a, b) => (a.difficultyDoubleNormal || 100) - (b.difficultyDoubleNormal || 100));
+        case 'normalDoubleLevel':
+          sortedSongs.sort((a, b) => this.compareDifficulty(a.difficultyDoubleNormal, b.difficultyDoubleNormal));
           break;
-        case 'doubleHardLevel':
-          sortedSongs.sort((a, b) => (a.difficultyDoubleHard || 100) - (b.difficultyDoubleHard || 100));
+        case 'hardDoubleLevel':
+          sortedSongs.sort((a, b) => this.compareDifficulty(a.difficultyDoubleHard, b.difficultyDoubleHard));
           break;
-        case 'doubleAnotherLevel':
-          sortedSongs.sort((a, b) => (a.difficultyDoubleAnother || 100) - (b.difficultyDoubleAnother || 100));
+        case 'anotherDoubleLevel':
+          sortedSongs.sort((a, b) => this.compareDifficulty(a.difficultyDoubleAnother, b.difficultyDoubleAnother));
           break;
         default:
           // Default sorting criteria, e.g., by title
@@ -218,6 +219,12 @@ export default {
       }
 
       return sortedSongs;
+    },
+    compareDifficulty(difficultyA, difficultyB) {
+      // Convert undefined or null to a value that will be sorted to the bottom
+      const normalizedA = difficultyA !== undefined && difficultyA !== null && difficultyA !== '0' ? difficultyA : 100;
+      const normalizedB = difficultyB !== undefined && difficultyB !== null && difficultyB !== '0' ? difficultyB : 100;
+      return normalizedA - normalizedB;
     },
     changeSort(sort) {
       this.filterSorting = sort;
@@ -573,5 +580,9 @@ export default {
   }
   .dropdown-toggle::after {
     display: none;
+  }
+  .input-group {
+    background-color: #dddddd18;
+    border-radius: 1rem;
   }
 </style>

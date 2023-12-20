@@ -156,8 +156,8 @@ export default {
             total: 0,
           },
           courses: {
-            clear: 1,
-            total: 10,
+            clear: 0,
+            total: 0,
             singleClear: 0,
             doubleClear: 0,
             singleTotal: 0,
@@ -272,7 +272,7 @@ export default {
           game: item.id,
           singles: this.gamestats[item.id].singles.clear,
           doubles: this.gamestats[item.id].doubles.clear,
-          courses: this.gamestats[item.id].courses.clear,
+          courses: this.gamestats[item.id].courses.clear*5,
           total: this.gamestats[item.id].singles.clear + this.gamestats[item.id].doubles.clear + (this.gamestats[item.id].courses.clear*5),
         });
       }
