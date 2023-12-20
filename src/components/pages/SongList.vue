@@ -308,9 +308,9 @@ export default {
             (song.hardDoubleFC || song.difficultyDoubleHard < 1) &&
             (song.anotherDoubleFC || song.difficultyDoubleAnother < 1)
             ) {
-          return 'bg-info flash';
+          return 'table-active';
         } else {
-          return 'bg-info';
+          return 'table-active';
         }
       } else {
         return 'bg-light';
