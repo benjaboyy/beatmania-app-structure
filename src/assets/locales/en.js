@@ -18,6 +18,10 @@ export default
         tips: 'See tips',
         selectGames: 'Select Games',
         trackedGames: 'Tracked Games',
+        highScoreRankings: 'High Score Rankings',
+        highScore: 'High Score',
+        leaderboard: 'Leaderboard',
+        seeInfo: 'See Info',
     },
     menu: {
         app: 'App',
@@ -57,6 +61,9 @@ export default
         normalDoubleLevel: 'N Double Level',
         hardDoubleLevel: 'H Double Level',
         anotherDoubleLevel: 'A Double Level',
+        normalScore: 'Normal Score',
+        hardScore: 'Hard Score',
+        anotherScore: 'Another Score',
     },
     filter: {
         songFilters: 'Song Filters',
@@ -126,5 +133,6 @@ export default
         codeSlot1: 'Slot 1',
         codeSlot2: 'Slot 2',
         codeSlot3: 'Slot 3',
+        seeRanking: 'See Ranking',
     }
 }

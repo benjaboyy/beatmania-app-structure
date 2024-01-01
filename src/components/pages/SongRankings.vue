@@ -27,13 +27,20 @@
           <div class="card">
             <div class="card-body">
               <label for="songName ">Choose song</label>
-              <div class="input-group mb-3">
-                <select class="form-select " v-model="songID">
-                  <option class="dropdown-item " v-for="song in songList" :key="song.id" :value="song.id">
-                    {{ song.name }}
-                  </option>
-                </select>
+              <div v-if="loaded" class="input-group mt-4">
+                <input type="text" class="form-control" :placeholder="$t('listScreen.searchName')" aria-label="Recipient's username" aria-describedby="button-addon2"
+                       v-model="searchWord"
+                       @input="filterSongs">
+                <button class="btn btn-primary" type="button" id="button-search" @click="search"><i class="fa fa-search me-md-1"></i>  <span class="d-none d-md-inline">{{ $t("listScreen.search") }}</span></button>
               </div>
+              <div v-else>Loading...</div>
+              <hr>
+              <span class="w-100" v-for="song in filteredSongs" :key="song.id" :value="song.id">
+                <router-link :to="'/leaderboard/' + arcadeID + '/' + selectedGame + '/' + song.id"
+                             class="btn btn-light w-100 mb-1">
+                  {{ song.name }} - {{ song.artist }}
+                </router-link>
+              </span>
               <div v-if="songID">
                 <router-link :to="'/leaderboard/' + arcadeID + '/' + selectedGame + '/' + songID"
                              class="btn btn-primary w-100">
@@ -87,6 +94,9 @@ export default {
       profileVisible: false,
       loadedPlayer: null,
       songList: [],
+      searchWord: '',
+      filteredSongs: [],
+      loaded: false,
     };
   },
   props: {
@@ -127,6 +137,11 @@ export default {
     }
   },
   methods: {
+    filterSongs() {
+      this.filteredSongs = this.songList.filter(song => {
+        return song.name.toLowerCase().includes(this.searchWord.toLowerCase());
+      });
+    },
     async getGameSongs() {
       const token = this.$store.getters.token;
       const gameID = this.selectedGame;
@@ -153,6 +168,8 @@ export default {
         songs.push(song);
       }
       this.songList = songs;
+      this.filterSongs();
+      this.loaded = true;
     },
     showDialog() {
       this.dialogIsVisible = true;

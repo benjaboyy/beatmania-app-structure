@@ -17,6 +17,10 @@ export default
         doubleCourses: 'ダブルコース',
         tips: 'ヒントを見る',
         selectGames: 'ゲームを選択',
+        highScoreRankings: 'ハイスコアランキング',
+        highScore: 'ハイスコア',
+        leaderboard: 'リーダーボード',
+        seeInfo: '情報を見る',
     },
     menu: {
         app: 'アプリ',
@@ -127,6 +131,7 @@ export default
         codeSlot1: 'スロット1',
         codeSlot2: 'スロット2',
         codeSlot3: 'スロット3',
+        seeRanking: 'ランキングを見る',
     }
 }
 

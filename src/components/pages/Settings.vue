@@ -10,41 +10,45 @@
     <div class="card">
       <div class="card-body">
         <div v-if="tab === 'games' && games">
-          <div id="emailHelp" class="form-text mb-3">{{ $t("settings.gameSelectInfo") }}</div>
-          <div v-for="game in games" v-bind:key="game" class="card mb-2">
-            <div class="card-body card-mix--choices">
-              <h4 class=" text-dark">{{ game.name }}</h4>
-              <h6 class=" text-dark">{{ game.playStyle }}</h6>
-              <a class="btn btn-sm w-100 text-start me-1 mb-1" type="button"
-                 :class="{'bg-light text-primary': !enteredTrackGames[game.id].singlesSet, 'bg-primary text-white': enteredTrackGames[game.id].singlesSet}"
-                 @click="updateTrackGames(game.id, 'singlesSet', !enteredTrackGames[game.id].singlesSet)">
-                <div>
-                  <input class="form-check-input" type="checkbox" id="checkboxNoLabel" value="" aria-label="..." :checked="enteredTrackGames[game.id].singlesSet">
-                  {{ $t("settings.singlePLay") }}
-                </div></a>
-              <a v-if="game.hasDoubleCharts" class="btn btn-sm w-100 text-start me-1 mb-1" type="button"
-                 :class="{'bg-light text-primary': !enteredTrackGames[game.id].doublesSet, 'bg-primary text-white': enteredTrackGames[game.id].doublesSet}"
-                 @click="updateTrackGames(game.id, 'doublesSet', !enteredTrackGames[game.id].doublesSet)">
-                <div>
-                  <input class="form-check-input" type="checkbox" id="checkboxNoLabel" value="" aria-label="..." :checked="enteredTrackGames[game.id].doubles">
-                  {{ $t("settings.doublePlay") }}
-                </div></a>
-              <a v-if="game.hasCourseMode" class="btn btn-sm w-100 text-start me-1 mb-1"
-                 :class="{'bg-light text-primary': !enteredTrackGames[game.id].singleCourse, 'bg-primary text-white': enteredTrackGames[game.id].singleCourse}"
-                 @click="updateTrackGames(game.id, 'singleCourse', !enteredTrackGames[game.id].singleCourse)">
-                <div>
-                  <input class="form-check-input" type="checkbox" id="checkboxNoLabel" value="" aria-label="..." :checked="enteredTrackGames[game.id].singleCourse">
-                  {{ $t("welcomeScreen.singleCourses") }}
-                </div></a>
-              <a v-if="game.hasDoubleCharts && game.hasCourseMode" class="btn btn-sm w-100 text-start me-1 mb-1" type="button"
-                 :class="{'bg-light text-primary': !enteredTrackGames[game.id].doubleCourse, 'bg-primary text-white': enteredTrackGames[game.id].doubleCourse}"
-                  @click="updateTrackGames(game.id, 'doubleCourse', !enteredTrackGames[game.id].doubleCourse)">
-                <div>
-                  <input class="form-check-input" type="checkbox" id="checkboxNoLabel" value="" aria-label="..." :checked="enteredTrackGames[game.id].doubleCourse">
-                  {{ $t("welcomeScreen.doubleCourses") }}
-                </div></a>
-            </div>
+          <div id="emailHelp" class="form-text mb-3">
+            <strong>{{ $t("settings.gameSelectInfo") }}</strong>
+            <ul class="list-unstyled">
+              <li>SP - {{ $t("settings.singlePLay") }}</li>
+              <li>DP - {{ $t("settings.doublePlay") }}</li>
+              <li>SC - {{ $t("welcomeScreen.singleCourses") }}</li>
+              <li>DC - {{ $t("welcomeScreen.doubleCourses") }}</li>
+            </ul>
           </div>
+
+          <table class="table table-sm table-borderless table-striped">
+            <tbody v-for="system in gamesSortedBySystem" :key="system">
+              <tr>
+                <th class="text-start border-1-top border-dark" colspan="5">{{ system[0].playStyle }}</th>
+              </tr>
+              <tr v-for="game in system" :key="game">
+                <td class="text-dark bg-light w-40">{{ game.name }}</td>
+                <td class="text-center border-primary border-1" :class="{'bg-light text-primary': !enteredTrackGames[game.id].singlesSet, 'bg-primary text-white': enteredTrackGames[game.id].singlesSet}"
+                    @click="updateTrackGames(game.id, 'singlesSet', !enteredTrackGames[game.id].singlesSet)">
+                  SP
+                </td>
+                <td class="text-center border-primary border-1" v-if="game.hasDoubleCharts" :class="{'bg-light text-primary': !enteredTrackGames[game.id].doublesSet, 'bg-primary text-white': enteredTrackGames[game.id].doublesSet}"
+                    @click="updateTrackGames(game.id, 'doublesSet', !enteredTrackGames[game.id].doublesSet)">
+                  DP
+                </td>
+                <td v-else class="bg-dark diff-td"></td>
+                <td class="text-center border-primary border-1" v-if="game.hasCourseMode" :class="{'bg-light text-primary': !enteredTrackGames[game.id].singleCourse, 'bg-primary text-white': enteredTrackGames[game.id].singleCourse}"
+                    @click="updateTrackGames(game.id, 'singleCourse', !enteredTrackGames[game.id].singleCourse)">
+                  SC
+                </td>
+                <td v-else class="bg-dark diff-td"></td>
+                <td class="text-center border-primary border-1" v-if="game.hasDoubleCharts && game.hasCourseMode" :class="{'bg-light text-primary': !enteredTrackGames[game.id].doubleCourse, 'bg-primary text-white': enteredTrackGames[game.id].doubleCourse}"
+                    @click="updateTrackGames(game.id, 'doubleCourse', !enteredTrackGames[game.id].doubleCourse)">
+                  DC
+                </td>
+                <td v-else class="bg-dark diff-td"></td>
+              </tr>
+            </tbody>
+          </table>
         </div>
         <div v-if="tab === 'details'">
           <div id="emailHelp" class="form-text mb-3">{{ $t("settings.accountInfo") }}</div>
@@ -61,21 +65,21 @@
               <div class="col-12">
                 <div class="input-group">
                   <input type="arcadecode01" :disabled="codeSet01" class="form-control" v-model="enteredAracdeCode01" id="arcadecode01" aria-describedby="arcadecode01" :placeholder="$t('settings.codeSlot1')">
-                  <router-link v-if="codeSet01" :to="'/arcade/'+enteredAracdeCode01" class="btn btn-primary"><i class="fa fas fa-trophy"></i> See ranking</router-link>
+                  <router-link v-if="codeSet01" :to="'/arcade/'+enteredAracdeCode01" class="btn btn-primary"><i class="fa fas fa-trophy"></i> {{ $t("settings.seeRanking") }}</router-link>
                   <button v-if="codeSet01" @click="deleteFromArcade(enteredAracdeCode01)" class="btn btn-danger"><i class="fa fa-trash"></i></button>
                 </div>
               </div>
               <div v-if="enteredAracdeCode01" class="col-12 mt-2">
                 <div class="input-group">
                   <input type="arcadecode02" :disabled="codeSet02" class="form-control" v-model="enteredAracdeCode02" id="arcadecode02" aria-describedby="arcadecode02"  :placeholder="$t('settings.codeSlot2')">
-                  <router-link v-if="codeSet02" :to="'/arcade/'+enteredAracdeCode02" class="btn btn-primary"><i class="fa fas fa-trophy"></i> See ranking</router-link>
+                  <router-link v-if="codeSet02" :to="'/arcade/'+enteredAracdeCode02" class="btn btn-primary"><i class="fa fas fa-trophy"></i> {{ $t("settings.seeRanking") }}</router-link>
                   <button v-if="codeSet02" @click="deleteFromArcade(enteredAracdeCode02)" class="btn btn-danger"><i class="fa fa-trash"></i></button>
                 </div>
               </div>
               <div v-if="enteredAracdeCode02 || enteredAracdeCode01" class="col-12 mt-2">
                 <div class="input-group">
                   <input type="arcadecode03" :disabled="codeSet03" class="form-control" v-model="enteredAracdeCode03" id="arcadecode03" aria-describedby="arcadecode03"  :placeholder="$t('settings.codeSlot3')">
-                  <router-link v-if="codeSet03" :to="'/arcade/'+enteredAracdeCode03" class="btn btn-primary"><i class="fa fas fa-trophy"></i> See ranking</router-link>
+                  <router-link v-if="codeSet03" :to="'/arcade/'+enteredAracdeCode03" class="btn btn-primary"><i class="fa fas fa-trophy"></i> {{ $t("settings.seeRanking") }}</router-link>
                   <button v-if="codeSet03" @click="deleteFromArcade(enteredAracdeCode03)" class="btn btn-danger"><i class="fa fa-trash"></i></button>
                 </div>
               </div>
@@ -90,7 +94,7 @@
           <div class="mb-0">
             <div>Current theme: <span class="text-primary ms-2">{{ themes[currentTheme-1] }}</span></div>
             <button @click="showThemeDialog" class="btn-primary btn" type="button">
-              <i class="fas fa-palette text-contrast"></i> Select theme
+              <i class="fas fa-palette text-contrast"></i> {{ $t("settings.selectTheme") }}
             </button>
           </div>
           <hr>
@@ -250,6 +254,25 @@ export default {
     }
   },
   computed: {
+    systems() {
+      const systems = [];
+      for(const game in this.games) {
+        if (!systems.includes(this.games[game].playStyle)) {
+          systems.push(this.games[game].playStyle);
+        }
+      }
+      return systems;
+    },
+    gamesSortedBySystem() {
+      const gamesSortedBySystem = {};
+      for(const game in this.games) {
+        if (!gamesSortedBySystem[this.games[game].playStyle]) {
+          gamesSortedBySystem[this.games[game].playStyle] = [];
+        }
+        gamesSortedBySystem[this.games[game].playStyle].push(this.games[game]);
+      }
+      return gamesSortedBySystem;
+    },
     games() {
       return this.$store.getters['games/getGames'];
     },
@@ -284,5 +307,21 @@ export default {
 }
 .z-top {
   z-index: 1000;
+}
+.diff-td {
+  max-width: 60px;
+  text-align: center;
+  vertical-align: middle;
+  color: white !important;
+}
+td:hover {
+  color: black !important;
+}
+.w-40 {
+  width: 40%;
+}
+.border-1 {
+  border: 1px solid;
+  vertical-align: middle;
 }
 </style>

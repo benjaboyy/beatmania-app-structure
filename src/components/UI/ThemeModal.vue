@@ -2,7 +2,7 @@
   <div v-if="open" class="backdrop" @click="hideDialog"></div>
   <transition name="modal">
     <dialog class="window" open v-if="open">
-      <h3><i class="fas fa-globe"></i> Select Theme</h3>
+      <h3><i class="fas fa-globe"></i> {{ $t("settings.selectTheme") }}</h3>
       <div class="row g-3 pt-1">
         <div class="col-6">
           <button

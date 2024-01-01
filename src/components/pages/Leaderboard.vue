@@ -3,10 +3,20 @@
     <div class="banner--highscore d-flex bg-primary" v-if="!isAuthenticated">
       <img src="../../assets/img/banner-highscore.png" class="d-inline-block align-middle mx-auto logo--size" alt="">
     </div>
-    <h4 class="text-center text-white my-0">Leaderboard Scores - {{ nameSelectedArcade }} - {{ nameSelectedGame }}</h4>
-    <div class="text-center my-0">
+    <h4 class="text-center text-white my-0">{{ game.name }} - {{ arcadeName }}</h4>
+    <div class="text-center w-100 my-0">
       <h1 class="text-center my-0">{{ songInfo.name }}</h1>
-      <h2 class="text-center my-0">{{ songInfo.artist }}</h2>
+<!--      // stoting dropdown-->
+      <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+          {{ $t("listScreen." + difficulty) }}
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+          <li><a class="dropdown-item" @click="difficulty = 'normalScore'">Normal</a></li>
+          <li><a class="dropdown-item" @click="difficulty = 'hardScore'" v-if="this.game.hasHardSongs">Hard</a></li>
+          <li><a class="dropdown-item" @click="difficulty = 'anotherScore'" v-if="this.game.hasAnotherSongs">Another</a></li>
+        </ul>
+      </div>
     </div>
     <div v-if="loading" class="login-screen mt-5 pt-5 px-2 mx-auto text-center">
       <h1 class="display-2"><i class="fa fa-compact-disc fa-spin"></i></h1>
@@ -18,9 +28,9 @@
           <tr>
             <th>#</th>
             <th>Name</th>
-            <th>Normal <span class="square bg-theme-1">{{ songInfo.difficultyDoubleNormal }}</span></th>
-            <th>Hard <span class="square bg-theme-2">{{ songInfo.difficultyDoubleHard }}</span></th>
-            <th>Another <span class="square bg-theme-3">{{ songInfo.difficultyDoubleAnother }}</span></th>
+            <th>Normal <span class="square bg-theme-1">{{ songInfo.difficultyNormal }}</span></th>
+            <th v-if="this.game.hasHardSongs">Hard <span class="square bg-theme-2">{{ songInfo.difficultyHard }}</span></th>
+            <th v-if="this.game.hasAnotherSongs">Another <span class="square bg-theme-3">{{ songInfo.difficultyAnother }}</span></th>
           </tr>
         </thead>
         <tbody>
@@ -28,8 +38,8 @@
             <td style="width: 1px">{{ index + 1 }}</td>
             <td>{{ player.name }}</td>
             <td>{{ player.normalScore }}</td>
-            <td>{{ player.hardScore }}</td>
-            <td>{{ player.anotherScore }}</td>
+            <td v-if="this.game.hasHardSongs">{{ player.hardScore }}</td>
+            <td v-if="this.game.hasAnotherSongs">{{ player.anotherScore }}</td>
           </tr>
         </tbody>
       </table>
@@ -43,25 +53,17 @@ export default {
   data() {
     return {
       arcadeID: '',
-      songID: {
-        "id": "9392",
-        "name": "7000 Questions",
-        "artist": "アルファ",
-        "difficultyNormal": "5",
-        "difficultyHard": "7",
-        "difficultyAnother": "8",
-        "difficultyDoubleNormal": "6",
-        "difficultyDoubleHard": "8",
-        "difficultyDoubleAnother": "9"
-      },
+      songID: {},
       songInfo: '',
       nameSelectedArcade: '',
       nameSelectedGame: '',
       players: [],
       gameiD: '',
+      game: '',
       loading: false,
       finalList: [],
       difficulty: 'normalScore',
+      arcadeName: '',
     };
   },
   props: {
@@ -78,6 +80,8 @@ export default {
     // todo: make function to prepair leaderboard
     await this.makeLeaderboard();
     this.songInfo = await this.$store.getters['songs/getSongByID'](this.gameiD, this.songID);
+    this.game = await this.$store.getters['games/getGames'].find((game) => game.id == this.$route.params.gameID);
+    this.arcadeName = await this.$store.getters['arcades/getArcadeName'](this.arcadeID);
     this.loading = false;
   },
   computed: {
@@ -86,9 +90,6 @@ export default {
     },
     nameOfSelectedGame() {
       return this.$store.getters['games/getGameName'](this.selectedGame);
-    },
-    getArcadeName() {
-      return this.$store.getters['arcades/getArcadeName'](this.arcadeID);
     },
     getPlayers() {
       return this.$store.getters['arcades/getPlayers'](this.arcadeID);
@@ -118,13 +119,9 @@ export default {
       // sort list
       // data example: {"anotherScore":"190","favorite":true,"hardClear":true,"hardScore":"200","id":"9392","normalClear":true,"normalScore":"100","target":true,"name":"Behy"}
       list.sort((a, b) => {
-        if (a[this.difficulty] > b[this.difficulty]) {
-          return -1;
-        }
-        if (a[this.difficulty] < b[this.difficulty]) {
-          return 1;
-        }
-        return 0;
+        const scoreA = a[this.difficulty];
+        const scoreB = b[this.difficulty];
+        return this.compareScore(scoreA, scoreB);
       });
       this.finalList = list
     },
@@ -135,6 +132,16 @@ export default {
       } catch ($e) {
         alert('Cannot copy');
       }
+    },
+    compareScore(scoreA, scoreB) {
+      const normalizedA = scoreA !== undefined && scoreA !== null && scoreA !== '0' ? scoreA : 0;
+      const normalizedB = scoreB !== undefined && scoreB !== null && scoreB !== '0' ? scoreB : 0;
+      return normalizedB - normalizedA;
+    },
+  },
+  watch: {
+    difficulty() {
+      this.makeLeaderboard();
     }
   }
 };

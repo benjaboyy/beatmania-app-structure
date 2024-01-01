@@ -12,16 +12,16 @@
         <div v-if="allArcadeCodes > 0" class="col-md-6 mx-auto">
           <div class="card text-bg-primary">
             <div class="card-body">
-              <h4 class="card-title"><strong>High-score Rankings</strong></h4>
+              <h4 class="card-title"><strong>{{ $t("welcomeScreen.highScoreRankings") }}</strong></h4>
               <div v-for="code in allArcadeCodes" v-bind:key="code" class="row g-3 mb-2 mt-2">
                 <div class="col-12">
                   {{ getArcadeName(code) }}
                 </div>
                 <div class="col-lg-6">
-                  <router-link :to="{ path: '/arcade/' + code }" class="btn w-100 btn-outline-light me-2" href="#">Leaderboard</router-link>
+                  <router-link :to="{ path: '/arcade/' + code }" class="btn w-100 btn-outline-light me-2" href="#">{{ $t("welcomeScreen.leaderboard") }}</router-link>
                 </div>
                 <div class="col-lg-6">
-                  <router-link :to="{ path: '/leaderboard/' + code }" class="btn w-100 btn-outline-light me-2" href="#">High scores</router-link>
+                  <router-link :to="{ path: '/leaderboard/' + code }" class="btn w-100 btn-outline-light me-2" href="#">{{ $t("welcomeScreen.highScore") }}</router-link>
                 </div>
               </div>
             </div>
@@ -33,7 +33,7 @@
         <h2>Loading...</h2>
       </div>
       <div v-for="game in filteredGames" v-bind:key="game" class="row">
-        <div class="col-md-6 mt-4 mx-auto">
+        <div v-if="isDataLoaded" class="col-md-6 mt-4 mx-auto">
           <div v-if="gamestats[game.id]" class="card h-100">
             <div class="card-body pb-2">
               <h4 class="card-title"><strong>{{ game.name }}</strong></h4>
@@ -64,7 +64,7 @@
                 </div>
               </div>
               <button class="btn btn-sm w-100 m-0 p-0 mt-1" type="button" data-bs-toggle="collapse" :data-bs-target="'#collapseOne' + game.id.replace(/[+\[\-:]/g, '')" aria-expanded="true" aria-controls="collapseOne">
-                See info <i class="fas fa-eye ms-2"></i>
+                {{ $t("welcomeScreen.seeInfo") }} <i class="fas fa-eye ms-2"></i>
               </button>
             </div>
           </div>
@@ -95,6 +95,16 @@ export default {
     }
   },
   computed: {
+    isUserNotLoaded() {
+      const userName = this.$store.getters['userName'];
+      if (userName !== undefined &&
+          userName !== null &&
+          userName !== '') {
+        return false;
+      } else {
+        return true;
+      }
+    },
     filteredGames() {
       const trackedGames = this.trackedGames;
       return this.games
@@ -144,7 +154,7 @@ export default {
       return this.$store.getters['arcades/getArcadeName'](arcadeID);
     },
     setBaseStats() {
-      for (const game of this.games) {
+      for (const game of this.filteredGames) {
         this.gamestats[game.id] = {
           songs: 0,
           singles: {
@@ -283,6 +293,23 @@ export default {
   },
   async created() {
     await this.$store.dispatch('arcades/loadArcades');
+    if (this.isUserNotLoaded) {
+      console.log('created-welcome');
+      await this.$store.dispatch('games/fetchGameSongs');
+      await this.$store.dispatch('loadUser');
+      await this.$store.dispatch('loadTrackedGames');
+
+      const trackedGames = await this.$store.getters['getTrackGames'];
+      const listOfGames = [];
+      for (const game in trackedGames) {
+        listOfGames.push(game);
+      }
+      await this.$store.dispatch('songs/getGameSongs', listOfGames);
+      await this.$store.dispatch('courses/loadCourses');
+      await this.$store.dispatch('loadUserCourses');
+      await this.$store.dispatch('loadUserSongs');
+      this.$i18n.locale = await this.$store.getters['getLanguage'];
+    }
     await this.setBaseStats();
     await this.calculateStats();
     this.isDataLoaded = true;
@@ -290,14 +317,6 @@ export default {
   props: {
     msg: String,
   },
-  watch: {
-    filteredGames() {
-      this.calculateStats();
-    },
-    games() {
-      this.calculateStats();
-    },
-  },
-  emits: ['select-view', 'loaded']
+  emits: ['select-view', 'loaded', 'data']
 }
 </script>
