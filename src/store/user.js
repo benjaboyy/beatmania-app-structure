@@ -253,6 +253,13 @@ export default {
                     id: userId,
                     email: payload.email,
                     name: payload.name,
+                    accountSettings: {
+                        trackedGames: {},
+                        favoriteGame: '',
+                        arcadeCode01: '',
+                        arcadeCode02: '',
+                        arcadeCode03: '',
+                    }
                 })
             });
             const responseData2 = await response2.json();
@@ -621,6 +628,9 @@ export default {
             return state.successUpdate;
         },
         getTrackGames(state) {
+            if (!state.accountSettings) {
+                return [];
+            }
             return state.accountSettings.trackedGames;
         },
         didAutoLogout(state) {

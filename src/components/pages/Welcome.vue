@@ -107,6 +107,9 @@ export default {
     },
     filteredGames() {
       const trackedGames = this.trackedGames;
+      if (trackedGames === undefined || trackedGames === null) {
+        return [];
+      }
       return this.games
         .filter(game => {
           const gameTrackInfo = trackedGames[game.id];
