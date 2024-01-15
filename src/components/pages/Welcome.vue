@@ -1,7 +1,15 @@
 <template>
   <div class="stats-screen px-md-5 m-auto">
-    <h1 class="text-center my-4">{{ $t("welcomeScreen.welcome") }} DJ {{ userName }}</h1>
     <div class="container">
+      <div class="row">
+        <div class="col-lg-6 py-2 mx-auto">
+          <img v-if="profileUrl" :src="profileUrl" class="rounded img-thumbnail float-left" alt="profile image">
+          <div class="d-flex flex-column my-auto ps-2">
+            <h5 class="m-0 text-white mt-2 mt-md-0"> {{ $t("welcomeScreen.welcome") }}</h5>
+            <h1>DJ {{ userName }}</h1>
+          </div>
+        </div>
+      </div>
       <div class="row">
         <div v-if="filteredGames < 1" class="col-12 my-0 text-center">
           <div id="reloadHelp" class="form-text mb-3">{{ $t("welcomeScreen.clickReload") }}</div>
@@ -10,17 +18,16 @@
       </div>
       <div v-if="isDataLoaded" class="row">
         <div v-if="allArcadeCodes > 0" class="col-md-6 mx-auto">
-          <div class="card text-bg-primary">
+          <div v-for="code in allArcadeCodes" v-bind:key="code" class="card text-bg-primary">
             <div class="card-body">
-              <h4 class="card-title"><strong>{{ $t("welcomeScreen.highScoreRankings") }}</strong></h4>
-              <div v-for="code in allArcadeCodes" v-bind:key="code" class="row g-3 mb-2 mt-2">
+              <div class="row g-3 mb-2">
                 <div class="col-12">
-                  {{ getArcadeName(code) }}
+                  <h4 class="card-title"><strong>{{ getArcadeName(code) }}</strong></h4>
                 </div>
-                <div class="col-lg-6">
+                <div class="col-6">
                   <router-link :to="{ path: '/arcade/' + code }" class="btn w-100 btn-outline-light me-2" href="#">{{ $t("welcomeScreen.leaderboard") }}</router-link>
                 </div>
-                <div class="col-lg-6">
+                <div class="col-6">
                   <router-link :to="{ path: '/leaderboard/' + code }" class="btn w-100 btn-outline-light me-2" href="#">{{ $t("welcomeScreen.highScore") }}</router-link>
                 </div>
               </div>
@@ -150,6 +157,9 @@ export default {
     },
     arcadeCode03() {
       return this.$store.getters['getArcadeCode03'];
+    },
+    profileUrl() {
+      return this.$store.getters['profileUrl'];
     },
   },
   methods: {
@@ -323,3 +333,19 @@ export default {
   emits: ['select-view', 'loaded', 'data']
 }
 </script>
+
+<style scoped>
+  .float-left {
+    float: left;
+  }
+  .img-thumbnail {
+    border: 1px solid #000;
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 35px !important;
+  }
+  .text-white {
+    color: #fff !important;
+  }
+</style>

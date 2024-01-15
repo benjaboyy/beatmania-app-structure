@@ -36,6 +36,9 @@ export default {
         setUserInfo(state, payload) {
             state.name = payload;
         },
+        setUserprofileUrl(state, payload) {
+            state.profileUrl = payload;
+        },
         setAdmin(state, payload) {
             state.admin = payload;
         },
@@ -125,6 +128,20 @@ export default {
                 router.push({ name: 'login' });
             } else {
                 commit('setUserInfo', payload.name);
+                commit('setSuccessUpdate', true);
+            }
+        },
+        async updateUserUrl({ commit, getters }, payload) {
+            const userId = getters.userId;
+            const token = getters.token;
+            const response = await fetch(`${API_BASE_URL}users/${userId}.json?auth=` + token, {
+                method: 'PATCH',
+                body: JSON.stringify(payload)
+            });
+            if (!response.ok) {
+                alert('Error while updating user url');
+                router.push({ name: 'login' });
+            } else {
                 commit('setSuccessUpdate', true);
             }
         },
@@ -306,6 +323,7 @@ export default {
 
                 // Commit user information to the state
                 context.commit('setUserInfo', userData.name);
+                context.commit('setUserprofileUrl', userData.profileUrl);
                 context.commit('setLanguage', userData.language);
                 context.commit('setTheme', userData.theme);
                 context.commit('setAdmin', userData.admin);
@@ -329,6 +347,7 @@ export default {
                 const song = {
                     id: responseData[key].id,
                     name: responseData[key].name,
+                    profileUrl: responseData[key].profileUrl,
                     normalScore: responseData[key].normalScore,
                     normalClear: responseData[key].normalClear,
                     normalFC: responseData[key].normalFC,
@@ -395,6 +414,7 @@ export default {
             }
             const userStats = {
                 name: responseData.name,
+                profileUrl: responseData.profileUrl,
                 trackedGames: responseData.accountSettings.trackedGames,
             }
 
@@ -611,6 +631,9 @@ export default {
         },
         userName(state) {
             return state.name;
+        },
+        profileUrl(state) {
+            return state.profileUrl;
         },
         favoriteGame(state) {
             return state.accountSettings.favoriteGame;

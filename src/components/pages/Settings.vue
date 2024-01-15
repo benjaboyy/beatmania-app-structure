@@ -53,8 +53,12 @@
         <div v-if="tab === 'details'">
           <div id="emailHelp" class="form-text mb-3">{{ $t("settings.accountInfo") }}</div>
           <div class="mb-3">
-            <label for="Name" class="form-label">{{ $t("login.gametagName") }}</label>
+            <label for="username" class="form-label">{{ $t("login.gametagName") }}</label>
             <input type="username" class="form-control" v-model="enteredName" id="username" aria-describedby="username">
+          </div>
+          <div class="mb-3">
+            <label for="url" class="form-label">{{ $t("login.profileUrl") }}</label>
+            <input type="url" class="form-control" v-model="enteredUrl" id="url" aria-describedby="url">
           </div>
           <div class="mb-3">
             <label for="Select" class="form-label">
@@ -126,6 +130,7 @@ export default {
       tab: 'details',
       enteredFavoriteGame: '',
       enteredName: '',
+      enteredUrl: '',
       enteredAracdeCode01: '',
       enteredAracdeCode02: '',
       enteredAracdeCode03: '',
@@ -141,6 +146,7 @@ export default {
   async created() {
     this.enteredFavoriteGame = this.favoriteGame;
     this.enteredName = this.userName;
+    this.enteredUrl = this.profileUrl;
     if (this.arcadeCode01) {
       this.codeSet01 = true;
     }
@@ -197,6 +203,9 @@ export default {
       });
       this.$store.dispatch('updateUsername', {
         name: this.enteredName
+      });
+      this.$store.dispatch('updateUserUrl', {
+        profileUrl: this.enteredUrl
       });
       if (this.enteredAracdeCode01) {
         this.codeSet01 = true;
@@ -285,6 +294,9 @@ export default {
     favoriteGame() {
       return this.$store.getters['favoriteGame'];
     },
+    profileUrl() {
+      return this.$store.getters['profileUrl'];
+    },
     arcadeCode01() {
       return this.$store.getters['getArcadeCode01'];
     },
@@ -323,5 +335,13 @@ td:hover {
 .border-1 {
   border: 1px solid;
   vertical-align: middle;
+}
+.img-thumbnail {
+  border: 1px solid #000000;
+  width: 100px;
+  height: 100px;
+  /*/fit image in frame*/
+  object-fit: cover;
+
 }
 </style>

@@ -1,3 +1,5 @@
+
+const API_BASE_URL = 'https://beatmania-pro-default-rtdb.europe-west1.firebasedatabase.app/';
 export default {
     namespaced: true,
     state() {
@@ -22,7 +24,7 @@ export default {
     actions: {
         async fetchGameSongs(context) {
             const token = context.rootGetters.token;
-            const fetchedSongs = await fetch('https://beatmania-pro-default-rtdb.europe-west1.firebasedatabase.app/games.json?auth=' + token);
+            const fetchedSongs = await fetch(`${API_BASE_URL}/games.json?auth=` + token);
             const responseData = await fetchedSongs.json();
 
             if (!fetchedSongs.ok) {

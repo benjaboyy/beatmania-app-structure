@@ -108,6 +108,7 @@ export default
         emailIsSave: 'メールアドレスは他の人と共有されません。',
         nameInProfile: 'プロフィールに表示されます。',
         gametagName: 'ゲームタグ / 名前',
+        profileUrl: 'プロフィールURL',
         formInvalid: 'フォームが無効です',
         confirmPassword: 'パスワードを認証する',
         goLogin: 'ログインする',

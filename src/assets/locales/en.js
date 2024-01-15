@@ -105,6 +105,7 @@ export default
         register: 'Register',
         password: 'Password',
         version: 'Version',
+        profileUrl: 'Profile URL',
         email: 'Email Address',
         progressTracker: 'Progress Tracker',
         emailIsSave: 'We will never share your email with anyone else.',
