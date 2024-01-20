@@ -8,6 +8,7 @@ import WelcomeScreen from './components/pages/Welcome.vue'
 import LoginScreen from "@/forms/user/LoginScreen.vue";
 import Settings from "@/components/pages/Settings.vue";
 import SongList from "@/components/pages/SongList.vue";
+import ProfileScreen from "@/components/pages/ProfileScreen.vue";
 import submitSong from "@/forms/submitSong";
 import submitGame from "@/forms/submitGame";
 import submitArcade from "@/forms/submitArcade";
@@ -48,6 +49,7 @@ const router = createRouter({
         { path: '/Admin', component: AdminPanel, meta: { requiresAuth: true } },
         { path: '/about', component: AboutUs, meta: { requiresAuth: false } },
         { path: '/tips', component: TipsScreen, meta: { requiresAuth: false } },
+        { path: '/user/:userID', component: ProfileScreen, props: true, meta: { requiresAuth: false } },
         // arcade ranking
         { path: '/arcade', component: ArcadeRankings, meta: { requiresAuth: false } },
         { path: '/arcade/:arcadeID', component: ArcadeRankings, props: true, meta: { requiresAuth: false } },

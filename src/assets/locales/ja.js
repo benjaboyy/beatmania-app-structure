@@ -92,6 +92,9 @@ export default
         onlySinglePlayerInfo: 'マルチプレイでプレイする場合、コースはバトルモードでプレイできません。 タイトルは黄色くなり、コースが選択されるとカップルモードに切り替わります。',
     },
     login: {
+        viewProfile: '見る',
+        copyCode: 'コードをコピー',
+        copied: 'コピーしました',
         languageIs: '日本語',
         english: '英語',
         japanese: '日本語',

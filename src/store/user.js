@@ -632,6 +632,9 @@ export default {
         userName(state) {
             return state.name;
         },
+        userID(state) {
+            return state.userId;
+        },
         profileUrl(state) {
             return state.profileUrl;
         },

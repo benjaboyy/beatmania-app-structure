@@ -14,6 +14,10 @@ export default {
         getGameName: (state) => (gameID) => {
             const game = state.games.find(game => game.id === gameID);
             return game.name;
+        },
+        getGamePlayStyle: (state) => (gameID) => {
+            const game = state.games.find(game => game.id === gameID);
+            return game.playStyle;
         }
     },
     mutations: {

@@ -96,6 +96,9 @@ export default
         onlySinglePlayerInfo: 'When playing in multiplayer, the course can not be played in Battle Mode. The title will yellow out and the course will be switched to couple mode when selected.',
     },
     login: {
+        viewProfile: 'View Profile',
+        copyCode: 'Copy Code',
+        copied: 'Code is copied',
         languageIs: 'English',
         close: 'Close',
         login: 'Login',

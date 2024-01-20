@@ -28,7 +28,7 @@
       </div>
       <div class="card-footer d-flex text-muted">
         <div class="select-lang" @click="showDialog"><i class="fas fa-globe"></i> {{ $t("login.selectLanguage") }}</div>
-        <div class="ms-auto">{{ $t("login.version") }} 1.3.2</div>
+        <div class="ms-auto">{{ $t("login.version") }} 1.3.3</div>
       </div>
     </div>
     <LanguageModal

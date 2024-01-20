@@ -2,8 +2,9 @@
   <div class="stats-screen px-md-5 m-auto">
     <div class="container">
       <div class="row">
-        <div class="col-lg-6 py-2 mx-auto">
+        <div class="col-md-6 py-2 mx-auto">
           <img v-if="profileUrl" :src="profileUrl" class="rounded img-thumbnail float-left" alt="profile image">
+          <span @click="showShare" class="float-right d-flex h-100 text-white"><i class="fas fa-qrcode fa-2x my-auto"></i></span>
           <div class="d-flex flex-column my-auto ps-2">
             <h5 class="m-0 text-white mt-2 mt-md-0"> {{ $t("welcomeScreen.welcome") }}</h5>
             <h1>DJ {{ userName }}</h1>
@@ -43,7 +44,12 @@
         <div v-if="isDataLoaded" class="col-md-6 mt-4 mx-auto">
           <div v-if="gamestats[game.id]" class="card h-100">
             <div class="card-body pb-2">
-              <h4 class="card-title"><strong>{{ game.name }}</strong></h4>
+              <h4 class="card-title">
+                <img v-if="game.playStyle === 'Playstation'" src="../../assets/svg/playstation.svg" class="icon" alt="arcade-icon">
+                <img v-else-if="game.playStyle === 'Arcade'" src="../../assets/svg/arcade.svg" class="icon" alt="arcade-icon">
+                <img v-else-if="game.playStyle === 'Gameboy'" src="../../assets/svg/gameboy.svg" class="icon" alt="arcade-icon">
+                <img v-else-if="game.playStyle === 'Wonderswan'" src="../../assets/svg/wonder.svg" class="icon" alt="arcade-icon">
+                <strong>{{ game.name }}</strong></h4>
               <div class="row g-3 mb-2 mt-0">
                 <div class="col-6">
                   <router-link :to="'/games/' + game.id" class="btn w-100 btn-primary me-2" href="#"><i class="fa fa-compact-disc"></i> {{ $t("welcomeScreen.songList") }}</router-link>
@@ -84,24 +90,37 @@
       </div>
     </div>
   </div>
+  <ShareModal
+      @close="hideShareModal"
+      :open="shareVisible"
+      :url="shareUrl"
+      :userID="userID"
+  />
 </template>
 
 <script>
 import ProgressBarStats from "@/components/UI/ProgressBarStats";
+import ShareModal from "@/components/UI/ShareModal.vue";
 export default {
   name: 'WelcomeScreen',
   components: {
-    ProgressBarStats
+    ProgressBarStats,
+    ShareModal
   },
   data() {
     return {
       gamesToShow: [],
       userPassedSongs: [],
       gamestats: {},
-      isDataLoaded: false
+      isDataLoaded: false,
+      shareUrl: '',
+      shareVisible: false,
     }
   },
   computed: {
+    getGamePlaystyle(gameID) {
+      return this.$store.getters['games/getGamePlayStyle'](gameID);
+    },
     isUserNotLoaded() {
       const userName = this.$store.getters['userName'];
       if (userName !== undefined &&
@@ -136,6 +155,9 @@ export default {
     userName() {
       return this.$store.getters['userName'];
     },
+    userID() {
+      return this.$store.getters['userID'];
+    },
     allArcadeCodes() {
       const arcadeCodes = [];
       if (this.arcadeCode01) {
@@ -163,6 +185,13 @@ export default {
     },
   },
   methods: {
+    showShare() {
+      this.shareUrl = 'https://beatmania-pro.web.app/user/' + this.userID;
+      this.shareVisible = true;
+    },
+    hideShareModal() {
+      this.shareVisible = false;
+    },
     getArcadeName(arcadeID) {
       return this.$store.getters['arcades/getArcadeName'](arcadeID);
     },
@@ -338,6 +367,9 @@ export default {
   .float-left {
     float: left;
   }
+  .float-right {
+    float: right;
+  }
   .img-thumbnail {
     border: 1px solid #000;
     width: 70px;
@@ -347,5 +379,13 @@ export default {
   }
   .text-white {
     color: #fff !important;
+  }
+  .icon {
+    width: 30px;
+    height: 30px;
+    filter: invert(1);
+    /* or to blue */
+    filter: invert(0.7) sepia(1) saturate(0) hue-rotate(175deg);
+    float: right;
   }
 </style>
