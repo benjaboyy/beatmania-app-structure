@@ -40,10 +40,10 @@
               <th v-if="key === 0" scope="row"><i class="fas fa-trophy"></i></th>
               <th v-else>{{ key+1 }}</th>
               <td>{{ player.name }}</td>
-              <td class="d-none d-md-table-cell">{{ player.trackedGames[selectedGame].singles }}</td>
-              <td class="d-none d-md-table-cell">{{ player.trackedGames[selectedGame].doubles }}</td>
-              <td class="d-none d-md-table-cell">{{ player.trackedGames[selectedGame].courses }}</td>
-              <td>{{ player.trackedGames[selectedGame].total }}</td>
+              <td class="d-none d-md-table-cell">{{ player.trackedGames[selectedGame]?.singles }}</td>
+              <td class="d-none d-md-table-cell">{{ player.trackedGames[selectedGame]?.doubles }}</td>
+              <td class="d-none d-md-table-cell">{{ player.trackedGames[selectedGame]?.courses }}</td>
+              <td>{{ player.trackedGames[selectedGame]?.total }}</td>
             </tr>
             </tbody>
           </table>
@@ -135,25 +135,24 @@ export default {
       return this.$store.getters['arcades/getPlayers'](this.arcadeID);
     },
     playersSortedOnStats() {
-      let players = [];
-      if (!this.selectedGame) {
+      if (!this.selectedGame || this.players.length === 0) {
         return [];
       }
-      if (this.players.length > 0) {
-        players = this.players;
-      }
-      // filter all players with no total
-      players = players.filter((player) => {
-        const trackedGames = player.trackedGames[this.selectedGame];
+
+      const validPlayers = this.players.filter(player => {
+        const trackedGames = player.trackedGames && player.trackedGames[this.selectedGame];
         return trackedGames && trackedGames.total > 0;
       });
 
-      // sort the players on total
-      const sort = players.sort((a, b) => {
-        return b.trackedGames[this.selectedGame].total - a.trackedGames[this.selectedGame].total;
+      const sortedPlayers = validPlayers.sort((a, b) => {
+        const totalA = (a.trackedGames && a.trackedGames[this.selectedGame]) ? a.trackedGames[this.selectedGame].total : 0;
+        const totalB = (b.trackedGames && b.trackedGames[this.selectedGame]) ? b.trackedGames[this.selectedGame].total : 0;
+        return totalB - totalA;
       });
-      return sort;
+
+      return sortedPlayers;
     },
+
   },
   methods: {
     showDialog() {
