@@ -19,11 +19,11 @@
               <li>DC - {{ $t("welcomeScreen.doubleCourses") }}</li>
             </ul>
           </div>
-
-          <table class="table table-sm table-borderless table-striped">
-            <tbody v-for="system in gamesSortedBySystem" :key="system">
+          <div class="row">
+            <table class="table table-sm table-borderless table-striped">
+              <tbody v-for="system in gamesSortedBySystem" :key="system">
               <tr>
-                <th class="text-start border-1-top border-dark" colspan="5">
+                <th class="text-start border-dark" colspan="5">
                   <img v-if="system[0].playStyle === 'Playstation'" src="../../assets/svg/playstation.svg" class="icon" alt="arcade-icon">
                   <img v-else-if="system[0].playStyle === 'Arcade'" src="../../assets/svg/arcade.svg" class="icon" alt="arcade-icon">
                   <img v-else-if="system[0].playStyle === 'Gameboy'" src="../../assets/svg/gameboy.svg" class="icon" alt="arcade-icon">
@@ -55,8 +55,9 @@
                 </td>
                 <td v-else class="bg-dark diff-td"></td>
               </tr>
-            </tbody>
-          </table>
+              </tbody>
+            </table>
+          </div>
         </div>
         <div v-if="tab === 'details'">
           <div id="emailHelp" class="form-text mb-3">{{ $t("settings.accountInfo") }}</div>
