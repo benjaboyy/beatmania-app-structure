@@ -329,6 +329,12 @@ export default {
         });
       }
     },
+    setUserLoginDate() {
+      const date = new Date();
+      const listOfMonths = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      const today = date.getDate() + ' ' + listOfMonths[date.getMonth()] + ' ' + date.getFullYear();
+      this.$store.dispatch('setUserLoginDate', today);
+    },
     reload () {
       window.location.reload()
     },
@@ -354,6 +360,7 @@ export default {
     }
     await this.setBaseStats();
     await this.calculateStats();
+    await this.setUserLoginDate();
     this.isDataLoaded = true;
   },
   props: {

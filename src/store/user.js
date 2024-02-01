@@ -65,6 +65,10 @@ export default {
                 state.userSongs.push(payload);
             }
         },
+        addLastPlayed(state, payload) {
+            // replace the last played song with the new one
+            state.lastPlayedSong = payload;
+        },
         addCourse(state, payload) {
             const index = state.userCourses.findIndex(s => s.id === payload.id);
             if (index !== -1) {
@@ -213,7 +217,18 @@ export default {
                 alert('Error while adding song');
                 router.push({ name: 'login' });
             }
+            const response2 = await fetch(`${API_BASE_URL}users/${userId}/lastPlayedSong.json?auth=` + token, {
+                method: 'put',
+                body: JSON.stringify(songData)
+            });
+            if (!response2.ok) {
+                alert('Error while adding song');
+                router.push({ name: 'login' });
+            }
             context.commit('addSong', {
+                ...songData,
+            });
+            context.commit('addLastPlayed', {
                 ...songData,
             });
         },
@@ -414,11 +429,29 @@ export default {
             }
             const userStats = {
                 name: responseData.name,
+                lastLogin: responseData.lastLogin,
+                lastPlayedSong: responseData.lastPlayedSong,
                 profileUrl: responseData.profileUrl,
                 trackedGames: responseData.accountSettings.trackedGames,
             }
 
             return userStats;
+        },
+
+        async setUserLoginDate(context, payload) {
+            const userId = context.getters.userId;
+            const token = context.getters.token;
+            const response = await fetch(`${API_BASE_URL}users/${userId}.json?auth=` + token, {
+                method: 'PATCH',
+                body: JSON.stringify({
+                    lastLogin: payload,
+                })
+            });
+
+            if (!response.ok) {
+                alert('Error while submission stats');
+                await context.dispatch('logout');
+            }
         },
 
         async setUserStatsForGame(context, payload) {
@@ -597,6 +630,7 @@ export default {
                 tokenExpiration: null,
                 name: null,
             });
+            router.push({ name: 'login' });
         },
     },
     getters: {

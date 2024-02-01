@@ -23,10 +23,18 @@
           <table class="table table-sm table-borderless table-striped">
             <tbody v-for="system in gamesSortedBySystem" :key="system">
               <tr>
-                <th class="text-start border-1-top border-dark" colspan="5">{{ system[0].playStyle }}</th>
+                <th class="text-start border-1-top border-dark" colspan="5">
+                  <img v-if="system[0].playStyle === 'Playstation'" src="../../assets/svg/playstation.svg" class="icon" alt="arcade-icon">
+                  <img v-else-if="system[0].playStyle === 'Arcade'" src="../../assets/svg/arcade.svg" class="icon" alt="arcade-icon">
+                  <img v-else-if="system[0].playStyle === 'Gameboy'" src="../../assets/svg/gameboy.svg" class="icon" alt="arcade-icon">
+                  <img v-else-if="system[0].playStyle === 'Wonderswan'" src="../../assets/svg/wonder.svg" class="icon" alt="arcade-icon">
+                  {{ system[0].playStyle }}
+                </th>
               </tr>
               <tr v-for="game in system" :key="game">
-                <td class="text-dark bg-light w-40">{{ game.name }}</td>
+                <td class="text-dark bg-light w-40">
+                  {{ game.name }}
+                </td>
                 <td class="text-center border-primary border-1" :class="{'bg-light text-primary': !enteredTrackGames[game.id].singlesSet, 'bg-primary text-white': enteredTrackGames[game.id].singlesSet}"
                     @click="updateTrackGames(game.id, 'singlesSet', !enteredTrackGames[game.id].singlesSet)">
                   SP
@@ -182,6 +190,9 @@ export default {
     window.history.replaceState({}, document.title, "/" + "settings");
   },
   methods: {
+    getGamePlaystyle(gameID) {
+      return this.$store.getters['games/getGamePlayStyle'](gameID);
+    },
     updateTrackGames(gameId, option, value) {
       if (option === 'singlesSet') {
         this.enteredTrackGames[gameId].singlesSet = value;
@@ -343,5 +354,9 @@ td:hover {
   /*/fit image in frame*/
   object-fit: cover;
 
+}
+.icon {
+  width: 30px;
+  height: 30px;
 }
 </style>

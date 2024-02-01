@@ -4,27 +4,25 @@
           <div class="col mt-4 col-lg-6">
             <div class="card">
               <div class="card-body p-4">
-                <div class="d-flex text-black">
+                <div class="d-flex text-black justify-content-center align-items-center">
                   <div class="flex-shrink-0">
                     <img v-if="player.profileUrl"  :src="player.profileUrl"
                          alt="Generic placeholder image" class="img-fluid"
                          style="width: 180px; border-radius: 10px;">
                   </div>
                   <div class="flex-grow-1 ms-3">
-                    <h5 class="mb-1">{{ player.name }}</h5>
-                    <div class="d-flex justify-content-start rounded-3 p-2 mb-2"
+                    <h5 class="mb-0">{{ player.name }}</h5>
+                    <p class="mb-2"><i><small>Last login {{ player.lastLogin }}</small></i></p>
+                    <div class=" rounded-3 p-2 mb-2"
                          style="background-color: #efefef;">
                       <div>
-                        <p class="small text-muted mb-1">Points</p>
-                        <p class="mb-0">{{ calculateTotalPoints }}</p>
+                        <p class="mb-1"><span class="small text-muted">Points <i class="fa fa-star"></i></span> <span class="float-end me-2">{{ calculateTotalPoints }}</span></p>
                       </div>
-                      <div class="px-3">
-                        <p class="small text-muted mb-1">Games</p>
-                        <p class="mb-0">{{ calculateTotalGames }}</p>
+                      <div class="">
+                        <p class="mb-1"><span class="small text-muted">Games <i class="fa fa-gamepad"></i></span> <span class="float-end me-2">{{ calculateTotalGames }}</span></p>
                       </div>
                       <div>
-                        <p class="small text-muted mb-1">Rating</p>
-                        <p class="mb-0">8.5</p>
+                        <p class="mb-1"><span class="small text-muted">Achievements <i class="fa fa-trophy"></i></span> <span class="float-end me-2">0</span></p>
                       </div>
                     </div>
                   </div>
@@ -51,7 +49,7 @@
                       <img v-else-if="getGamePlaystyle(gameKey) === 'Wonderswan'" src="../../assets/svg/wonder.svg" class="icon" alt="arcade-icon">
                       {{ getGameName(gameKey) }}
                     </td>
-                    <td v-if="game.total > 0" class="text-end text-primary"><b>{{ game.total }}</b></td>
+                    <td v-if="game.total > 0" class="text-end text-primary"><b>{{ game.total }}<i class="fa fa-star"></i></b></td>
                   </tr>
                   </tbody>
                 </table>
@@ -59,13 +57,46 @@
             </div>
           </div>
         </div>
+    <h2 class="text-center my-3">Last played song</h2>
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col col-lg-6">
+        <div v-for="(value, key) in player" :key="key">
+          <div v-if="key === 'lastPlayedSong'">
+<!--            example: {"anotherClear":false,"anotherScore":"","favorite":true,"hardClear":true,"hardScore":"","id":"9392","normalClear":true,"normalScore":"","target":true}-->
+            <div v-if="value">
+              <div class="card">
+                <div class="card-body p-4">
+                   {{ player.lastPlayedSong.id }}
+                  <div class="float-left">
+                    <span class="ms-2" :class="player.lastPlayedSong.normalClear ? 'text-theme-1' : 'text-muted'">N</span>
+                    <span class="ms-2" :class="player.lastPlayedSong.hardClear ? 'text-theme-2' : 'text-muted'">H</span>
+                    <span class="ms-2" :class="player.lastPlayedSong.anotherClear ? 'text-theme-3' : 'text-muted'">A</span>
+                    <span class="ms-2" :class="player.lastPlayedSong.normalDoubleClear ? 'text-theme-1' : 'text-muted'">ND</span>
+                    <span class="ms-2" :class="player.lastPlayedSong.hardDoubleClear ? 'text-theme-2' : 'text-muted'">HD</span>
+                    <span class="ms-2" :class="player.lastPlayedSong.anotherDoubleClear ? 'text-theme-3' : 'text-muted'">AD</span>
+                    <i class="fa fa-heart ms-2" :class="player.lastPlayedSong.favorite ? 'text-danger' : 'text-muted'"></i>
+                    <i class="fa fa-bullseye ms-2" :class="player.lastPlayedSong.target ? 'text-success' : 'text-muted'"></i>
+                  </div>
+                  <p v-if="player.lastPlayedSong.normalScore" class="mb-0 text-muted">Normal score: {{ player.lastPlayedSong.normalScore }}</p>
+                  <p v-if="player.lastPlayedSong.hardScore" class="mb-0 text-muted">Hard score: {{ player.lastPlayedSong.hardScore }}</p>
+                  <p v-if="player.lastPlayedSong.anotherScore" class="mb-0 text-muted">Another score: {{ player.lastPlayedSong.anotherScore }}</p>
+                  <p v-if="player.lastPlayedSong.scoreDoubleNormal" class="mb-0 text-muted">Normal double score: {{ player.lastPlayedSong.scoreDoubleNormal }}</p>
+                  <p v-if="player.lastPlayedSong.scoreDoubleHard" class="mb-0 text-muted">Hard double score: {{ player.lastPlayedSong.scoreDoubleHard }}</p>
+                  <p v-if="player.lastPlayedSong.scoreDoubleAnother" class="mb-0 text-muted">Another double score: {{ player.lastPlayedSong.scoreDoubleAnother }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import info from '@/assets/locales/info.js' // import common locale messages
 export default {
-  name: 'AdminUs',
+  name: 'ProfileScreen',
   props: {
     msg: String,
   },
@@ -95,6 +126,9 @@ export default {
     getGamePlaystyle(gameID) {
       return this.$store.getters['games/getGamePlayStyle'](gameID);
     },
+    songInfo(gameID, songID) {
+      return this.$store.getters['songs/getSongByID'](gameID, songID);
+    }
   },
   computed: {
     games() {
