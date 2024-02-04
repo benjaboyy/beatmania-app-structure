@@ -12,7 +12,7 @@
 Format copied from excel:
 2	-	-	-	-	-	2 gorgeous 4U	prophet-31
 -	-	-	1	-	-	greed eater	The Dust Fathers
-4	5	6	4	6	8	20,november	DJ nagureo</pre>
+4	5	6	4	6	8	NAME	ARTIST</pre>
         </div>
       </div>
     </div>
@@ -33,15 +33,16 @@ export default {
     };
   },
   methods: {
-    convertToJSON() {
+    convertToJSON: function () {
       const rows = this.excelData.split('\n');
       const json = {};
 
       rows.forEach((row) => {
         const cells = row.split('\t');
-        const artistname = cells[7];
         const songname = cells[6];
-        const id = cells[7].trim().replace(/[^\w\s]/g, '') + Math.floor(Math.random() * 9999);
+        const artistname = cells[7];
+        const genre = cells[8];
+        const id = cells[7].trim().replace(/\s+/g, '').replace(/[^\w\s]/g, '') + Math.floor(Math.random() * 9999);
 
         const difficulty = {
           difficultyNormal: cells[0] === '' || cells[0] === '-' ? '0' : cells[0].toString(),
@@ -56,6 +57,7 @@ export default {
           artist: artistname,
           id: `${id}`,
           name: songname,
+          genre: genre,
           ...(Object.values(difficulty).some((value) => value !== undefined) && { ...difficulty }),
         };
         json[`${id}`] = songData;
