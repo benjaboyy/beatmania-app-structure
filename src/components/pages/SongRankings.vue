@@ -70,6 +70,7 @@
       @close="hideProfile"
       :open="profileVisible"
       :player="loadedPlayer"
+      :arcadeID="arcadeID"
   />
 </template>
 

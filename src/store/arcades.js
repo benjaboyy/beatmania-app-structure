@@ -20,6 +20,11 @@ export default {
         getPlayers: (state) => (arcadeID) => {
             const arcade = state.arcades.find(arcade => arcade.code === arcadeID);
             return arcade.players;
+        },
+        getPlayerKeyByName: (state) => (arcadeID, playerName) => {
+            const arcade = state.arcades.find(arcade => arcade.code === arcadeID);
+            const playerKey = Object.keys(arcade.players).find(key => arcade.players[key] === playerName);
+            return playerKey;
         }
     },
     mutations: {

@@ -16,6 +16,7 @@
         </table>
       </div>
       <div class="d-grid mt-3 gap-2">
+        <router-link :to="'/user/' + getPlayerKeyByName(arcadeID, player.name)" class="btn btn-primary">{{ $t("login.viewProfile") }}</router-link>
         <button class="btn btn-dark" @click="hideDialog">{{ $t("login.close") }}</button>
       </div>
     </dialog>
@@ -26,6 +27,10 @@
 export default {
   props:
   {
+    arcadeID: {
+      type: String,
+      required: true
+    },
     open: {
       type: Boolean,
       required: true
@@ -50,6 +55,9 @@ export default {
     },
     getGameName(gameID) {
       return this.$store.getters['games/getGameName'](gameID);
+    },
+    getPlayerKeyByName(arcadeID, playerName) {
+      return this.$store.getters['arcades/getPlayerKeyByName'](arcadeID, playerName);
     },
   },
 };

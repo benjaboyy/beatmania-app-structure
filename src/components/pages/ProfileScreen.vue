@@ -5,8 +5,8 @@
             <div class="card">
               <div class="card-body p-4">
                 <div class="d-flex text-black justify-content-center align-items-center">
-                  <div class="flex-shrink-0">
-                    <img v-if="player.profileUrl"  :src="player.profileUrl"
+                  <div v-if="player.profileUrl" class="flex-shrink-0">
+                    <img  :src="player.profileUrl"
                          alt="Generic placeholder image" class="img-fluid"
                          style="width: 180px; border-radius: 10px;">
                   </div>
@@ -35,34 +35,31 @@
     <h2 class="text-center my-3">Tracked games</h2>
     <div class="row d-flex justify-content-center align-items-center h-100">
       <div class="col col-lg-6">
-    <!--        example player data:-->
-    <!--        {"name":"Behy","profileUrl":"https://i0.wp.com/www.deschuurr.nl/wp-content/uploads/2023/03/IMG_20230312_175249_944.jpg","trackedGames":{"beatmania":{"courses":0,"doubleCourse":false,"doubles":0,"doublesSet":false,"singleCourse":false,"singles":0,"singlesSet":false,"total":0},"beatmania6thmix+coreremix":{"courses":0,"doubleCourse":false,"doubles":0,"doublesSet":false,"singleCourse":false,"singles":0,"singlesSet":false,"total":0},"beatmaniagb":{"courses":5,"doubleCourse":false,"doubles":0,"singleCourse":true,"singles":12,"singlesSet":true,"total":17},"beatmaniawonderswanq":{"courses":0,"doubleCourse":false,"doubles":0,"doublesSet":false,"singleCourse":false,"singles":4,"singlesSet":true,"total":4},"crackindjpart2":{"courses":0,"doubleCourse":false,"doubles":0,"doublesSet":false,"singleCourse":false,"singles":9,"singlesSet":true,"total":9},"popnmusicgb":{"courses":0,"doubleCourse":false,"doubles":0,"doublesSet":false,"singleCourse":false,"singles":0,"singlesSet":false,"total":0},"thefinal":{"courses":55,"doubleCourse":false,"doubleCourseSet":false,"doubles":56,"doublesSet":true,"singleCourse":true,"singleCourseSet":false,"singles":411,"singlesSet":true,"total":522}}}-->
-            <div v-for="(value, key) in player" :key="key">
-              <div v-if="key === 'trackedGames'">
-                <table class="table mb-0 bg-light rounded">
-                  <tbody>
-                  <tr v-for="(game, gameKey) in value" :key="gameKey">
-                    <td v-if="game.total > 0">
-                      <img v-if="getGamePlaystyle(gameKey) === 'Playstation'" src="../../assets/svg/playstation.svg" class="icon" alt="arcade-icon">
-                      <img v-else-if="getGamePlaystyle(gameKey) === 'Arcade'" src="../../assets/svg/arcade.svg" class="icon" alt="arcade-icon">
-                      <img v-else-if="getGamePlaystyle(gameKey) === 'Gameboy'" src="../../assets/svg/gameboy.svg" class="icon" alt="arcade-icon">
-                      <img v-else-if="getGamePlaystyle(gameKey) === 'Wonderswan'" src="../../assets/svg/wonder.svg" class="icon" alt="arcade-icon">
-                      {{ getGameName(gameKey) }}
-                    </td>
-                    <td v-if="game.total > 0" class="text-end text-primary"><b>{{ game.total }}<i class="fa fa-star"></i></b></td>
-                  </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
+        <div v-for="(value, key) in player" :key="key">
+          <div v-if="key === 'trackedGames'">
+            <table class="table mb-0 bg-light rounded">
+              <tbody>
+              <tr v-for="(game, gameKey) in value" :key="gameKey">
+                <td v-if="game.total > 0">
+                  <img v-if="getGamePlaystyle(gameKey) === 'Playstation'" src="../../assets/svg/playstation.svg" class="icon" alt="arcade-icon">
+                  <img v-else-if="getGamePlaystyle(gameKey) === 'Arcade'" src="../../assets/svg/arcade.svg" class="icon" alt="arcade-icon">
+                  <img v-else-if="getGamePlaystyle(gameKey) === 'Gameboy'" src="../../assets/svg/gameboy.svg" class="icon" alt="arcade-icon">
+                  <img v-else-if="getGamePlaystyle(gameKey) === 'Wonderswan'" src="../../assets/svg/wonder.svg" class="icon" alt="arcade-icon">
+                  {{ getGameName(gameKey) }}
+                </td>
+                <td v-if="game.total > 0" class="text-end text-primary"><b>{{ game.total }}<i class="fa fa-star"></i></b></td>
+              </tr>
+              </tbody>
+            </table>
           </div>
         </div>
+      </div>
+    </div>
     <h2 class="text-center my-3">Last played song</h2>
     <div class="row d-flex justify-content-center align-items-center h-100">
       <div class="col col-lg-6">
         <div v-for="(value, key) in player" :key="key">
           <div v-if="key === 'lastPlayedSong'">
-<!--            example: {"anotherClear":false,"anotherScore":"","favorite":true,"hardClear":true,"hardScore":"","id":"9392","normalClear":true,"normalScore":"","target":true}-->
             <div v-if="value">
               <div class="card">
                 <div class="card-body p-4">
@@ -140,6 +137,10 @@ export default {
     calculateTotalPoints() {
       let total = 0;
       for (const game in this.player.trackedGames) {
+        // skip if not defined so result is alway a number
+        if (this.player.trackedGames[game].total === undefined) {
+          continue;
+        }
         total += this.player.trackedGames[game].total;
       }
       return total;
