@@ -40,8 +40,10 @@ npm run lint
 ```
 
 ### Set env variables
+Fill the .env file with the following variables:
 ```
-Set the 'VUE_APP_FIREBASE_API_KEY' in your local .env file
+VUE_APP_FIREBASE_API_KEY={YOUR_API_KEY}
+VUE_APP_FIREBASE_BASE_URL={YOUR_API_URL}
 ```
 
 ### Customize configuration

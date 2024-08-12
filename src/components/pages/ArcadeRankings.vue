@@ -56,7 +56,9 @@
         </div>
         <div class="card p-3" v-else>
           <h3>Select Game</h3>
-          <button v-for="game in getArcadeGames" :key="game" class="btn btn-primary mt-2" @click="selectedGame = game">{{ getGameName(game) }}</button>
+          <button v-for="game in getArcadeGames" :key="game" class="btn btn-primary mt-2 text-start" @click="selectedGame = game">{{ getGameName(game) }}
+            <i class="fa fa-arrow-right ms-2 mt-1 float-end"></i>
+          </button>
           <div>
             <hr>
             <router-link to="/" class="btn btn-primary " href="#" type="button" role="button" exact><i class="fa fa-home me-2"></i> {{ $t("menu.back") }}</router-link>

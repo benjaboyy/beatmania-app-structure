@@ -112,7 +112,8 @@ export default {
     },
     deleteArcade() {
       const token = this.$store.getters.token;
-      fetch(`https://beatmania-pro-default-rtdb.europe-west1.firebasedatabase.app/arcades/${this.arcadeID}.json?auth=${token}`, {
+      const url = process.env.VUE_APP_FIREBASE_BASE_URL;
+      fetch(`${url}arcades/${this.arcadeID}.json?auth=${token}`, {
         method: 'DELETE',
       }).then((response) => {
         if (response.ok) {
@@ -134,7 +135,8 @@ export default {
       let ID = "";
       ID = this.enteredCode;
       const token = this.$store.getters.token;
-      fetch(`https://beatmania-pro-default-rtdb.europe-west1.firebasedatabase.app/arcades/${ID}.json?auth=${token}`, {
+      const url = process.env.VUE_APP_FIREBASE_BASE_URL;
+      fetch(`${url}arcades/${ID}.json?auth=${token}`, {
         method: 'PUT',
         body: JSON.stringify({
           id: this.enteredCode,

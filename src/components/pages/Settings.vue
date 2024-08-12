@@ -1,14 +1,14 @@
 <template>
   <div class="stats-screen px-md-5 m-auto">
     <h1 class="text-center my-4">{{ $t("settings.settings") }}</h1>
-    <div class="my-3 d-flex">
-      <div class="mx-auto">
-        <a class="btn btn-primary" @click="tab = 'details'" :class="tab === 'details' ? 'btn-primary' : 'btn-light'">{{ $t("settings.accountDetails") }}</a>
-        <a class="btn btn-primary" @click="tab = 'games'" :class="tab === 'games' ? 'btn-primary' : 'btn-light'">{{ $t("settings.gameSelect") }}</a>
-      </div>
-    </div>
     <div class="card">
       <div class="card-body">
+        <div class="mb-3 d-flex">
+          <div class="mx-auto">
+            <a class="btn me-2" @click="tab = 'details'" :class="tab === 'details' ? 'btn-primary' : 'btn-outline-primary'">{{ $t("settings.accountDetails") }}</a>
+            <a class="btn" @click="tab = 'games'" :class="tab === 'games' ? 'btn-primary' : 'btn-outline-primary'">{{ $t("settings.gameSelect") }}</a>
+          </div>
+        </div>
         <div v-if="tab === 'games' && games">
           <div id="emailHelp" class="form-text mb-3">
             <strong>{{ $t("settings.gameSelectInfo") }}</strong>
@@ -98,17 +98,19 @@
               </div>
             </div>
           </div>
-<!--          <div class="mb-3">-->
-<!--            <label for="Select" class="form-label">{{ $t("settings.favoriteGame")}}</label>-->
-<!--            <select id="Select" class="form-select" placeholder="Choose" v-model="enteredFavoriteGame">-->
-<!--              <option v-for="game in games" v-bind:key="game">{{ game.name }}</option>-->
-<!--            </select>-->
-<!--          </div>-->
+          <div class="mb-3">
+            <label for="Select" class="form-label">{{ $t("settings.favoriteGame")}}</label>
+            <select id="Select" class="form-select" placeholder="Choose" v-model="enteredFavoriteGame">
+              <option v-for="game in games" v-bind:key="game">{{ game.name }}</option>
+            </select>
+          </div>
           <div class="mb-0">
             <div>Current theme: <span class="text-primary ms-2">{{ themes[currentTheme-1] }}</span></div>
             <button @click="showThemeDialog" class="btn-primary btn" type="button">
               <i class="fas fa-palette text-contrast"></i> {{ $t("settings.selectTheme") }}
             </button>
+            <div class="mt-2">Profile/ Statistics:</div>
+            <router-link :to="'user/' + userID" class="btn btn-primary"><i class="fas fa-eye text-contrast"></i> {{ $t("login.viewProfile") }}</router-link>
           </div>
           <hr>
           <button type="submit" @click="updateSettings" class="btn btn-primary"><i class="fa fa-save me-1"></i> {{ $t("filter.save") }}</button>

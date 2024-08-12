@@ -1,6 +1,6 @@
 let timer;
 const API_KEY = process.env.VUE_APP_FIREBASE_API_KEY;
-const API_BASE_URL = 'https://beatmania-pro-default-rtdb.europe-west1.firebasedatabase.app/';
+const API_BASE_URL = process.env.VUE_APP_FIREBASE_BASE_URL;
 const REFRESH_TOKEN_INTERVAL = 60000; // 1 minute
 import router from '../main';
 

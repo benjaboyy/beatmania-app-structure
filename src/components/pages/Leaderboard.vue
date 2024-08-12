@@ -7,7 +7,7 @@
     <div class="text-center w-100 my-0">
       <h1 class="text-center my-0">{{ songInfo.name }}</h1>
 <!--      // stoting dropdown-->
-      <div class="dropdown">
+      <div class="dropdown my-2">
         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
           {{ $t("listScreen." + difficulty) }}
         </button>
@@ -37,9 +37,9 @@
           <tr v-for="(player, index) in finalList" :key="player.name">
             <td style="width: 1px">{{ index + 1 }}</td>
             <td>{{ player.name }}</td>
-            <td>{{ player.normalScore }}</td>
-            <td v-if="this.game.hasHardSongs">{{ player.hardScore }}</td>
-            <td v-if="this.game.hasAnotherSongs">{{ player.anotherScore }}</td>
+            <td><i v-if="player.normalClear" class="fa fa-check text-success"></i> {{ player.normalScore }}</td>
+            <td v-if="this.game.hasHardSongs"><i v-if="player.hardClear" class="fa fa-check text-success"></i> {{ player.hardScore }}</td>
+            <td v-if="this.game.hasAnotherSongs"><i v-if="player.hardClear" class="fa fa-check text-success"></i> {{ player.anotherScore }}</td>
           </tr>
         </tbody>
       </table>

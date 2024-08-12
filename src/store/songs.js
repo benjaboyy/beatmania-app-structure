@@ -1,3 +1,4 @@
+const API_BASE_URL = process.env.VUE_APP_FIREBASE_BASE_URL;
 export default {
     namespaced: true,
     state() {
@@ -13,7 +14,7 @@ export default {
     actions: {
         async loadSongs(context) {
             const token = context.rootGetters.token;
-            await fetch('https://beatmania-pro-default-rtdb.europe-west1.firebasedatabase.app/songs.json?auth=' + token)
+            await fetch(API_BASE_URL + '/songs.json?auth=' + token)
                 .then((response) => {
                     if (response.ok) {
                         return response.json();
@@ -54,7 +55,7 @@ export default {
 
             for (const gameID of gameIDArray) {
                 try {
-                    const response = await fetch(`https://beatmania-pro-default-rtdb.europe-west1.firebasedatabase.app/songs/${gameID}.json?auth=${token}`);
+                    const response = await fetch(API_BASE_URL + `/songs/${gameID}.json?auth=${token}`);
 
                     if (response.ok) {
                         const data = await response.json();

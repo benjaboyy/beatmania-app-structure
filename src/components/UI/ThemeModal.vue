@@ -2,29 +2,30 @@
   <div v-if="open" class="backdrop" @click="hideDialog"></div>
   <transition name="modal">
     <dialog class="window" open v-if="open">
-      <h3><i class="fas fa-globe"></i> {{ $t("settings.selectTheme") }}</h3>
+      <h3 class="text-dark"><i class="fas fa-globe"></i> {{ $t("settings.selectTheme") }}</h3>
       <div class="row g-3 pt-1">
         <div class="col-6">
           <button
-              :class="currentTheme === '1' ? 'btn-primary ' : 'btn-outline-primary'"
+              :class="currentTheme === '1' ? 'btn-primary ' : 'btn-dark'"
               class="btn py-4 w-100" @click="setTheme('1')">Lumen</button>
         </div>
         <div class="col-6">
           <button
-              :class="currentTheme === '2' ? 'btn-primary ' : 'btn-outline-primary'"
+              :class="currentTheme === '2' ? 'btn-primary ' : 'btn-dark'"
               class="btn py-4 w-100" @click="setTheme('2')">Space</button>
         </div>
         <div class="col-6">
           <button
-              :class="currentTheme === '3' ? 'btn-primary ' : 'btn-outline-primary'"
+              :class="currentTheme === '3' ? 'btn-primary ' : 'btn-dark'"
               class="btn py-4 w-100" @click="setTheme('3')">Scrapbook</button>
         </div>
         <div class="col-6">
           <button
-              :class="currentTheme === '4' ? 'btn-primary ' : 'btn-outline-primary'"
+              :class="currentTheme === '4' ? 'btn-primary ' : 'btn-dark'"
               class="btn py-4 w-100" @click="setTheme('4')">Bloom</button>
         </div>
       </div>
+      <hr>
       <div class="d-grid mt-3 gap-2">
         <button class="btn btn-dark" @click="hideDialog">Save & {{ $t("login.close") }}</button>
       </div>

@@ -1,3 +1,4 @@
+const API_BASE_URL = process.env.VUE_APP_FIREBASE_BASE_URL;
 export default {
     namespaced: true,
     state() {
@@ -41,7 +42,7 @@ export default {
     actions: {
         async loadArcades(context) {
             const token = context.rootGetters.token;
-            const response = await fetch('https://beatmania-pro-default-rtdb.europe-west1.firebasedatabase.app/arcades.json?auth=' + token);
+            const response = await fetch(API_BASE_URL + '/arcades.json?auth=' + token);
             const responseData = await response.json();
 
             if (!response.ok) {
@@ -64,7 +65,7 @@ export default {
         },
         async updatePlayerOnArcade(context, payload) {
             const token = context.rootGetters.token;
-            const response = await fetch(`https://beatmania-pro-default-rtdb.europe-west1.firebasedatabase.app/arcades/${payload.arcadeID}/players/${payload.userID}.json?auth=` + token, {
+            const response = await fetch(API_BASE_URL + `/arcades/${payload.arcadeID}/players/${payload.userID}.json?auth=` + token, {
                 method: 'PUT',
                 body: JSON.stringify(payload.name),
             });
@@ -76,7 +77,7 @@ export default {
         },
         async deletePlayerOnArcade(context, payload) {
             const token = context.rootGetters.token;
-            const response = await fetch(`https://beatmania-pro-default-rtdb.europe-west1.firebasedatabase.app/arcades/${payload.arcadeID}/players/${payload.userID}.json?auth=` + token, {
+            const response = await fetch(API_BASE_URL + `/arcades/${payload.arcadeID}/players/${payload.userID}.json?auth=` + token, {
                 method: 'DELETE',
             });
             const responseData = await response.json();

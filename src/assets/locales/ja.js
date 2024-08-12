@@ -21,6 +21,7 @@ export default
         highScore: 'ハイスコア',
         leaderboard: 'リーダーボード',
         seeInfo: '情報を見る',
+        hideInfo: '情報を隠す',
     },
     menu: {
         app: 'アプリ',

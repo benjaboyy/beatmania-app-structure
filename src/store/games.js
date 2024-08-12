@@ -1,5 +1,4 @@
-
-const API_BASE_URL = 'https://beatmania-pro-default-rtdb.europe-west1.firebasedatabase.app/';
+const API_BASE_URL = process.env.VUE_APP_FIREBASE_BASE_URL;
 export default {
     namespaced: true,
     state() {

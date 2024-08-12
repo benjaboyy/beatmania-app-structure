@@ -37,8 +37,9 @@
               <hr>
               <span class="w-100" v-for="song in filteredSongs" :key="song.id" :value="song.id">
                 <router-link :to="'/leaderboard/' + arcadeID + '/' + selectedGame + '/' + song.id"
-                             class="btn btn-light w-100 mb-1">
+                             class="btn btn-light w-100 text-start mb-1">
                   {{ song.name }} - {{ song.artist }}
+                   <i class="fa fa-arrow-right ms-2 float-end"></i>
                 </router-link>
               </span>
               <div v-if="songID">
@@ -78,7 +79,7 @@
 import LanguageModal from "@/components/UI/LanguageModal";
 import ProfileModal from "@/components/UI/ProfileModal";
 export default {
-  name: 'AdminUs',
+  name: 'SongRankings',
   components: {
     LanguageModal, ProfileModal
   },

@@ -72,11 +72,12 @@
           <tbody v-if="!loading">
             <tr @click="showDialog(song)"
                 v-for="song in setSongs" v-bind:key="song.id"
+                class="text-dark"
                 :class="checkSongBg(song)">
               <th class="indicator d-none d-md-table-cell"
                   :class="checkSongStatus(song)">
               </th>
-              <th class="text-start">
+              <th class="text-start text-dark">
                 {{ song.name }}
               </th>
               <th class="text-start d-none d-md-table-cell">{{ song.artist }}</th>

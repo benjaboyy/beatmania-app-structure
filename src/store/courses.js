@@ -1,3 +1,4 @@
+const API_BASE_URL = process.env.VUE_APP_FIREBASE_BASE_URL;
 export default {
     namespaced: true,
     state() {
@@ -13,7 +14,7 @@ export default {
     actions: {
         async loadCourses(context) {
             const token = context.rootGetters.token;
-            await fetch('https://beatmania-pro-default-rtdb.europe-west1.firebasedatabase.app/courses.json?auth=' + token)
+            await fetch(API_BASE_URL + '/courses.json?auth=' + token)
                 .then((response) => {
                     if (response.ok) {
                         return response.json();

@@ -5,10 +5,10 @@
         <div class="col-md-6 py-2 mx-auto">
           <img v-if="profileUrl" :src="profileUrl" class="rounded img-thumbnail float-left" alt="profile image">
           <span @click="showShare" class="float-right d-flex h-100 text-white"><i class="fas fa-qrcode fa-2x my-auto"></i></span>
-          <div class="d-flex flex-column my-auto ps-2">
+          <router-link :to="'user/' + userID" class="d-flex flex-column my-auto ps-2 text-decoration-none">
             <h5 class="m-0 text-white mt-2 mt-md-0"> {{ $t("welcomeScreen.welcome") }}</h5>
             <h1>DJ {{ userName }}</h1>
-          </div>
+          </router-link>
         </div>
       </div>
       <div class="row">
@@ -19,20 +19,24 @@
       </div>
       <div v-if="isDataLoaded" class="row">
         <div v-if="allArcadeCodes > 0" class="col-md-6 mx-auto">
-          <div v-for="code in allArcadeCodes" v-bind:key="code" class="card text-bg-primary">
+          <div v-for="code in allArcadeCodes" v-bind:key="code" class="card border-3 border-primary">
             <div class="card-body">
+              <i class="fas fa-warehouse position-absolute text-dark h4 end-0 opacity-50 me-3" alt="arcade-icon"></i>
               <div class="row g-3 mb-2">
                 <div class="col-12">
-                  <h4 class="card-title"><strong>{{ getArcadeName(code) }}</strong></h4>
+                  <h4 class="card-title text-dark"><strong>{{ getArcadeName(code) }}</strong></h4>
                 </div>
                 <div class="col-6">
-                  <router-link :to="{ path: '/arcade/' + code }" class="btn w-100 btn-outline-light me-2" href="#">{{ $t("welcomeScreen.leaderboard") }}</router-link>
+                  <router-link :to="{ path: '/arcade/' + code }" class="btn w-100 btn-primary me-2" href="#">{{ $t("welcomeScreen.leaderboard") }}</router-link>
                 </div>
                 <div class="col-6">
-                  <router-link :to="{ path: '/leaderboard/' + code }" class="btn w-100 btn-outline-light me-2" href="#">{{ $t("welcomeScreen.highScore") }}</router-link>
+                  <router-link :to="{ path: '/leaderboard/' + code }" class="btn w-100 btn-dark me-2" href="#">{{ $t("welcomeScreen.highScore") }}</router-link>
                 </div>
               </div>
             </div>
+          </div>
+          <div class="text-center">
+            <h4 class="mb-0 mt-3 text-white">Tracked games</h4>
           </div>
         </div>
       </div>
@@ -44,22 +48,24 @@
         <div v-if="isDataLoaded" class="col-md-6 mt-4 mx-auto">
           <div v-if="gamestats[game.id]" class="card h-100">
             <div class="card-body pb-2">
-              <h4 class="card-title">
+              <h4 @click="toggleExpand(game.id)" class="card-title"
+                  type="button" data-bs-toggle="collapse" :data-bs-target="'#collapseOne' + game.id.replace(/[+\[\-:]/g, '')"
+                  aria-expanded="true" aria-controls="collapseOne">
                 <img v-if="game.playStyle === 'Playstation'" src="../../assets/svg/playstation.svg" class="icon" alt="arcade-icon">
                 <img v-else-if="game.playStyle === 'Arcade'" src="../../assets/svg/arcade.svg" class="icon" alt="arcade-icon">
                 <img v-else-if="game.playStyle === 'Gameboy'" src="../../assets/svg/gameboy.svg" class="icon" alt="arcade-icon">
                 <img v-else-if="game.playStyle === 'Wonderswan'" src="../../assets/svg/wonder.svg" class="icon" alt="arcade-icon">
                 <strong>{{ game.name }}</strong></h4>
-              <div class="row g-3 mb-2 mt-0">
-                <div class="col-6">
-                  <router-link :to="'/games/' + game.id" class="btn w-100 btn-primary me-2" href="#"><i class="fa fa-compact-disc"></i> {{ $t("welcomeScreen.songList") }}</router-link>
-                </div>
-                <div class="col-6">
-                  <router-link  v-if="game.trackedGame.doubleCourse || game.trackedGame.singleCourse" :to="'/g/course/' + game.id" class="btn w-100 btn-primary" href="#"><i class="fa fa-layer-group"></i> {{ $t("welcomeScreen.courses") }}</router-link>
-                  <button v-else class="btn w-100 btn-secondary" disabled><i class="fa fa-layer-group"></i> {{ $t("welcomeScreen.courses") }}</button>
-                </div>
-              </div>
               <div :id="'collapseOne' + game.id.replace(/[+\[\-:]/g, '')" class="accordion-collapse collapse text-start">
+                <div class="row g-3 mb-2 mt-0">
+                  <div class="col-6">
+                    <router-link :to="'/games/' + game.id" class="btn w-100 btn-primary me-2" href="#"><i class="fa fa-compact-disc"></i> {{ $t("welcomeScreen.songList") }}</router-link>
+                  </div>
+                  <div class="col-6">
+                    <router-link  v-if="game.trackedGame.doubleCourse || game.trackedGame.singleCourse" :to="'/g/course/' + game.id" class="btn w-100 btn-primary" href="#"><i class="fa fa-layer-group"></i> {{ $t("welcomeScreen.courses") }}</router-link>
+                    <button v-else class="btn w-100 btn-secondary" disabled><i class="fas fa-ban"></i> {{ $t("welcomeScreen.courses") }}</button>
+                  </div>
+                </div>
                 <span class="text-primary">{{ $t("welcomeScreen.songs") }}: </span>{{ gamestats[game.id].songs }}<br>
                 <span class="text-primary">{{ $t("welcomeScreen.system") }}: </span>{{ game.playStyle }}
 
@@ -76,8 +82,13 @@
                   <progress-bar-stats :clear="gamestats[game.id].courses.doubleClear" :total="gamestats[game.id].courses.doubleTotal" :name="'primary'" :type="$t('welcomeScreen.doubleCourses')"></progress-bar-stats>
                 </div>
               </div>
-              <button class="btn btn-sm w-100 m-0 p-0 mt-1" type="button" data-bs-toggle="collapse" :data-bs-target="'#collapseOne' + game.id.replace(/[+\[\-:]/g, '')" aria-expanded="true" aria-controls="collapseOne">
-                {{ $t("welcomeScreen.seeInfo") }} <i class="fas fa-eye ms-2"></i>
+              <button class="btn btn-sm w-100 m-0 p-0 mt-1"
+                      type="button" data-bs-toggle="collapse" :data-bs-target="'#collapseOne' + game.id.replace(/[+\[\-:]/g, '')"
+                      aria-expanded="true" aria-controls="collapseOne"
+                      @click="toggleExpand(game.id)">
+                <span v-if="expandedGames[game.id]">{{ $t("welcomeScreen.hideInfo") }} </span>
+                <span v-else>{{ $t("welcomeScreen.seeInfo") }} </span>
+                <i class="ms-2" :class="expandedGames[game.id] ? 'fas fa-chevron-up' : 'fas fa-chevron-down'"></i>
               </button>
             </div>
           </div>
@@ -115,6 +126,7 @@ export default {
       isDataLoaded: false,
       shareUrl: '',
       shareVisible: false,
+      expandedGames: {}
     }
   },
   computed: {
@@ -185,6 +197,12 @@ export default {
     },
   },
   methods: {
+    toggleExpand(gameId) {
+      if (this.expandedGames[gameId] === undefined) {
+        this.expandedGames[gameId] = false;  // Initialize if not already set
+      }
+      this.expandedGames[gameId] = !this.expandedGames[gameId];
+    },
     showShare() {
       this.shareUrl = 'https://beatmania-pro.web.app/user/' + this.userID;
       this.shareVisible = true;

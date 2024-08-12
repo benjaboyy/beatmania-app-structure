@@ -22,6 +22,7 @@ export default
         highScore: 'High Score',
         leaderboard: 'Leaderboard',
         seeInfo: 'See Info',
+        hideInfo: 'Hide Info',
     },
     menu: {
         app: 'App',

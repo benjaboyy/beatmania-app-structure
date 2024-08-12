@@ -5,12 +5,12 @@
             <div class="card">
               <div class="card-body p-4">
                 <div class="d-flex text-black justify-content-center align-items-center">
-                  <div v-if="player.profileUrl" class="flex-shrink-0">
+                  <div v-if="player.profileUrl" class="flex-shrink-0 me-3">
                     <img  :src="player.profileUrl"
                          alt="Generic placeholder image" class="img-fluid"
                          style="width: 180px; border-radius: 10px;">
                   </div>
-                  <div class="flex-grow-1 ms-3">
+                  <div class="flex-grow-1">
                     <h5 class="mb-0">{{ player.name }}</h5>
                     <p class="mb-2"><i><small>Last login {{ player.lastLogin }}</small></i></p>
                     <div class=" rounded-3 p-2 mb-2"
