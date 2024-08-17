@@ -56,6 +56,7 @@ export default {
                     name: responseData[key].name,
                     code: responseData[key].code,
                     country: responseData[key].country,
+                    countryCode: responseData[key].countryCode,
                     games: responseData[key].games,
                     players: responseData[key].players,
                 };

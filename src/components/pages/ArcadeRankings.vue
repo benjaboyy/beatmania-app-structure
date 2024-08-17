@@ -10,16 +10,20 @@
       <div v-if="!arcadeID" class="card">
         <div class="card-body">
           <h3>Select Arcade</h3>
-          <div class="input-group mb-0">
-            <select class="form-select" v-model="arcadeID">
-              <option class="dropdown-item text-theme-1" v-for="arcade in getArcades" :key="arcade.id" :value="arcade.id">
-                {{ arcade.name }}
-              </option>
-            </select>
-          </div>
+          <button v-for="arcade in getArcades" :key="arcade.id" class="btn btn-light w-100 text-start mt-2" @click="selectedArcade(arcade.id)">
+            <span class="d-flex">
+              <img class="my-auto me-2" :src="'https://flagsapi.com/' + arcade.countryCode + '/flat/64.png'">
+              <span class="me-auto my-auto">{{ arcade.name }} <br>
+                <small class="text-muted" >
+                {{ arcade.games.length }} Games / {{ Object.keys(arcade.players).length }} Players
+                </small>
+              </span>
+               <i class="fa fa-arrow-right ms-2 my-auto float-end"></i>
+            </span>
+          </button>
           <hr>
-          <router-link to="/" class="btn btn-primary " href="#" type="button" role="button" exact><i class="fa fa-home me-2"></i> {{ $t("menu.back") }}</router-link>
-          <router-link to="/about" class="btn btn-link" href="#" type="button" role="button" exact>{{ $t("menu.aboutAndInfo") }}</router-link>
+          <router-link to="/about" class="btn btn-primary" href="#" type="button" role="button" exact><i class="fa fa-info me-1"></i> {{ $t("menu.aboutAndInfo") }}</router-link>
+          <router-link to="/" class="btn btn-secondary ms-2" type="button" role="button" exact><i class="fa fa-lock me-1"></i> {{ $t("menu.login") }}</router-link>
         </div>
       </div>
       <div v-else>
@@ -61,7 +65,7 @@
           </button>
           <div>
             <hr>
-            <router-link to="/" class="btn btn-primary " href="#" type="button" role="button" exact><i class="fa fa-home me-2"></i> {{ $t("menu.back") }}</router-link>
+            <button @click="removeArcadeID" class="btn btn-primary " type="button" role="button" ><i class="fa fa-home me-2"></i> {{ $t("menu.arcadesSelect") }}</button>
             <router-link to="/about" class="btn btn-link" href="#" type="button" role="button" exact>{{ $t("menu.aboutAndInfo") }}</router-link>
           </div>
         </div>
@@ -169,6 +173,9 @@ export default {
       this.loadedPlayer = player;
       this.profileVisible = true;
     },
+    removeArcadeID() {
+      this.arcadeID = '';
+    },
     hideProfile() {
       this.profileVisible = false;
     },
@@ -177,6 +184,9 @@ export default {
     },
     getGameName(gameID) {
       return this.$store.getters['games/getGameName'](gameID);
+    },
+    selectedArcade(arcadeID) {
+      this.arcadeID = arcadeID;
     },
     async copyURL(url) {
       try {

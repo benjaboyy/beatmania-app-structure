@@ -32,6 +32,9 @@ export default
         admin: '管理者',
         back: '戻る',
         arcadeRanking: 'アーケードランキング',
+        games: 'ゲーム',
+        arcadesSelect: 'アーケード',
+        login: 'ログイン',
     },
     listScreen: {
         search: '検索',

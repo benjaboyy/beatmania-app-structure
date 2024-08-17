@@ -3,23 +3,27 @@
     <div class="banner--highscore d-flex bg-primary" v-if="!isAuthenticated">
       <img src="../../assets/img/banner-highscore.png" class="d-inline-block align-middle mx-auto logo--size" alt="">
     </div>
-    <h1 v-if="!arcadeID && isAuthenticated" class="text-center my-0">Leaderboard Rankings</h1>
+    <h1 v-if="!arcadeID && isAuthenticated" class="text-center my-0">Song Leaderboard</h1>
     <h1 v-if="selectedGame" class="text-center my-0">{{ nameOfSelectedGame }} Ranking</h1>
     <div v-if="arcadeID" :class="{'h1': !selectedGame, 'h5': selectedGame}" class="text-center text-white my-0">Location: {{ getArcadeName }}</div>
     <div class="mt-4">
       <div v-if="!arcadeID" class="card">
         <div class="card-body">
           <h3>Select Arcade</h3>
-          <div class="input-group mb-0">
-            <select class="form-select" v-model="arcadeID">
-              <option class="dropdown-item text-theme-1" v-for="arcade in getArcades" :key="arcade.id" :value="arcade.id">
-                {{ arcade.name }}
-              </option>
-            </select>
-          </div>
+          <button v-for="arcade in getArcades" :key="arcade.id" class="btn btn-light w-100 text-start mt-2" @click="selectedArcade(arcade.id)">
+            <span class="d-flex">
+              <img class="my-auto me-2" :src="'https://flagsapi.com/' + arcade.countryCode + '/flat/64.png'">
+              <span class="me-auto my-auto">{{ arcade.name }} <br>
+                <small class="text-muted" >
+                {{ arcade.games.length }} Games / {{ Object.keys(arcade.players).length }} Players
+                </small>
+              </span>
+               <i class="fa fa-arrow-right ms-2 my-auto float-end"></i>
+            </span>
+          </button>
           <hr>
-          <router-link to="/" class="btn btn-primary " href="#" type="button" role="button" exact><i class="fa fa-home me-2"></i> {{ $t("menu.back") }}</router-link>
-          <router-link to="/about" class="btn btn-link" href="#" type="button" role="button" exact>{{ $t("menu.aboutAndInfo") }}</router-link>
+          <router-link to="/about" class="btn btn-primary" href="#" type="button" role="button" exact><i class="fa fa-info me-1"></i> {{ $t("menu.aboutAndInfo") }}</router-link>
+          <router-link to="/" class="btn btn-secondary ms-2" type="button" role="button" exact><i class="fa fa-lock me-1"></i> {{ $t("menu.login") }}</router-link>
         </div>
       </div>
       <div v-else>
@@ -53,10 +57,12 @@
         </div>
         <div class="card p-3" v-else>
           <h3>Select Game</h3>
-          <button v-for="game in getArcadeGames" :key="game" class="btn btn-primary mt-2" @click="selectedGame = game">{{ getGameName(game) }}</button>
+          <button v-for="game in getArcadeGames" :key="game" class="btn btn-primary text-start mt-2" @click="selectedGame = game">{{ getGameName(game) }}
+            <i class="fa fa-arrow-right ms-2 mt-1 float-end"></i>
+          </button>
           <div>
             <hr>
-            <router-link to="/" class="btn btn-primary " href="#" type="button" role="button" exact><i class="fa fa-home me-2"></i> {{ $t("menu.back") }}</router-link>
+            <button @click="removeArcadeID" class="btn btn-primary " type="button" role="button" ><i class="fa fa-home me-2"></i> {{ $t("menu.arcadesSelect") }}</button>
             <router-link to="/about" class="btn btn-link" href="#" type="button" role="button" exact>{{ $t("menu.aboutAndInfo") }}</router-link>
           </div>
         </div>
@@ -144,6 +150,9 @@ export default {
         return song.name.toLowerCase().includes(this.searchWord.toLowerCase());
       });
     },
+    removeArcadeID() {
+      this.arcadeID = '';
+    },
     async getGameSongs() {
       const token = this.$store.getters.token;
       const gameID = this.selectedGame;
@@ -178,6 +187,9 @@ export default {
     },
     hideDialog() {
       this.dialogIsVisible = false;
+    },
+    selectedArcade(arcadeID) {
+      this.arcadeID = arcadeID;
     },
     showProfile(player) {
       console.log(player);

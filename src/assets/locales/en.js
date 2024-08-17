@@ -33,6 +33,9 @@ export default
         admin: 'Admin',
         back: 'Back',
         arcadeRanking: 'Arcade Ranking',
+        games: 'Games',
+        arcadesSelect: 'Arcades',
+        login: 'Login',
     },
     listScreen: {
         search: 'Search',
