@@ -35,6 +35,7 @@ export default
         games: 'ゲーム',
         arcadesSelect: 'アーケード',
         login: 'ログイン',
+        songLeaderboard: '曲リーダーボード',
     },
     listScreen: {
         search: '検索',

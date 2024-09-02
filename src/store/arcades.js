@@ -20,7 +20,7 @@ export default {
         },
         getPlayers: (state) => (arcadeID) => {
             const arcade = state.arcades.find(arcade => arcade.code === arcadeID);
-            return arcade.players;
+            return arcade.players || {};
         },
         getPlayerKeyByName: (state) => (arcadeID, playerName) => {
             const arcade = state.arcades.find(arcade => arcade.code === arcadeID);

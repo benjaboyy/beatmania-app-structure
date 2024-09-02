@@ -14,8 +14,8 @@
             <span class="d-flex">
               <img class="my-auto me-2" :src="'https://flagsapi.com/' + arcade.countryCode + '/flat/64.png'">
               <span class="me-auto my-auto">{{ arcade.name }} <br>
-                <small class="text-muted" >
-                {{ arcade.games.length }} Games / {{ Object.keys(arcade.players).length }} Players
+                <small class="text-muted"  v-if="arcade.players">
+                  {{ arcade.games.length }} Games / {{ Object.keys(arcade.players).length }} Players
                 </small>
               </span>
                <i class="fa fa-arrow-right ms-2 my-auto float-end"></i>

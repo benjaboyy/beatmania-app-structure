@@ -35,7 +35,11 @@
             </div>
             <div class="form-group">
               <label for="songArtist">Country</label>
-              <input class="form-control" type="text" id="songArtist" v-model="enteredCountry" />
+              <input class="form-control" type="text" id="country" v-model="enteredCountry" />
+            </div>
+            <div class="form-group">
+              <label for="songArtist">Country Code (2 digits)</label>
+              <input class="form-control" type="text" id="countryCode" v-model="enteredCountryCode" />
             </div>
             <div class="form-group">
               <label for="songArtist">Arcade code</label>
@@ -80,6 +84,7 @@ export default {
       enteredName: "",
       enteredCode: "",
       enteredCountry: "",
+      enteredCountryCode: "",
       enteredGames: [],
       arcadeUpdate: false,
       gameChoises: [],
@@ -101,6 +106,7 @@ export default {
       this.enteredName = "";
       this.enteredCode = "";
       this.enteredCountry = "";
+      this.enteredCountryCode = "";
       this.enteredGames = [];
       this.enteredPlayers = [];
       this.arcadeID = "";
@@ -143,6 +149,7 @@ export default {
           name: this.enteredName,
           code: this.enteredCode,
           country: this.enteredCountry,
+          countryCode: this.enteredCountryCode,
           games: this.enteredGames,
           players: this.enteredPlayers,
         })
@@ -154,6 +161,7 @@ export default {
             name: this.enteredName,
             code: this.enteredCode,
             country: this.enteredCountry,
+            countryCode: this.enteredCountryCode,
             games: this.enteredGames,
             players: this.enteredPlayers,
           });
@@ -198,6 +206,7 @@ export default {
         this.enteredName = arcade.name;
         this.enteredCode = arcade.code;
         this.enteredCountry = arcade.country;
+        this.enteredCountryCode = arcade.countryCode;
         this.enteredGames = arcade.games;
         this.enteredPlayers = arcade.players;
       }

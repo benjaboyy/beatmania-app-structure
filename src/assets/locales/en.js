@@ -36,8 +36,11 @@ export default
         games: 'Games',
         arcadesSelect: 'Arcades',
         login: 'Login',
+        songLeaderboard: 'Song Leaderboard',
     },
     listScreen: {
+        player: 'Player | Players',
+        game: 'Game | Games',
         search: 'Search',
         filters: 'Filters',
         target: 'Target',

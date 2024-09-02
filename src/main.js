@@ -12,6 +12,7 @@ import ProfileScreen from "@/components/pages/ProfileScreen.vue";
 import submitSong from "@/forms/submitSong";
 import submitGame from "@/forms/submitGame";
 import submitArcade from "@/forms/submitArcade";
+import submitAchievement from "@/forms/submitAchievement";
 import AddCourseModal from "@/components/UI/AddCourseModal";
 import RegisterUser from "@/forms/user/RegisterUser";
 import submitCourse from "@/forms/submitCourse";
@@ -45,6 +46,7 @@ const router = createRouter({
         { path: '/submitGame', component: submitGame, meta: { requiresAuth: true } },
         { path: '/submitCourse', component: submitCourse, meta: { requiresAuth: true } },
         { path: '/submitArcade', component: submitArcade, meta: { requiresAuth: true } },
+        { path: '/submitAchievement', component: submitAchievement, meta: { requiresAuth: true } },
         { path: '/import', component: importSongs, meta: { requiresAuth: true } },
         { path: '/Admin', component: AdminPanel, meta: { requiresAuth: true } },
         { path: '/about', component: AboutUs, meta: { requiresAuth: false } },

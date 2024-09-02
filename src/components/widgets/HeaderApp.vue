@@ -43,6 +43,11 @@
               </router-link>
             </li>
             <li class="nav-item">
+              <router-link @click="closeMenu" to="/leaderboard"  class="btn w-100 btn-light mb-2" href="#" type="button" role="button">
+                <i class="fas fa-trophy me-1"></i> {{ $t("menu.songLeaderboard") }}
+              </router-link>
+            </li>
+            <li class="nav-item">
               <router-link @click="closeMenu" to="/about" class="btn w-100 btn-light mb-2" href="#" type="button" role="button">
                 <i class="fa fa-question me-1"></i> {{ $t("menu.aboutAndInfo") }}
               </router-link>
