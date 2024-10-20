@@ -1,14 +1,13 @@
 <template>
-  <div class="container-fluid max-width bg-dark">
+  <div class="container-fluid max-width">
     <div class="row text-center mx-md-3">
       <div class="col-12 p-0 text pt-4">
         <h1 class="text-center">{{ game.name }} <i :class="'icon ' + game.icon + ' text-primary'"></i></h1>
         <div class="px-2 px-md-0">
-          <div class="input-group mt-4">
-            <input type="text" class="form-control" :placeholder="$t('listScreen.searchName')" aria-label="Recipient's username" aria-describedby="button-addon2"
-                   v-model="searchWord"
-                   @input="search">
-            <button class="btn btn-primary" type="button" id="button-search" @click="search"><i class="fa fa-search me-md-1"></i>  <span class="d-none d-md-inline">{{ $t("listScreen.search") }}</span></button>
+          <div class="input-group d-flex mt-4">
+            <button class="btn btn-primary ms-auto" type="button" id="button-search" @click="toggleSearch = !toggleSearch">
+              <i class="fa fa-search me-md-1"></i>  <span class="d-none d-md-inline">{{ $t("listScreen.search") }}</span>
+            </button>
 
             <button v-if="game.hasDoubleCharts && type === 'single'" @click="toggleType" class="btn ms-2 d-md-none" :class="type === 'single' ? 'btn-primary' : 'btn-light'" type="button"><i class="fa fa-compact-disc"></i></button>
             <button v-if="game.hasDoubleCharts && type === 'double'" @click="toggleType" class="btn ms-2 d-md-none" :class="type === 'double' ? 'btn-primary' : 'btn-light'" type="button"><i class="fa fa-compact-disc"></i><i class="fa fa-compact-disc ms-1"></i></button>
@@ -34,9 +33,16 @@
                 <a v-if="game.hasDoubleCharts && game.hasAnotherSongs" :class="filterSorting === 'anotherDoubleLevel' ? 'dropdown-item active' : 'dropdown-item text-dark'" @click="changeSort('anotherDoubleLevel')"><i class="fas fa-compact-disc text-theme-3"></i><i class="fas fa-compact-disc ms-1 text-theme-3"></i> {{ $t("listScreen.another") }}</a>
               </div>
             </div>
-            <button @click="showFilter" class="btn btn-primary ms-2" type="button"><i class="fa fa-sliders-h me-md-1"></i> <span class="d-none d-md-inline">{{ $t("listScreen.filters") }}</span></button>
+            <button @click="showFilter" class="btn btn-primary me-auto ms-2" type="button"><i class="fa fa-sliders-h me-md-1"></i> <span class="d-none d-md-inline">{{ $t("listScreen.filters") }}</span></button>
           </div>
-          <div class="my-2 text-start">
+
+          <div v-if="toggleSearch" class="input-group mt-3 mb-3">
+            <input type="text" class="form-control" :placeholder="$t('listScreen.searchName')" aria-label="Recipient's username" aria-describedby="button-addon2"
+                 v-model="searchWord"
+                 @input="search">
+            <button v-if="clearSearch" class="btn btn-primary" type="button" @click="searchWord = ''"><i class="fa fa-times"></i></button>
+          </div>
+          <div class="my-3 text-start">
             <span v-if="!filters" class="text-white me-2">{{ $t("listScreen.filter") }}:</span>
             <span v-if="!noFilter && searchWord !== '' && searchWord !== undefined" @click="removeFilter('search')" class="badge rounded-pill bg-light text-dark me-2" role="button">{{ $t("listScreen.nameArtist") }} <i class="fa fa-times"></i></span>
             <span v-if="!noFilter && filters.filterLevel > 0 && filters.filterLevel !== undefined" @click="removeFilter('level')" class="badge rounded-pill pill bg-light text-dark me-2" role="button">{{ $t("listScreen.level") }} {{ filters.filterLevel }} <i class="fa fa-times"></i></span>
@@ -48,7 +54,7 @@
         </div>
         <table class="table table-borderless bg-light table-striped table-songs">
           <thead>
-          <tr class=" text-white bg-dark">
+          <tr class=" text-white bg-primary">
             <th class="indicator d-none d-md-table-cell"></th>
             <th class="text-start">{{ $t("listScreen.songName") }}</th>
             <th class="text-start d-none d-md-table-cell">{{ $t("listScreen.artistAlias") }}</th>
@@ -170,6 +176,7 @@ export default {
       infoSong: {},
       filters: {},
       isLoaded: false,
+      toggleSearch: false,
       loading: false,
       noFilter: true,
       searchWord: '',
@@ -220,6 +227,10 @@ export default {
       }
 
       return sortedSongs;
+    },
+    clearSearch() {
+      this.searchWord = '';
+      this.reset();
     },
     compareDifficulty(difficultyA, difficultyB) {
       // Convert undefined or null to a value that will be sorted to the bottom
@@ -546,6 +557,9 @@ export default {
   }
   .table-songs {
     font-size: 0.8rem;
+  }
+  .input-group {
+    background: none !important;
   }
   td:hover, diff-td:hover {
     cursor: pointer;

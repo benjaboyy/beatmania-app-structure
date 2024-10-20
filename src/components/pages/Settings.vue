@@ -151,7 +151,7 @@ export default {
       enteredTrackGames: {},
       dialogThemeIsVisible: false,
       currentTheme: this.$store.getters['getTheme'], // gives number 1/4
-      themes: ['Lumen', 'Space', 'Scrapbook', 'Bloom'],
+      themes: ['Lumen', 'Scrapbook'],
     }
   },
   async created() {

@@ -1,22 +1,29 @@
 <template>
-  <div class="container-fluid bg-dark">
+  <div class="container-fluid">
     <div class="row text-center mx-md-3">
       <div class="col-12 p-0 text pt-4">
         <h1 class="text-center mb-2">{{ game.name }} <i :class="'icon ' + game.icon + ' text-primary'"></i></h1>
         <div class="container">
           <div class="row mb-2">
             <div v-if="game.hasDoubleCharts" class="pb-2 col-12">
-              <a class="btn btn-primary" @click="courseDoubleSwitch" :class="courseDouble === false ? 'btn-primary' : 'btn-light'"><i class="fa fa-compact-disc"></i> {{ $t("filter.singles") }}</a>
-              <a class="btn btn-primary" @click="courseDoubleSwitch" :class="courseDouble === true ? 'btn-primary' : 'btn-light'"><i class="fa fa-compact-disc"></i> <i class="fa fa-compact-disc"></i> {{ $t("filter.doubles") }}</a>
-              <a class="btn ms-2 btn-primary" @click="toggleFilter" :class="toggleFilted === true ? 'btn-primary' : 'btn-light'"><i class="fa fa-filter"></i></a>
+              <a v-if="!courseDouble" class="btn btn-primary" @click="courseDoubleSwitch" :class="'btn-light'"><i class="fa fa-compact-disc"></i> {{ $t("filter.singles") }}</a>
+              <a v-if="courseDouble" class="btn btn-primary" @click="courseDoubleSwitch" :class="'btn-light'"><i class="fa fa-compact-disc"></i> <i class="fa fa-compact-disc"></i> {{ $t("filter.doubles") }}</a>
+              <a class="btn ms-2" @click="toggleFilter" :class="toggleFilted === true ? 'btn-primary' : 'btn-light'"><i class="fa fa-filter"></i></a>
+              <a class="btn ms-2" @click="searchFilter" :class="toggleSearch === true ? 'btn-primary' : 'btn-light'"><i class="fa fa-search"></i></a>
+            </div>
+            <div v-if="toggleSearch" class="pb-2 col-12">
+              <div class="input-group">
+                <input type="text" class="form-control" v-model="searchWord" @input="search" placeholder="Search for courses">
+                <button class="btn btn-primary" @click="clearSearch"><i class="fa fa-times"></i></button>
+              </div>
             </div>
             <div v-if="toggleFilted" class="pb-2 col-12">
-              <div id="emailHelp" class="form-text">{{ $t("filter.filterOn") }}:</div>
-              <a class="btn btn-primary" @click="courseFilterCleared" :class="filterCleared === true ? 'btn-primary' : 'btn-light'"><i class="fa fa-check"></i> {{ $t("filter.cleared") }}</a>
-              <a class="btn btn-primary" @click="courseFilterFailed" :class="filterFailed === true ? 'btn-primary' : 'btn-light'"><i class="fa fa-times"></i> {{ $t("filter.failed") }}</a>
-              <a class="btn btn-primary" @click="courseFilterFC" :class="filterFC === true ? 'btn-primary' : 'btn-light'"><i class="fas fa-crosshairs"></i> {{ $t("filter.fullCombo") }}</a>
-              <a class="btn btn-primary" @click="courseFilterGrade" :class="filterGrade === true ? 'btn-primary' : 'btn-light'"><i class="fas fa-graduation-cap"></i> {{ $t("filter.grade") }}</a>
-              <a class="btn btn-primary" @click="courseFilterScore" :class="filterScore === true ? 'btn-primary' : 'btn-light'"><i class="fas fa-star"></i> {{ $t("filter.score") }}</a>
+              <div id="emailHelp" class="form-text text-white mb-2">Filters:</div>
+              <a class="btn btn-primary mb-2 me-2" @click="courseFilterCleared" :class="filterCleared === true ? 'btn-primary' : 'btn-light'"><i class="fa fa-check"></i> {{ $t("filter.cleared") }}</a>
+              <a class="btn btn-primary mb-2 me-2" @click="courseFilterFailed" :class="filterFailed === true ? 'btn-primary' : 'btn-light'"><i class="fa fa-times"></i> {{ $t("filter.failed") }}</a>
+              <a class="btn btn-primary mb-2 me-2" @click="courseFilterFC" :class="filterFC === true ? 'btn-primary' : 'btn-light'"><i class="fas fa-crosshairs"></i> {{ $t("filter.fullCombo") }}</a>
+              <a class="btn btn-primary mb-2 me-2" @click="courseFilterGrade" :class="filterGrade === true ? 'btn-primary' : 'btn-light'"><i class="fas fa-graduation-cap"></i> {{ $t("filter.grade") }}</a>
+              <a class="btn btn-primary mb-2 me-2" @click="courseFilterScore" :class="filterScore === true ? 'btn-primary' : 'btn-light'"><i class="fas fa-star"></i> {{ $t("filter.score") }}</a>
             </div>
           </div>
         </div>
@@ -133,13 +140,14 @@ export default {
       filterGrade: false,
       filterScore: false,
       toggleFilted: false,
+      toggleSearch: false,
       infoSong: {},
       isLoaded: false,
       loading: false,
       noFilter: true,
       searchWord: '',
       courseDouble: false,
-      showInfoContent: false
+      showInfoContent: false,
     }
   },
   methods: {
@@ -170,6 +178,11 @@ export default {
     },
     toggleFilter() {
       this.toggleFilted = !this.toggleFilted;
+      this.toggleSearch = false;
+    },
+    searchFilter() {
+      this.toggleSearch = !this.toggleSearch;
+      this.toggleFilted = false;
     },
     //end filters
     setBG(value) {
@@ -190,6 +203,9 @@ export default {
     clearFilter() {
       this.noFilter = true;
       this.filters = {};
+      this.clearSearch()
+    },
+    clearSearch() {
       this.searchWord = '';
     },
     checkSongStatus(song) {
@@ -260,6 +276,11 @@ export default {
     },
   },
   computed: {
+    filteredCourses() {
+      return this.setCourses.filter((course) => {
+        return course.name.toLowerCase().includes(this.searchWord.toLowerCase());
+      });
+    },
     getType() {
       if (this.courseDouble) {
         return 'doubles';
@@ -288,6 +309,9 @@ export default {
         filteredCourses = filteredCourses.filter(course => course.type === 'doubles');
       } else {
         filteredCourses = filteredCourses.filter(course => course.type === 'singles');
+      }
+      if (this.searchWord) {
+        filteredCourses = filteredCourses.filter(course => course.name.toLowerCase().includes(this.searchWord.toLowerCase()));
       }
       return filteredCourses;
     },

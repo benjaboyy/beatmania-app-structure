@@ -11,18 +11,8 @@
         </div>
         <div class="col-6">
           <button
-              :class="currentTheme === '2' ? 'btn-primary ' : 'btn-dark'"
-              class="btn py-4 w-100" @click="setTheme('2')">Space</button>
-        </div>
-        <div class="col-6">
-          <button
               :class="currentTheme === '3' ? 'btn-primary ' : 'btn-dark'"
               class="btn py-4 w-100" @click="setTheme('3')">Scrapbook</button>
-        </div>
-        <div class="col-6">
-          <button
-              :class="currentTheme === '4' ? 'btn-primary ' : 'btn-dark'"
-              class="btn py-4 w-100" @click="setTheme('4')">Bloom</button>
         </div>
       </div>
       <hr>

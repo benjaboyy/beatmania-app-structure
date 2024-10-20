@@ -54,8 +54,8 @@
           <small class="text-white">Clear = 1 point / Course = 5 points</small>
           <div class="card-footer d-flex mt-2 text-muted">
             <div class="select-lang" @click="showDialog"><i class="fas fa-globe"></i> {{ $t("login.selectLanguage") }}</div>
-            <button class="btn btn-link ms-3 text-white btn-sm" @click="copyURL('https://beatmania-pro.web.app/arcade/' + arcadeID + '/' + selectedGame)"><i class="fa fa-link"></i> {{ $t("login.rankingUrl") }}</button>
-            <div class="ms-auto">© <a class="text-white" href="https://beatmania-pro.web.app">BMGress</a> - {{ new Date().getFullYear() }}</div>
+            <button class="btn btn-link ms-3 text-white btn-sm" @click="copyURL('https://bmgress.app/arcade/' + arcadeID + '/' + selectedGame)"><i class="fa fa-link"></i> {{ $t("login.rankingUrl") }}</button>
+            <div class="ms-auto">© <a class="text-white" href="https://bmgress.app">BMGress</a> - {{ new Date().getFullYear() }}</div>
           </div>
         </div>
         <div class="card p-3" v-else>

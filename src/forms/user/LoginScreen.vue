@@ -88,6 +88,12 @@ export default {
 }
 </script>
 
+<style>
+html, body {
+  background-color: #0d5470 !important;
+}
+</style>
+
 <style scoped>
 .logo-scale {
   width: 80%;

@@ -94,10 +94,11 @@
           </div>
         </div>
       </div>
-      <div v-if="filteredGames.length > 0" class="col-12 my-4 text-center">
-        <router-link :to="{ path: '/settings', query: { ID: 'game' } }" class="btn btn-block btn-secondary" type="button" role="button"><i class="fas fa-check-square"></i> {{ $t("welcomeScreen.selectGames") }}</router-link>
-        <router-link to="/tips" class="btn btn-block btn-secondary ms-3" href="#" type="button" role="button"><i class="far fa-lightbulb"></i> {{ $t("welcomeScreen.tips") }}</router-link>
-        <div id="emailHelp" class="form-text mt-3">{{ $t("welcomeScreen.findMore") }}</div>
+      <div class="row">
+        <div v-if="filteredGames.length > 0" class="col-md-6 my-4 mx-auto text-center">
+          <router-link :to="{ path: '/settings', query: { ID: 'game' } }" class="btn w-100 btn-lg btn-success" type="button" role="button"><i class="fas fa-plus-square"></i> {{ $t("welcomeScreen.selectGames") }}</router-link>
+          <router-link to="/tips" class="btn w-100 btn-lg mt-4 btn-block btn-primary" href="#" type="button" role="button"><i class="far fa-lightbulb"></i> {{ $t("welcomeScreen.tips") }}</router-link>
+        </div>
       </div>
     </div>
   </div>
@@ -204,7 +205,7 @@ export default {
       this.expandedGames[gameId] = !this.expandedGames[gameId];
     },
     showShare() {
-      this.shareUrl = 'https://beatmania-pro.web.app/user/' + this.userID;
+      this.shareUrl = 'https://bmgress.app/user/' + this.userID;
       this.shareVisible = true;
     },
     hideShareModal() {
