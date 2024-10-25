@@ -569,7 +569,7 @@ export default {
   .diff-td {
     width: 50px;
     text-align: center;
-    font-size: 1.2rem;
+    font-size: 1rem;
     padding: 0 !important;
     vertical-align: middle;
   }
@@ -600,7 +600,7 @@ export default {
     }
   }
   .favo {
-    font-size: 1.rem;
+    font-size: 1rem;
   }
   .max-width {
     max-width: 1100px;

@@ -67,10 +67,10 @@
       <div class="d-grid mt-2 gap-2">
         <div class="row g-2">
           <div class="col-6">
-            <button class="btn w-100" @click="toggleTarget" :class="target ? 'btn-danger' : 'bg-light'"><i class="fas fa-bullseye me-1" :class="target ? 'text-white' : 'text-primary'"></i> {{ $t("filter.setTarget") }}</button>
+            <button class="btn btn-sm py-2 w-100" @click="toggleTarget" :class="target ? 'btn-danger' : 'bg-light'"><i class="fas fa-bullseye me-1" :class="target ? 'text-white' : 'text-primary'"></i> {{ $t("filter.setTarget") }}</button>
           </div>
           <div class="col-6">
-            <button class="btn w-100" @click="toggleFavorite" :class="favorite ? 'btn-primary' : 'bg-light'"><i class="fa fa-heart me-1" :class="favorite ? 'text-white' : 'text-primary'"></i> {{ $t("filter.setFavorite") }}</button>
+            <button class="btn btn-sm py-2 w-100" @click="toggleFavorite" :class="favorite ? 'btn-primary' : 'bg-light'"><i class="fa fa-heart me-1" :class="favorite ? 'text-white' : 'text-primary'"></i> {{ $t("filter.setFavorite") }}</button>
           </div>
         </div>
 <!--        <div v-for="(code, index) in userCodes" :key="index" class="input-group mb-1  input-group-lg">-->
