@@ -1,13 +1,13 @@
 <template>
-  <div class="stats-screen px-2 pt-md-5 mb-5">
+  <div class="stats-screen px-2 mb-5">
     <div class="row d-flex justify-content-center align-items-center h-100">
       <div class="col bg-primary pt-2 col-lg-6 profile--header">
         <div class=" text-white">
           <div class="card-body p-4">
             <div class="row ">
-              <div v-if="player.profileUrl" class="col-5 mb-2 mx-auto">
+              <div v-if="player.profileUrl" class="col-6 mb-2 text-center mx-auto">
                 <img :src="player.profileUrl"
-                     alt="Generic placeholder image" class="img-fluid mx-auto"
+                     alt="Generic placeholder image" class="img-fluid img-thumbnail"
                      style="width: 180px; border-radius: 10px;">
               </div>
               <div v-if="!player.profileUrl" class="col-12 mb-2 text-black">
@@ -229,5 +229,11 @@ export default {
   .fa-trophy {
     color: #C0C0C0;
   }
+}
+
+.img-thumbnail {
+  border: 1px solid #000;
+  object-fit: contain;
+  border-radius: 25px !important;
 }
 </style>

@@ -1,0 +1,87 @@
+[debug] [2024-10-25T21:46:45.084Z] ----------------------------------------------------------------------
+[debug] [2024-10-25T21:46:45.085Z] Command:       /usr/local/bin/node /Users/local/Documents/GitHub/beatmania-app-structure/node_modules/.bin/firebase deploy
+[debug] [2024-10-25T21:46:45.085Z] CLI Version:   12.4.4
+[debug] [2024-10-25T21:46:45.085Z] Platform:      darwin
+[debug] [2024-10-25T21:46:45.085Z] Node Version:  v16.16.0
+[debug] [2024-10-25T21:46:45.086Z] Time:          Fri Oct 25 2024 23:46:45 GMT+0200 (Central European Summer Time)
+[debug] [2024-10-25T21:46:45.086Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2024-10-25T21:46:45.126Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2024-10-25T21:46:45.126Z] > authorizing via signed-in user (thebenjaboyy@gmail.com)
+[debug] [2024-10-25T21:46:45.126Z] [iam] checking project beatmania-pro for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2024-10-25T21:46:45.128Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/beatmania-pro:testIamPermissions [none]
+[debug] [2024-10-25T21:46:45.128Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/beatmania-pro:testIamPermissions x-goog-quota-user=projects/beatmania-pro
+[debug] [2024-10-25T21:46:45.128Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/beatmania-pro:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2024-10-25T21:46:45.833Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/beatmania-pro:testIamPermissions 200
+[debug] [2024-10-25T21:46:45.833Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/beatmania-pro:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2024-10-25T21:46:45.833Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/beatmania-pro [none]
+[debug] [2024-10-25T21:46:46.092Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/beatmania-pro 200
+[debug] [2024-10-25T21:46:46.092Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/beatmania-pro {"projectId":"beatmania-pro","projectNumber":"1014297887808","displayName":"Beatmania-Progress","name":"projects/beatmania-pro","resources":{"hostingSite":"beatmania-pro","realtimeDatabaseInstance":"beatmania-pro-default-rtdb"},"state":"ACTIVE","etag":"1_59441352-c783-42d0-99f1-ff37def1f2b8"}
+[info] 
+[info] === Deploying to 'beatmania-pro'...
+[info] 
+[info] i  deploying hosting 
+[debug] [2024-10-25T21:46:46.094Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/beatmania-pro/versions [none]
+[debug] [2024-10-25T21:46:46.094Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/beatmania-pro/versions {"status":"CREATED","labels":{"deployment-tool":"cli-firebase"}}
+[debug] [2024-10-25T21:46:47.647Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/beatmania-pro/versions 200
+[debug] [2024-10-25T21:46:47.647Z] <<< [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/beatmania-pro/versions {"name":"projects/1014297887808/sites/beatmania-pro/versions/0cfe4268068cd862","status":"CREATED","config":{},"labels":{"deployment-tool":"cli-firebase"}}
+[info] i  hosting[beatmania-pro]: beginning deploy... 
+[info] i  hosting[beatmania-pro]: found 41 files in dist 
+[debug] [2024-10-25T21:46:47.669Z] [hosting] uploading with 200 concurrency
+[debug] [2024-10-25T21:46:47.862Z] [hosting] hash cache [ZGlzdA] stored for 41 files
+[debug] [2024-10-25T21:46:47.862Z] [hosting][hash queue][FINAL] {"max":184,"min":0,"avg":42.8780487804878,"active":0,"complete":41,"success":41,"errored":0,"retried":0,"total":41,"elapsed":189}
+[debug] [2024-10-25T21:46:47.863Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/1014297887808/sites/beatmania-pro/versions/0cfe4268068cd862:populateFiles [none]
+[debug] [2024-10-25T21:46:47.863Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/1014297887808/sites/beatmania-pro/versions/0cfe4268068cd862:populateFiles {"files":{"/img/icon-192.png":"1f12328da7e1f0ce8064aeece077ada41d81c8fd4ea2a6f210ad8ce83eec83a1","/img/icon-512.png":"99c87056c05ee7403e8dc3b7ebc425eb2ac3dc9bbd073f1fa5e91ef426b2eae1","/manifest.json":"56978904d31ede333907075c41cdf86790c1986323c7750740c48e77522ae077","/index.html":"7cf54922551a36ddfceacc7f858fa8571fef9f295adba8651346a5236bdc17d0","/service-worker.js":"df7d3a4eac27b3b47d57b4d8f083a3c4313f42a28aaafeb1c2eeb036d3992eb7","/favicon.ico":"1e71457865f706dc865b49a54a86e193818220d290b30226b6630a42faf1535d","/fonts/fa-regular-400.04dd5282.woff":"29ac4f624abed2538116b5422f603b4bed34ed0acc3fbea156431b226a8af5fb","/fonts/fa-regular-400.e2b3a9dc.woff2":"10463810c7ee9d8987df29fd021d5146f1efcb6c864920d5345cfac7ea0cf1ff","/fonts/fa-regular-400.7346017c.ttf":"4d83ab538acc5f1d26d8111b732c0e75f3faab9d4540747c3e7cbb11786de042","/fonts/fa-regular-400.a0140e7c.eot":"87cefa472c4eb49e13b9b6aab6522615529694253798161224b9b62967a4c2fe","/img/arcade.a424ea5b.svg":"b26c2c42d276e53b7bcd48d70b7a074ee5ea1e1782839a80e728bd2f8843ae99","/img/gameboy.f09c6e97.svg":"d43e943e5ead370a65fce86721403268d83e9c26e21f543b993ba7520bc37d1e","/img/logo-full.f1ba08b5.svg":"f908c559cc013a807f0e303420c32d5b4087e2177a61028ed0773bb211b1686d","/img/logo.bad1349d.svg":"381d84d1c8081522f625690822e51f1be0f492018272d59cfcb0faf8bb434457","/img/playstation.e31fac87.svg":"4cfb4329c863da77a2016e3aed38d70dfc75306594412dd2cfea617defedb4bb","/img/wonder.b80ee375.svg":"3918304dbe240e5e758910c964d23cbca5fec0074a11b481bfdf4a11e1b0c73e","/js/37.e34b0fd6.js":"f99d8944efa7d6e59a2417dec4ef13f934288c6230aed9b54da4f85f09cb6993","/js/514.158d7bd1.js":"765fe180a7b6390338d41325b4c25c8dd24da1b1b9b80e6a111a4673ff5bf06c","/js/819.697d83e5.js":"713bb1f090d3c0461144bfb53fdac8de6db8559eae5d97b7133de9d0cd4ba382","/js/821.d283dc2b.js":"e2faa1b106935b9eba7c20cae72b7ca4305321b2a472eb55464b3ef693b7f353","/img/banner-highscore.1f5d13ef.png":"808e0937c2cac4d942a71303fcfbad0bc074eb655714abf4cde0f4cb17d63c2c","/img/howto.fd71b2ad.png":"8002f251fe2e2feb413674f64f1f0714b36158a8375b15456c8d7987579c20e9","/css/819.5cb11188.css":"b6646bccb367f9337041c110342ab4f4205b1c4d68394185837518656d18a768","/css/514.9218e660.css":"6474c0be0f8fb7de80270d2dfccc18f8e65037869dbbc8b7381932452861540a","/css/37.479c7b1b.css":"62f077407e3102949d0bd86e06e14f7abab306554359ba4639c849dcf909c557","/img/fa-regular-400.ee37fbcc.svg":"ba9b5d118beaca04e1861792b99f07d7ff7c719b4dc7edc3bc57c5aa4b33deb6","/fonts/fa-brands-400.7edea186.woff2":"1806d3e05577044ca9a3df61bf16ecad9a67515604c1fe148da8bcc95eef7a41","/fonts/fa-solid-900.620019ed.woff2":"df3d2a0b949750e1be2d3ea97e362e8fe3f8fa31839a0916a871bf8dc94237ef","/fonts/fa-brands-400.0e53fe4f.woff":"2db98d8dde662f6a81b6eed3681af89e36cf9537968fa5e78064e6f558211b52","/css/app.7b7d4297.css":"062168c6aa3ebb70fc569a4fc1980b0d60e55cc20706aa25595d90e0dc1a1e90","/js/app.046ec9b6.js":"48d1ed87b2b7b8afd172faff33d585970c699fea1456534659c5b7eb102ad2ed","/fonts/fa-solid-900.e67670b0.woff":"dbab76f5d6f5a0244556eb1c11b18d6e9d07db463477f57f461e71c292598789","/fonts/fa-brands-400.9c02eaf6.ttf":"5f36a0bafe27a809eee94935e611793357c2f5c2ec4bcbb744b37cbe66a67c8d","/js/chunk-vendors.583d1e3e.js":"5efa145067a17255c7e24faa14f3aa4924cd8893e8dc4a74fb7009f551bde4e7","/fonts/fa-brands-400.b2970adc.eot":"e3671a7182bce691839cdb481fe288746bbfbd2dead9145b02917827b6964eeb","/fonts/fa-solid-900.974801a4.eot":"23216072b833b022dd07734c0098caa2b2610e52e4f6cf727488f9db06c90fdd","/fonts/fa-solid-900.d5b0a356.ttf":"a39e0e26e6fac997102da11974df69ba0c1b8d058fd5319dbfbfe2122b392e2c","/js/app.046ec9b6.js.map":"27e129df4651b251806842bd6baf881b0d6d8f448a90fc2c69213a6cd50b0d8c","/img/fa-solid-900.19a80279.svg":"81a057a5f0f9ab8972f9421914b5c4abe34120437be87f52ec525af0a33549d5","/img/fa-brands-400.3bed6ff8.svg":"56703586a749a9ddf2bd138874e4f3dd17ace3f5a8c249a1d81f5536c3dabf51","/js/chunk-vendors.583d1e3e.js.map":"cd9a5a224f48e07f37c93a52a56e0dc4678fbdd073f95bf41232bd2e35fa6902"}}
+[debug] [2024-10-25T21:46:48.904Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/1014297887808/sites/beatmania-pro/versions/0cfe4268068cd862:populateFiles 200
+[debug] [2024-10-25T21:46:48.905Z] <<< [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/1014297887808/sites/beatmania-pro/versions/0cfe4268068cd862:populateFiles {"uploadRequiredHashes":["062168c6aa3ebb70fc569a4fc1980b0d60e55cc20706aa25595d90e0dc1a1e90","48d1ed87b2b7b8afd172faff33d585970c699fea1456534659c5b7eb102ad2ed","7cf54922551a36ddfceacc7f858fa8571fef9f295adba8651346a5236bdc17d0","27e129df4651b251806842bd6baf881b0d6d8f448a90fc2c69213a6cd50b0d8c"],"uploadUrl":"https://upload-firebasehosting.googleapis.com/upload/sites/beatmania-pro/versions/0cfe4268068cd862/files"}
+[debug] [2024-10-25T21:46:48.908Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/beatmania-pro/versions/0cfe4268068cd862/files/062168c6aa3ebb70fc569a4fc1980b0d60e55cc20706aa25595d90e0dc1a1e90 [none]
+[debug] [2024-10-25T21:46:48.908Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/beatmania-pro/versions/0cfe4268068cd862/files/062168c6aa3ebb70fc569a4fc1980b0d60e55cc20706aa25595d90e0dc1a1e90 [stream]
+[debug] [2024-10-25T21:46:48.911Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/beatmania-pro/versions/0cfe4268068cd862/files/48d1ed87b2b7b8afd172faff33d585970c699fea1456534659c5b7eb102ad2ed [none]
+[debug] [2024-10-25T21:46:48.911Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/beatmania-pro/versions/0cfe4268068cd862/files/48d1ed87b2b7b8afd172faff33d585970c699fea1456534659c5b7eb102ad2ed [stream]
+[debug] [2024-10-25T21:46:48.912Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/beatmania-pro/versions/0cfe4268068cd862/files/7cf54922551a36ddfceacc7f858fa8571fef9f295adba8651346a5236bdc17d0 [none]
+[debug] [2024-10-25T21:46:48.913Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/beatmania-pro/versions/0cfe4268068cd862/files/7cf54922551a36ddfceacc7f858fa8571fef9f295adba8651346a5236bdc17d0 [stream]
+[debug] [2024-10-25T21:46:48.913Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/beatmania-pro/versions/0cfe4268068cd862/files/27e129df4651b251806842bd6baf881b0d6d8f448a90fc2c69213a6cd50b0d8c [none]
+[debug] [2024-10-25T21:46:48.913Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/beatmania-pro/versions/0cfe4268068cd862/files/27e129df4651b251806842bd6baf881b0d6d8f448a90fc2c69213a6cd50b0d8c [stream]
+[debug] [2024-10-25T21:46:48.914Z] [hosting][populate queue][FINAL] {"max":1046,"min":1046,"avg":1046,"active":0,"complete":1,"success":1,"errored":0,"retried":0,"total":1,"elapsed":1053}
+[debug] [2024-10-25T21:46:48.914Z] [hosting] uploads queued: 4
+[debug] [2024-10-25T21:46:49.925Z] <<< [apiv2][status] POST https://upload-firebasehosting.googleapis.com/upload/sites/beatmania-pro/versions/0cfe4268068cd862/files/48d1ed87b2b7b8afd172faff33d585970c699fea1456534659c5b7eb102ad2ed 200
+[debug] [2024-10-25T21:46:49.925Z] <<< [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/beatmania-pro/versions/0cfe4268068cd862/files/48d1ed87b2b7b8afd172faff33d585970c699fea1456534659c5b7eb102ad2ed [stream]
+[debug] [2024-10-25T21:46:50.171Z] <<< [apiv2][status] POST https://upload-firebasehosting.googleapis.com/upload/sites/beatmania-pro/versions/0cfe4268068cd862/files/27e129df4651b251806842bd6baf881b0d6d8f448a90fc2c69213a6cd50b0d8c 200
+[debug] [2024-10-25T21:46:50.171Z] <<< [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/beatmania-pro/versions/0cfe4268068cd862/files/27e129df4651b251806842bd6baf881b0d6d8f448a90fc2c69213a6cd50b0d8c [stream]
+[debug] [2024-10-25T21:46:50.229Z] <<< [apiv2][status] POST https://upload-firebasehosting.googleapis.com/upload/sites/beatmania-pro/versions/0cfe4268068cd862/files/062168c6aa3ebb70fc569a4fc1980b0d60e55cc20706aa25595d90e0dc1a1e90 200
+[debug] [2024-10-25T21:46:50.229Z] <<< [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/beatmania-pro/versions/0cfe4268068cd862/files/062168c6aa3ebb70fc569a4fc1980b0d60e55cc20706aa25595d90e0dc1a1e90 [stream]
+[debug] [2024-10-25T21:46:50.413Z] <<< [apiv2][status] POST https://upload-firebasehosting.googleapis.com/upload/sites/beatmania-pro/versions/0cfe4268068cd862/files/7cf54922551a36ddfceacc7f858fa8571fef9f295adba8651346a5236bdc17d0 200
+[debug] [2024-10-25T21:46:50.413Z] <<< [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/beatmania-pro/versions/0cfe4268068cd862/files/7cf54922551a36ddfceacc7f858fa8571fef9f295adba8651346a5236bdc17d0 [stream]
+[debug] [2024-10-25T21:46:50.414Z] [hosting][upload queue][FINAL] {"max":1507,"min":1018,"avg":1279,"active":0,"complete":4,"success":4,"errored":0,"retried":0,"total":4,"elapsed":1509}
+[info] ✔  hosting[beatmania-pro]: file upload complete 
+[debug] [2024-10-25T21:46:50.417Z] [hosting] deploy completed after 2767ms
+[debug] [2024-10-25T21:46:50.417Z] [
+  {
+    "config": {
+      "public": "dist",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ],
+      "site": "beatmania-pro"
+    },
+    "version": "projects/1014297887808/sites/beatmania-pro/versions/0cfe4268068cd862"
+  }
+]
+[info] i  hosting[beatmania-pro]: finalizing version... 
+[debug] [2024-10-25T21:46:50.423Z] >>> [apiv2][query] PATCH https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/beatmania-pro/versions/0cfe4268068cd862 updateMask=status%2Cconfig
+[debug] [2024-10-25T21:46:50.423Z] >>> [apiv2][body] PATCH https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/beatmania-pro/versions/0cfe4268068cd862 {"status":"FINALIZED","config":{"rewrites":[{"glob":"**","path":"/index.html"}]}}
+[debug] [2024-10-25T21:46:51.672Z] <<< [apiv2][status] PATCH https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/beatmania-pro/versions/0cfe4268068cd862 200
+[debug] [2024-10-25T21:46:51.673Z] <<< [apiv2][body] PATCH https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/beatmania-pro/versions/0cfe4268068cd862 {"name":"projects/1014297887808/sites/beatmania-pro/versions/0cfe4268068cd862","status":"FINALIZED","config":{"rewrites":[{"glob":"**","path":"/index.html"}]},"labels":{"deployment-tool":"cli-firebase"},"createTime":"2024-10-25T21:46:46.993042Z","createUser":{"email":"thebenjaboyy@gmail.com"},"finalizeTime":"2024-10-25T21:46:51.500071Z","finalizeUser":{"email":"thebenjaboyy@gmail.com"}}
+[debug] [2024-10-25T21:46:51.673Z] [hosting] finalized version for beatmania-pro:[object Object]
+[info] ✔  hosting[beatmania-pro]: version finalized 
+[info] i  hosting[beatmania-pro]: releasing new version... 
+[debug] [2024-10-25T21:46:51.674Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/beatmania-pro/channels/live/releases versionName=projects%2F1014297887808%2Fsites%2Fbeatmania-pro%2Fversions%2F0cfe4268068cd862
+[debug] [2024-10-25T21:46:51.674Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/beatmania-pro/channels/live/releases {}

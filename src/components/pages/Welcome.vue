@@ -2,7 +2,7 @@
   <div class="stats-screen px-md-5 m-auto">
     <div class="container">
       <div class="row">
-        <div class="col-md-6 py-2 mx-auto">
+        <div class="col-md-6 py-3 mx-auto">
           <img v-if="profileUrl" :src="profileUrl" class="rounded img-thumbnail float-left" alt="profile image">
           <span @click="showShare" class="float-right d-flex h-100 text-white"><i class="fas fa-qrcode fa-2x my-auto"></i></span>
           <router-link :to="'user/' + userID" class="d-flex flex-column my-auto ps-2 text-decoration-none">
@@ -11,8 +11,8 @@
           </router-link>
         </div>
       </div>
-      <div v-if="isDataLoaded" class="row">
-        <div v-if="allArcadeCodes > 0" class="col-md-6 mx-auto">
+      <div v-if="isDataLoaded & allArcadeCodes > 0" class="row">
+        <div class="col-md-6 mx-auto">
           <div v-for="code in allArcadeCodes" v-bind:key="code" class="card border-3 border-primary">
             <div class="card-body">
               <i class="fas fa-warehouse position-absolute text-dark h4 end-0 opacity-50 me-3" alt="arcade-icon"></i>
@@ -39,7 +39,7 @@
         <h2>Loading...</h2>
       </div>
       <div v-for="game in filteredGames" v-bind:key="game" class="row">
-        <div v-if="isDataLoaded" class="col-md-6 mt-4 mx-auto">
+        <div v-if="isDataLoaded" class="col-md-6 mt-3 mx-auto">
           <div v-if="gamestats[game.id]" class="card h-100">
             <div class="card-body pb-2">
               <h4 @click="toggleExpand(game.id)" class="card-title"
