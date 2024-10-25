@@ -71,6 +71,7 @@ export default
         normalScore: 'Normal Score',
         hardScore: 'Hard Score',
         anotherScore: 'Another Score',
+        noSongs: 'No songs found',
     },
     filter: {
         songFilters: 'Song Filters',

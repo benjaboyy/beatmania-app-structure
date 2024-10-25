@@ -15,10 +15,10 @@
             <input placeholder="Grade" type="text" class="form-control form-control-lg" id="scoreNormal" v-model="grade" />
         </div>
         <div class="col-6">
-            <a class="btn py-2 btn-block w-100" :class="clear ? 'bg-primary text-white' : 'bg-light text-primary'" @click="toggleClear"><i class="fa fa-check text-success"></i> {{ $t("filter.cleared") }}</a>
+            <a class="btn py-2 btn-block w-100" :class="clear ? 'bg-primary text-white' : 'bg-light text-primary'" @click="toggleClear"><i class="fa fa-check " :class="clear ? 'text-white' : 'text-success'"></i> {{ $t("filter.cleared") }}</a>
         </div>
         <div class="col-6">
-            <a class="btn py-2 btn-block w-100" :class="FC ? 'bg-primary text-white flash' : 'bg-light text-primary'" @click="toggleFC"><i class="fa fa-star text-theme-1"></i> {{ $t("filter.fullCombo") }}</a>
+            <a class="btn py-2 btn-block w-100" :class="FC ? 'bg-primary text-white flash' : 'bg-light text-primary'" @click="toggleFC"><i class="fa fa-star" :class="FC ? 'text-white' : 'text-theme-1'"></i> {{ $t("filter.fullCombo") }}</a>
         </div>
       </div>
       <div class="d-grid mt-3 gap-2">
@@ -120,9 +120,7 @@ dialog {
   /*animation: modal 0.5s ease-out forwards;*/
 }
 
-.flash {
-  animation: flash 0.6s infinite;
-}
+
 @keyframes flash {
   0% {
     opacity: 1;
@@ -152,5 +150,9 @@ dialog {
     opacity: 1;
     transform: scale(1);
   }
+}
+
+.fa-check, .fa-star {
+  transition: all 1s;
 }
 </style>

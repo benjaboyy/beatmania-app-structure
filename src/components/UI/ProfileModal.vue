@@ -92,9 +92,7 @@ dialog {
   /*animation: modal 0.5s ease-out forwards;*/
 }
 
-.flash {
-  animation: flash 0.6s infinite;
-}
+
 
 .table-sm td, .table-sm th {
   padding-top: 0!important;

@@ -37,10 +37,11 @@
           </div>
 
           <div v-if="toggleSearch" class="input-group mt-3 mb-3">
-            <input type="text" class="form-control" :placeholder="$t('listScreen.searchName')" aria-label="Recipient's username" aria-describedby="button-addon2"
-                 v-model="searchWord"
+            <input type="text" class="form-control" :placeholder="$t('listScreen.searchName')" aria-label="Recipient's username" aria-describedby="search" id="search" name="search" tabindex="0"
+                  ref="search"
+                   v-model="searchWord"
                  @input="search">
-            <button v-if="clearSearch" class="btn btn-primary" type="button" @click="searchWord = ''"><i class="fa fa-times"></i></button>
+            <button @click="clearSearch" class="btn btn-primary" type="button"><i class="fa fa-times"></i></button>
           </div>
           <div class="my-3 text-start">
             <span v-if="!filters" class="text-white me-2">{{ $t("listScreen.filter") }}:</span>
@@ -133,6 +134,9 @@
                   :class="{'d-none d-md-table-cell': this.type !== 'double'}">-</td>
               <td class=" diff-td pb-0" :class="{ ' text-dark': !song.favorite, 'bg-primary text-white': song.favorite }"><i class="fa favo fa-heart"></i></td>
               <td class=" diff-td pb-0" :class="{ ' text-dark': !song.target, 'bg-danger text-white': song.target }"><i class="fa favo fa-bullseye"></i></td>
+            </tr>
+            <tr v-if="setSongs.length === 0">
+              <td colspan="10" class="text-center">{{ $t("listScreen.noSongs") }}</td>
             </tr>
           </tbody>
         </table>
@@ -511,6 +515,11 @@ export default {
         return songs;
       }
     },
+    async addNewType() {
+      // await next tick
+      await this.$nextTick();
+      document.getElementById('search').focus();  // sets the focus on the input
+    },
     async reset() {
       this.isLoaded = true;
       const songsToLoad = await this.$store.getters['songs/getSongsByGame'](this.gameID);
@@ -537,7 +546,13 @@ export default {
     },
     filters: function() {
       this.reset();
-    }
+    },
+    toggleSearch: function() {
+      this.clearSearch();
+      if (this.toggleSearch) {
+        this.addNewType();
+      }
+    },
   },
   props: {'msg': {
       type: String,
@@ -554,6 +569,9 @@ export default {
   .diff-td {
     width: 50px;
     text-align: center;
+    font-size: 1.2rem;
+    padding: 0 !important;
+    vertical-align: middle;
   }
   .table-songs {
     font-size: 0.8rem;
@@ -569,9 +587,6 @@ export default {
   .indicator {
     width: 12px;
     padding: 0 !important;
-  }
-  .flash {
-    animation: flash 0.6s infinite;
   }
   @keyframes flash {
     0% {

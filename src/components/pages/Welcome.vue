@@ -11,12 +11,6 @@
           </router-link>
         </div>
       </div>
-      <div class="row">
-        <div v-if="filteredGames < 1" class="col-12 my-0 text-center">
-          <div id="reloadHelp" class="form-text mb-3">{{ $t("welcomeScreen.clickReload") }}</div>
-          <router-link :to="{ path: '/settings', query: { ID: 'game' } }" class="btn w-100 mb-3 btn-block btn-lg btn-secondary" type="button" role="button"><i class="fas fa-check-square"></i> {{ $t("welcomeScreen.selectGames") }}</router-link>
-        </div>
-      </div>
       <div v-if="isDataLoaded" class="row">
         <div v-if="allArcadeCodes > 0" class="col-md-6 mx-auto">
           <div v-for="code in allArcadeCodes" v-bind:key="code" class="card border-3 border-primary">
@@ -95,9 +89,14 @@
         </div>
       </div>
       <div class="row">
-        <div v-if="filteredGames.length > 0" class="col-md-6 my-4 mx-auto text-center">
+        <div class="col-md-6 my-4 mx-auto text-center">
           <router-link :to="{ path: '/settings', query: { ID: 'game' } }" class="btn w-100 btn-lg btn-success" type="button" role="button"><i class="fas fa-plus-square"></i> {{ $t("welcomeScreen.selectGames") }}</router-link>
           <router-link to="/tips" class="btn w-100 btn-lg mt-4 btn-block btn-primary" href="#" type="button" role="button"><i class="far fa-lightbulb"></i> {{ $t("welcomeScreen.tips") }}</router-link>
+        </div>
+      </div>
+      <div class="row">
+        <div v-if="filteredGames < 1" class="col-12 my-0 text-center">
+          <div id="reloadHelp" class="text-white mb-3">{{ $t("welcomeScreen.clickReload") }}</div>
         </div>
       </div>
     </div>

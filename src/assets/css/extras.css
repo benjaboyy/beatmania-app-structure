@@ -1,0 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Exo:ital,wght@0,100..900;1,100..900&family=Genos:ital,wght@0,100..900;1,100..900&family=Stick+No+Bills:wght@200..800&family=VT323&display=swap');
+* {
+    font-family: 'Exo', sans-serif;
+}
+
+.flash {
+    animation: flash 2.8s infinite;
+}
+
+@keyframes flash {
+    0%, 50%, 100% {
+        opacity: 1;
+    }
+    25%, 75% {
+        opacity: 0.7;
+    }
+}

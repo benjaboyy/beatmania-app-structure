@@ -328,9 +328,7 @@ dialog {
   /*animation: modal 0.5s ease-out forwards;*/
 }
 
-.flash {
-  animation: flash 0.6s infinite;
-}
+
 @keyframes flash {
   0% {
     opacity: 1;

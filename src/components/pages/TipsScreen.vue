@@ -49,16 +49,10 @@
             <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
               <div class="accordion-body">
                 <strong>Single songs:</strong> <br>
-                Search for the song you want to play and click on it. <br>
-                You will see the song info and the difficulty levels. <br>
-                Play the song and enter your score. <br>
+                Search for the song you want to play, then select it. View the song details, including available difficulty levels. Play the song and enter your score when finished. <br>
                 <br>
                 <strong>Full courses:</strong> <br>
-                Search for the course you want to play and click on it. <br>
-                You will see the course info and the songs in the course. <br>
-                Play the course and enter your score for each song. <br><br>
-
-                The app will save your score and calculate your progress. <br>
+                Search for the course you want to play, then select it. View the course details and a list of songs included in the course. Play through each song in the course and enter your score for each one. <br>
               </div>
             </div>
           </div>

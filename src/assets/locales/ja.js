@@ -65,6 +65,7 @@ export default
         normalDoubleLevel: 'N Doubleレベル',
         hardDoubleLevel: 'H Doubleレベル',
         anotherDoubleLevel: 'A Doubleレベル',
+        noSongs: '曲が見つかりません',
     },
     filter: {
         songFilters: '曲フィルター',

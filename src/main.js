@@ -23,6 +23,7 @@ import SongRankings from "@/components/pages/SongRankings";
 import Leaderboard from "@/components/pages/Leaderboard";
 
 import './assets/css/all.css'
+import './assets/css/extras.css'
 
 import store from './store/index.js'
 import importSongs from "@/components/pages/ImportSongs";

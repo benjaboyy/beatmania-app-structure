@@ -350,9 +350,6 @@ export default {
   .header-text {
     font-size: 1.5rem;
   }
-  .flash {
-    animation: flash 0.6s infinite;
-  }
   @keyframes flash {
     0% {
       opacity: 1;
