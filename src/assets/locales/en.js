@@ -37,6 +37,7 @@ export default
         arcadesSelect: 'Arcades',
         login: 'Login',
         songLeaderboard: 'Song Leaderboard',
+        profile: 'Profile',
     },
     listScreen: {
         player: 'Player | Players',

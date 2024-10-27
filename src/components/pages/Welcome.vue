@@ -3,7 +3,9 @@
     <div class="container">
       <div class="row">
         <div class="col-md-6 py-3 mx-auto">
-          <img v-if="profileUrl" :src="profileUrl" class="rounded img-thumbnail float-left" alt="profile image">
+          <router-link :to="'user/' + userID">
+            <img v-if="profileUrl" :src="profileUrl" class="rounded img-thumbnail float-left" alt="profile image">
+          </router-link>
           <span @click="showShare" class="float-right d-flex h-100 text-white"><i class="fas fa-qrcode fa-2x my-auto"></i></span>
           <router-link :to="'user/' + userID" class="d-flex flex-column my-auto ps-2 text-decoration-none">
             <h5 class="m-0 text-white mt-2 mt-md-0"> {{ $t("welcomeScreen.welcome") }}</h5>

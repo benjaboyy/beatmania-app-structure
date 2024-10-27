@@ -13,7 +13,7 @@
           <i @click="showDialog" class="fas fa-language fa-2x text-white"></i>
         </button>
         <router-link @click="closeMenu" to="/settings" class="btn-palette me-3" href="#" type="button" role="button" exact>
-          <i class="fa fa-user text-white"></i>
+          <i class="fa fa-user-cog text-white"></i>
         </router-link>
         <button class="btn-menu text-white" type="button" @click="toggleMenu" aria-controls="offcanvasDarkNavbar">
           <i class="fas fa-bars"></i>
@@ -38,13 +38,13 @@
               </router-link>
             </li>
             <li class="nav-item">
-              <router-link @click="closeMenu" to="/arcade"  class="btn w-100 btn-light mb-2" href="#" type="button" role="button">
-                <i class="fas fa-trophy me-1"></i> {{ $t("menu.arcadeRanking") }}
+              <router-link @click="closeMenu" :to="'user/' + userID" class="btn w-100 btn-light mb-2" href="#" type="button" role="button" exact>
+                <i class="fa fa-user me-1"></i> {{ $t("menu.profile") }}
               </router-link>
             </li>
             <li class="nav-item">
-              <router-link @click="closeMenu" to="/leaderboard"  class="btn w-100 btn-light mb-2" href="#" type="button" role="button">
-                <i class="fas fa-trophy me-1"></i> {{ $t("menu.songLeaderboard") }}
+              <router-link @click="closeMenu" to="/arcade"  class="btn w-100 btn-light mb-2" href="#" type="button" role="button">
+                <i class="fas fa-trophy me-1"></i> {{ $t("menu.arcadeRanking") }}
               </router-link>
             </li>
             <li class="nav-item">
@@ -107,6 +107,9 @@ export default {
   computed: {
     isAdmin() {
       return this.$store.getters['isAdmin'];
+    },
+    userID() {
+      return this.$store.getters['userID'];
     },
     isJapanese() {
       return this.$store.getters['getLanguage'];
