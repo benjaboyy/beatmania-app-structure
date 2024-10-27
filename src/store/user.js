@@ -427,12 +427,20 @@ export default {
                 alert('Error while logging in');
                 router.push({ name: 'login' });
             }
+            // arcades: [responseData.accountSettings.arcadeCode01, responseData.accountSettings.arcadeCode02, responseData.accountSettings.arcadeCode03]
+            const arcades = [
+                responseData.accountSettings.arcadeCode01,
+                responseData.accountSettings.arcadeCode02,
+                responseData.accountSettings.arcadeCode03,
+            ].filter(code => code);
+
             const userStats = {
                 name: responseData.name,
                 lastLogin: responseData.lastLogin,
                 lastPlayedSong: responseData.lastPlayedSong,
                 profileUrl: responseData.profileUrl,
                 trackedGames: responseData.accountSettings.trackedGames,
+                arcades: arcades,
             }
 
             return userStats;

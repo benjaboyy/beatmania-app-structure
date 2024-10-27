@@ -70,6 +70,25 @@
         </div>
       </div>
     </div>
+    <h2 class="text-center my-3">Linked arcades</h2>
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col col-lg-6">
+        <!--        [{"id":"573300","name":"Rhythm Arcade","code":"573300","country":"Netherlands","countryCode":"NL","games":["thefinal","beatmaniagb2gatchamix"],"players":{"0YV4DS5MvSbdh1AtR9V6r0dqaxB3":"Elex","126ec4IrW4ZHhkd9JxfUQMqGjZD2":"Tubsy","ESRmTw2xsDOwb4F2EW5N7BymuN53":"CHZK","FtaKWn8Q8lbPpFE2TEiqAWLJz1g2":"Nandi","MIcU9GgEP3YJlCHA8Yvx5uCfh6q2":"takekun","Mkubr4TvbMXAJS9gmdX49eprBfZ2":"Thulinma","R3VFHMPnRGhuOwtxMjkIUrA8iXf1":"VolatileRig","WrIwTDjrI3e8uwYgs7YxIjeVyaX2":"SALIM","ZjYBs2M5sZTS5oh0PW920DmoiLz2":"BocuD","dG2i7AVpLLg8JrrngqUM7iggCVn1":"Thumbsy","dx7b587eK1UbDsDcgFvPZwIaKqG3":"MaxPainNL","fTZvTOHij3ZN4mWChI5RRXtddCe2":"_Raz","kZRn8r6OrxgCiEXhutAoEVZFL192":"Behy"}}]-->
+        <div v-for="(arcade, arcadeKey) in infoForPlayerArcade" :key="arcadeKey">
+          <div class="card">
+            <div class="card-body">
+              <span class="d-flex">
+                <img class="my-auto me-2" :src="'https://flagsapi.com/' + arcade.countryCode + '/flat/64.png'">
+                <span class="me-auto my-auto">{{ arcade.name }} <br>
+                  <small class="text-muted
+                  ">{{ arcade.games.length }} Games / {{ Object.keys(arcade.players).length }} Players</small>
+                </span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <h2 class="text-center my-3">Last played song</h2>
     <div class="row d-flex justify-content-center align-items-center h-100">
       <div class="col col-lg-6">
@@ -116,8 +135,6 @@
     </div>
     <h2 class="text-center my-3">Achievements</h2>
     <div class="text-white text-center">- Coming soon -</div>
-    <h2 class="text-center my-3">Linked arcades</h2>
-    <div class="text-white text-center">- Coming soon -</div>
   </div>
 </template>
 
@@ -130,17 +147,19 @@ export default {
   },
   data() {
     return {
-      arcadeID: '',
+      userID: '',
       player: '',
       loading: false,
+      loadedArcadeInfo: '',
     };
   },
   async created() {
     this.loading = true;
     await this.$store.dispatch('arcades/loadArcades');
     await this.$store.dispatch('songs/loadSongs');
-    this.arcadeID = this.$route.params.userID;
-    this.player = await this.$store.dispatch('loadUserStats', this.arcadeID);
+    this.userID = this.$route.params.userID;
+    this.player = await this.$store.dispatch('loadUserStats', this.userID);
+    this.getArcades();
     this.loading = false;
   },
   emits: ['select-view'],
@@ -156,9 +175,23 @@ export default {
     },
     songInfo(gameID, songID) {
       return this.$store.getters['songs/getSongByID'](gameID, songID);
-    }
+    },
+    getArcades() {
+      this.loadedArcadeInfo = this.$store.getters['arcades/getArcades'];
+    },
   },
   computed: {
+    infoForPlayerArcade() {
+      const arcades = this.loadedArcadeInfo;
+      const playerArcades = this.player.arcades;
+      const playerArcadeInfo = [];
+      for (const arcade in arcades) {
+        if (playerArcades.includes(arcades[arcade].id)) {
+          playerArcadeInfo.push(arcades[arcade]);
+        }
+      }
+      return playerArcadeInfo;
+    },
     games() {
       return this.$store.getters['games/getGames'];
     },
@@ -233,7 +266,12 @@ export default {
 
 .img-thumbnail {
   border: 1px solid #000;
-  object-fit: contain;
+  object-fit: cover;
   border-radius: 25px !important;
+}
+
+.table td:hover {
+  background-color: transparent;
+  color: unset !important;
 }
 </style>

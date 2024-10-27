@@ -13,6 +13,7 @@ import submitSong from "@/forms/submitSong";
 import submitGame from "@/forms/submitGame";
 import submitArcade from "@/forms/submitArcade";
 import submitAchievement from "@/forms/submitAchievement";
+import usersView from "@/components/pages/usersView.vue";
 import AddCourseModal from "@/components/UI/AddCourseModal";
 import RegisterUser from "@/forms/user/RegisterUser";
 import submitCourse from "@/forms/submitCourse";
@@ -49,7 +50,7 @@ const router = createRouter({
         { path: '/submitArcade', component: submitArcade, meta: { requiresAuth: true } },
         { path: '/submitAchievement', component: submitAchievement, meta: { requiresAuth: true } },
         { path: '/import', component: importSongs, meta: { requiresAuth: true } },
-        { path: '/Admin', component: AdminPanel, meta: { requiresAuth: true } },
+        { path: '/admin', component: AdminPanel, meta: { requiresAuth: true } },
         { path: '/about', component: AboutUs, meta: { requiresAuth: false } },
         { path: '/tips', component: TipsScreen, meta: { requiresAuth: false } },
         { path: '/user/:userID', component: ProfileScreen, props: true, meta: { requiresAuth: false } },
@@ -62,6 +63,7 @@ const router = createRouter({
         { path: '/leaderboard/:arcadeID', component: SongRankings, props: true, meta: { requiresAuth: false } },
         { path: '/leaderboard/:arcadeID/:gameID', component: SongRankings, props: true, meta: { requiresAuth: false } },
         { path: '/leaderboard/:arcadeID/:gameID/:songID', component: Leaderboard, props: true, meta: { requiresAuth: false } },
+        { path: '/users', component: usersView, meta: { requiresAuth: true } },
         { path: '/register', component: RegisterUser },
         { path: '/reset', component: PasswordReset },
         { path: '/:notFound(.*)', redirect: '/welcome'},

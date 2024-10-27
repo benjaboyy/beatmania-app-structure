@@ -88,7 +88,7 @@
 import LanguageModal from "@/components/UI/LanguageModal";
 import ProfileModal from "@/components/UI/ProfileModal";
 export default {
-  name: 'AdminUs',
+  name: 'ArcadeRankings',
   components: {
     LanguageModal, ProfileModal
   },
