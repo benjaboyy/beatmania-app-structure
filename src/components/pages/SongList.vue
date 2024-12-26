@@ -518,7 +518,7 @@ export default {
                   }
                 } else if (this.filters.filteredClear === 'fullcombo') {
                   if (
-                      !song.doubleEasyFC &&
+                      !song.easyDoubleFC &&
                       !song.normalDoubleFC &&
                       !song.hardDoubleFC &&
                       !song.anotherDoubleFC

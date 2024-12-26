@@ -7,6 +7,7 @@
       <ul class="nav nav-tabs d-lg-none" v-if="infoSong.difficultyDoubleNormal > 0 || infoSong.difficultyDoubleHard > 0 || infoSong.difficultyDoubleAnother > 0">
         <li class="nav-item">
           <a @click="toggleTypeselected" class="nav-link" aria-current="page" :class="typeSelected === 'single' ? 'active' : ''">Singles
+            <clear-indicator v-if="infoSong.difficultyEasy > 0" :clear="easyClear" :fc="easyFC" />
             <clear-indicator v-if="infoSong.difficultyNormal > 0" :clear="normalClear" :fc="normalFC" />
             <clear-indicator v-if="infoSong.difficultyHard > 0" :clear="hardClear" :fc="hardFC" />
             <clear-indicator v-if="infoSong.difficultyAnother > 0" :clear="anotherClear" :fc="anotherFC" />
@@ -14,6 +15,7 @@
         </li>
         <li class="nav-item">
           <a @click="toggleTypeselected" class="nav-link" :class="typeSelected === 'double' ? 'active' : ''">Doubles
+            <clear-indicator v-if="infoSong.difficultyDoubleEasy > 0" :clear="easyDoubleClear" :fc="easyDoubleFC" />
             <clear-indicator v-if="infoSong.difficultyDoubleNormal > 0" :clear="normalDoubleClear" :fc="normalDoubleFC" />
             <clear-indicator v-if="infoSong.difficultyDoubleHard > 0" :clear="hardDoubleClear" :fc="hardDoubleFC" />
             <clear-indicator v-if="infoSong.difficultyDoubleAnother > 0" :clear="anotherDoubleClear" :fc="anotherDoubleFC" />
@@ -23,6 +25,12 @@
       <div class="row">
         <div class="col-12 col-lg-6" :class="typeSelected === 'single' ? '' : ' d-none d-lg-block'">
           <p class="my-2">{{ $t("filter.singles") }}</p>
+          <div class="input-group mb-2  input-group-lg" v-if="infoSong.difficultyEasy > 0">
+            <span class="input-group-text text-white bg-theme-4 border-0">{{ infoSong.difficultyEasy }}</span>
+            <input placeholder="Score" type="text" class="form-control" id="scoreEasy" v-model="scoreEasy" />
+            <a class="btn" :class="easyClear ? 'bg-primary text-white' : 'bg-light text-primary'" @click="toggleEasyClear">{{ $t("filter.cleared") }}</a>
+            <a class="btn" :class="easyFC ? 'bg-primary text-white flash' : 'bg-light text-primary'" @click="toggleEasyFC">{{ $t("filter.fullComboShort") }}</a>
+          </div>
           <div class="input-group mb-2  input-group-lg" v-if="infoSong.difficultyNormal > 0">
             <span class="input-group-text text-white bg-theme-1 border-0">{{ infoSong.difficultyNormal }}</span>
             <input placeholder="Score" type="text" class="form-control" id="scoreNormal" v-model="scoreNormal" />
@@ -115,6 +123,9 @@ export default {
   emits: ['close', 'addSongUser', 'number'],
   data() {
     return {
+      scoreEasy: '',
+      easyFC: false,
+      easyClear: false,
       scoreNormal: '',
       normalFC: false,
       normalClear: false,
@@ -148,6 +159,9 @@ export default {
   methods: {
     countPointsOnOpen () {
       this.pointsOnOpen = 0
+      if (this.easyClear) {
+        this.pointsOnOpen++
+      }
       if (this.normalClear) {
         this.pointsOnOpen++
       }
@@ -155,6 +169,9 @@ export default {
         this.pointsOnOpen++
       }
       if (this.anotherClear) {
+        this.pointsOnOpen++
+      }
+      if (this.easyDoubleClear) {
         this.pointsOnOpen++
       }
       if (this.normalDoubleClear) {
@@ -174,6 +191,9 @@ export default {
       this.$emit('addSongUser', {
         id: this.infoSong.id,
         artist: this.infoSong.artist,
+        scoreEasy: this.scoreEasy,
+        easyFC: this.easyFC,
+        easyClear: this.easyClear,
         scoreNormal: this.scoreNormal,
         normalFC: this.normalFC,
         normalClear: this.normalClear,
@@ -202,6 +222,17 @@ export default {
     },
     toggleTypeselected() {
       this.typeSelected = this.typeSelected == 'single' ? 'double' : 'single';
+    },
+    toggleEasyFC() {
+      this.easyFC = !this.easyFC;
+    },
+    toggleEasyClear() {
+      this.easyClear = !this.easyClear;
+      if (this.easyClear) {
+        this.pointsOnClose++
+      } else {
+        this.pointsOnClose--
+      }
     },
     toggleNormalFC() {
       this.normalFC = !this.normalFC;
@@ -279,6 +310,9 @@ export default {
   watch: {
     open() {
       if (this.open) {
+        this.scoreEasy = this.infoSong.easyScore
+        this.easyFC = this.infoSong.easyFC;
+        this.easyClear = this.infoSong.easyClear;
         this.scoreNormal = this.infoSong.normalScore
         this.normalFC = this.infoSong.normalFC;
         this.normalClear = this.infoSong.normalClear;
