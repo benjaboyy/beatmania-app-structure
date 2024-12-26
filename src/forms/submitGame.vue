@@ -51,6 +51,10 @@
               <label class="form-check-label" for="hasCourseMode">Has course mode</label>
             </div>
             <div class="form-check form-switch">
+              <input v-model="hasEasySongs" class="form-check-input" type="checkbox" id="hasEasySongs" checked>
+              <label class="form-check-label" for="hasEasySongs">Has easy songs</label>
+            </div>
+            <div class="form-check form-switch">
               <input v-model="hasHardSongs" class="form-check-input" type="checkbox" id="hasHardSongs" checked>
               <label class="form-check-label" for="hasHardSongs">Has hard songs</label>
             </div>
@@ -87,10 +91,11 @@ export default {
       hasDoubleCharts: true,
       hasGenres: true,
       hasCourseMode: true,
+      hasEasySongs: true,
       hasHardSongs: true,
       hasAnotherSongs: true,
       enteredPlayStyle: "",
-      playStyles: ['Arcade', 'Arcade', 'Wonderswan', 'Gameboy', 'Playstation'],
+      playStyles: ['Arcade', 'Arcade', 'Wonderswan', 'Gameboy', 'Playstation', 'Bemani Pocket'],
       submitted: false,
       gameChoises: [],
     }
@@ -120,6 +125,7 @@ export default {
           hasDoubleCharts: this.hasDoubleCharts,
           hasGenres: this.hasGenres,
           hasCourseMode: this.hasCourseMode,
+          hasEasySongs: this.hasEasySongs,
           hasHardSongs: this.hasHardSongs,
           hasAnotherSongs: this.hasAnotherSongs,
         })
@@ -136,6 +142,7 @@ export default {
           this.hasDoubleCharts = true;
           this.hasGenres = true;
           this.hasCourseMode = true;
+          this.hasEasySongs = true;
           this.hasHardSongs = true;
           this.hasAnotherSongs = true;
         } else {
@@ -168,6 +175,7 @@ export default {
           this.hasDoubleCharts = game.hasDoubleCharts;
           this.hasGenres = game.hasGenres;
           this.hasCourseMode = game.hasCourseMode;
+          this.hasEasySongs = game.hasEasySongs;
           this.hasHardSongs = game.hasHardSongs;
           this.hasAnotherSongs = game.hasAnotherSongs;
         }

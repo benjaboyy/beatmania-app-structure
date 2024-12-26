@@ -23,11 +23,13 @@
                 <a v-if="game.hasGenres" :class="filterSorting === 'genre' ? 'dropdown-item active' : 'dropdown-item text-dark'" @click="changeSort('genre')">{{ $t("listScreen.genre") }}</a>
                 <li><hr class="dropdown-divider"></li>
                 <small class="dropdown-item disabled">Level Singles</small>
+                <a v-if="game.hasEasySongs" :class="filterSorting === 'easyLevel' ? 'dropdown-item active' : 'dropdown-item text-dark'" @click="changeSort('easyLevel')"><i class="fas fa-compact-disc text-theme-4"></i> {{ $t("listScreen.easy") }}</a>
                 <a :class="filterSorting === 'normalLevel' ? 'dropdown-item active' : 'dropdown-item text-dark'" @click="changeSort('normalLevel')"><i class="fas fa-compact-disc text-theme-1"></i> {{ $t("listScreen.normal") }}</a>
                 <a v-if="game.hasHardSongs" :class="filterSorting === 'hardLevel' ? 'dropdown-item active' : 'dropdown-item text-dark'" @click="changeSort('hardLevel')"><i class="fas fa-compact-disc text-theme-2"></i> {{ $t("listScreen.hard") }}</a>
                 <a v-if="game.hasAnotherSongs" :class="filterSorting === 'anotherLevel' ? 'dropdown-item active' : 'dropdown-item text-dark'" @click="changeSort('anotherLevel')"><i class="fas fa-compact-disc text-theme-3"></i> {{ $t("listScreen.another") }}</a>
                 <li v-if="game.hasDoubleCharts"><hr class="dropdown-divider"></li>
                 <small v-if="game.hasDoubleCharts" class="dropdown-item disabled">Level Doubles</small>
+                <a v-if="game.hasDoubleCharts && game.hasEasySongs" :class="filterSorting === 'easyDoubleLevel' ? 'dropdown-item active' : 'dropdown-item text-dark'" @click="changeSort('easyDoubleLevel')"><i class="fas fa-compact-disc text-theme-4"></i><i class="fas fa-compact-disc ms-1 text-theme-4"></i> {{ $t("listScreen.easy") }}</a>
                 <a v-if="game.hasDoubleCharts" :class="filterSorting === 'normalDoubleLevel' ? 'dropdown-item active' : 'dropdown-item text-dark'" @click="changeSort('normalDoubleLevel')"><i class="fas fa-compact-disc text-theme-1"></i><i class="fas fa-compact-disc ms-1 text-theme-1"></i> {{ $t("listScreen.normal") }}</a>
                 <a v-if="game.hasDoubleCharts && game.hasHardSongs" :class="filterSorting === 'hardDoubleLevel' ? 'dropdown-item active' : 'dropdown-item text-dark'" @click="changeSort('hardDoubleLevel')"><i class="fas fa-compact-disc text-theme-2"></i><i class="fas fa-compact-disc ms-1 text-theme-2"></i> {{ $t("listScreen.hard") }}</a>
                 <a v-if="game.hasDoubleCharts && game.hasAnotherSongs" :class="filterSorting === 'anotherDoubleLevel' ? 'dropdown-item active' : 'dropdown-item text-dark'" @click="changeSort('anotherDoubleLevel')"><i class="fas fa-compact-disc text-theme-3"></i><i class="fas fa-compact-disc ms-1 text-theme-3"></i> {{ $t("listScreen.another") }}</a>
@@ -41,7 +43,7 @@
                   ref="search"
                    v-model="searchWord"
                  @input="search">
-            <button @click="clearSearch" class="btn btn-primary" type="button"><i class="fa fa-times"></i></button>
+            <button @click="searchCross" class="btn btn-primary" type="button"><i class="fa fa-times"></i></button>
           </div>
           <div class="my-3 text-start">
             <span v-if="!filters" class="text-white me-2">{{ $t("listScreen.filter") }}:</span>
@@ -60,12 +62,16 @@
             <th class="text-start">{{ $t("listScreen.songName") }}</th>
             <th class="text-start d-none d-md-table-cell">{{ $t("listScreen.artistAlias") }}</th>
             <th v-if="this.game.hasGenres" class="text-start d-none d-md-table-cell">Genre</th>
+            <th v-if="this.game.hasEasySongs" class="text-center text-theme-4"
+                :class="{ 'd-none d-md-table-cell': this.type !== 'single' }">EZ</th>
             <th class="text-center text-theme-1"
                 :class="{ 'd-none d-md-table-cell': this.type !== 'single' }">SN</th>
             <th v-if="this.game.hasHardSongs" class="text-center text-theme-2"
                 :class="{ 'd-none d-md-table-cell': this.type !== 'single' }">SH</th>
             <th v-if="this.game.hasAnotherSongs" class="text-center text-theme-3"
                 :class="{ 'd-none d-md-table-cell': this.type !== 'single' }">SA</th>
+            <th v-if="this.game.hasDoubleCharts && game.hasEasySongs" class="text-center text-theme-4"
+                :class="{ 'd-none d-md-table-cell': this.type !== 'double' }">DZ</th>
             <th v-if="this.game.hasDoubleCharts" class="text-center text-theme-1"
                 :class="{ 'd-none d-md-table-cell': this.type !== 'double' }">DN</th>
             <th v-if="this.game.hasHardSongs && game.hasDoubleCharts" class="text-center text-theme-2"
@@ -89,6 +95,13 @@
               </th>
               <th class="text-start d-none d-md-table-cell">{{ song.artist }}</th>
               <th v-if="this.game.hasGenres" class="text-start d-none d-md-table-cell">{{ song.genre }}</th>
+              <td v-if="song.difficultyEasy > 0 && this.game.hasEasySongs"
+                  class="text-black diff-td"
+                  :class="{ 'bg-light': !song.easyClear, 'bg-theme-4': song.easyClear, 'flash': song.easyFC, 'd-none d-md-table-cell': this.type !== 'single' }">
+                {{ song.difficultyEasy }}
+              </td>
+              <td v-else-if="this.game.hasEasySongs" class="text-white diff-td"
+                  :class="{'d-none d-md-table-cell': this.type !== 'single'}">-</td>
               <td v-if="song.difficultyNormal > 0"
                   class="text-black diff-td"
                   :class="{ 'bg-light': !song.normalClear, 'bg-theme-1': song.normalClear, 'flash': song.normalFC, 'd-none d-md-table-cell': this.type !== 'single' }">
@@ -110,6 +123,14 @@
               </td>
               <td v-else-if="this.game.hasAnotherSongs" class="text-white diff-td"
                   :class="{'d-none d-md-table-cell': this.type !== 'single'}">-</td>
+              <td v-if="song.difficultyDoubleEasy > 0 && this.game.hasDoubleCharts && game.hasEasySongs"
+                  class="text-black diff-td"
+                  :class="{ 'bg-light': !song.easyDoubleClear, 'bg-theme-4': song.easyDoubleClear, 'flash': song.easyDoubleFC, 'd-none d-md-table-cell': this.type !== 'double' }">
+                {{ song.difficultyDoubleEasy }}
+              </td>
+              <td v-else-if="this.game.hasDoubleCharts && game.hasEasySongs"
+                  class="text-white diff-td"
+                  :class="{'d-none d-md-table-cell': this.type !== 'double'}">-</td>
               <td v-if="song.difficultyDoubleNormal > 0 && this.game.hasDoubleCharts"
                   class="text-black diff-td"
                   :class="{ 'bg-light': !song.normalDoubleClear, 'bg-theme-1': song.normalDoubleClear, 'flash': song.normalDoubleFC, 'd-none d-md-table-cell': this.type !== 'double' }">
@@ -207,6 +228,9 @@ export default {
         case 'genre':
           sortedSongs.sort((a, b) => (a.genre || '').localeCompare(b.genre || ''));
           break;
+        case 'easyLevel':
+          sortedSongs.sort((a, b) => this.compareDifficulty(a.difficultyEasy, b.difficultyEasy));
+          break;
         case 'normalLevel':
           sortedSongs.sort((a, b) => this.compareDifficulty(a.difficultyNormal, b.difficultyNormal));
           break;
@@ -215,6 +239,9 @@ export default {
           break;
         case 'anotherLevel':
           sortedSongs.sort((a, b) => this.compareDifficulty(a.difficultyAnother, b.difficultyAnother));
+          break;
+        case 'easyDoubleLevel':
+          sortedSongs.sort((a, b) => this.compareDifficulty(a.difficultyDoubleEasy, b.difficultyDoubleEasy));
           break;
         case 'normalDoubleLevel':
           sortedSongs.sort((a, b) => this.compareDifficulty(a.difficultyDoubleNormal, b.difficultyDoubleNormal));
@@ -231,6 +258,13 @@ export default {
       }
 
       return sortedSongs;
+    },
+    searchCross() {
+      if (this.searchWord === '') {
+        this.toggleSearch = false;
+      } else {
+        this.clearSearch();
+      }
     },
     clearSearch() {
       this.searchWord = '';
@@ -339,9 +373,11 @@ export default {
       for (const song of theSongs) {
         const userSong = userSongsAddition.find((sung) => sung.id == song.id);
         if (userSong) {
+          userSong.difficultyEasy = song.difficultyEasy;
           userSong.difficultyNormal = song.difficultyNormal;
           userSong.difficultyHard = song.difficultyHard;
           userSong.difficultyAnother = song.difficultyAnother;
+          userSong.difficultyDoubleEasy = song.difficultyDoubleEasy;
           userSong.difficultyDoubleNormal = song.difficultyDoubleNormal;
           userSong.difficultyDoubleHard = song.difficultyDoubleHard;
           userSong.difficultyDoubleAnother = song.difficultyDoubleAnother;
@@ -421,6 +457,7 @@ export default {
             if (this.typeIs === 'single') {
               if (this.filters.filterLevel > 0) {
                 if (
+                    song.difficultyEasy !== this.filters.filterLevel &&
                     song.difficultyNormal !== this.filters.filterLevel &&
                     song.difficultyHard !== this.filters.filterLevel &&
                     song.difficultyAnother !== this.filters.filterLevel
@@ -431,6 +468,7 @@ export default {
               if (this.filters.filteredClear) {
                 if (this.filters.filteredClear === 'clear') {
                   if (
+                      (song.difficultyEasy > 0 && !song.easyClear) ||
                       (song.difficultyNormal > 0 && !song.normalClear) ||
                       (song.difficultyHard > 0 && !song.hardClear) ||
                       (song.difficultyAnother > 0 && !song.anotherClear)
@@ -439,6 +477,7 @@ export default {
                   }
                 } else if (this.filters.filteredClear === 'fullcombo') {
                   if (
+                      !song.easyFC &&
                       !song.normalFC &&
                       !song.hardFC &&
                       !song.anotherFC
@@ -447,6 +486,7 @@ export default {
                   }
                 } else if (this.filters.filteredClear === 'failed') {
                   if (
+                      (song.difficultyEasy < 1 || song.easyClear) &&
                       (song.difficultyNormal < 1 || song.normalClear) &&
                       (song.difficultyHard < 1 || song.hardClear) &&
                       (song.difficultyAnother < 1 || song.anotherClear)
@@ -458,6 +498,7 @@ export default {
             } else {
               if (this.filters.filterLevel > 0) {
                 if (
+                    song.difficultyDoubleEasy !== this.filters.filterLevel &&
                     song.difficultyDoubleNormal !== this.filters.filterLevel &&
                     song.difficultyDoubleHard !== this.filters.filterLevel &&
                     song.difficultyDoubleAnother !== this.filters.filterLevel
@@ -468,6 +509,7 @@ export default {
               if (this.filters.filteredClear) {
                 if (this.filters.filteredClear === 'clear') {
                   if (
+                      (song.difficultyDoubleEasy > 0 && !song.doubleEasyClear) ||
                       (song.difficultyDoubleNormal > 0 && !song.normalDoubleClear) ||
                       (song.difficultyDoubleHard > 0 && !song.hardDoubleClear) ||
                       (song.difficultyDoubleAnother > 0 && !song.anotherDoubleClear)
@@ -476,6 +518,7 @@ export default {
                   }
                 } else if (this.filters.filteredClear === 'fullcombo') {
                   if (
+                      !song.doubleEasyFC &&
                       !song.normalDoubleFC &&
                       !song.hardDoubleFC &&
                       !song.anotherDoubleFC
@@ -484,6 +527,7 @@ export default {
                   }
                 } else if (this.filters.filteredClear === 'failed') {
                   if (
+                      (song.difficultyDoubleEasy < 1 || song.doubleEasyClear) &&
                       (song.difficultyDoubleNormal < 1 || song.normalDoubleClear) &&
                       (song.difficultyDoubleHard < 1 || song.hardDoubleClear) &&
                       (song.difficultyDoubleAnother < 1 || song.anotherDoubleClear)

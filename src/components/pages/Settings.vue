@@ -277,6 +277,9 @@ export default {
     }
   },
   computed: {
+    userID() {
+      return this.$store.getters['userID'];
+    },
     systems() {
       const systems = [];
       for(const game in this.games) {

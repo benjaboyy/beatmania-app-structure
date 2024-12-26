@@ -12,6 +12,7 @@
           {{ $t("listScreen." + difficulty) }}
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+          <li><a class="dropdown-item" @click="difficulty = 'easyScore'" v-if="this.game.hasEasySongs">Easy</a></li>
           <li><a class="dropdown-item" @click="difficulty = 'normalScore'">Normal</a></li>
           <li><a class="dropdown-item" @click="difficulty = 'hardScore'" v-if="this.game.hasHardSongs">Hard</a></li>
           <li><a class="dropdown-item" @click="difficulty = 'anotherScore'" v-if="this.game.hasAnotherSongs">Another</a></li>
@@ -28,6 +29,7 @@
           <tr>
             <th>#</th>
             <th>Name</th>
+            <th v-if="this.game.hasEasySongs">Easy <span class="square bg-theme-4">{{ songInfo.difficultyEasy }}</span></th>
             <th>Normal <span class="square bg-theme-1">{{ songInfo.difficultyNormal }}</span></th>
             <th v-if="this.game.hasHardSongs">Hard <span class="square bg-theme-2">{{ songInfo.difficultyHard }}</span></th>
             <th v-if="this.game.hasAnotherSongs">Another <span class="square bg-theme-3">{{ songInfo.difficultyAnother }}</span></th>
@@ -37,6 +39,7 @@
           <tr v-for="(player, index) in finalList" :key="player.name">
             <td style="width: 1px">{{ index + 1 }}</td>
             <td>{{ player.name }}</td>
+            <td v-if="this.game.hasEasySongs"><i v-if="player.easyClear" class="fa fa-check text-success"></i> {{ player.easyScore }}</td>
             <td><i v-if="player.normalClear" class="fa fa-check text-success"></i> {{ player.normalScore }}</td>
             <td v-if="this.game.hasHardSongs"><i v-if="player.hardClear" class="fa fa-check text-success"></i> {{ player.hardScore }}</td>
             <td v-if="this.game.hasAnotherSongs"><i v-if="player.hardClear" class="fa fa-check text-success"></i> {{ player.anotherScore }}</td>

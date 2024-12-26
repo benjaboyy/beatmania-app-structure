@@ -53,6 +53,10 @@
             </div>
             <h5 class="mt-4">Difficulty Single</h5>
             <div class="form-group">
+              <label for="formControlRangeE">Easy Difficulty {{ displayEnteredDifficultyEasy }}</label>
+              <input type="range" max="25" min="0" class="form-range col-12" id="formControlRangeE" v-model="enteredDifficultyEasy" />
+            </div>
+            <div class="form-group">
               <label for="formControlRangeN">Normal Difficulty {{ displayEnteredDifficultyNormal }}</label>
               <input data- type="range" max="25" min="0" class="form-range col-12" id="formControlRangeN" v-model="enteredDifficultyNormal" />
             </div>
@@ -65,6 +69,10 @@
               <input type="range" max="9" min="0" class="form-range col-12" id="formControlRangeA" v-model="enteredDifficultyAnother" />
             </div>
             <h5 class="mt-4">Difficulty Double</h5>
+            <div class="form-group">
+              <label for="formControlRangeDN">Easy Difficulty {{ displayEnteredDifficultyDoubleEasy }}</label>
+              <input type="range" max="9" min="0" class="form-range col-12" id="formControlRangeDN" v-model="enteredDifficultyDoubleEasy" />
+            </div>
             <div class="form-group">
               <label for="formControlRangeDN">Normal Difficulty {{ displayEnteredDifficultyDoubleNormal }}</label>
               <input type="range" max="9" min="0" class="form-range col-12" id="formControlRangeDN" v-model="enteredDifficultyDoubleNormal" />
@@ -104,9 +112,11 @@ export default {
       enteredArtist: "",
       enteredComposer: "",
       enteredGenre: "",
+      enteredDifficultyEasy: 0,
       enteredDifficultyNormal: 0,
       enteredDifficultyHard: 0,
       enteredDifficultyAnother: 0,
+      enteredDifficultyDoubleEasy: 0,
       enteredDifficultyDoubleNormal: 0,
       enteredDifficultyDoubleHard: 0,
       enteredDifficultyDoubleAnother: 0,
@@ -143,9 +153,11 @@ export default {
           this.enteredArtist = game.artist;
           this.enteredComposer = game.composer;
           this.enteredGenre = game.genre;
+          this.enteredDifficultyEasy = game.difficultyEasy;
           this.enteredDifficultyNormal = game.difficultyNormal;
           this.enteredDifficultyHard = game.difficultyHard;
           this.enteredDifficultyAnother = game.difficultyAnother;
+          this.enteredDifficultyDoubleEasy = game.difficultyDoubleEasy;
           this.enteredDifficultyDoubleNormal = game.difficultyDoubleNormal;
           this.enteredDifficultyDoubleHard = game.difficultyDoubleHard;
           this.enteredDifficultyDoubleAnother = game.difficultyDoubleAnother;
@@ -159,9 +171,11 @@ export default {
       this.enteredArtist = "";
       this.enteredComposer = "";
       this.enteredGenre = "";
+      this.enteredDifficultyEasy = 0;
       this.enteredDifficultyNormal = 0;
       this.enteredDifficultyHard = 0;
       this.enteredDifficultyAnother = 0;
+      this.enteredDifficultyDoubleEasy = 0;
       this.enteredDifficultyDoubleNormal = 0;
       this.enteredDifficultyDoubleHard = 0;
       this.enteredDifficultyDoubleAnother = 0;
@@ -212,9 +226,11 @@ export default {
           artist: this.enteredArtist,
           composer: this.enteredComposer,
           genre: this.enteredGenre,
+          difficultyEasy: this.enteredDifficultyEasy,
           difficultyNormal: this.enteredDifficultyNormal,
           difficultyHard: this.enteredDifficultyHard,
           difficultyAnother: this.enteredDifficultyAnother,
+          difficultyDoubleEasy: this.enteredDifficultyDoubleEasy,
           difficultyDoubleNormal: this.enteredDifficultyDoubleNormal,
           difficultyDoubleHard: this.enteredDifficultyDoubleHard,
           difficultyDoubleAnother: this.enteredDifficultyDoubleAnother,
@@ -227,9 +243,11 @@ export default {
           this.enteredArtist = "";
           this.enteredComposer = "";
           this.enteredGenre = "";
+          this.enteredDifficultyEasy = 0;
           this.enteredDifficultyNormal = 0;
           this.enteredDifficultyHard = 0;
           this.enteredDifficultyAnother = 0;
+          this.enteredDifficultyDoubleEasy = 0;
           this.enteredDifficultyDoubleNormal = 0;
           this.enteredDifficultyDoubleHard = 0;
           this.enteredDifficultyDoubleAnother = 0;
@@ -289,6 +307,9 @@ export default {
     getGames() {
       return this.$store.getters["games/getGames"];
     },
+    displayEnteredDifficultyEasy() {
+      return this.setNumber(this.enteredDifficultyEasy);
+    },
     displayEnteredDifficultyNormal() {
       return this.setNumber(this.enteredDifficultyNormal);
     },
@@ -297,6 +318,9 @@ export default {
     },
     displayEnteredDifficultyAnother() {
       return this.setNumber(this.enteredDifficultyAnother);
+    },
+    displayEnteredDifficultyDoubleEasy() {
+      return this.setNumber(this.enteredDifficultyDoubleEasy);
     },
     displayEnteredDifficultyDoubleNormal() {
       return this.setNumber(this.enteredDifficultyDoubleNormal);

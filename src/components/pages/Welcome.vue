@@ -2,7 +2,7 @@
   <div class="stats-screen px-md-5 m-auto">
     <div class="container">
       <div class="row">
-        <div class="col-md-6 py-3 mx-auto">
+        <div class="col-lg-6 col-md-10 py-3 mx-auto">
           <router-link :to="'user/' + userID">
             <img v-if="profileUrl" :src="profileUrl" class="rounded img-thumbnail float-left" alt="profile image">
           </router-link>
@@ -14,7 +14,7 @@
         </div>
       </div>
       <div v-if="isDataLoaded & allArcadeCodes > 0" class="row">
-        <div class="col-md-6 mx-auto">
+        <div class="col-lg-6 col-md-10 mx-auto">
           <div v-for="code in allArcadeCodes" v-bind:key="code" class="card border-3 border-primary">
             <div class="card-body">
               <i class="fas fa-warehouse position-absolute text-dark h4 end-0 opacity-50 me-3" alt="arcade-icon"></i>
@@ -41,7 +41,7 @@
         <h2>Loading...</h2>
       </div>
       <div v-for="game in filteredGames" v-bind:key="game" class="row">
-        <div v-if="isDataLoaded" class="col-md-6 mt-3 mx-auto">
+        <div v-if="isDataLoaded" class="col-lg-6 col-md-10 mt-3 mx-auto">
           <div v-if="gamestats[game.id]" class="card h-100">
             <div class="card-body pb-2">
               <h4 @click="toggleExpand(game.id)" class="card-title"
@@ -91,7 +91,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-md-6 my-4 mx-auto text-center">
+        <div class="col-lg-6 col-md-10 my-4 mx-auto text-center">
           <router-link :to="{ path: '/settings', query: { ID: 'game' } }" class="btn w-100 btn-lg btn-success" type="button" role="button"><i class="fas fa-plus-square"></i> {{ $t("welcomeScreen.selectGames") }}</router-link>
           <router-link to="/tips" class="btn w-100 btn-lg mt-4 btn-block btn-primary" href="#" type="button" role="button"><i class="far fa-lightbulb"></i> {{ $t("welcomeScreen.tips") }}</router-link>
         </div>

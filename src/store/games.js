@@ -45,6 +45,7 @@ export default {
                     courseSongs: responseData[key].courseSongs,
                     hasDoubleCharts: responseData[key].hasDoubleCharts,
                     hasCourseMode: responseData[key].hasCourseMode,
+                    hasEasySongs: responseData[key].hasEasySongs,
                     hasHardSongs: responseData[key].hasHardSongs,
                     hasAnotherSongs: responseData[key].hasAnotherSongs,
                     hasGenres: responseData[key].hasGenres,

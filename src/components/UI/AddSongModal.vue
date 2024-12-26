@@ -44,6 +44,12 @@
         </div>
         <div class="col-12 col-lg-6" :class="typeSelected === 'double' ? '' : ' d-none d-lg-block'">
           <p class="my-2">{{ $t("filter.doubles") }}</p>
+          <div class="input-group mb-2  input-group-lg" v-if="infoSong.difficultyDoubleEasy > 0">
+            <span class="input-group-text text-white bg-theme-4 border-0">{{ infoSong.difficultyDoubleEasy }}</span>
+            <input placeholder="Score" type="text" class="form-control" id="scoreDoubleEasy" v-model="scoreDoubleEasy" />
+            <a class="btn" type="button" :class="easyDoubleClear ? 'bg-primary text-white' : 'bg-light text-primary'" @click="toggleEasyDoubleClear">{{ $t("filter.cleared") }}</a>
+            <a class="btn" type="button" :class="easyDoubleFC ? 'bg-primary text-white flash' : 'bg-light text-primary'" @click="toggleEasyDoubleFC">{{ $t("filter.fullComboShort") }}</a>
+          </div>
           <div class="input-group mb-2  input-group-lg" v-if="infoSong.difficultyDoubleNormal > 0">
             <span class="input-group-text text-white bg-theme-1 border-0">{{ infoSong.difficultyDoubleNormal }}</span>
             <input placeholder="Score" type="text" class="form-control" id="scoreDoubleNormal" v-model="scoreDoubleNormal" />
@@ -118,6 +124,9 @@ export default {
       scoreAnother: '',
       anotherFC: false,
       anotherClear: false,
+      scoreDoubleEasy: '',
+      easyDoubleFC: false,
+      easyDoubleClear: false,
       scoreDoubleNormal: '',
       normalDoubleFC: false,
       normalDoubleClear: false,
@@ -174,6 +183,9 @@ export default {
         scoreAnother: this.scoreAnother,
         anotherFC: this.anotherFC,
         anotherClear: this.anotherClear,
+        scoreDoubleEasy: this.scoreDoubleEasy,
+        easyDoubleFC: this.easyDoubleFC,
+        easyDoubleClear: this.easyDoubleClear,
         scoreDoubleNormal: this.scoreDoubleNormal,
         normalDoubleFC: this.normalDoubleFC,
         normalDoubleClear: this.normalDoubleClear,
@@ -276,6 +288,9 @@ export default {
         this.scoreAnother = this.infoSong.anotherScore;
         this.anotherFC = this.infoSong.anotherFC;
         this.anotherClear = this.infoSong.anotherClear;
+        this.scoreDoubleEasy = this.infoSong.scoreDoubleEasy;
+        this.easyDoubleFC = this.infoSong.easyDoubleFC;
+        this.easyDoubleClear = this.infoSong.easyDoubleClear;
         this.scoreDoubleNormal = this.infoSong.scoreDoubleNormal;
         this.normalDoubleFC = this.infoSong.normalDoubleFC;
         this.normalDoubleClear = this.infoSong.normalDoubleClear;
