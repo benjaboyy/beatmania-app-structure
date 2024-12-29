@@ -43,22 +43,30 @@
       <div v-for="game in filteredGames" v-bind:key="game" class="row">
         <div v-if="isDataLoaded" class="col-lg-6 col-md-10 mt-3 mx-auto">
           <div v-if="gamestats[game.id]" class="card h-100">
-            <div class="card-body pb-2">
-              <h4 @click="toggleExpand(game.id)" class="card-title"
-                  type="button" data-bs-toggle="collapse" :data-bs-target="'#collapseOne' + game.id.replace(/[+\[\-:]/g, '')"
-                  aria-expanded="true" aria-controls="collapseOne">
-                <img v-if="game.playStyle === 'Playstation'" src="../../assets/svg/playstation.svg" class="icon" alt="arcade-icon">
-                <img v-else-if="game.playStyle === 'Arcade'" src="../../assets/svg/arcade.svg" class="icon" alt="arcade-icon">
-                <img v-else-if="game.playStyle === 'Gameboy'" src="../../assets/svg/gameboy.svg" class="icon" alt="arcade-icon">
-                <img v-else-if="game.playStyle === 'Wonderswan'" src="../../assets/svg/wonder.svg" class="icon" alt="arcade-icon">
-                <strong>{{ game.name }}</strong></h4>
+            <div class="card-header p-0" @click="toggleExpand(game.id)" data-bs-toggle="collapse" :data-bs-target="'#collapseOne' + game.id.replace(/[+\[\-:]/g, '')">
+              <div v-if="game.url == ''" class="w-100 p-3">
+                <h4 class="card-title mb-0"
+                    type="button"
+                    aria-expanded="true" aria-controls="collapseOne">
+                  <img v-if="game.playStyle === 'Playstation'" src="../../assets/svg/playstation.svg" class="icon" alt="arcade-icon">
+                  <img v-else-if="game.playStyle === 'Arcade'" src="../../assets/svg/arcade.svg" class="icon" alt="arcade-icon">
+                  <img v-else-if="game.playStyle === 'Gameboy'" src="../../assets/svg/gameboy.svg" class="icon" alt="arcade-icon">
+                  <img v-else-if="game.playStyle === 'Wonderswan'" src="../../assets/svg/wonder.svg" class="icon" alt="arcade-icon">
+                  <strong>{{ game.name }}</strong>
+                </h4>
+              </div>
+              <div v-else class="w-100 text-center">
+                <img :src="appendLogoUrl(game.url)" class="img-fluid img-cover" :alt="appendLogoUrl(game.url)">
+              </div>
+            </div>
+            <div class="card-body py-1">
               <div :id="'collapseOne' + game.id.replace(/[+\[\-:]/g, '')" class="accordion-collapse collapse text-start">
                 <div class="row g-3 mb-2 mt-0">
                   <div class="col-6">
                     <router-link :to="'/games/' + game.id" class="btn w-100 btn-primary me-2" href="#"><i class="fa fa-compact-disc"></i> {{ $t("welcomeScreen.songList") }}</router-link>
                   </div>
                   <div class="col-6">
-                    <router-link  v-if="game.trackedGame.doubleCourse || game.trackedGame.singleCourse" :to="'/g/course/' + game.id" class="btn w-100 btn-primary" href="#"><i class="fa fa-layer-group"></i> {{ $t("welcomeScreen.courses") }}</router-link>
+                    <router-link v-if="game.trackedGame.doubleCourse || game.trackedGame.singleCourse" :to="'/g/course/' + game.id" class="btn w-100 btn-primary" href="#"><i class="fa fa-layer-group"></i> {{ $t("welcomeScreen.courses") }}</router-link>
                     <button v-else class="btn w-100 btn-secondary" disabled><i class="fas fa-ban"></i> {{ $t("welcomeScreen.courses") }}</button>
                   </div>
                 </div>
@@ -78,7 +86,7 @@
                   <progress-bar-stats :clear="gamestats[game.id].courses.doubleClear" :total="gamestats[game.id].courses.doubleTotal" :name="'primary'" :type="$t('welcomeScreen.doubleCourses')"></progress-bar-stats>
                 </div>
               </div>
-              <button class="btn btn-sm w-100 m-0 p-0 mt-1"
+              <button class="btn btn-sm w-100 m-0 p-0 m-0"
                       type="button" data-bs-toggle="collapse" :data-bs-target="'#collapseOne' + game.id.replace(/[+\[\-:]/g, '')"
                       aria-expanded="true" aria-controls="collapseOne"
                       @click="toggleExpand(game.id)">
@@ -199,6 +207,12 @@ export default {
     },
   },
   methods: {
+    appendLogoUrl(url) {
+      if (url.includes('http')) {
+        return url;
+      }
+      return require(`@/assets/img/banners/${url}`);
+    },
     toggleExpand(gameId) {
       if (this.expandedGames[gameId] === undefined) {
         this.expandedGames[gameId] = false;  // Initialize if not already set
@@ -206,7 +220,8 @@ export default {
       this.expandedGames[gameId] = !this.expandedGames[gameId];
     },
     showShare() {
-      this.shareUrl = 'https://bmgress.app/user/' + this.userID;
+      const appURL = this.$store.getters['getAppURL'];
+      this.shareUrl = appURL + this.userID;
       this.shareVisible = true;
     },
     hideShareModal() {
@@ -406,6 +421,12 @@ export default {
   }
   .text-white {
     color: #fff !important;
+  }
+  .img-cover {
+    object-fit: cover;
+    width: 100%;
+    aspect-ratio: 3.1;
+    border-radius: 0.3rem;
   }
   .icon {
     width: 30px;

@@ -1,12 +1,14 @@
 let timer;
 const API_KEY = process.env.VUE_APP_FIREBASE_API_KEY;
 const API_BASE_URL = process.env.VUE_APP_FIREBASE_BASE_URL;
+const APP_URL = process.env.VUE_APP_URL;
 const REFRESH_TOKEN_INTERVAL = 60000; // 1 minute
 import router from '../main';
 
 export default {
     state() {
         return {
+            appUrl: APP_URL,
             userSongs: [],
             userCourses: [],
             user: {},
@@ -669,6 +671,9 @@ export default {
         },
         userId(state) {
             return state.userId;
+        },
+        getAppURL(state) {
+            return state.appUrl;
         },
         isAdmin(state) {
             if (state.admin === true) {
