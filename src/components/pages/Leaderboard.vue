@@ -36,9 +36,11 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(player, index) in finalList" :key="player.name">
+          <tr v-for="(player, index) in finalList"
+              :key="player.playerName"
+              @click="showDialog(player)">
             <td style="width: 1px">{{ index + 1 }}</td>
-            <td>{{ player.name }}</td>
+            <td>{{ player.playerName }}</td>
             <td v-if="this.game.hasEasySongs"><i v-if="player.easyClear" class="fa fa-check text-success"></i> {{ player.easyScore }}</td>
             <td><i v-if="player.normalClear" class="fa fa-check text-success"></i> {{ player.normalScore }}</td>
             <td v-if="this.game.hasHardSongs"><i v-if="player.hardClear" class="fa fa-check text-success"></i> {{ player.hardScore }}</td>
@@ -48,11 +50,25 @@
       </table>
     </div>
   </div>
+  <add-song-modal
+      @close="hideDialog"
+      @addSongUser="addSongToUser"
+      @number="updatePoint"
+      :open="dialogIsVisible"
+      :infoSong="loadInfoSong"
+      :type="type"
+      :is-admin="isAdmin"
+  ></add-song-modal>
 </template>
 
 <script>
+import AddSongModal from "@/components/UI/AddSongModal.vue";
+
 export default {
   name: 'AdminUs',
+  components: {
+    AddSongModal
+  },
   data() {
     return {
       arcadeID: '',
@@ -60,6 +76,7 @@ export default {
       songInfo: '',
       nameSelectedArcade: '',
       nameSelectedGame: '',
+      dialogIsVisible: false,
       players: [],
       gameiD: '',
       game: '',
@@ -67,6 +84,10 @@ export default {
       finalList: [],
       difficulty: 'normalScore',
       arcadeName: '',
+      infoSong: {},
+      type: 'single',
+      pointAlertVisible: false,
+      point: 1,
     };
   },
   props: {
@@ -81,6 +102,7 @@ export default {
     this.songID = this.$route.params.songID;
     this.players = await this.$store.getters['arcades/getPlayers'](this.arcadeID);
     // todo: make function to prepair leaderboard
+    this.songInfo = await this.$store.getters['songs/getSongByID'](this.gameiD, this.songID);
     await this.makeLeaderboard();
     this.songInfo = await this.$store.getters['songs/getSongByID'](this.gameiD, this.songID);
     this.game = await this.$store.getters['games/getGames'].find((game) => game.id == this.$route.params.gameID);
@@ -91,17 +113,40 @@ export default {
     isAuthenticated() {
       return this.$store.getters['isAuthenticated'];
     },
+    isAdmin() {
+      return this.$store.getters['isAdmin'];
+    },
     nameOfSelectedGame() {
       return this.$store.getters['games/getGameName'](this.selectedGame);
     },
     getPlayers() {
       return this.$store.getters['arcades/getPlayers'](this.arcadeID);
     },
-    getSongInfo() {
-      return this.$store.getters['songs/getSongsByGame'](this.gameiD);
-    }
+    getSongByID() {
+      return this.$store.getters['songs/getSongByID'](this.gameiD, this.songID);
+    },
+    loadInfoSong() {
+      return this.infoSong;
+    },
   },
   methods: {
+    async addSongToUser(data) {
+      await this.$store.dispatch('addSongToUser', data);
+      await this.reset();
+    },
+    updatePoint(number) {
+      this.point = number;
+      this.pointAlertVisible = true;
+    },
+    hideDialog() {
+      this.dialogIsVisible = false;
+    },
+    showDialog(content) {
+      if (this.isAdmin) {
+        this.infoSong = content;
+        this.dialogIsVisible = true;
+      }
+    },
     async makeLeaderboard() {
       const token = this.$store.getters.token;
       const list = [];
@@ -115,7 +160,11 @@ export default {
         }
         const playerData = {
           ...responseData,
-          name: this.players[player],
+          // fuse with getSongByID
+          ...this.getSongByID,
+          playerName: this.players[player],
+          name: this.songInfo.name,
+          userID: userId,
         };
         list.push(playerData);
       }

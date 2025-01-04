@@ -183,7 +183,7 @@ export default {
         },
         async addSongToUser (context, payload) {
             await context.dispatch('checkTokenExpiration');
-            const userId = context.getters.userId;
+            let userId = context.getters.userId;
             const songID = payload.id;
             const songData = {
                 id: payload.id,
@@ -214,9 +214,13 @@ export default {
                 anotherDoubleClear: payload.anotherDoubleClear,
                 favorite: payload.favorite,
                 target: payload.target,
+                userID: payload.userID,
             }
 
             const token = context.getters.token;
+            if (payload.userID && payload.userID !== '') {
+                userId = payload.userID;
+            }
             const response = await fetch(`${API_BASE_URL}users/${userId}/songs/${songID}.json?auth=` + token, {
                 method: 'put',
                 body: JSON.stringify(songData)

@@ -2,6 +2,8 @@
   <div v-if="open" class="backdrop" @click="hideDialog"></div>
   <transition name="modal" class="front">
     <dialog class="window" open v-if="open">
+      <h1 v-if="isAdmin" class="text-dark">{{ infoSong.playerName }}</h1>
+      <hr v-if="isAdmin">
       <h4>{{ infoSong.name }} <a :href="`https://remywiki.com/${infoSong.name}`" target="_blank" class="btn btn-link float-end btn-sm"><i class="fa fa-info-circle"></i> Song info</a></h4>
       <p>{{ infoSong.artist }}</p>
       <ul class="nav nav-tabs d-lg-none" v-if="infoSong.difficultyDoubleNormal > 0 || infoSong.difficultyDoubleHard > 0 || infoSong.difficultyDoubleAnother > 0">
@@ -111,6 +113,10 @@ export default {
       type: Boolean,
       required: true
     },
+    isAdmin: {
+      type: Boolean,
+      default: false
+    },
     infoSong: {
       type: Object,
       required: true
@@ -154,6 +160,7 @@ export default {
 
       pointsOnOpen: 0,
       pointsOnClose: 0,
+      userID: ''
     }
   },
   methods: {
@@ -216,7 +223,8 @@ export default {
         anotherDoubleFC: this.anotherDoubleFC,
         anotherDoubleClear: this.anotherDoubleClear,
         favorite: this.favorite,
-        target: this.target
+        target: this.target,
+        userID: this.userID
       });
 
     },
@@ -337,6 +345,7 @@ export default {
         this.favorite = this.infoSong.favorite;
         this.target = this.infoSong.target;
         this.typeSelected = this.type;
+        this.userID = this.infoSong.userID;
         this.countPointsOnOpen()
         this.userCodes = this.$store.getters['getUserArcadeCodes'];
       }
