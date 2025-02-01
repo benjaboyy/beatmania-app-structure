@@ -42,7 +42,7 @@
       </div>
     </div>
 
-    <h2 class="text-center my-3">Tracked games</h2>
+    <h2 class="text-center my-3">{{ $t("welcomeScreen.trackedGames") }}</h2>
     <div class="row d-flex justify-content-center align-items-center h-100">
       <div class="col col-lg-6">
         <div v-for="(value, key) in player" :key="key">

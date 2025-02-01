@@ -28,7 +28,7 @@
       </div>
       <div v-else>
         <div v-if="selectedGame">
-          <table class="table table-dark table-striped table-hover">
+          <table class="table table-striped table-hover table-ranking">
             <thead>
             <tr>
               <th style="width: 1px" scope="col">Rank</th>
@@ -227,5 +227,18 @@ export default {
 }
 .select-lang {
   cursor: pointer;
+}
+.table-ranking {
+  max-width: 500px;
+  margin: 0 auto;
+  thead {
+    color: white;
+  }
+  tbody {
+    tr {
+      margin-bottom: 10px;
+
+    }
+  }
 }
 </style>

@@ -2,6 +2,12 @@
   <div v-if="open" class="backdrop" @click="hideDialog"></div>
   <transition name="modal">
     <dialog class="window" open v-if="open">
+
+      <div v-if="player.profileUrl" class="col-6 mb-2 text-center mx-auto">
+        <img :src="player.profileUrl"
+             alt="Generic placeholder image" class="img-fluid img-thumbnail"
+             style="width: 180px; border-radius: 10px;">
+      </div>
       <h3><i class="fas fa-user"></i> {{ player.name }}</h3>
       <hr>
       <h5>{{ $t("welcomeScreen.trackedGames") }}</h5>

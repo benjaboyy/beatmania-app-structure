@@ -29,10 +29,10 @@
           <tr>
             <th>#</th>
             <th>Name</th>
-            <th v-if="this.game.hasEasySongs">Easy <span class="square bg-theme-4">{{ songInfo.difficultyEasy }}</span></th>
-            <th>Normal <span class="square bg-theme-1">{{ songInfo.difficultyNormal }}</span></th>
-            <th v-if="this.game.hasHardSongs">Hard <span class="square bg-theme-2">{{ songInfo.difficultyHard }}</span></th>
-            <th v-if="this.game.hasAnotherSongs">Another <span class="square bg-theme-3">{{ songInfo.difficultyAnother }}</span></th>
+            <th v-if="this.game.hasEasySongs">E<span class="d-none d-md-inline">asy</span> <span class="square bg-theme-4">{{ songInfo.difficultyEasy }}</span></th>
+            <th>N<span class="d-none d-md-inline">ormal </span> <span class="square bg-theme-1">{{ songInfo.difficultyNormal }}</span></th>
+            <th v-if="this.game.hasHardSongs">H<span class="d-none d-md-inline">ard</span> <span class="square bg-theme-2">{{ songInfo.difficultyHard }}</span></th>
+            <th v-if="this.game.hasAnotherSongs">A<span class="d-none d-md-inline">nother</span> <span class="square bg-theme-3">{{ songInfo.difficultyAnother }}</span></th>
           </tr>
         </thead>
         <tbody>
