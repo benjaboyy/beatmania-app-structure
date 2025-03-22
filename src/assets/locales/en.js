@@ -1,6 +1,7 @@
 export default
 
 {
+    version: '1.3.4',
     welcomeScreen: {
         welcome: 'Welcome',
         reload: 'Reload',
@@ -123,7 +124,7 @@ export default
         version: 'Version',
         profileUrl: 'Profile URL',
         email: 'Email Address',
-        progressTracker: 'Progress Tracker',
+        progressTracker: 'Progress tracker for retro music games',
         emailIsSave: 'We will never share your email with anyone else.',
         nameInProfile: 'Will be displayed in your profile.',
         gametagName: 'Game tag / name',

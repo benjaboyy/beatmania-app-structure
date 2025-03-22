@@ -1,6 +1,7 @@
 export default
 
 {
+    version: '1.3.4',
     welcomeScreen: {
         welcome: 'ようこそ、',
         reload: 'リロード',
@@ -117,7 +118,7 @@ export default
         password: 'パスワード',
         version: 'バージョン',
         email: 'メールアドレス',
-        progressTracker: '進捗トラッカー',
+        progressTracker: 'レトロ音楽ゲームの進行状況トラッカー',
         emailIsSave: 'メールアドレスは他の人と共有されません。',
         nameInProfile: 'プロフィールに表示されます。',
         gametagName: 'ゲームタグ / 名前',

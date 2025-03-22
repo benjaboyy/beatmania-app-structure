@@ -57,6 +57,7 @@
                 <i class="fa fa-server me-1"></i> {{ $t("menu.admin") }}
               </router-link>
             </li>
+            <hr class="dropdown-divider mb-3 mt-2">
             <li class="nav-item">
               <a @click="logout" class="w-100 btn btn-light text-danger mb-2">
                 <i class="fa fa-sign-out-alt me-1"></i> {{ $t("menu.logout") }}
@@ -119,6 +120,10 @@ export default {
 </script>
 
 <style scoped>
+.dropdown-divider {
+  border-top: 1px solid white;
+  opacity: 0.5;
+}
 .btn-lang {
   background-color: rgba(0,0,0,0);
   border: none;

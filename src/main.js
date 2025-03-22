@@ -111,3 +111,5 @@ app.use(router);
 app.use(i18n)
 
 app.mount('#app')
+
+export const version = '1.0.0';
