@@ -15,22 +15,17 @@
       </div>
       <div v-if="isDataLoaded & allArcadeCodes > 0" class="row">
         <div class="col-lg-6 col-md-10 mx-auto">
-          <div v-for="code in allArcadeCodes" v-bind:key="code" class="card border-3 border-primary">
-            <div class="card-body">
-              <i class="fas fa-warehouse position-absolute text-dark h4 end-0 opacity-50 me-3" alt="arcade-icon"></i>
-              <div class="row g-3 mb-2">
-                <div class="col-12">
-                  <h4 class="card-title text-dark"><strong>{{ getArcadeName(code) }}</strong></h4>
-                </div>
-                <div class="col-6">
-                  <router-link :to="{ path: '/arcade/' + code }" class="btn w-100 btn-primary me-2" href="#">{{ $t("welcomeScreen.leaderboard") }}</router-link>
-                </div>
-                <div class="col-6">
-                  <router-link :to="{ path: '/leaderboard/' + code }" class="btn w-100 btn-dark me-2" href="#">{{ $t("welcomeScreen.highScore") }}</router-link>
-                </div>
-              </div>
-            </div>
-          </div>
+          <router-link :to="{ path: '/arcade/' + arcade }" v-for="arcade in ArcadesWithCodes" :key="arcade.id" class="btn btn-light w-100 text-start mt-2">
+            <span class="d-flex">
+              <img class="my-auto me-2" :src="'https://flagsapi.com/' + arcade.countryCode + '/flat/64.png'">
+              <span class="me-auto my-auto">{{ arcade.name }} <br>
+                <small class="text-muted"  v-if="arcade.players">
+                  {{ arcade.games.length }} Games / {{ Object.keys(arcade.players).length }} Players
+                </small>
+              </span>
+               <i class="fa fa-arrow-right ms-2 my-auto float-end"></i>
+            </span>
+          </router-link>
           <div class="text-center">
             <h4 class="mb-0 mt-3 text-white">Tracked games</h4>
           </div>
@@ -91,8 +86,8 @@
                       aria-expanded="true" aria-controls="collapseOne"
                       @click="toggleExpand(game.id)">
                 <span v-if="expandedGames[game.id]">{{ $t("welcomeScreen.hideInfo") }} </span>
-                <span v-else>{{ $t("welcomeScreen.seeInfo") }} </span>
-                <i class="ms-2" :class="expandedGames[game.id] ? 'fas fa-chevron-up' : 'fas fa-chevron-down'"></i>
+                <span v-else>{{ game.name }} </span>
+                <i class="ms-2" :class="expandedGames[game.id] ? 'fas fa-chevron-up' : 'fas fa-chevron-right'"></i>
               </button>
             </div>
           </div>
@@ -193,6 +188,16 @@ export default {
       }
       return arcadeCodes;
     },
+    ArcadesWithCodes() {
+      const arcades = this.getArcades();
+      const arcadesWithCodes = [];
+      for (const arcade of arcades) {
+        if (this.allArcadeCodes.includes(arcade.id)) {
+          arcadesWithCodes.push(arcade);
+        }
+      }
+      return arcadesWithCodes;
+    },
     arcadeCode01() {
       return this.$store.getters['getArcadeCode01'];
     },
@@ -227,8 +232,8 @@ export default {
     hideShareModal() {
       this.shareVisible = false;
     },
-    getArcadeName(arcadeID) {
-      return this.$store.getters['arcades/getArcadeName'](arcadeID);
+    getArcades() {
+      return this.$store.getters['arcades/getArcades'];
     },
     setBaseStats() {
       for (const game of this.filteredGames) {

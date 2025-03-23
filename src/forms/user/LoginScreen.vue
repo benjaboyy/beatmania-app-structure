@@ -47,16 +47,20 @@
               <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
               <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
               <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3" aria-label="Slide 4"></button>
             </div>
             <div class="carousel-inner">
               <div class="carousel-item active">
-                <img src="https://deschuurr.nl/wp-content/uploads/2023/07/banner-BMGRESS-04.png" class="d-block w-100" alt="...">
+                <img src="https://deschuurr.nl/wp-content/uploads/2025/03/Scherm­afbeelding-2025-03-23-om-19.13.53.png" class="d-block w-100" alt="...">
               </div>
               <div class="carousel-item">
-                <img src="https://deschuurr.nl/wp-content/uploads/2023/07/banner-BMGRESS-04.png" class="d-block w-100" alt="...">
+                <img src="https://deschuurr.nl/wp-content/uploads/2025/03/Scherm­afbeelding-2025-03-23-om-19.16.23.png" class="d-block w-100" alt="...">
               </div>
               <div class="carousel-item">
-                <img src="https://deschuurr.nl/wp-content/uploads/2023/07/banner-BMGRESS-04.png" class="d-block w-100" alt="...">
+                <img src="https://deschuurr.nl/wp-content/uploads/2025/03/Scherm­afbeelding-2025-03-23-om-19.12.15.png" class="d-block w-100" alt="...">
+              </div>
+              <div class="carousel-item">
+                <img src="https://deschuurr.nl/wp-content/uploads/2025/03/Scherm­afbeelding-2025-03-23-om-19.17.29.png" class="d-block w-100" alt="...">
               </div>
             </div>
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
@@ -113,7 +117,7 @@
       </div>
     </div>
     <div class="modal" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
+      <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content p-3">
           <h1 class="text-primary">{{ $t("login.login") }}</h1>
           <div v-if="!formIsValid || error" class="alert alert-warning" role="alert">Something went wrong please try again</div>
@@ -190,6 +194,7 @@ export default {
         }
         // hide loginModal via javascript (remove modal-backdrop show)
         document.querySelector('.modal-backdrop').remove();
+        document.querySelector('body').style = '';
         this.$router.replace('/welcome');
       } catch (error) {
         this.error = error.message || 'Something went wrong'
@@ -230,6 +235,7 @@ html, body {
 .carousel {
   margin-bottom: -3rem;
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(0, 0, 0, 0.225);
 }
 .col-md-4 {
   margin-bottom: 1rem;
