@@ -15,7 +15,7 @@
       </div>
       <div v-if="isDataLoaded & allArcadeCodes > 0" class="row">
         <div class="col-lg-6 col-md-10 mx-auto">
-          <router-link :to="{ path: '/arcade/' + arcade }" v-for="arcade in ArcadesWithCodes" :key="arcade.id" class="btn btn-light w-100 text-start mt-2">
+          <router-link :to="{ path: '/arcade/' + arcade.id }" v-for="arcade in ArcadesWithCodes" :key="arcade.id" class="btn btn-light w-100 text-start mt-2">
             <span class="d-flex">
               <img class="my-auto me-2" :src="'https://flagsapi.com/' + arcade.countryCode + '/flat/64.png'">
               <span class="me-auto my-auto">{{ arcade.name }} <br>

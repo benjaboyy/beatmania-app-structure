@@ -221,7 +221,7 @@ html, body {
 
 <style scoped>
 .card-img-top {
-  aspect-ratio: 1.5;
+  aspect-ratio: 2/1;
   object-fit: cover;
 }
 .logo-scale {
