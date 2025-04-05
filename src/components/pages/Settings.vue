@@ -1,59 +1,39 @@
 <template>
   <div class="stats-screen px-md-5 m-auto">
     <h1 class="text-center my-4">{{ $t("settings.settings") }}</h1>
+    <div class="mb-3 d-flex">
+      <div class="mx-auto">
+        <a class="btn me-2" @click="tab = 'details'" :class="tab === 'details' ? 'btn-primary' : 'bg-white btn-outline-primary'">{{ $t("settings.accountDetails") }}</a>
+        <a class="btn" @click="tab = 'games'" :class="tab === 'games' ? 'btn-primary' : 'bg-white btn-outline-primary'">{{ $t("settings.gameSelect") }}</a>
+      </div>
+    </div>
     <div class="card">
       <div class="card-body">
-        <div class="mb-3 d-flex">
-          <div class="mx-auto">
-            <a class="btn me-2" @click="tab = 'details'" :class="tab === 'details' ? 'btn-primary' : 'btn-outline-primary'">{{ $t("settings.accountDetails") }}</a>
-            <a class="btn" @click="tab = 'games'" :class="tab === 'games' ? 'btn-primary' : 'btn-outline-primary'">{{ $t("settings.gameSelect") }}</a>
-          </div>
-        </div>
         <div v-if="tab === 'games' && games">
-          <div id="emailHelp" class="form-text mb-3">
-            <strong>{{ $t("settings.gameSelectInfo") }}</strong>
-            <ul class="list-unstyled">
-              <li>SP - {{ $t("settings.singlePLay") }}</li>
-              <li>DP - {{ $t("settings.doublePlay") }}</li>
-              <li>SC - {{ $t("welcomeScreen.singleCourses") }}</li>
-              <li>DC - {{ $t("welcomeScreen.doubleCourses") }}</li>
-            </ul>
-          </div>
+          <h3 class="text-primary">Select your tracked games</h3>
           <div class="row">
             <table class="table table-sm table-borderless table-striped">
               <tbody v-for="system in gamesSortedBySystem" :key="system">
               <tr>
                 <th class="text-start border-dark" colspan="5">
-                  <img v-if="system[0].playStyle === 'Playstation'" src="../../assets/svg/playstation.svg" class="icon" alt="arcade-icon">
-                  <img v-else-if="system[0].playStyle === 'Arcade'" src="../../assets/svg/arcade.svg" class="icon" alt="arcade-icon">
-                  <img v-else-if="system[0].playStyle === 'Gameboy'" src="../../assets/svg/gameboy.svg" class="icon" alt="arcade-icon">
-                  <img v-else-if="system[0].playStyle === 'Wonderswan'" src="../../assets/svg/wonder.svg" class="icon" alt="arcade-icon">
-                  {{ system[0].playStyle }}
+                  <img v-if="system[0].playStyle === 'Playstation'" src="@/assets/svg/playstation.svg" class="icon me-2" alt="playstation-icon">
+                  <img v-else-if="system[0].playStyle === 'Arcade'" src="@/assets/svg/arcade.svg" class="icon me-2" alt="arcade-icon">
+                  <img v-else-if="system[0].playStyle === 'Gameboy'" src="@/assets/svg/gameboy.svg" class="icon me-2" alt="gameboy-icon">
+                  <img v-else-if="system[0].playStyle === 'Wonderswan'" src="@/assets/svg/wonder.svg" class="icon me-2" alt="wonderswan-icon">
+                  <span class="fw-bold">{{ system[0].playStyle }}</span>
                 </th>
               </tr>
               <tr v-for="game in system" :key="game">
-                <td class="text-dark bg-light w-40">
-                  {{ game.name }}
+                <td class="text-dark bg-light w-40 d-flex justify-content-between w-100">
+                  <span>
+                    {{ game.name }}<br>
+                    <span class="badge" :class="{' bg-dark': !enteredTrackGames[game.id].singlesSet, 'bg-primary': enteredTrackGames[game.id].singlesSet}">SP</span>
+                    <span class="badge ms-1" :class="{' bg-dark': game.hasDoubleCharts && !enteredTrackGames[game.id].doublesSet, 'bg-primary': enteredTrackGames[game.id].doublesSet, 'bg-light': !game.hasDoubleCharts}">DP</span>
+                    <span class="badge ms-1" :class="{' bg-dark': game.hasCourseMode && !enteredTrackGames[game.id].singleCourse, 'bg-primary': enteredTrackGames[game.id].singleCourse, 'bg-light': !game.hasCourseMode}">SC</span>
+                    <span class="badge ms-1" :class="{' bg-dark': game.hasDoubleCharts && game.hasCourseMode && !enteredTrackGames[game.id].doubleCourse, 'bg-primary': enteredTrackGames[game.id].doubleCourse, 'bg-light':!game.hasCourseMode}">DC</span>
+                  </span>
+                  <button @click="openModeEditModal(game.id, game.hasDoubleCharts, game.hasCourseMode)" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> ADD</button>
                 </td>
-                <td class="text-center border-primary border-1" :class="{'bg-light text-primary': !enteredTrackGames[game.id].singlesSet, 'bg-primary text-white': enteredTrackGames[game.id].singlesSet}"
-                    @click="updateTrackGames(game.id, 'singlesSet', !enteredTrackGames[game.id].singlesSet)">
-                  SP
-                </td>
-                <td class="text-center border-primary border-1" v-if="game.hasDoubleCharts" :class="{'bg-light text-primary': !enteredTrackGames[game.id].doublesSet, 'bg-primary text-white': enteredTrackGames[game.id].doublesSet}"
-                    @click="updateTrackGames(game.id, 'doublesSet', !enteredTrackGames[game.id].doublesSet)">
-                  DP
-                </td>
-                <td v-else class="bg-dark diff-td"></td>
-                <td class="text-center border-primary border-1" v-if="game.hasCourseMode" :class="{'bg-light text-primary': !enteredTrackGames[game.id].singleCourse, 'bg-primary text-white': enteredTrackGames[game.id].singleCourse}"
-                    @click="updateTrackGames(game.id, 'singleCourse', !enteredTrackGames[game.id].singleCourse)">
-                  SC
-                </td>
-                <td v-else class="bg-dark diff-td"></td>
-                <td class="text-center border-primary border-1" v-if="game.hasDoubleCharts && game.hasCourseMode" :class="{'bg-light text-primary': !enteredTrackGames[game.id].doubleCourse, 'bg-primary text-white': enteredTrackGames[game.id].doubleCourse}"
-                    @click="updateTrackGames(game.id, 'doubleCourse', !enteredTrackGames[game.id].doubleCourse)">
-                  DC
-                </td>
-                <td v-else class="bg-dark diff-td"></td>
               </tr>
               </tbody>
             </table>
@@ -123,14 +103,22 @@
         :open="dialogThemeIsVisible"
         class="z-top"
     />
+    <ModeSelectModal
+        @close="hideDialog"
+        @updateTrackGames="updateTrackGames"
+        :open="dialogIsVisible"
+        :modeInfo="modeInfo"
+    />
   </div>
 </template>
 
 <script>
 import ThemeModal from "@/components/UI/ThemeModal";
+import ModeSelectModal from "@/components/UI/ModeSelectModal.vue";
 export default {
   name: 'SettingsScreen',
   components: {
+    ModeSelectModal,
     ThemeModal
   },
   props: {
@@ -150,8 +138,10 @@ export default {
       codeSet03: false,
       enteredTrackGames: {},
       dialogThemeIsVisible: false,
+      dialogIsVisible: false,
       currentTheme: this.$store.getters['getTheme'], // gives number 1/4
       themes: ['Lumen', 'Scrapbook'],
+      modeInfo: {}
     }
   },
   async created() {
@@ -193,6 +183,12 @@ export default {
     window.history.replaceState({}, document.title, "/" + "settings");
   },
   methods: {
+    showDialog() {
+      this.dialogIsVisible = true;
+    },
+    hideDialog() {
+      this.dialogIsVisible = false;
+    },
     getGamePlaystyle(gameID) {
       return this.$store.getters['games/getGamePlayStyle'](gameID);
     },
@@ -207,6 +203,19 @@ export default {
         this.enteredTrackGames[gameId].doubleCourse = value;
       }
       this.$store.dispatch('updateTrackGames', this.enteredTrackGames);
+    },
+    openModeEditModal(gameId, hasDoubleCharts, hasCourseMode) {
+      this.dialogIsVisible = true;
+      this.modeInfo = {
+        id: gameId,
+        name: this.games[gameId].name,
+        singlesSet: this.enteredTrackGames[gameId].singlesSet,
+        doublesSet: this.enteredTrackGames[gameId].doublesSet,
+        singleCourse: this.enteredTrackGames[gameId].singleCourse,
+        doubleCourse: this.enteredTrackGames[gameId].doubleCourse,
+        hasDoubleCharts: hasDoubleCharts,
+        hasCourseMode: hasCourseMode
+      };
     },
     updateSettings() {
       this.$store.dispatch('updateSettings', {

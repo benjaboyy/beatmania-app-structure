@@ -17,7 +17,13 @@
               </div>
               <div class="text-center mb-0">
                 <h2 class="mb-0">{{ player.name }}</h2>
-                <small class="mb-2"><i><small>Last login {{ player.lastLogin }}</small></i></small>
+                <small class="mb-2"><i><small>Last login {{ player.lastLogin }}</small></i>
+                  <router-link to="/settings">
+                    <a v-if="isAuthenticated" class="text-white ms-3" href="">
+                      <i class="fa fa-cog"></i> <small>Settings</small>
+                    </a>
+                  </router-link>
+                </small>
               </div>
             </div>
           </div>
@@ -73,7 +79,6 @@
     <h2 class="text-center my-3">Linked arcades</h2>
     <div class="row d-flex justify-content-center align-items-center h-100">
       <div class="col col-lg-6">
-        <!--        [{"id":"573300","name":"Rhythm Arcade","code":"573300","country":"Netherlands","countryCode":"NL","games":["thefinal","beatmaniagb2gatchamix"],"players":{"0YV4DS5MvSbdh1AtR9V6r0dqaxB3":"Elex","126ec4IrW4ZHhkd9JxfUQMqGjZD2":"Tubsy","ESRmTw2xsDOwb4F2EW5N7BymuN53":"CHZK","FtaKWn8Q8lbPpFE2TEiqAWLJz1g2":"Nandi","MIcU9GgEP3YJlCHA8Yvx5uCfh6q2":"takekun","Mkubr4TvbMXAJS9gmdX49eprBfZ2":"Thulinma","R3VFHMPnRGhuOwtxMjkIUrA8iXf1":"VolatileRig","WrIwTDjrI3e8uwYgs7YxIjeVyaX2":"SALIM","ZjYBs2M5sZTS5oh0PW920DmoiLz2":"BocuD","dG2i7AVpLLg8JrrngqUM7iggCVn1":"Thumbsy","dx7b587eK1UbDsDcgFvPZwIaKqG3":"MaxPainNL","fTZvTOHij3ZN4mWChI5RRXtddCe2":"_Raz","kZRn8r6OrxgCiEXhutAoEVZFL192":"Behy"}}]-->
         <div v-for="(arcade, arcadeKey) in infoForPlayerArcade" :key="arcadeKey">
           <div class="card">
             <div class="card-body">
@@ -97,35 +102,41 @@
             <div v-if="value">
               <div class="card">
                 <div class="card-body p-4">
-                  {{ player.lastPlayedSong.id }}
-                  <div class="float-left">
-                    <span class="ms-2"
-                          :class="player.lastPlayedSong.normalClear ? 'text-theme-1' : 'text-muted'">N</span>
-                    <span class="ms-2" :class="player.lastPlayedSong.hardClear ? 'text-theme-2' : 'text-muted'">H</span>
-                    <span class="ms-2"
-                          :class="player.lastPlayedSong.anotherClear ? 'text-theme-3' : 'text-muted'">A</span>
-                    <span class="ms-2" :class="player.lastPlayedSong.normalDoubleClear ? 'text-theme-1' : 'text-muted'">ND</span>
-                    <span class="ms-2"
-                          :class="player.lastPlayedSong.hardDoubleClear ? 'text-theme-2' : 'text-muted'">HD</span>
-                    <span class="ms-2"
-                          :class="player.lastPlayedSong.anotherDoubleClear ? 'text-theme-3' : 'text-muted'">AD</span>
-                    <i class="fa fa-heart ms-2"
-                       :class="player.lastPlayedSong.favorite ? 'text-danger' : 'text-muted'"></i>
-                    <i class="fa fa-bullseye ms-2"
-                       :class="player.lastPlayedSong.target ? 'text-success' : 'text-muted'"></i>
+                  <div class="d-flex justify-content-between align-items-center mb-0">
+                    <h5 class="mb-0">{{ player.lastPlayedSong.id }}</h5>
+                    <div>
+                      <span class="badge ms-2"
+                            :class="player.lastPlayedSong.normalClear ? 'bg-success' : 'bg-secondary'">N</span>
+                      <span class="badge ms-2"
+                            :class="player.lastPlayedSong.hardClear ? 'bg-danger' : 'bg-secondary'">H</span>
+                      <span class="badge ms-2"
+                            :class="player.lastPlayedSong.anotherClear ? 'bg-warning' : 'bg-secondary'">A</span>
+                      <span class="badge ms-2"
+                            :class="player.lastPlayedSong.normalDoubleClear ? 'bg-success' : 'bg-secondary'">ND</span>
+                      <span class="badge ms-2"
+                            :class="player.lastPlayedSong.hardDoubleClear ? 'bg-danger' : 'bg-secondary'">HD</span>
+                      <span class="badge ms-2"
+                            :class="player.lastPlayedSong.anotherDoubleClear ? 'bg-warning' : 'bg-secondary'">AD</span>
+                      <i class="fa fa-heart ms-2"
+                         :class="player.lastPlayedSong.favorite ? 'text-danger' : 'text-muted'"></i>
+                      <i class="fa fa-bullseye ms-2"
+                         :class="player.lastPlayedSong.target ? 'text-success' : 'text-muted'"></i>
+                    </div>
                   </div>
-                  <p v-if="player.lastPlayedSong.normalScore" class="mb-0 text-muted">Normal score:
-                    {{ player.lastPlayedSong.normalScore }}</p>
-                  <p v-if="player.lastPlayedSong.hardScore" class="mb-0 text-muted">Hard score:
-                    {{ player.lastPlayedSong.hardScore }}</p>
-                  <p v-if="player.lastPlayedSong.anotherScore" class="mb-0 text-muted">Another score:
-                    {{ player.lastPlayedSong.anotherScore }}</p>
-                  <p v-if="player.lastPlayedSong.scoreDoubleNormal" class="mb-0 text-muted">Normal double score:
-                    {{ player.lastPlayedSong.scoreDoubleNormal }}</p>
-                  <p v-if="player.lastPlayedSong.scoreDoubleHard" class="mb-0 text-muted">Hard double score:
-                    {{ player.lastPlayedSong.scoreDoubleHard }}</p>
-                  <p v-if="player.lastPlayedSong.scoreDoubleAnother" class="mb-0 text-muted">Another double score:
-                    {{ player.lastPlayedSong.scoreDoubleAnother }}</p>
+                  <div class="text-muted">
+                    <p v-if="player.lastPlayedSong.normalScore" class="mb-1">Normal score:
+                      {{ player.lastPlayedSong.normalScore }}</p>
+                    <p v-if="player.lastPlayedSong.hardScore" class="mb-1">Hard score:
+                      {{ player.lastPlayedSong.hardScore }}</p>
+                    <p v-if="player.lastPlayedSong.anotherScore" class="mb-1">Another score:
+                      {{ player.lastPlayedSong.anotherScore }}</p>
+                    <p v-if="player.lastPlayedSong.scoreDoubleNormal" class="mb-1">Normal double score:
+                      {{ player.lastPlayedSong.scoreDoubleNormal }}</p>
+                    <p v-if="player.lastPlayedSong.scoreDoubleHard" class="mb-1">Hard double score:
+                      {{ player.lastPlayedSong.scoreDoubleHard }}</p>
+                    <p v-if="player.lastPlayedSong.scoreDoubleAnother" class="mb-1">Another double score:
+                      {{ player.lastPlayedSong.scoreDoubleAnother }}</p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -139,7 +150,8 @@
 </template>
 
 <script>
-import info from '@/assets/locales/info.js' // import common locale messages
+import info from '@/assets/locales/info.js'
+
 export default {
   name: 'ProfileScreen',
   props: {
@@ -178,6 +190,9 @@ export default {
     },
     getArcades() {
       this.loadedArcadeInfo = this.$store.getters['arcades/getArcades'];
+    },
+    isAuthenticated() {
+      return this.$store.getters['isAuthenticated'];
     },
   },
   computed: {
