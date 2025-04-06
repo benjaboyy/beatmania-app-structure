@@ -3,19 +3,19 @@
     <h1 class="text-center my-4">{{ $t("settings.settings") }}</h1>
     <div class="mb-3 d-flex">
       <div class="mx-auto">
-        <a class="btn me-2" @click="tab = 'details'" :class="tab === 'details' ? 'btn-primary' : 'bg-white btn-outline-primary'">{{ $t("settings.accountDetails") }}</a>
-        <a class="btn" @click="tab = 'games'" :class="tab === 'games' ? 'btn-primary' : 'bg-white btn-outline-primary'">{{ $t("settings.gameSelect") }}</a>
+        <a class="btn me-2" @click="tab = 'details'" :class="tab === 'details' ? 'btn-primary disabled' : 'btn-primary'">{{ $t("settings.accountDetails") }}</a>
+        <a class="btn" @click="tab = 'games'" :class="tab === 'games' ? 'btn-primary disabled' : 'btn-primary'">{{ $t("settings.gameSelect") }}</a>
       </div>
     </div>
     <div class="card">
       <div class="card-body">
         <div v-if="tab === 'games' && games">
-          <h3 class="text-primary">Select your tracked games</h3>
+          <p>Select the games you want to track</p>
           <div class="row">
             <table class="table table-sm table-borderless table-striped">
               <tbody v-for="system in gamesSortedBySystem" :key="system">
               <tr>
-                <th class="text-start border-dark" colspan="5">
+                <th class="text-start bg-light-primary" colspan="5">
                   <img v-if="system[0].playStyle === 'Playstation'" src="@/assets/svg/playstation.svg" class="icon me-2" alt="playstation-icon">
                   <img v-else-if="system[0].playStyle === 'Arcade'" src="@/assets/svg/arcade.svg" class="icon me-2" alt="arcade-icon">
                   <img v-else-if="system[0].playStyle === 'Gameboy'" src="@/assets/svg/gameboy.svg" class="icon me-2" alt="gameboy-icon">
@@ -30,9 +30,18 @@
                     <span class="badge" :class="{' bg-dark': !enteredTrackGames[game.id].singlesSet, 'bg-primary': enteredTrackGames[game.id].singlesSet}">SP</span>
                     <span class="badge ms-1" :class="{' bg-dark': game.hasDoubleCharts && !enteredTrackGames[game.id].doublesSet, 'bg-primary': enteredTrackGames[game.id].doublesSet, 'bg-light': !game.hasDoubleCharts}">DP</span>
                     <span class="badge ms-1" :class="{' bg-dark': game.hasCourseMode && !enteredTrackGames[game.id].singleCourse, 'bg-primary': enteredTrackGames[game.id].singleCourse, 'bg-light': !game.hasCourseMode}">SC</span>
-                    <span class="badge ms-1" :class="{' bg-dark': game.hasDoubleCharts && game.hasCourseMode && !enteredTrackGames[game.id].doubleCourse, 'bg-primary': enteredTrackGames[game.id].doubleCourse, 'bg-light':!game.hasCourseMode}">DC</span>
+                    <span class="badge ms-1" :class="{' bg-dark': game.hasDoubleCharts && game.hasCourseMode && !enteredTrackGames[game.id].doubleCourse, 'bg-primary': enteredTrackGames[game.id].doubleCourse, 'bg-light':!game.hasCourseMode || !game.hasDoubleCharts}">DC</span>
                   </span>
-                  <button @click="openModeEditModal(game.id, game.hasDoubleCharts, game.hasCourseMode)" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> ADD</button>
+                  <button v-if="!enteredTrackGames[game.id].singlesSet && !enteredTrackGames[game.id].doublesSet && !enteredTrackGames[game.id].singleCourse && !enteredTrackGames[game.id].doubleCourse"
+                          @click="openModeEditModal(game.id, game.name, game.hasDoubleCharts, game.hasCourseMode)"
+                          class="btn btn-success btn-sm">
+                    <i class="fa fa-plus"></i> ADD
+                  </button>
+                  <button v-else
+                          @click="openModeEditModal(game.id, game.name, game.hasDoubleCharts, game.hasCourseMode)"
+                          class="btn btn-warning btn-sm">
+                    <i class="fa fa-edit"></i> EDIT
+                  </button>
                 </td>
               </tr>
               </tbody>
@@ -40,7 +49,6 @@
           </div>
         </div>
         <div v-if="tab === 'details'">
-          <div id="emailHelp" class="form-text mb-3">{{ $t("settings.accountInfo") }}</div>
           <div class="mb-3">
             <label for="username" class="form-label">{{ $t("login.gametagName") }}</label>
             <input type="username" class="form-control" v-model="enteredName" id="username" aria-describedby="username">
@@ -107,7 +115,7 @@
         @close="hideDialog"
         @updateTrackGames="updateTrackGames"
         :open="dialogIsVisible"
-        :modeInfo="modeInfo"
+        :info="modeInfo"
     />
   </div>
 </template>
@@ -204,11 +212,12 @@ export default {
       }
       this.$store.dispatch('updateTrackGames', this.enteredTrackGames);
     },
-    openModeEditModal(gameId, hasDoubleCharts, hasCourseMode) {
+    openModeEditModal(gameId, name, hasDoubleCharts, hasCourseMode) {
       this.dialogIsVisible = true;
+      console.log(gameId);
       this.modeInfo = {
         id: gameId,
-        name: this.games[gameId].name,
+        name: name,
         singlesSet: this.enteredTrackGames[gameId].singlesSet,
         doublesSet: this.enteredTrackGames[gameId].doublesSet,
         singleCourse: this.enteredTrackGames[gameId].singleCourse,
@@ -373,5 +382,9 @@ td:hover {
 .icon {
   width: 30px;
   height: 30px;
+}
+
+.bg-light-primary {
+  background-color: rgba(7, 152, 255, 0.28) !important;
 }
 </style>
