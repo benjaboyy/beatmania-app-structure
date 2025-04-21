@@ -108,6 +108,8 @@ export default
         filerOn: 'Filter on',
         onlySinglePlayer: 'Battle Mode not available',
         onlySinglePlayerInfo: 'When playing in multiplayer, the course can not be played in Battle Mode. The title will yellow out and the course will be switched to couple mode when selected.',
+        trackAll: 'Track all',
+        removeFilters: 'Remove',
     },
     login: {
         viewProfile: 'View Profile',

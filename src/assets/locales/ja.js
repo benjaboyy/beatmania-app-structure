@@ -101,6 +101,8 @@ export default
         filerOn: 'フィルター',
         onlySinglePlayer: 'シングルプレイのみで利用可能',
         onlySinglePlayerInfo: 'マルチプレイでプレイする場合、コースはバトルモードでプレイできません。 タイトルは黄色くなり、コースが選択されるとカップルモードに切り替わります。',
+        trackAll: 'すべてのゲームを追跡',
+        removeFilters: 'フィルターを削除',
     },
     login: {
         viewProfile: '見る',

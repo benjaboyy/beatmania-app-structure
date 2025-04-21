@@ -9,7 +9,7 @@
           <span @click="showShare" class="float-right d-flex h-100 text-white"><i class="fas fa-qrcode fa-2x my-auto"></i></span>
           <router-link :to="'user/' + userID" class="d-flex flex-column my-auto ps-2 text-decoration-none">
             <h5 class="m-0 text-white mt-2 mt-md-0"> {{ $t("welcomeScreen.welcome") }}</h5>
-            <h1>DJ {{ userName }}</h1>
+            <h1>{{ userName }}</h1>
           </router-link>
         </div>
       </div>
@@ -96,6 +96,7 @@
       <div class="row">
         <div class="col-lg-6 col-md-10 my-4 mx-auto text-center">
           <router-link :to="{ path: '/settings', query: { ID: 'game' } }" class="btn w-100 btn-lg btn-success" type="button" role="button"><i class="fas fa-plus-square"></i> {{ $t("welcomeScreen.selectGames") }}</router-link>
+          <router-link :to="{ path: '/settings' }" class="btn w-100 btn-lg mt-4 btn-success" type="button" role="button"><i class="fas fa-plus-square"></i> Add arcade</router-link>
           <router-link to="/tips" class="btn w-100 btn-lg mt-4 btn-block btn-primary" href="#" type="button" role="button"><i class="far fa-lightbulb"></i> {{ $t("welcomeScreen.tips") }}</router-link>
         </div>
       </div>
@@ -112,14 +113,20 @@
       :url="shareUrl"
       :userID="userID"
   />
+  <ArcadeSelectModal
+      @close="hideArcadeDialog"
+      :open="dialogArcadeIsVisible"
+  />
 </template>
 
 <script>
 import ProgressBarStats from "@/components/UI/ProgressBarStats";
 import ShareModal from "@/components/UI/ShareModal.vue";
+import ArcadeSelectModal from "@/components/UI/ArcadeSelectModal.vue";
 export default {
   name: 'WelcomeScreen',
   components: {
+    ArcadeSelectModal,
     ProgressBarStats,
     ShareModal
   },
@@ -131,6 +138,7 @@ export default {
       isDataLoaded: false,
       shareUrl: '',
       shareVisible: false,
+      dialogArcadeIsVisible: false,
       expandedGames: {}
     }
   },
@@ -231,6 +239,9 @@ export default {
     },
     hideShareModal() {
       this.shareVisible = false;
+    },
+    hideArcadeDialog() {
+      this.dialogArcadeIsVisible = false;
     },
     getArcades() {
       return this.$store.getters['arcades/getArcades'];

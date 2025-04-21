@@ -20,13 +20,13 @@
                   <img v-else-if="system[0].playStyle === 'Arcade'" src="@/assets/svg/arcade.svg" class="icon me-2" alt="arcade-icon">
                   <img v-else-if="system[0].playStyle === 'Gameboy'" src="@/assets/svg/gameboy.svg" class="icon me-2" alt="gameboy-icon">
                   <img v-else-if="system[0].playStyle === 'Wonderswan'" src="@/assets/svg/wonder.svg" class="icon me-2" alt="wonderswan-icon">
-                  <span class="fw-bold">{{ system[0].playStyle }}</span>
+                  <span class="fw-bold mb-0">{{ system[0].playStyle }}</span>
                 </th>
               </tr>
               <tr v-for="game in system" :key="game">
                 <td class="text-dark bg-light w-40 d-flex justify-content-between w-100">
                   <span>
-                    {{ game.name }}<br>
+                    <h6>{{ game.name }}</h6>
                     <span class="badge" :class="{' bg-dark': !enteredTrackGames[game.id].singlesSet, 'bg-primary': enteredTrackGames[game.id].singlesSet}">SP</span>
                     <span class="badge ms-1" :class="{' bg-dark': game.hasDoubleCharts && !enteredTrackGames[game.id].doublesSet, 'bg-primary': enteredTrackGames[game.id].doublesSet, 'bg-light': !game.hasDoubleCharts}">DP</span>
                     <span class="badge ms-1" :class="{' bg-dark': game.hasCourseMode && !enteredTrackGames[game.id].singleCourse, 'bg-primary': enteredTrackGames[game.id].singleCourse, 'bg-light': !game.hasCourseMode}">SC</span>
@@ -111,22 +111,14 @@
         :open="dialogThemeIsVisible"
         class="z-top"
     />
-    <ModeSelectModal
-        @close="hideDialog"
-        @updateTrackGames="updateTrackGames"
-        :open="dialogIsVisible"
-        :info="modeInfo"
-    />
   </div>
 </template>
 
 <script>
 import ThemeModal from "@/components/UI/ThemeModal";
-import ModeSelectModal from "@/components/UI/ModeSelectModal.vue";
 export default {
   name: 'SettingsScreen',
   components: {
-    ModeSelectModal,
     ThemeModal
   },
   props: {
@@ -210,6 +202,20 @@ export default {
       } else if (option === 'doubleCourse') {
         this.enteredTrackGames[gameId].doubleCourse = value;
       }
+      this.$store.dispatch('updateTrackGames', this.enteredTrackGames);
+    },
+    removeFilters(gameId) {
+      this.enteredTrackGames[gameId].singlesSet = false;
+      this.enteredTrackGames[gameId].doublesSet = false;
+      this.enteredTrackGames[gameId].singleCourse = false;
+      this.enteredTrackGames[gameId].doubleCourse = false;
+      this.$store.dispatch('updateTrackGames', this.enteredTrackGames);
+    },
+    toggleAllFilters(gameId) {
+      this.enteredTrackGames[gameId].singlesSet = true;
+      this.enteredTrackGames[gameId].doublesSet = true;
+      this.enteredTrackGames[gameId].singleCourse = true;
+      this.enteredTrackGames[gameId].doubleCourse = true;
       this.$store.dispatch('updateTrackGames', this.enteredTrackGames);
     },
     openModeEditModal(gameId, name, hasDoubleCharts, hasCourseMode) {
