@@ -15,6 +15,10 @@ export default {
             userId: '',
             token: '',
             admin: false,
+            achievements: {
+                total: 0,
+                achievements: [],
+            },
             language: '',
             theme: '',
             name: '',
