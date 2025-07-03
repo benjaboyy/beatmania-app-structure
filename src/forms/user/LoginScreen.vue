@@ -1,22 +1,6 @@
 <template>
   <div class="w-100">
     <div class="container">
-<!--      <div class="top-0 end-0 position-absolute d-md-none">-->
-<!--        <div class="nav nav-pills justify-content-end">-->
-<!--          <div class="nav-item">-->
-<!--            <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">-->
-<!--              <i class="fas fa-sign-in-alt me-1"></i>-->
-<!--              {{ $t("login.login") }}-->
-<!--            </a>-->
-<!--          </div>-->
-<!--          <div class="nav-item">-->
-<!--            <div class="nav-link" @click="showDialog">-->
-<!--              <i class="fas fa-globe me-1"></i>-->
-<!--              {{ $t("login.selectLanguage") }}-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
       <div class="row">
         <div class="col-md-5 pb-4 text-white">
           <img src="../../assets/svg/logo-full.svg" class="d-inline-block align-middle logo-scale" alt="">
