@@ -25,23 +25,32 @@
               </tr>
               <tr v-for="game in system" :key="game">
                 <td class="text-dark bg-light w-40 d-flex justify-content-between w-100">
-                  <span>
-                    <h6>{{ game.name }}</h6>
-                    <span class="badge" :class="{' bg-dark': !enteredTrackGames[game.id].singlesSet, 'bg-primary': enteredTrackGames[game.id].singlesSet}">SP</span>
-                    <span class="badge ms-1" :class="{' bg-dark': game.hasDoubleCharts && !enteredTrackGames[game.id].doublesSet, 'bg-primary': enteredTrackGames[game.id].doublesSet, 'bg-light': !game.hasDoubleCharts}">DP</span>
-                    <span class="badge ms-1" :class="{' bg-dark': game.hasCourseMode && !enteredTrackGames[game.id].singleCourse, 'bg-primary': enteredTrackGames[game.id].singleCourse, 'bg-light': !game.hasCourseMode}">SC</span>
-                    <span class="badge ms-1" :class="{' bg-dark': game.hasDoubleCharts && game.hasCourseMode && !enteredTrackGames[game.id].doubleCourse, 'bg-primary': enteredTrackGames[game.id].doubleCourse, 'bg-light':!game.hasCourseMode || !game.hasDoubleCharts}">DC</span>
+                  <span class="my-auto">
+                    <h6 class="mb-0">{{ game.name }}</h6>
+<!--                    <span class="badge" :class="{' bg-dark': !enteredTrackGames[game.id].singlesSet, 'bg-primary': enteredTrackGames[game.id].singlesSet}">SP</span>-->
+<!--                    <span class="badge ms-1" :class="{' bg-dark': game.hasDoubleCharts && !enteredTrackGames[game.id].doublesSet, 'bg-primary': enteredTrackGames[game.id].doublesSet, 'bg-light': !game.hasDoubleCharts}">DP</span>-->
+<!--                    <span class="badge ms-1" :class="{' bg-dark': game.hasCourseMode && !enteredTrackGames[game.id].singleCourse, 'bg-primary': enteredTrackGames[game.id].singleCourse, 'bg-light': !game.hasCourseMode}">SC</span>-->
+<!--                    <span class="badge ms-1" :class="{' bg-dark': game.hasDoubleCharts && game.hasCourseMode && !enteredTrackGames[game.id].doubleCourse, 'bg-primary': enteredTrackGames[game.id].doubleCourse, 'bg-light':!game.hasCourseMode || !game.hasDoubleCharts}">DC</span>-->
                   </span>
                   <button v-if="!enteredTrackGames[game.id].singlesSet && !enteredTrackGames[game.id].doublesSet && !enteredTrackGames[game.id].singleCourse && !enteredTrackGames[game.id].doubleCourse"
-                          @click="openModeEditModal(game.id, game.name, game.hasDoubleCharts, game.hasCourseMode)"
+                          @click="toggleAllFilters(game.id)"
                           class="btn btn-success btn-sm">
                     <i class="fa fa-plus"></i> ADD
                   </button>
-                  <button v-else
-                          @click="openModeEditModal(game.id, game.name, game.hasDoubleCharts, game.hasCourseMode)"
-                          class="btn btn-warning btn-sm">
-                    <i class="fa fa-edit"></i> EDIT
-                  </button>
+                  <div class="btn-group" v-else>
+                    <button
+                        @click="openModeEditModal(game.id, game.name, game.hasDoubleCharts, game.hasCourseMode)"
+                        class="btn btn-warning btn-sm px-3"
+                    >
+                      <i class="fa fa-edit"></i>
+                    </button>
+                    <button
+                        @click="removeFilters(game.id)"
+                        class="btn btn-danger btn-sm px-3"
+                    >
+                      <i class="fa fa-trash"></i>
+                    </button>
+                  </div>
                 </td>
               </tr>
               </tbody>
@@ -106,6 +115,14 @@
         </div>
       </div>
     </div>
+    <ModeSelectModal
+        @close="hideDialog"
+        @updateTrackGames="updateTrackGames"
+        @remove-filters="removeFilters"
+        @toggle-all-filters="toggleAllFilters"
+        :open="dialogIsVisible"
+        :info="modeInfo"
+    />
     <ThemeModal
         @close="hideThemeDialog"
         :open="dialogThemeIsVisible"
@@ -116,9 +133,11 @@
 
 <script>
 import ThemeModal from "@/components/UI/ThemeModal";
+import ModeSelectModal from "@/components/UI/ModeSelectModal.vue";
 export default {
   name: 'SettingsScreen',
   components: {
+    ModeSelectModal,
     ThemeModal
   },
   props: {
@@ -202,6 +221,14 @@ export default {
       } else if (option === 'doubleCourse') {
         this.enteredTrackGames[gameId].doubleCourse = value;
       }
+      if (!this.modeInfo.hasDoubleCharts) {
+        this.enteredTrackGames[gameId].doublesSet = false;
+        this.enteredTrackGames[gameId].doubleCourse = false;
+      }
+      if (!this.modeInfo.hasCourseMode) {
+        this.enteredTrackGames[gameId].singleCourse = false;
+        this.enteredTrackGames[gameId].doubleCourse = false;
+      }
       this.$store.dispatch('updateTrackGames', this.enteredTrackGames);
     },
     removeFilters(gameId) {
@@ -221,6 +248,7 @@ export default {
     openModeEditModal(gameId, name, hasDoubleCharts, hasCourseMode) {
       this.dialogIsVisible = true;
       console.log(gameId);
+      this.toggleAllFilters(gameId);
       this.modeInfo = {
         id: gameId,
         name: name,

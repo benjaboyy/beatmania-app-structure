@@ -81,6 +81,7 @@ export default {
       this.$emit('close');
     },
     updateTrackGames(id, option, value) {
+      console.log(`Updating track games: ${id}, ${option}, ${value}`);
       this.$emit('updateTrackGames', id, option, value);
     }
   }
