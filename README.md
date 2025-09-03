@@ -1,3 +1,4 @@
+![Beatmania Progress Tracker Logo](src/assets/img/banner-highscore.png)
 # Beatmania Progress Tracker App
 
 Welcome to the Beatmania Progress Tracker App,<br>
