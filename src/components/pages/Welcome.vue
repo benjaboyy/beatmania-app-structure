@@ -68,7 +68,6 @@
                 <h3 class="text-primary float-end mt-2"><i class="fa fa-star ms-2 my-auto"></i> {{ gamestats[game.id].total }} / {{ gamestats[game.id].totalToClear }}</h3>
                 <span class="text-primary">{{ $t("welcomeScreen.songs") }}: </span>{{ gamestats[game.id].songs }}<br>
                 <span class="text-primary">{{ $t("welcomeScreen.system") }}: </span>{{ game.playStyle }}
-
                 <div v-if="game.trackedGame.singlesSet && gamestats[game.id].singles.total > 0" class="mt-3">
                   <progress-bar-stats :clear="gamestats[game.id].singles.clear" :total="gamestats[game.id].singles.total" :name="'primary'" :type="$t('welcomeScreen.singles')"></progress-bar-stats>
                 </div>
