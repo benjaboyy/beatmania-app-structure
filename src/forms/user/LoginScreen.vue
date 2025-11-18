@@ -4,11 +4,11 @@
       <div class="row">
         <div class="col-md-5 pb-4 text-white">
           <img src="../../assets/svg/logo-full.svg" class="d-inline-block align-middle logo-scale" alt="">
-          <h1 class="display-5 my-4">{{ $t("login.progressTracker") }}</h1>
+          <h1 class="display-5 mt-3 mb-0">{{ $t("login.progressTracker") }}</h1>
+          <a class="btn btn-light my-4 px-4 me-1" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">{{ $t("login.login") }}</a> or
+          <router-link to="/register" type="submit" class="btn btn-block  px-4 btn-outline-light ms-1">{{ $t("login.register") }}</router-link>
           <p class="text-white">Providing a simple way to track your progress and scores in multiple rhythm games which do not support tracking native</p>
           <p class="text-white i">{{ $t("login.version") }} {{ $t("version") }} - <a href="#games" class="text-white">Supported games</a></p>
-          <a class="btn btn-light px-4 me-1" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">{{ $t("login.login") }}</a> or
-          <router-link to="/register" type="submit" class="btn btn-block  px-4 btn-outline-light ms-1">{{ $t("login.register") }}</router-link>
         </div>
         <div class="col-md-7">
           <div class="nav nav-pills justify-content-end mb-3 d-none d-md-flex">

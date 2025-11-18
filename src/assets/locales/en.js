@@ -10,6 +10,7 @@ export default
         songList: 'Songs list',
         courses: 'Courses',
         songs: 'Songs',
+        total: 'Total',
         system: 'System',
         arcade: 'Arcade',
         singles: 'Single Points',
