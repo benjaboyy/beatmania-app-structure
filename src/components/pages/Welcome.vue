@@ -61,7 +61,7 @@
                     <router-link :to="'/games/' + game.id" class="btn w-100 btn-primary me-2" href="#"><i class="fa fa-compact-disc"></i> {{ $t("welcomeScreen.songList") }}</router-link>
                   </div>
                   <div class="col-6">
-                    <router-link v-if="game.trackedGame.doubleCourse || game.trackedGame.singleCourse" :to="'/g/course/' + game.id" class="btn w-100 btn-primary" href="#"><i class="fa fa-layer-group"></i> {{ $t("welcomeScreen.courses") }}</router-link>
+                    <router-link v-if="(game.trackedGame.doubleCourse || game.trackedGame.singleCourse) && gamestats[game.id].courses.singleTotal > 0" :to="'/g/course/' + game.id" class="btn w-100 btn-primary" href="#"><i class="fa fa-layer-group"></i> {{ $t("welcomeScreen.courses") }}</router-link>
                     <button v-else class="btn w-100 btn-secondary" disabled><i class="fas fa-ban"></i> {{ $t("welcomeScreen.courses") }}</button>
                   </div>
                 </div>
