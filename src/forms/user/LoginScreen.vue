@@ -64,21 +64,25 @@
       <div class="container py-5">
         <h2 class="my-4 text-black display-6">Key Features:</h2>
         <div class="row">
-          <div class="col-md-4 my-md-3">
-            <h4><i class="fas fa-chart-line me-2 text-theme-2"></i>Progress Tracking</h4>
+          <div class="col-md-6 col-lg-3 my-md-3">
+            <h4><i class="fas fa-chart-line me-2 text-theme-1"></i>Progress Tracking</h4>
             <p>Keep track of your scores, progress and achievements. Set goals, favorites and use multiple filters to find your songs.</p>
+            <router-link to="/about" type="submit" class=" btn btn-outline-theme-1 mb-3">Learn more</router-link>
           </div>
-          <div class="col-md-4 my-md-3">
-            <h4><i class="fas fa-trophy me-2 text-theme-1"></i>Arcade rankings</h4>
+          <div class="col-md-6 col-lg-3 my-md-3">
+            <h4><i class="fas fa-trophy me-2 text-theme-2"></i>Arcade rankings</h4>
             <p>Keep track of your high scores in your local arcade. Add locations and compare your scores with others.</p>
+            <router-link to="/arcade" type="submit" class=" btn btn-outline-theme-2 mb-3">{{ $t("menu.arcadeRanking") }}</router-link>
           </div>
-          <div class="col-md-4 my-md-3">
+          <div class="col-md-6 col-lg-3 my-md-3">
             <h4><i class="fas fa-code me-2 text-theme-4"></i>Open Source</h4>
             <p>Free and open-source, to provide a tool at first for Beatmania players and i will keep adding titles in the future.</p>
+            <a href="https://github.com/benjaboyy/beatmania-app-structure" type="submit" class=" btn btn-outline-theme-4 mb-3">GitHub Project</a>
           </div>
-          <div class="col-md-4 my-md-3">
+          <div class="col-md-6 col-lg-3 my-md-3">
             <h4><i class="fas fa-language me-2 text-theme-3"></i>Translations</h4>
             <p>Available in English and Japanese.</p>
+            <div class="btn btn-outline-theme-3 mb-3 select-lang" @click="showDialog">{{ $t("login.selectLanguage") }}</div>
           </div>
         </div>
       </div>
@@ -86,7 +90,7 @@
     <div class="container py-5" id="games">
       <h2 class="mb-4 text-white display-6">Supported games:</h2>
       <div class="row">
-        <div class="col-lg-3 col-md-4 col-6" v-for="game in games" :key="game.id">
+        <div v-for="game in games" :key="game.id" class="col-lg-2 col-md-4 col-6">
           <div class="card h-100">
             <img v-if="game.url" :src="game.url" class="card-img-top" :alt="game.url">
             <div v-else class="card-img-top bg-info"></div>
