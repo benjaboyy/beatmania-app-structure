@@ -105,3 +105,12 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.accordion {
+  max-width: 600px;
+}
+.stats-screen {
+  max-width: 900px;
+}
+</style>
