@@ -286,8 +286,8 @@ export default {
   box-shadow: 0 2px 12px rgba(106,17,203,0.08);
 }
 .table-ranking thead {
-  color: white;
-  background: linear-gradient(90deg, #6a11cb 0%, #2575fc 100%);
+  color: black;
+  background: white;
 }
 .ranking-row {
   transition: background 0.2s, box-shadow 0.2s;
