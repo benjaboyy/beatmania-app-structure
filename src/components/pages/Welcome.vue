@@ -17,17 +17,17 @@
         <div class="col-lg-6 col-md-10 mx-auto">
           <router-link :to="{ path: '/arcade/' + arcade.id }" v-for="arcade in ArcadesWithCodes" :key="arcade.id" class="btn btn-light w-100 text-start mt-2">
             <span class="d-flex">
-              <img class="my-auto me-2" :src="'https://flagsapi.com/' + arcade.countryCode + '/flat/64.png'">
+              <img class="my-auto me-2" alt="flag" :src="'https://flagsapi.com/' + arcade.countryCode + '/flat/64.png'">
               <span class="me-auto my-auto">{{ arcade.name }} <br>
                 <small class="text-muted"  v-if="arcade.players">
-                  {{ arcade.games.length }} Games / {{ Object.keys(arcade.players).length }} Players
+                  {{ arcade.games.length }} {{ $t('welcomeScreen.games') }} / {{ Object.keys(arcade.players).length }} {{ $t('welcomeScreen.players') }}
                 </small>
               </span>
                <i class="fa fa-arrow-right ms-2 my-auto float-end"></i>
             </span>
           </router-link>
           <div class="text-center">
-            <h4 class="mb-0 mt-3 text-white">Tracked games</h4>
+            <h4 class="mb-0 mt-3 text-white">{{ $t('welcomeScreen.trackedGames') }}</h4>
           </div>
         </div>
       </div>
@@ -39,7 +39,7 @@
         <div v-if="isDataLoaded" class="col-lg-6 col-md-10 mt-3 mx-auto">
           <div v-if="gamestats[game.id]" class="card h-100">
             <div class="card-header p-0" @click="toggleExpand(game.id)" data-bs-toggle="collapse" :data-bs-target="'#collapseOne' + game.id.replace(/[+\[\-:]/g, '')">
-              <div v-if="game.url == ''" class="w-100 p-3">
+              <div v-if="!game.url" class="w-100 p-3">
                 <h4 class="card-title mb-0"
                     type="button"
                     aria-expanded="true" aria-controls="collapseOne">
@@ -96,7 +96,7 @@
       <div class="row">
         <div class="col-lg-6 col-md-10 my-4 mx-auto text-center">
           <router-link :to="{ path: '/settings', query: { ID: 'game' } }" class="btn w-100 btn-lg btn-success" type="button" role="button"><i class="fas fa-plus-square"></i> {{ $t("welcomeScreen.selectGames") }}</router-link>
-          <router-link :to="{ path: '/settings' }" class="btn w-100 btn-lg mt-4 btn-success" type="button" role="button"><i class="fas fa-plus-square"></i> Add arcade</router-link>
+          <router-link :to="{ path: '/settings' }" class="btn w-100 btn-lg mt-4 btn-success" type="button" role="button"><i class="fas fa-plus-square"></i> {{ $t('welcomeScreen.addArcade') }}</router-link>
           <router-link to="/tips" class="btn w-100 btn-lg mt-4 btn-block btn-primary" href="#" type="button" role="button"><i class="far fa-lightbulb"></i> {{ $t("welcomeScreen.tips") }}</router-link>
         </div>
       </div>
@@ -148,13 +148,7 @@ export default {
     },
     isUserNotLoaded() {
       const userName = this.$store.getters['userName'];
-      if (userName !== undefined &&
-          userName !== null &&
-          userName !== '') {
-        return false;
-      } else {
-        return true;
-      }
+      return !(userName === undefined || userName === null || userName === '');
     },
     filteredGames() {
       const trackedGames = this.trackedGames;
@@ -450,7 +444,6 @@ export default {
   .icon {
     width: 30px;
     height: 30px;
-    filter: invert(1);
     /* or to blue */
     filter: invert(0.7) sepia(1) saturate(0) hue-rotate(175deg);
     float: right;

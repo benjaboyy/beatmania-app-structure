@@ -1,33 +1,31 @@
 <template>
   <div class="stats-screen px-2 px-md-5 m-auto mb-5">
-    <h1 class="text-center my-4">About the app</h1>
+    <h1 class="text-center my-4">{{ $t('about.aboutApp') }}</h1>
     <div class="card">
       <div class="card-body">
-        <h3>Beatmania Progress Tracker App</h3>
-        <p>Welcome to the Beatmania Progress Tracker App,<br>
-          A app is designed to enhance your arcade experience by providing a simple way to track your progress and scores in multiple rhythm games which do not support tracking native.
-          This app is to help you stay organized and motivated while playing older rhythm games.
-          I have developed this app free and open-source, to provide a tool at first for Beatmania players and i will keep adding titles in the future.
+        <h3>{{ $t('about.trackerApp') }}</h3>
+        <p>{{ $t('about.trackerApp') }},<br>
+          {{ $t('about.progressTracking') }}<br>
+          {{ $t('about.arcadeHighScores') }}<br>
+          {{ $t('about.translations') }}
         </p>
-          <h5>Key Features:</h5>
+        <h5>{{ $t('about.keyFeatures') }}</h5>
         <ul>
-          <li>Progress Tracking: Keep track of your scores, progress and achievements.</li>
-          <li>Arcade high scores: Keep track of your high scores in your local arcade.</li>
-          <li>Translations: Available in English and Japanese.</li>
+          <li>{{ $t('about.progressTracking') }}</li>
+          <li>{{ $t('about.arcadeHighScores') }}</li>
+          <li>{{ $t('about.translations') }}</li>
         </ul>
-
-        <h5>Games supported:</h5>
+        <h5>{{ $t('about.gamesSupported') }}</h5>
         <ul>
           <li v-for="game in games" :key="game.id">
             {{ game.name }} <br>
           </li>
         </ul>
-
         <div class="accordion my-4" id="accordionExample">
           <div class="accordion-item">
             <h2 class="accordion-header" id="headingFour">
               <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHow" aria-expanded="false" aria-controls="collapseHow">
-                How to submit
+                {{ $t('about.howToSubmit') }}
               </button>
             </h2>
             <div id="collapseHow" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
@@ -37,21 +35,15 @@
             </div>
           </div>
         </div>
-
-        <h5>Info:</h5>
-        <p>Set the app to your home screen or use the website and start tracking your progress in Beatmania!</p>
+        <h5>{{ $t('about.info') }}:</h5>
+        <p>{{ $t('about.setHomeScreen') }}</p>
         <div class="mb-2">
-          <a href="https://github.com/benjaboyy/beatmania-app-structure" class="btn btn-outline-primary me-2 mt-2"><i class="fab fa-github me-2"></i> Github</a>
-          <router-link to="/arcade" class="btn btn-outline-primary me-2 mt-2"><i class="fas fa-trophy me-2"></i> Arcade Ranking</router-link>
-          <router-link to="/tips" class="btn btn-outline-primary me-2 mt-2"><i class="fas fa-lightbulb me-2"></i> Tips & Tricks</router-link>
+          <a href="https://github.com/benjaboyy/beatmania-app-structure" class="btn btn-outline-primary me-2 mt-2"><i class="fab fa-github me-2"></i> {{ $t('about.github') }}</a>
+          <router-link to="/arcade" class="btn btn-outline-primary me-2 mt-2"><i class="fas fa-trophy me-2"></i> {{ $t('menu.arcadeRanking') }}</router-link>
+          <router-link to="/tips" class="btn btn-outline-primary me-2 mt-2"><i class="fas fa-lightbulb me-2"></i> {{ $t('about.tipsTricks') }}</router-link>
         </div>
-        <p>For any questions or feedback, <br>please reach out to us at <a href="mailto:benjaboyy@hotmail.nl">benjaboyy@hotmail.nl</a>.
-          <br>We value your input and are continuously working to improve the app for the community. <br><br>
-            Brought you by <a href="https://deschuurr.nl/?lang=en">deschuurr.nl</a>
-          </p>
-        <p>
-          The app is not affiliated with Konami or any other company.
-        </p>
+        <p>{{ $t('about.questionsFeedback') }} <a href="mailto:benjaboyy@hotmail.nl">benjaboyy@hotmail.nl</a>.<br>{{ $t('about.valueInput') }}<br><br>{{ $t('about.broughtBy') }} <a href="https://deschuurr.nl/?lang=en">deschuurr.nl</a></p>
+        <p>{{ $t('about.notAffiliated') }}</p>
         <router-link to="/" class="btn btn-primary mb-2" href="#" type="button" role="button" exact><i class="fa fa-home me-2"></i> {{ $t("menu.back") }}</router-link>
       </div>
       <div class="card-footer d-flex text-muted">

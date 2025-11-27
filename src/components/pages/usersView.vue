@@ -1,6 +1,6 @@
 <template>
   <div class="stats-screen px-2 px-md-5 m-auto">
-    <h1 class="text-center my-4">Users list</h1>
+    <h1 class="text-center my-4">{{ $t('users.usersList') }}</h1>
     <div class="container">
       <div class="row d-flex">
         <div class="col-12 col-md-5 mx-auto">
@@ -10,8 +10,8 @@
                 <thead>
                   <tr>
                     <th>#</th>
-                    <th>Name</th>
-                    <th>Last login</th>
+                    <th>{{ $t('users.name') }}</th>
+                    <th>{{ $t('users.lastLogin') }}</th>
                   </tr>
                 </thead>
                 <tbody>

@@ -3,16 +3,16 @@
     <div class="banner--highscore d-flex bg-primary" v-if="!isAuthenticated">
       <img src="../../assets/img/banner-highscore.png" class="d-inline-block align-middle mx-auto logo--size" alt="">
     </div>
-    <h1 v-if="!arcadeID && isAuthenticated" class="text-center my-0">Song Leaderboard</h1>
-    <h1 v-if="selectedGame" class="text-center my-0">{{ nameOfSelectedGame }} Ranking</h1>
-    <div v-if="arcadeID" :class="{'h1': !selectedGame, 'h5': selectedGame}" class="text-center text-white my-0">Location: {{ getArcadeName }}</div>
+    <h1 v-if="!arcadeID && isAuthenticated" class="text-center my-0">{{ $t('songRankings.songLeaderboard') }}</h1>
+    <h1 v-if="selectedGame" class="text-center my-0">{{ nameOfSelectedGame }} {{ $t('arcade.selectGame') }}</h1>
+    <div v-if="arcadeID" :class="{'h1': !selectedGame, 'h5': selectedGame}" class="text-center text-white my-0">{{ $t('arcade.location') }} {{ getArcadeName }}</div>
     <div class="mt-4">
       <div v-if="!arcadeID" class="card">
         <div class="card-body">
-          <h3>Select Arcade</h3>
+          <h3>{{ $t('arcade.selectArcade') }}</h3>
           <button v-for="arcade in getArcades" :key="arcade.id" class="btn btn-light w-100 text-start mt-2" @click="selectedArcade(arcade.id)">
             <span class="d-flex">
-              <img class="my-auto me-2" :src="'https://flagsapi.com/' + arcade.countryCode + '/flat/64.png'">
+              <img class="my-auto me-2" :src="'https://flagsapi.com/' + arcade.countryCode + '/flat/64.png'" :alt="arcade.name">
               <span class="me-auto my-auto">{{ arcade.name }} <br>
                 <small class="text-muted" v-if="arcade.players">
                 {{ arcade.games.length }} {{ $t("listScreen.game", { count: arcade.games.length }) }} / {{ Object.keys(arcade.players).length }} {{ $t("listScreen.player", { count: Object.keys(arcade.players).length }) }}
@@ -30,7 +30,7 @@
         <div v-if="selectedGame">
           <div class="card">
             <div class="card-body">
-              <label for="songName ">Choose song</label>
+              <label for="songName ">{{ $t('songRankings.chooseSong') }}</label>
               <div v-if="loaded" class="input-group mt-4">
                 <input type="text" class="form-control" :placeholder="$t('listScreen.searchName')" aria-label="Recipient's username" aria-describedby="button-addon2"
                        v-model="searchWord"
@@ -39,7 +39,7 @@
               </div>
               <div v-else>Loading...</div>
               <hr>
-              <span class="w-100" v-for="song in filteredSongs" :key="song.id" :value="song.id">
+              <span class="w-100" v-for="song in filteredSongs" :key="song.id">
                 <router-link :to="'/leaderboard/' + arcadeID + '/' + selectedGame + '/' + song.id"
                              class="btn btn-light w-100 text-start mb-1">
                   {{ song.name }} - {{ song.artist }}
@@ -49,14 +49,14 @@
               <div v-if="songID">
                 <router-link :to="'/leaderboard/' + arcadeID + '/' + selectedGame + '/' + songID"
                              class="btn btn-primary w-100">
-                  Go to Ranking <i class="fa fa-external-link-alt ms-2"></i>
+                  {{ $t('songRankings.goToRanking') }} <i class="fa fa-external-link-alt ms-2"></i>
                 </router-link>
               </div>
             </div>
           </div>
         </div>
         <div class="card p-3" v-else>
-          <h3>Select Game</h3>
+          <h3>{{ $t('arcade.selectGame') }}</h3>
           <button v-for="game in getArcadeGames" :key="game" class="btn btn-primary text-start mt-2" @click="selectedGame = game">{{ getGameName(game) }}
             <i class="fa fa-arrow-right ms-2 mt-1 float-end"></i>
           </button>
@@ -159,8 +159,7 @@ export default {
       const response = await fetch(`https://beatmania-pro-default-rtdb.europe-west1.firebasedatabase.app/songs/${gameID}.json?auth=${token}`);
       const responseData = await response.json();
       if (!response.ok) {
-        const error = new Error(responseData.message || 'Failed to fetch!');
-        throw error;
+        throw new Error(responseData.message || 'Failed to fetch!');
       }
       const songs = [];
       for (const key in responseData) {
@@ -246,8 +245,5 @@ export default {
 .card {
   max-width: 500px;
   margin: 0 auto;
-}
-.select-lang {
-  cursor: pointer;
 }
 </style>

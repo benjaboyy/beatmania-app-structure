@@ -19,12 +19,15 @@ export default
         doubleCourses: 'Double Courses',
         tips: 'How it works',
         selectGames: 'Add game',
-        trackedGames: 'Tracked Games',
+        trackedGames: 'Tracked games',
+        games: 'Games',
+        players: 'Players',
         highScoreRankings: 'High Score Rankings',
         highScore: 'High Score',
         leaderboard: 'Leaderboard',
         seeInfo: 'See Info',
         hideInfo: 'Hide Info',
+        addArcade: 'Add arcade',
     },
     menu: {
         app: 'App',
@@ -155,5 +158,72 @@ export default
         codeSlot2: 'Slot 2',
         codeSlot3: 'Slot 3',
         seeRanking: 'See Ranking',
+    },
+    about: {
+        aboutApp: 'About the app',
+        trackerApp: 'Beatmania Progress Tracker App',
+        keyFeatures: 'Key Features:',
+        progressTracking: 'Progress Tracking: Keep track of your scores, progress and achievements.',
+        arcadeHighScores: 'Arcade high scores: Keep track of your high scores in your local arcade.',
+        translations: 'Translations: Available in English and Japanese.',
+        gamesSupported: 'Games supported:',
+        howToSubmit: 'How to submit',
+        setHomeScreen: 'Set the app to your home screen or use the website and start tracking your progress in Beatmania!',
+        github: 'Github',
+        info: 'Info',
+        tipsTricks: 'Tips & Tricks',
+        questionsFeedback: 'For any questions or feedback, please reach out to us at',
+        valueInput: 'We value your input and are continuously working to improve the app for the community.',
+        broughtBy: 'Brought you by',
+        notAffiliated: 'The app is not affiliated with Konami or any other company.'
+    },
+    tips: {
+        tipsForUsers: 'Tips for users',
+        findInfo: 'Find info on how to use this app',
+        whatIsApp: 'What is this app?',
+        notAGame: 'It is not a game, but a tool.',
+        bestWay: 'Best way to use this app',
+        singleSongs: 'Single songs:',
+        fullCourses: 'Full courses:',
+        arcadeCodeRanking: 'Arcade Code an Ranking',
+        arcadeCodeInfo: 'The arcade code is used to link your account to the arcade you play at, you can find the code at the arcade.',
+        arcadeNotListed: 'Is your arcade not listed?',
+        arcadesOnRequest: 'Arcades can be added on request.',
+        tipScorePictures: 'TIP: Take score pictures',
+        scoreShownShort: 'Since the score is shown for a short period in some game, make sure to take a picture.',
+        uploadEndSession: 'Uploading them at the end of your play session is the easiest way to make sure you don\'t forget/miss any scores.'
+    },
+    import: {
+        songsToJson: 'Songs to JSON',
+        convert: 'Convert',
+        copyJson: 'Copy JSON to Clipboard',
+        pressConvert: 'Press convert to make JSON',
+        formatExcel: 'Format copied from excel:'
+    },
+    admin: {
+        adminPanel: 'Admin Panel',
+        updateSongs: 'Update Songs',
+        updateGames: 'Update Games',
+        updateCourses: 'Update Courses',
+        updateArcades: 'Update Arcades',
+        updateAchievements: 'Update Achievements',
+        userList: 'User list',
+        songToJson: 'Song to JSON',
+        updateStats: 'Update stats'
+    },
+    users: {
+        usersList: 'Users list',
+        name: 'Name',
+        lastLogin: 'Last login'
+    },
+    arcade: {
+        arcadeRankings: 'Arcade Rankings',
+        selectArcade: 'Select Arcade',
+        selectGame: 'Select Game',
+        location: 'Location:'
+    },
+    songRankings: {
+        songLeaderboard: 'Song Leaderboard',
+        chooseSong: 'Choose song'
     }
 }

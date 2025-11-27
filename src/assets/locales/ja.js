@@ -23,6 +23,10 @@ export default
         leaderboard: 'リーダーボード',
         seeInfo: '情報を見る',
         hideInfo: '情報を隠す',
+        addArcade: 'アーケード追加',
+        trackedGames: '追跡中のゲーム',
+        games: 'ゲーム',
+        players: 'プレイヤー',
     },
     menu: {
         app: 'アプリ',
@@ -149,6 +153,72 @@ export default
         codeSlot2: 'スロット2',
         codeSlot3: 'スロット3',
         seeRanking: 'ランキングを見る',
+    },
+    about: {
+        aboutApp: 'アプリについて',
+        trackerApp: 'Beatmania進捗トラッカーアプリ',
+        keyFeatures: '主な機能:',
+        progressTracking: '進捗・スコア・実績を追跡',
+        arcadeHighScores: 'アーケードのハイスコアを追跡',
+        translations: '英語と日本語で利用可能',
+        gamesSupported: '対応ゲーム:',
+        howToSubmit: '提出方法',
+        setHomeScreen: 'ホーム画面に追加して進捗を追跡しましょう',
+        github: 'Github',
+        info: '情報',
+        tipsTricks: 'ヒント＆コツ',
+        questionsFeedback: 'ご質問・ご意見は',
+        valueInput: '皆様のご意見を大切にし、継続的に改善しています。',
+        broughtBy: '提供：',
+        notAffiliated: '本アプリはKONAMI等の企業とは関係ありません。'
+    },
+    tips: {
+        tipsForUsers: 'ユーザー向けヒント',
+        findInfo: '使い方の情報',
+        whatIsApp: 'このアプリとは？',
+        notAGame: 'これはゲームではなく、ツールです。',
+        bestWay: 'おすすめの使い方',
+        singleSongs: 'シングル曲:',
+        fullCourses: 'フルコース:',
+        arcadeCodeRanking: 'アーケードコードとランキング',
+        arcadeCodeInfo: 'アーケードコードは、アカウントをプレイするアーケードにリンクするために使います。',
+        arcadeNotListed: 'アーケードがリストにありませんか？',
+        arcadesOnRequest: 'リクエストで追加可能です。',
+        tipScorePictures: 'TIP: スコア写真を撮る',
+        scoreShownShort: '一部ゲームではスコア表示が短いので、写真を撮りましょう。',
+        uploadEndSession: 'プレイ後にまとめてアップロードすると忘れません。'
+    },
+    import: {
+        songsToJson: '曲をJSONへ',
+        convert: '変換',
+        copyJson: 'JSONをクリップボードへコピー',
+        pressConvert: '変換ボタンを押してください',
+        formatExcel: 'Excelからコピーした形式:'
+    },
+    admin: {
+        adminPanel: '管理パネル',
+        updateSongs: '曲を更新',
+        updateGames: 'ゲームを更新',
+        updateCourses: 'コースを更新',
+        updateArcades: 'アーケードを更新',
+        updateAchievements: '実績を更新',
+        userList: 'ユーザーリスト',
+        songToJson: '曲をJSONへ',
+        updateStats: '統計を更新'
+    },
+    users: {
+        usersList: 'ユーザーリスト',
+        name: '名前',
+        lastLogin: '最終ログイン'
+    },
+    arcade: {
+        arcadeRankings: 'アーケードランキング',
+        selectArcade: 'アーケード選択',
+        selectGame: 'ゲーム選択',
+        location: '場所:'
+    },
+    songRankings: {
+        songLeaderboard: '曲リーダーボード',
+        chooseSong: '曲を選択'
     }
 }
-

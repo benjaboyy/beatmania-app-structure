@@ -3,16 +3,16 @@
     <div class="banner--highscore d-flex bg-primary" v-if="!isAuthenticated">
       <img src="../../assets/img/banner-highscore.png" class="d-inline-block align-middle mx-auto logo--size" alt="">
     </div>
-    <h1 v-if="!arcadeID && isAuthenticated" class="text-center my-0">Arcade Rankings</h1>
-    <h1 v-if="selectedGame" class="text-center my-0">{{ nameOfSelectedGame }} Ranking</h1>
-    <div v-if="arcadeID" :class="{'h1': !selectedGame, 'h5': selectedGame}" class="text-center text-white my-0">Location: {{ getArcadeName }}</div>
+    <h1 v-if="!arcadeID && isAuthenticated" class="text-center my-0">{{ $t('arcade.arcadeRankings') }}</h1>
+    <h1 v-if="selectedGame" class="text-center my-0">{{ nameOfSelectedGame }} {{ $t('arcade.selectGame') }}</h1>
+    <div v-if="arcadeID" :class="{'h1': !selectedGame, 'h5': selectedGame}" class="text-center text-white my-0">{{ $t('arcade.location') }} {{ getArcadeName }}</div>
     <div class="mt-4">
       <div v-if="!arcadeID" class="card">
         <div class="card-body">
-          <h3>Select Arcade</h3>
+          <h3>{{ $t('arcade.selectArcade') }}</h3>
           <button v-for="arcade in getArcades" :key="arcade.id" class="btn btn-light w-100 text-start mt-2" @click="selectedArcade(arcade.id)">
             <span class="d-flex">
-              <img class="my-auto me-2" :src="'https://flagsapi.com/' + arcade.countryCode + '/flat/64.png'">
+              <img class="my-auto me-2" :src="'https://flagsapi.com/' + arcade.countryCode + '/flat/64.png'" :alt="arcade.name">
               <span class="me-auto my-auto">{{ arcade.name }} <br>
                 <small class="text-muted"  v-if="arcade.players">
                   {{ arcade.games.length }} Games / {{ Object.keys(arcade.players).length }} Players
@@ -40,7 +40,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr v-for="player, key in playersSortedOnStats" :key="player.rank" @click="showProfile(player)" class="bg-light">
+            <tr v-for="(player, key) in playersSortedOnStats" :key="player.rank" @click="showProfile(player)" class="bg-light">
               <th v-if="key === 0" scope="row"><i class="fas fa-trophy"></i></th>
               <th v-else>{{ key+1 }}</th>
               <td>{{ player.name }}</td>
@@ -59,7 +59,7 @@
           </div>
         </div>
         <div class="card p-3" v-else>
-          <h3>Select Game</h3>
+          <h3>{{ $t('arcade.selectGame') }}</h3>
           <button v-for="game in getArcadeGames" :key="game" class="btn btn-primary mt-2 text-start" @click="selectedGame = game">{{ getGameName(game) }}
             <i class="fa fa-arrow-right ms-2 mt-1 float-end"></i>
           </button>
@@ -151,13 +151,11 @@ export default {
         return trackedGames && trackedGames.total > 0;
       });
 
-      const sortedPlayers = validPlayers.sort((a, b) => {
+      return validPlayers.sort((a, b) => {
         const totalA = (a.trackedGames && a.trackedGames[this.selectedGame]) ? a.trackedGames[this.selectedGame].total : 0;
         const totalB = (b.trackedGames && b.trackedGames[this.selectedGame]) ? b.trackedGames[this.selectedGame].total : 0;
         return totalB - totalA;
       });
-
-      return sortedPlayers;
     },
 
   },

@@ -1,11 +1,11 @@
 <template>
   <div class="stats-screen px-2 px-md-5 m-auto">
-    <h1 class="text-center my-4">Songs to JSON</h1>
+    <h1 class="text-center my-4">{{ $t('import.songsToJson') }}</h1>
     <div class="card">
       <div class="card-body">
         <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" v-model="excelData"></textarea>
-        <button class="btn btn-primary mt-2" @click="convertToJSON">Convert</button>
-        <button v-if="convertedJSON" class="btn btn-success mt-2 ms-2" @click="copyToClipboard">Copy JSON to Clipboard</button>
+        <button class="btn btn-primary mt-2" @click="convertToJSON">{{ $t('import.convert') }}</button>
+        <button v-if="convertedJSON" class="btn btn-success mt-2 ms-2" @click="copyToClipboard">{{ $t('import.copyJson') }}</button>
         <div class="bg-light p-3 mt-3">
           <pre v-if="convertedJSON" class="m-0">{{ convertedJSON }}</pre>
           <pre v-else class="m-0">Press convert to make JSON <br>
@@ -53,14 +53,13 @@ export default {
           difficultyDoubleAnother: cells[5] === '' || cells[5] === '-' ? '0' : cells[5].toString(),
         };
 
-        const songData = {
+        json[`${id}`] = {
           artist: artistname,
           id: `${id}`,
           name: songname,
           genre: genre,
           ...(Object.values(difficulty).some((value) => value !== undefined) && { ...difficulty }),
         };
-        json[`${id}`] = songData;
       });
 
       this.convertedJSON = JSON.stringify(json, null, 2);
