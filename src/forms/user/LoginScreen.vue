@@ -34,11 +34,11 @@
               <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3" aria-label="Slide 4"></button>
             </div>
             <div class="carousel-inner">
-              <div class="carousel-item active">
-                <img src="https://deschuurr.nl/wp-content/uploads/2025/03/Scherm­afbeelding-2025-03-23-om-19.13.53.png" class="d-block w-100" alt="...">
-              </div>
               <div class="carousel-item">
                 <img src="https://deschuurr.nl/wp-content/uploads/2025/03/Scherm­afbeelding-2025-03-23-om-19.16.23.png" class="d-block w-100" alt="...">
+              </div>
+              <div class="carousel-item active">
+                <img src="https://deschuurr.nl/wp-content/uploads/2025/03/Scherm­afbeelding-2025-03-23-om-19.13.53.png" class="d-block w-100" alt="...">
               </div>
               <div class="carousel-item">
                 <img src="https://deschuurr.nl/wp-content/uploads/2025/03/Scherm­afbeelding-2025-03-23-om-19.12.15.png" class="d-block w-100" alt="...">
