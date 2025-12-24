@@ -148,7 +148,13 @@ export default {
     },
     isUserNotLoaded() {
       const userName = this.$store.getters['userName'];
-      return !(userName === undefined || userName === null || userName === '');
+      if (userName !== undefined &&
+          userName !== null &&
+          userName !== '') {
+        return false;
+      } else {
+        return true;
+      }
     },
     filteredGames() {
       const trackedGames = this.trackedGames;

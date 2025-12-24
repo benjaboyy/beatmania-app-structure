@@ -3,7 +3,7 @@ const API_KEY = process.env.VUE_APP_FIREBASE_API_KEY;
 const API_BASE_URL = process.env.VUE_APP_FIREBASE_BASE_URL;
 const APP_URL = process.env.VUE_APP_URL;
 const REFRESH_TOKEN_INTERVAL = 60000; // 1 minute
-import router from '../main';
+import router from '../router';
 
 export default {
     state() {
@@ -654,13 +654,18 @@ export default {
 
             clearTimeout(timer);
 
+            // clear user in state
             context.commit('setUser', {
                 token: null,
                 userId: null,
                 tokenExpiration: null,
                 name: null,
             });
-            router.push({ name: 'login' });
+            // mark that this was an explicit logout
+            context.commit('didLogout');
+
+            // navigate to login and replace history so back won't return to protected page
+            router.replace({ name: 'login' });
         },
     },
     getters: {
