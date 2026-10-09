@@ -2,7 +2,7 @@
   <div class="container-fluid max-width">
     <div class="row text-center mx-md-3">
       <div class="col-12 p-0 text pt-4">
-        <h1 class="text-center">{{ game.name }} <i :class="'icon ' + game.icon + ' text-primary'"></i></h1>
+        <h1 class="text-center">{{ game.name }} <system-icon :play-style="game.playStyle" class="text-primary" /></h1>
         <div class="px-2 px-md-0">
           <div class="input-group d-flex mt-4">
             <button class="btn btn-primary ms-auto" type="button" id="button-search" @click="toggleSearch = !toggleSearch">
@@ -188,8 +188,9 @@
 import AddFilterModal from "@/components/UI/AddFilterModal";
 import AddSongModal from "@/components/UI/AddSongModal";
 import PointAlert from "@/components/widgets/PointAlert";
+import SystemIcon from '@/components/widgets/SystemIcon.vue';
 export default {
-  components: {AddFilterModal, AddSongModal, PointAlert},
+  components: {AddFilterModal, AddSongModal, PointAlert, SystemIcon},
   emits: ['loaded'],
   name: 'SongList',
   data() {

@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <div class="row text-center mx-md-3">
       <div class="col-12 p-0 text pt-4">
-        <h1 class="text-center mb-2">{{ game.name }} <i :class="'icon ' + game.icon + ' text-primary'"></i></h1>
+        <h1 class="text-center mb-2">{{ game.name }} <system-icon :play-style="game.playStyle" class="text-primary" /></h1>
         <div class="container">
           <div class="row mb-2">
             <div v-if="game.hasDoubleCharts" class="pb-2 col-12">
@@ -125,8 +125,10 @@
   ></add-course-modal>
 </template>
 <script>
+import SystemIcon from '@/components/widgets/SystemIcon.vue';
+
 export default {
-  components: {},
+  components: {SystemIcon},
   emits: ['loaded'],
   name: 'CourseList',
   data() {
