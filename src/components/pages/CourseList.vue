@@ -44,7 +44,7 @@
                         <span v-for="n in 5" :key="n">
                           <i class="fa fa-star h4" :class="n <= course.rating ? 'text-primary' : 'text-light'"></i>
                         </span>
-                        <div v-if="course.score">
+                        <div v-if="course.score !== undefined && course.score !== null && course.score !== ''">
                           <h6 class="text-dark mb-0 mt-1"><b>{{ $t("filter.score") }}:</b> <span class="text-primary">{{ course.score }}</span></h6>
                         </div>
                       </div>
@@ -125,6 +125,7 @@
   ></add-course-modal>
 </template>
 <script>
+import { findUserCourse } from '@/util/helpers';
 import SystemIcon from '@/components/widgets/SystemIcon.vue';
 
 export default {
@@ -230,7 +231,7 @@ export default {
       const userCourseAddition = await this.getUserCourses();
       const mergedUserCourses = [];
       for (const song of theCourses) {
-        const userSong = userCourseAddition.find((sung) => sung.id == song.id);
+        const userSong = findUserCourse(userCourseAddition, this.gameID, song.id);
         if (userSong) {
           userSong.name = song.name;
           userSong.type = song.type;
@@ -259,8 +260,12 @@ export default {
       this.dialogIsVisible = false;
     },
     async addCourseToUser(data) {
-      await this.$store.dispatch('addCourseToUser', data);
-      await this.reset();
+      try {
+        await this.$store.dispatch('addCourseToUser', { ...data, gameId: this.gameID });
+        await this.reset();
+      } catch (error) {
+        alert(this.$t('challenges.errors.' + (error.code || 'requestFailed')));
+      }
     },
     async reset() {
       this.isLoaded = true;
@@ -305,7 +310,7 @@ export default {
         filteredCourses = filteredCourses.filter(course => course.grade);
       }
       if (this.filterScore) {
-        filteredCourses = filteredCourses.filter(course => course.score);
+        filteredCourses = filteredCourses.filter(course => course.score !== undefined && course.score !== null && course.score !== '');
       }
       if (this.courseDouble) {
         filteredCourses = filteredCourses.filter(course => course.type === 'doubles');

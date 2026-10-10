@@ -1,0 +1,213 @@
+{
+  "rules": {
+    "users": {
+      ".read": true,
+      ".indexOn": [
+        "admin"
+      ],
+      "$uid": {
+        ".write": "(auth != null && auth.token.firebase.sign_in_provider != 'anonymous') && (auth.uid == $uid || root.child('users').child(auth.uid).child('admin').val() == true)",
+        "admin": {
+          ".validate": "newData.isBoolean() && (((auth != null && auth.token.firebase.sign_in_provider != 'anonymous') && root.child('users').child(auth.uid).child('admin').val() == true) || newData.val() == data.val() || (!data.exists() && newData.val() == false))"
+        }
+      }
+    },
+    "songs": {
+      ".read": true,
+      ".write": "auth != null && auth.token.firebase.sign_in_provider != 'anonymous'"
+    },
+    "games": {
+      ".read": true,
+      ".write": "auth != null && auth.token.firebase.sign_in_provider != 'anonymous'"
+    },
+    "courses": {
+      ".read": true,
+      ".write": "auth != null && auth.token.firebase.sign_in_provider != 'anonymous'"
+    },
+    "arcades": {
+      ".read": true,
+      ".write": "auth != null && auth.token.firebase.sign_in_provider != 'anonymous'"
+    },
+    "challenges": {
+      ".read": "((auth != null && auth.token.firebase.sign_in_provider != 'anonymous') && root.child('users').child(auth.uid).child('admin').val() == true) || (query.orderByChild == 'status' && (query.equalTo == 'open' || query.equalTo == 'closed'))",
+      ".indexOn": [
+        "status",
+        "arcadeId"
+      ],
+      "$cid": {
+        ".read": "data.child('status').val() == 'open' || data.child('status').val() == 'closed' || ((auth != null && auth.token.firebase.sign_in_provider != 'anonymous') && root.child('users').child(auth.uid).child('admin').val() == true)",
+        ".write": "((auth != null && auth.token.firebase.sign_in_provider != 'anonymous') && root.child('users').child(auth.uid).child('admin').val() == true) && newData.exists() && (!root.child('challengeAttempts').child($cid).exists() || (newData.child('arcadeId').val() == data.child('arcadeId').val() && newData.child('gameId').val() == data.child('gameId').val() && newData.child('courseId').val() == data.child('courseId').val() && newData.child('status').val() != 'draft'))",
+        ".validate": "newData.hasChildren(['title','arcadeId','arcadeName','gameId','gameName','courseId','course','status','createdAt'])",
+        "title": {
+          ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 100"
+        },
+        "instructions": {
+          ".validate": "newData.isString() && newData.val().length <= 1000"
+        },
+        "status": {
+          ".validate": "newData.val() == 'draft' || newData.val() == 'open' || newData.val() == 'closed'"
+        },
+        "createdAt": {
+          ".validate": "newData.isNumber() && (!data.exists() || newData.val() == data.val())"
+        },
+        "arcadeId": {
+          ".validate": "newData.isString() && root.child('arcades').child(newData.val()).exists()"
+        },
+        "gameId": {
+          ".validate": "newData.isString() && root.child('games').child(newData.val()).exists()"
+        },
+        "courseId": {
+          ".validate": "newData.isString() && root.child('courses').child(newData.parent().child('gameId').val()).child(newData.val()).exists()"
+        },
+        "arcadeName": {
+          ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 200"
+        },
+        "gameName": {
+          ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 200"
+        },
+        "course": {
+          ".validate": "newData.hasChildren(['id','name','type','onlySinglePlayer'])",
+          "$other": {
+            ".validate": false
+          },
+          "id": {
+            ".validate": "(newData.isString() && newData.val().length > 0 && newData.val().length <= 160) && (!root.child('challengeAttempts').child($cid).exists() || newData.val() == data.val())"
+          },
+          "name": {
+            ".validate": "(newData.isString() && newData.val().length > 0 && newData.val().length <= 200) && (!root.child('challengeAttempts').child($cid).exists() || newData.val() == data.val())"
+          },
+          "type": {
+            ".validate": "(newData.val() == 'singles' || newData.val() == 'doubles') && (!root.child('challengeAttempts').child($cid).exists() || newData.val() == data.val())"
+          },
+          "onlySinglePlayer": {
+            ".validate": "(newData.isBoolean()) && (!root.child('challengeAttempts').child($cid).exists() || newData.val() == data.val())"
+          },
+          "songIDs": {
+            "$index": {
+              ".validate": "newData.hasChildren(['id','name','diff','value'])",
+              "$other": {
+                ".validate": false
+              },
+              "id": {
+                ".validate": "(newData.isString() || newData.isNumber())"
+              },
+              "name": {
+                ".validate": "(newData.isString() || newData.isNumber())"
+              },
+              "diff": {
+                ".validate": "(newData.isString() || newData.isNumber())"
+              },
+              "value": {
+                ".validate": "(newData.isString() || newData.isNumber())"
+              }
+            }
+          }
+        },
+        "$other": {
+          ".validate": false
+        }
+      }
+    },
+    "challengeAttempts": {
+      "$cid": {
+        ".read": "(auth != null && auth.token.firebase.sign_in_provider != 'anonymous') && root.child('users').child(auth.uid).child('admin').val() == true",
+        "$eid": {
+          ".read": "auth != null && (!data.exists() || data.child('ownerUid').val() == auth.uid || data.child('claim/uid').val() == auth.uid)",
+          ".write": "auth != null && !data.exists() && newData.exists() && newData.child('ownerUid').val() == auth.uid && root.child('challenges').child($cid).child('status').val() == 'open'",
+          ".validate": "newData.hasChildren(['ownerUid','claimKey','nickname','score','grade','clear','FC','submittedAt'])",
+          "ownerUid": {
+            ".validate": "(newData.isString() && newData.val().length > 0 && newData.val().length <= 160) && (!data.exists() || newData.val() == data.val())"
+          },
+          "claimKey": {
+            ".validate": "(newData.isString() && newData.val().matches(/^[a-f0-9]{64}$/)) && (!data.exists() || newData.val() == data.val())"
+          },
+          "nickname": {
+            ".validate": "(newData.isString() && newData.val().length > 0 && newData.val().length <= 30) && (!data.exists() || newData.val() == data.val())"
+          },
+          "score": {
+            ".validate": "(newData.isNumber() && newData.val() >= 0 && newData.val() <= 9007199254740991 && newData.val() % 1 == 0) && (!data.exists() || newData.val() == data.val())"
+          },
+          "grade": {
+            ".validate": "(newData.isString() && newData.val().length > 0 && newData.val().length <= 20) && (!data.exists() || newData.val() == data.val())"
+          },
+          "clear": {
+            ".validate": "(newData.isBoolean() && (newData.val() == true || newData.parent().child('FC').val() == false)) && (!data.exists() || newData.val() == data.val())"
+          },
+          "FC": {
+            ".validate": "(newData.isBoolean()) && (!data.exists() || newData.val() == data.val())"
+          },
+          "submittedAt": {
+            ".validate": "(newData.isNumber() && (data.exists() || (newData.val() <= now && newData.val() >= now - 300000))) && (!data.exists() || newData.val() == data.val())"
+          },
+          "claim": {
+            ".write": "(auth != null && auth.token.firebase.sign_in_provider != 'anonymous') && data.parent().exists() && newData.exists() && newData.child('uid').val() == auth.uid && newData.child('key').val() == data.parent().child('claimKey').val() && (!data.exists() || data.child('uid').val() == auth.uid)",
+            ".validate": "newData.hasChildren(['uid','key']) && ((auth != null && auth.token.firebase.sign_in_provider != 'anonymous') && data.parent().exists() && newData.exists() && newData.child('uid').val() == auth.uid && newData.child('key').val() == data.parent().child('claimKey').val() && (!data.exists() || data.child('uid').val() == auth.uid))",
+            "$other": {
+              ".validate": false
+            },
+            "uid": {
+              ".validate": "newData.isString()"
+            },
+            "key": {
+              ".validate": "newData.isString()"
+            }
+          },
+          "$other": {
+            ".validate": false
+          }
+        }
+      }
+    },
+    "challengeEntries": {
+      "$cid": {
+        ".read": "root.child('challenges').child($cid).child('status').val() == 'open' || root.child('challenges').child($cid).child('status').val() == 'closed' || ((auth != null && auth.token.firebase.sign_in_provider != 'anonymous') && root.child('users').child(auth.uid).child('admin').val() == true)",
+        "$eid": {
+          ".write": "auth != null && newData.exists() && ((root.child('challengeAttempts').child($cid).child($eid).child('claim').exists() ? root.child('challengeAttempts').child($cid).child($eid).child('claim/uid').val() : root.child('challengeAttempts').child($cid).child($eid).child('ownerUid').val()) == auth.uid)",
+          ".validate": "newData.hasChildren(['participantId','nickname','score','grade','clear','FC','submittedAt'])",
+          "participantId": {
+            ".validate": "newData.isString() && newData.val() == root.child('challengeParticipants').child(auth.uid).val()"
+          },
+          "nickname": {
+            ".validate": "newData.val() == root.child('challengeAttempts').child($cid).child($eid).child('nickname').val()"
+          },
+          "score": {
+            ".validate": "newData.val() == root.child('challengeAttempts').child($cid).child($eid).child('score').val()"
+          },
+          "grade": {
+            ".validate": "newData.val() == root.child('challengeAttempts').child($cid).child($eid).child('grade').val()"
+          },
+          "clear": {
+            ".validate": "newData.val() == root.child('challengeAttempts').child($cid).child($eid).child('clear').val()"
+          },
+          "FC": {
+            ".validate": "newData.val() == root.child('challengeAttempts').child($cid).child($eid).child('FC').val()"
+          },
+          "submittedAt": {
+            ".validate": "newData.val() == root.child('challengeAttempts').child($cid).child($eid).child('submittedAt').val()"
+          },
+          "$other": {
+            ".validate": false
+          }
+        }
+      }
+    },
+    "challengeParticipants": {
+      "$uid": {
+        ".read": "auth != null && auth.uid == $uid",
+        ".write": "auth != null && auth.uid == $uid && newData.exists() && (!data.exists() || newData.val() == data.val())",
+        ".validate": "newData.isString() && newData.val().matches(/^[a-f0-9]{32}$/)"
+      }
+    },
+    "challengeAccountEntries": {
+      "$uid": {
+        ".read": "(auth != null && auth.token.firebase.sign_in_provider != 'anonymous') && auth.uid == $uid",
+        "$cid": {
+          "$eid": {
+            ".write": "(auth != null && auth.token.firebase.sign_in_provider != 'anonymous') && auth.uid == $uid && newData.val() == true && root.child('challengeAttempts').child($cid).child($eid).child('claim/uid').val() == auth.uid",
+            ".validate": "newData.val() == true"
+          }
+        }
+      }
+    }
+  }
+}

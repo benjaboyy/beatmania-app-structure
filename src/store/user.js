@@ -4,6 +4,7 @@ const API_BASE_URL = process.env.VUE_APP_FIREBASE_BASE_URL;
 const APP_URL = process.env.VUE_APP_URL;
 const REFRESH_TOKEN_INTERVAL = 60000; // 1 minute
 import router from '../router';
+import { databaseRequest, updateDatabase, courseResult, mergeCourseProgress, findUserCourse } from '@/util/helpers';
 
 export default {
     state() {
@@ -76,7 +77,7 @@ export default {
             state.lastPlayedSong = payload;
         },
         addCourse(state, payload) {
-            const index = state.userCourses.findIndex(s => s.id === payload.id);
+            const index = state.userCourses.findIndex(s => s.id === payload.id && s.gameId === payload.gameId);
             if (index !== -1) {
                 Object.assign(state.userCourses[index], payload);
             } else {
@@ -91,6 +92,17 @@ export default {
         }
     },
     actions: {
+        async loadAccountData(context) {
+            await Promise.all([
+                context.dispatch('games/fetchGameSongs'),
+                context.dispatch('loadUser'),
+                context.dispatch('loadTrackedGames'),
+                context.dispatch('courses/loadCourses'),
+                context.dispatch('loadUserCourses'),
+                context.dispatch('loadUserSongs'),
+            ]);
+            await context.dispatch('songs/getGameSongs', Object.keys(context.getters.getTrackGames || {}));
+        },
         async updateTrackGames({ commit, getters }, payload) {
             const userId = getters.userId;
             const token = getters.token;
@@ -250,30 +262,19 @@ export default {
         },
         async addCourseToUser (context, payload) {
             await context.dispatch('checkTokenExpiration');
-            const userId = context.getters.userId;
-            const songID = payload.id;
-            const songData = {
-                normal: payload.score, ...payload
-            }
-
-            console.log(payload);
-
-            const token = context.getters.token;
-            const response = await fetch(`${API_BASE_URL}users/${userId}/courses/${songID}.json?auth=` + token, {
-                method: 'put',
-                body: JSON.stringify(songData)
-            });
-            if (!response.ok) {
-                alert('Error while adding song');
-                router.push({ name: 'login' });
-            }
-            context.commit('addCourse', {
-                ...songData,
-            });
+            const { token, userId } = context.getters;
+            const gameId = payload.gameId;
+            const result = courseResult(payload, false);
+            const { data: definitions } = await databaseRequest(`courses/${gameId}`, { token });
+            const user = await updateDatabase(`users/${userId}`, token, current => mergeCourseProgress(current, definitions, gameId, payload.id, result));
+            const course = findUserCourse(Object.values(user.courses), gameId, payload.id);
+            context.commit('addCourse', course);
+            await context.dispatch('loadTrackedGames');
         },
         async registerUser(context, payload) {
             const response = await fetch('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=' + API_KEY, {
                 method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     email: payload.email,
                     password: payload.password,
@@ -284,7 +285,7 @@ export default {
             const responseData = await response.json();
 
             if (!response.ok) {
-                const error = new Error(responseData.message || 'Failed to authenticate');
+                const error = new Error(responseData.error?.message || responseData.message || 'Failed to authenticate');
                 throw error;
             }
 
@@ -313,8 +314,7 @@ export default {
             const responseData2 = await response2.json();
             //
             if (!response2.ok) {
-                alert(responseData2.message + 'Error while registering user');
-                router.push({ name: 'login' });
+                throw new Error(responseData2.error || responseData2.message || 'Failed to register profile');
             }
         },
         async loadTrackedGames(context) {
@@ -355,8 +355,8 @@ export default {
                 // Commit user information to the state
                 context.commit('setUserInfo', userData.name);
                 context.commit('setUserprofileUrl', userData.profileUrl);
-                context.commit('setLanguage', userData.language);
-                context.commit('setTheme', userData.theme);
+                context.commit('setLanguage', userData.language || 'en');
+                context.commit('setTheme', userData.theme || '1');
                 context.commit('setAdmin', userData.admin);
             } catch (error) {
                 console.log(error);
@@ -426,6 +426,7 @@ export default {
             for (const key in responseData) {
                 const course = {
                     id: responseData[key].id,
+                    gameId: responseData[key].gameId,
                     name: responseData[key].name,
                     score: responseData[key].score,
                     clear: responseData[key].clear,
@@ -507,6 +508,7 @@ export default {
             let url = 'https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=' + API_KEY;
             const response = await fetch(url, {
                 method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     requestType: 'PASSWORD_RESET',
                     email: payload.email,
@@ -516,7 +518,7 @@ export default {
             const responseData = await response.json();
 
             if (!response.ok) {
-                const error = new Error(responseData.message || 'Failed to authenticate');
+                const error = new Error(responseData.error?.message || responseData.message || 'Failed to authenticate');
                 throw error;
             }
 
@@ -527,6 +529,7 @@ export default {
             let url = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=' + API_KEY;
             const response = await fetch(url, {
                 method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     email: payload.email,
                     password: payload.password,
@@ -537,8 +540,7 @@ export default {
             const responseData = await response.json();
 
             if (!response.ok) {
-                alert('Error failed to authenticate');
-                router.push({ name: 'login' });
+                throw new Error(responseData.error?.message || 'Failed to authenticate');
             }
 
             const expirationDate = new Date().getTime() + +responseData.expiresIn * 1000;
@@ -573,7 +575,8 @@ export default {
             try {
                 const response = await fetch(refreshTokenUrl, {
                     method: 'POST',
-                    body: JSON.stringify({
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: new URLSearchParams({
                         grant_type: 'refresh_token',
                         refresh_token: refreshToken
                     })
@@ -581,12 +584,14 @@ export default {
 
                 if (!response.ok) {
                     await context.dispatch('logout');
+                    return;
                 }
 
                 const responseData = await response.json();
                 const expirationDate = new Date().getTime() + +responseData.expires_in * 1000;
 
                 localStorage.setItem('token', responseData.id_token);
+                localStorage.setItem('refreshToken', responseData.refresh_token);
                 localStorage.setItem('tokenExpiration', expirationDate);
 
                 const expiresIn = +responseData.expires_in * 1000;

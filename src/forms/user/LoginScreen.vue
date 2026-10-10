@@ -6,7 +6,7 @@
           <img src="../../assets/svg/logo-full.svg" class="d-inline-block align-middle logo-scale" alt="">
           <h1 class="display-5 mt-3 mb-0">{{ $t("login.progressTracker") }}</h1>
           <a class="btn btn-light my-4 px-4 me-1" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">{{ $t("login.login") }}</a> or
-          <router-link to="/register" type="submit" class="btn btn-block  px-4 btn-outline-light ms-1">{{ $t("login.register") }}</router-link>
+          <router-link :to="{ path: '/register', query: returnPath ? { redirect: returnPath } : {} }" type="submit" class="btn btn-block  px-4 btn-outline-light ms-1">{{ $t("login.register") }}</router-link>
           <p class="text-white">Providing a simple way to track your progress and scores in multiple rhythm games which do not support tracking native</p>
           <p class="text-white i">{{ $t("login.version") }} {{ $t("version") }} - <a href="#games" class="text-white">Supported games</a></p>
         </div>
@@ -135,6 +135,8 @@
 
 <script>
 import LanguageModal from "@/components/UI/LanguageModal";
+import { Modal } from 'bootstrap';
+import { challengeReturnPath } from '@/util/helpers';
 export default {
   emits: ['data'],
   components: {
@@ -180,10 +182,15 @@ export default {
         if (this.formIsValid) {
           await this.$store.dispatch('login', formData);
         }
-        // hide loginModal via javascript (remove modal-backdrop show)
-        document.querySelector('.modal-backdrop').remove();
-        document.querySelector('body').style = '';
-        this.$router.replace('/welcome');
+        const BootstrapModal = window.bootstrap?.Modal || Modal;
+        BootstrapModal.getInstance(document.getElementById('loginModal'))?.hide();
+        document.querySelector('.modal-backdrop')?.remove();
+        document.body.classList.remove('modal-open');
+        document.body.style.removeProperty('overflow');
+        document.body.style.removeProperty('padding-right');
+        await this.$store.dispatch('loadAccountData');
+        this.$emit('data', true);
+        this.$router.replace(this.returnPath || '/welcome');
       } catch (error) {
         this.error = error.message || 'Something went wrong'
         this.formIsValid = false;
@@ -191,9 +198,20 @@ export default {
     },
   },
   computed: {
+    returnPath() { return challengeReturnPath(this.$route.query.redirect); },
     games() {
       return this.$store.getters['games/getGames'];
     },
+  },
+  mounted() {
+    if (this.returnPath) {
+      const BootstrapModal = window.bootstrap?.Modal || Modal;
+      BootstrapModal.getOrCreateInstance(document.getElementById('loginModal')).show();
+    }
+  },
+  beforeUnmount() {
+    const BootstrapModal = window.bootstrap?.Modal || Modal;
+    BootstrapModal.getInstance(document.getElementById('loginModal'))?.hide();
   },
 }
 </script>

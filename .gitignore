@@ -27,3 +27,5 @@ public/Config.xml
 public/manifest.json
 public/service-worker.js
 .env
+firebase-debug.log
+database-debug.log

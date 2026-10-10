@@ -30,6 +30,15 @@
         </div>
       </div>
       <div v-else>
+        <div class="nav nav-pills justify-content-center gap-2 mb-3" role="tablist" :aria-label="$t('arcade.arcadeRankings')">
+          <button id="arcade-rankings-tab" class="nav-link" :class="{ active: activeTab === 'rankings' }" type="button" role="tab" :aria-selected="activeTab === 'rankings'" aria-controls="arcade-rankings-panel" @click="setTab('rankings')">{{ $t('arcade.arcadeRankings') }}</button>
+          <button id="arcade-challenges-tab" class="nav-link" :class="{ active: activeTab === 'challenges' }" type="button" role="tab" :aria-selected="activeTab === 'challenges'" aria-controls="arcade-challenges-panel" @click="setTab('challenges')">{{ $t('challenges.challenges') }}</button>
+        </div>
+        <div v-if="activeTab === 'challenges'" id="arcade-challenges-panel" role="tabpanel" aria-labelledby="arcade-challenges-tab">
+          <ChallengeList :arcade-id="arcadeID" :game-id="selectedGame" />
+          <button type="button" class="btn btn-secondary mt-3" @click="removeArcadeID">{{ $t('menu.arcadesSelect') }}</button>
+        </div>
+        <div v-else id="arcade-rankings-panel" role="tabpanel" aria-labelledby="arcade-rankings-tab">
         <div v-if="selectedGame">
           <div v-if="loading" class="d-flex justify-content-center align-items-center py-5">
             <div class="spinner-border text-primary" role="status">
@@ -84,6 +93,7 @@
             <router-link to="/about" class="btn btn-link" type="button" role="button" exact>{{ $t("menu.aboutAndInfo") }}</router-link>
           </div>
         </div>
+        </div>
       </div>
     </div>
   </div>
@@ -106,10 +116,11 @@
 <script>
 import LanguageModal from "@/components/UI/LanguageModal";
 import ProfileModal from "@/components/UI/ProfileModal";
+import ChallengeList from '@/components/UI/ChallengeList.vue';
 export default {
   name: 'ArcadeRankings',
   components: {
-    LanguageModal, ProfileModal
+    LanguageModal, ProfileModal, ChallengeList
   },
   data() {
     return {
@@ -123,6 +134,7 @@ export default {
       profileVisible: false,
       loadedPlayer: null,
       loading: false,
+      activeTab: this.$route.query.tab === 'challenges' ? 'challenges' : 'rankings',
     };
   },
   props: {
@@ -153,13 +165,13 @@ export default {
       return this.$store.getters['games/getGameName'](this.selectedGame);
     },
     getArcadeName() {
-      return this.$store.getters['arcades/getArcadeName'](this.arcadeID);
+      return this.getArcades.find(arcade => arcade.id === this.arcadeID)?.name || '';
     },
     getArcadeGames() {
-      return this.$store.getters['arcades/getArcadeGames'](this.arcadeID);
+      return this.getArcades.find(arcade => arcade.id === this.arcadeID)?.games || [];
     },
     getPlayers() {
-      return this.$store.getters['arcades/getPlayers'](this.arcadeID);
+      return this.getArcades.find(arcade => arcade.id === this.arcadeID)?.players || {};
     },
     playersSortedOnStats() {
       if (!this.selectedGame || this.players.length === 0) {
@@ -177,6 +189,10 @@ export default {
     },
   },
   methods: {
+    setTab(tab) {
+      this.activeTab = tab;
+      this.$router.replace({ path: '/arcade/' + this.arcadeID + (this.selectedGame ? '/' + this.selectedGame : ''), query: tab === 'challenges' ? { tab } : {} });
+    },
     showDialog() {
       this.dialogIsVisible = true;
     },
@@ -191,6 +207,8 @@ export default {
       this.arcadeID = '';
       this.selectedGame = '';
       this.players = [];
+      this.activeTab = 'rankings';
+      this.$router.push('/arcade');
     },
     hideProfile() {
       this.profileVisible = false;
@@ -202,6 +220,7 @@ export default {
       this.arcadeID = arcadeID;
       this.selectedGame = '';
       this.players = [];
+      this.$router.push('/arcade/' + arcadeID);
     },
     async copyURL(url) {
       try {
@@ -213,6 +232,9 @@ export default {
     }
   },
   watch: {
+    '$route.query.tab'(tab) { this.activeTab = tab === 'challenges' ? 'challenges' : 'rankings'; },
+    '$route.params.arcadeID'(id) { this.arcadeID = id || ''; this.selectedGame = this.$route.params.gameID || ''; },
+    '$route.params.gameID'(id) { this.selectedGame = id || ''; },
     async arcadeID() {
       this.loading = true;
       this.players = [];

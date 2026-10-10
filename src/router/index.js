@@ -20,6 +20,8 @@ import importSongs from '@/components/pages/ImportSongs'
 import AboutUs from '@/components/pages/AboutUs'
 import AdminPanel from '@/components/pages/AdminPanel'
 import PasswordReset from '@/forms/user/PasswordReset'
+import submitChallenge from '@/forms/submitChallenge.vue'
+import Challenge from '@/components/pages/Challenge.vue'
 
 const router = createRouter({
     history: createWebHistory(),
@@ -35,6 +37,8 @@ const router = createRouter({
         { path: '/submitSong', component: submitSong, meta: { requiresAuth: true } },
         { path: '/submitGame', component: submitGame, meta: { requiresAuth: true } },
         { path: '/submitCourse', component: submitCourse, meta: { requiresAuth: true } },
+        { path: '/submitChallenge', component: submitChallenge, meta: { requiresAuth: true } },
+        { path: '/challenge/:challengeId', component: Challenge },
         { path: '/submitArcade', component: submitArcade, meta: { requiresAuth: true } },
         { path: '/submitAchievement', component: submitAchievement, meta: { requiresAuth: true } },
         { path: '/import', component: importSongs, meta: { requiresAuth: true } },
@@ -63,4 +67,3 @@ const router = createRouter({
 });
 
 export default router;
-

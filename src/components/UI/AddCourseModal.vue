@@ -9,10 +9,10 @@
       <hr>
       <div class="row g-3">
         <div class="col-6">
-            <input placeholder="Score" type="text" class="form-control form-control-lg" id="scoreNormal" v-model="score" />
+            <input :placeholder="$t('filter.score')" :aria-label="$t('filter.score')" type="text" inputmode="numeric" class="form-control form-control-lg" id="course-score" v-model="score" />
         </div>
         <div class="col-6">
-            <input placeholder="Grade" type="text" class="form-control form-control-lg" id="scoreNormal" v-model="grade" />
+            <input :placeholder="$t('filter.grade')" :aria-label="$t('filter.grade')" type="text" maxlength="20" class="form-control form-control-lg" id="course-grade" v-model="grade" />
         </div>
         <div class="col-6">
             <a class="btn py-2 btn-block w-100" :class="clear ? 'bg-primary text-white' : 'bg-light text-primary'" @click="toggleClear"><i class="fa fa-check " :class="clear ? 'text-white' : 'text-success'"></i> {{ $t("filter.cleared") }}</a>
@@ -24,7 +24,8 @@
       <div class="d-grid mt-3 gap-2">
         <button class="btn py-2" @click="toggleFavorite" :class="favorite ? 'btn-primary' : 'bg-light text-primary'"><i class="fa fa-heart" :class="favorite ? 'text-white' : 'text-primary'"></i> {{ $t("filter.setFavorite") }}</button>
         <hr>
-        <button class="btn btn-dark" @click="hideDialog"><i class="fa fa-save text-white me-1"></i> {{ $t("filter.save") }}</button>
+        <p v-if="invalidInput" class="text-danger" role="alert">{{ $t('challenges.errors.invalidInput') }}</p>
+        <button class="btn btn-dark" @click="saveCourse"><i class="fa fa-save text-white me-1"></i> {{ $t("filter.save") }}</button>
       </div>
     </dialog>
   </transition>
@@ -50,12 +51,20 @@ export default {
       clear: false,
       score: '',
       grade: '',
-      favorite: false
+      favorite: false,
+      invalidInput: false,
     }
   },
   methods: {
     hideDialog() {
       this.$emit('close');
+    },
+    saveCourse() {
+      const hasScore = this.score !== undefined && this.score !== null && String(this.score).trim() !== '';
+      if (hasScore && (!Number.isSafeInteger(Number(this.score)) || Number(this.score) < 0 || !String(this.grade || '').trim())) {
+        this.invalidInput = true;
+        return;
+      }
       this.$emit('addCourseToUser', {
         id: this.infoSong.id,
         score: this.score,
@@ -64,7 +73,7 @@ export default {
         grade: this.grade,
         favorite: this.favorite
       });
-
+      this.hideDialog();
     },
     toggleFC() {
       this.FC = !this.FC;
@@ -79,6 +88,7 @@ export default {
   watch: {
     open() {
       if (this.open) {
+        this.invalidInput = false;
         this.FC = this.infoSong.FC;
         this.clear = this.infoSong.clear;
         this.favorite = this.infoSong.favorite;

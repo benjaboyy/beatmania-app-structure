@@ -36,7 +36,7 @@
           </div>
           <div class="form-group mt-3">
             <button class="btn btn-primary"><i class="fa fa-paper-plane"></i> {{ $t("login.register") }}</button>
-            <router-link to="/login" class="btn btn-outline-primary ms-2">{{ $t("login.goLogin") }}</router-link>
+            <router-link :to="{ path: '/login', query: returnPath ? { redirect: returnPath } : {} }" class="btn btn-outline-primary ms-2">{{ $t("login.goLogin") }}</router-link>
           </div>
         </form>
       </div>
@@ -54,8 +54,10 @@
 
 <script>
 import LanguageModal from "@/components/UI/LanguageModal";
+import { challengeReturnPath } from '@/util/helpers';
 export default {
   name: "RegisterUser",
+  emits: ['data'],
   components: {
     LanguageModal,
   },
@@ -110,13 +112,21 @@ export default {
       try {
         if (this.formIsValid) {
           await this.$store.dispatch('registerUser', formData);
-          this.$router.replace('/login');
+          if (this.returnPath) {
+            await this.$store.dispatch('login', formData);
+            await this.$store.dispatch('loadAccountData');
+            this.$emit('data', true);
+            this.$router.replace(this.returnPath);
+          } else {
+            this.$router.replace('/login');
+          }
         }
       } catch (error) {
         this.error = error.message || 'Something went wrong'
       }
     }
   },
+  computed: { returnPath() { return challengeReturnPath(this.$route.query.redirect); } },
 }
 </script>
 

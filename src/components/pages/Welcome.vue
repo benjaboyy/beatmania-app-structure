@@ -120,6 +120,7 @@
 </template>
 
 <script>
+import { findUserCourse } from '@/util/helpers';
 import ProgressBarStats from "@/components/UI/ProgressBarStats";
 import ShareModal from "@/components/UI/ShareModal.vue";
 import ArcadeSelectModal from "@/components/UI/ArcadeSelectModal.vue";
@@ -345,7 +346,7 @@ export default {
           } else {
             totalDoubleCoursesCleared++;
           }
-          const userCourse = userCourses.find(userCourse => userCourse.id === course.id);
+          const userCourse = findUserCourse(userCourses, item.id, course.id);
           if (userCourse) {
             if (course.type === 'singles') {
               if (userCourse.clear) {

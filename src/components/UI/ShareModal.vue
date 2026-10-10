@@ -2,10 +2,10 @@
   <div v-if="open" class="backdrop" @click="hideDialog"></div>
   <transition name="modal">
     <dialog class="window" open v-if="open">
-      <h5>Profile QR</h5>
+      <h5>{{ title || $t('login.profileQr') }}</h5>
       <hr>
-      <div class="w-100 d-flex">
-        <qrcode-vue class="mx-auto" :value="url" :size="280" level="H" />
+      <div ref="qr" class="w-100 d-flex">
+        <qrcode-vue class="mx-auto" :value="url" :size="240" level="H" />
       </div>
 <!--      copy code button-->
       <div class="d-grid mt-3 gap-2">
@@ -13,10 +13,11 @@
           <div class="col-6">
             <button class="btn w-100 btn-primary" @click="copyToClipboard">{{ $t("login.copyCode") }} <i class="fa fa-copy"></i></button>
           </div>
-          <div class="col-6">
-            <router-link :to="'user/' + userID" class="btn w-100 btn-primary">{{ $t("login.viewProfile") }}</router-link>
+          <div v-if="viewPath || userID" class="col-6">
+            <router-link :to="viewPath || '/user/' + userID" class="btn w-100 btn-primary" @click="hideDialog">{{ viewLabel || $t("login.viewProfile") }}</router-link>
           </div>
         </div>
+        <button v-if="allowDownload" type="button" class="btn btn-secondary" @click="downloadQr"><i class="fa fa-download me-1"></i>{{ $t('challenges.downloadQr') }}</button>
         <div class="text-success" role="alert" v-if="copied">
           {{ $t("login.copied") }}
         </div>
@@ -43,8 +44,12 @@ export default {
     },
     userID: {
       type: String,
-      required: true
+      default: ''
     },
+    title: { type: String, default: '' },
+    viewPath: { type: String, default: '' },
+    viewLabel: { type: String, default: '' },
+    allowDownload: { type: Boolean, default: false },
   },
   data() {
     return {
@@ -56,19 +61,32 @@ export default {
   },
   emits: ['close'],
   methods: {
+    downloadQr() {
+      const canvas = this.$refs.qr.querySelector('canvas');
+      const link = document.createElement('a');
+      link.download = 'challenge-qr.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    },
     hideDialog() {
       this.$emit('close');
     },
-    copyToClipboard() {
-      this.copied = true;
-      const el = document.createElement('textarea');
-      el.value = this.url;
-      document.body.appendChild(el);
-      el.select();
-      document.execCommand('copy');
-      document.body.removeChild(el);
+    async copyToClipboard() {
+      this.copied = false;
+      try {
+        await navigator.clipboard.writeText(this.url);
+        this.copied = true;
+      } catch {
+        const el = document.createElement('textarea');
+        el.value = this.url;
+        document.body.appendChild(el);
+        el.select();
+        this.copied = document.execCommand('copy');
+        document.body.removeChild(el);
+      }
     },
   },
+  watch: { open() { this.copied = false; } },
 };
 </script>
 
